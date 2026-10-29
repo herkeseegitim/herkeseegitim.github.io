@@ -238,6 +238,9 @@ if _odev:
     _oh = f'<a class="odev" href="{video_sayfa(_o)}"><span class="odev-e">Bugünün ödevi</span><b>{E(_o["kisa_ad"])}</b><span class="odev-n">Önce tahmin edin, sonra izleyin.</span></a>'
 else: _oh = ""
 ALT = ALT.replace("__ODEV__", _oh)
+def lbas(h1, p, satirlar):
+    et = "".join(f'<div><dt>{E(a)}</dt><dd>{b}</dd></div>' for a,b in satirlar)
+    return f'<div class="liste-bas"><div class="makale"><h1>{h1}</h1><p>{p}</p></div><dl class="defter-etiket" aria-label="Bu sayfada">{et}</dl></div>'
 DIZI = {"tahmin":("3 saniyede tahmin et","Günlük hayattan bir soru, 3 saniye düşün, cevap sonda. Derse giriş için."),
         "atasozu":("Atasözlerimizi Yaşatalım","Az bilinen atasözleri ve unutulan sözcükleri. Her birinin anlamı kendi sayfasında."),
         "ozel-gun":("Özel Günler","Belirli günler için kısa videolar."),
@@ -404,7 +407,7 @@ soz_liste = "".join(f'<li><a href="{soz_sayfa(a)}"><small>No. {E(a.get("no"))}</
 open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
   bas("Atasözlerimizi Yaşatalım | Herkese Eğitim","Az bilinen atasözleri, anlamları ve unutulan sözcükleri. Her atasözünün kendi sayfası ve kısa videosu var.","/atasozleri/",
       sema=[{"@context":"https://schema.org","@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/","hasDefinedTerm":[{"@type":"DefinedTerm","name":a["soz"],"url":SITE+soz_sayfa(a)} for a in atasozleri]}])
-  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Atasözleri</p><div class="makale" style="margin-bottom:36px"><h1>Atasözlerimizi Yaşatalım</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Her birinin anlamı ve kısa videosu kendi sayfasında.</p></div><ul class="soz-liste">{soz_liste}</ul></div></main>{ALT}')
+  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Atasözleri</p>{lbas("Atasözlerimizi Yaşatalım","Az bilinen atasözleri ve içlerinde unutulan sözcükler. Her birinin anlamı ve kısa videosu kendi sayfasında.",[("Defter","Atasözleri"),("İçinde",f"{len(atasozleri)} atasözü"),("Son eklenen",E(atasozleri[-1]["soz"]) if atasozleri else "-")])}<ul class="soz-liste">{soz_liste}</ul></div></main>{ALT}')
 
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
