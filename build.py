@@ -188,7 +188,7 @@ __ODEV__
 def vid_btn(v, ad=None):
     if not v: return ""
     ad = ad or v.get("baslik","")
-    img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy">' if v.get("kapak_w") else ""
+    img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy">' if v.get("kapak_w") else f'<span class="vid-bos" aria-hidden="true">{E(v.get("kisa_ad") or ad)}</span>'
     return f'<button class="vid{" dik" if v.get("dik") else ""}" type="button" data-id="{E(v["id"])}" aria-label="Videoyu oynat: {E(ad)}">{img}<span class="oynat" aria-hidden="true"></span></button>'
 VBY = {v["id"]: v for v in videolar}
 def urun_video(u):
@@ -262,9 +262,9 @@ def son_kaydi(v):
     a = next((a for a in atasozleri if a.get("video")==v["id"]), None)
     ileri = "Atasözünün anlamı ve videosu burada." if a else ("Video ve ilgili atölye burada." if v.get("urun") else "Video ve benzerleri burada.")
     return dict(id=v["id"], baslik=v.get("kisa_ad"), kapak=v.get("kapak_w") or AVATAR, sayfa=video_sayfa(v), ileri=ileri)
-son = {"yt":[son_kaydi(v) for v in videolar[:3]], "hepsi":[son_kaydi(v) for v in videolar]}
+son = {"yt":[son_kaydi(v) for v in sorted(videolar, key=lambda v: v.get("tarih") or "", reverse=True)[:3]], "hepsi":[son_kaydi(v) for v in videolar]}
 for p in ["ig","tt","x","li"]:
-    l = [v for v in videolar if (v.get("platformlar") or {}).get(p)]
+    l = sorted([v for v in videolar if (v.get("platformlar") or {}).get(p)], key=lambda v: v.get("tarih") or "", reverse=True)
     if l: son[p] = [son_kaydi(v) for v in l[:3]]
 
 # ---- ana sayfa
@@ -293,6 +293,12 @@ for u in urunler:
     satirlar.append(f'''<div class="{cls}" id="u-{u["id"]}" data-tarih="{u.get("lansman") or ""}" data-durum="{u["durum"]}" data-kademe="{u["kademe"]}" data-ihtiyac="{u["ihtiyac"]}" data-kim="{u["kim"]}"><span class="rozet" hidden>Size uygun</span><span class="no" aria-hidden="true">{u["no"]}</span>
 <h3><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></h3><p class="ne">{E(u["kisa"])}</p><p class="sin">{E(u["sinif"])}{"<br><b>"+E(ETIKET)+"</b>" if u is hafta_u else ""}</p><div class="eyl">{ac_dugme(u) or zaman}</div></div>''')
 
+def son_videolar(n=10):
+    l = sorted([v for v in videolar if v.get("tarih")], key=lambda v: v["tarih"], reverse=True)[:n]
+    kartlar = "".join(f'<figure id="v-{E(v["id"])}" data-tarih="{E(v.get("tarih") or "")}">{vid_btn(v)}<figcaption><span class="vd-dz">{E(DIZI.get(v.get("dizi"),("Video",))[0])}</span><a href="{video_sayfa(v)}">{E(v.get("kisa_ad"))}</a></figcaption></figure>' for v in l)
+    sayi = {d: sum(1 for v in videolar if v.get("dizi")==d) for d in DIZI}
+    cip = "".join(f'<a class="vd-cip" href="/videolar/#dizi={d}">{E(DIZI[d][0])} <i>{n_}</i></a>' for d,n_ in sayi.items() if n_)
+    return f'<div class="dizi"><h3>Son videolar</h3><div class="raf">{kartlar}</div><div class="vd-alt">{cip}<a class="dugme kir" href="/videolar/">Bütün videolar ({len(videolar)})</a></div></div>'
 def raf(dizi, sinir=8):
     l = [v for v in videolar if v.get("dizi")==dizi]
     if not l: return ""
@@ -360,7 +366,7 @@ ana = bas("Herkese Eğitim: öğretmene, öğrenciye, herkese ücretsiz paylaş�
 <section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
 <div class="katalog">{"".join(satirlar)}</div></div></section>
 <section class="blm" id="videolar" aria-labelledby="vid-b" style="padding-top:0"><div class="w"><div class="bas"><h2 id="vid-b">Videolar</h2><p>YouTube kanalı: @egitimtek. Video dokununca oynar.</p></div>
-<div class="diziler">{raf("tahmin")}{raf("atasozu")}{raf("ozel-gun")}{raf("bilgisayarin-icinde")}{raf("tanitim")}</div></div></section>
+<div class="diziler">{son_videolar()}</div></div></section>
 {canta_html}
 </main>
 <script type="application/json" id="veri">{ana_veri}</script>{qr_gizli()}{ALT}'''
