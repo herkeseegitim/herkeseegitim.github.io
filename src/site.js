@@ -263,7 +263,7 @@ addEventListener("scroll",cizIp,{passive:true});addEventListener("resize",cizIp)
 var yil=[].slice.call(document.querySelectorAll(".hk-zaman .yil")),od=p.querySelector(".od"),alt=p.querySelector(".od-alt"),mini=p.querySelector(".mini"),Y0=1995,Y1=2026,simdi=null;
 var basamak=[];for(var i=0;i<4;i++){var h=document.createElement("span");h.className="h";var s=document.createElement("span");s.className="s";for(var d=0;d<10;d++){var x=document.createElement("span");x.textContent=d;s.appendChild(x);}h.appendChild(s);od.appendChild(h);basamak.push(s);}
 var varY={};yil.forEach(function(y){varY[y.dataset.y]=y;});
-for(var k=Y0;k<=Y1;k++){var b=document.createElement("button");b.type="button";b.tabIndex=varY[k]?0:-1;if(varY[k]){b.className="var";b.setAttribute("aria-label",(k==Y1?"Bugün":k)+" yılına git");}b.style.left=((k-Y0+.5)/(Y1-Y0+1)*100)+"%";b.dataset.y=k;b.innerHTML="<i></i>";mini.appendChild(b);
+for(var k=Y0;k<=Y1;k++){var b=document.createElement("button");b.type="button";b.tabIndex=-1;if(varY[k]){b.className="var";b.setAttribute("aria-label",(k==Y1?"Bugün":k)+" yılına git");}b.style.left=((k-Y0+.5)/(Y1-Y0+1)*100)+"%";b.dataset.y=k;b.innerHTML="<i></i>";mini.appendChild(b);
  if((k%5==0&&k>Y0&&k<Y1-2)||k==Y1){var t=document.createElement("span");t.className="yaz"+(k==Y1?" son":"");t.style.left=b.style.left;t.textContent=k==Y1?"bugün":k;mini.appendChild(t);}}
 var kalem=document.createElement("span");kalem.className="kalem";mini.appendChild(kalem);
 mini.addEventListener("click",function(e){var b=e.target.closest("button.var");if(!b)return;var y=varY[b.dataset.y];if(y)y.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});});

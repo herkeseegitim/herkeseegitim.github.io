@@ -117,7 +117,12 @@ cantalar = []
 indirilen = [u for u in urunler if u.get("indir")]
 cv = [{"id":u["id"],"ad":u["ad"],"sinif":u["sinif"],"s":u["siniflar"],"b":u["branslar"],"tur":u["tur"],"dosya":os.path.basename(u["canta"]),"mb":round(os.path.getsize(u["canta"])/1048576,1),"ogr":u["tur"]=="atolye" or u["id"]=="yaztahta"} for u in indirilen]
 shutil.copy(os.path.join(KOK,"src","fflate.min.js"), os.path.join(OUT,"fflate.min.js"))
-cg = '''<div class="makale" style="margin-bottom:24px"><h1>Çanta</h1><p>Seçtikleriniz tek bir zip dosyasında iner. Her dosya çift tıklayınca tarayıcıda açılır, internet istemez. Tahtaya USB bellekle de taşınır.</p></div>
+def _cboy(u):
+    p_ = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"]); return os.path.getsize(p_)
+_ctop = sum(_cboy(u) for u in indirilen)/1048576
+_ctop_s = f"{_ctop:.1f}".replace(".",",")
+_cad = "".join(f"<li>{E(u['ad'])}</li>" for u in indirilen)
+cg = '''<div class="canta-duzen"><div><div class="makale" style="margin-bottom:24px"><h1>Çanta</h1><p>Seçtikleriniz tek bir zip dosyasında iner. Her dosya çift tıklayınca tarayıcıda açılır, internet istemez. Tahtaya USB bellekle de taşınır.</p></div>
 <div id="canta-kur" class="canta-kur">
 <fieldset class="soru"><legend>Kim için?</legend><div class="sec">
 <label><input type="radio" name="ck" value="ogretmen"><span>Öğretmen</span></label>
@@ -130,8 +135,11 @@ cg = '''<div class="makale" style="margin-bottom:24px"><h1>Çanta</h1><p>Seçtik
 <ul class="ck-liste" id="ck-liste"></ul>
 <p><button class="dugme kir" type="button" id="ck-indir">Seçilenleri indir</button> <span id="ck-durum" role="status"></span></p>
 </div>
-<noscript><p><a class="dugme" href="/canta/Herkese%20Egitim%20cantasi.zip">Hepsini indir</a></p></noscript>
-<p style="margin-top:28px;font-size:16px">Hepsi tek seferde: <a href="/canta/Herkese%20Egitim%20cantasi.zip" download>Herkese Eğitim çantası (zip)</a></p>
+</div>
+<aside class="cnt-hepsi" aria-labelledby="cnt-h"><div class="cnt-kulp" aria-hidden="true"></div><div class="cnt-govde"><div class="cnt-toka" aria-hidden="true"></div>
+<h2 id="cnt-h">Hepsi tek seferde</h2><p>Seçmekle uğraşmayın: bütün atölye ve araçlar tek zip dosyasında.</p>
+<ul class="cnt-icinde">''' + _cad + f'''</ul>
+<a class="dugme cnt-dugme" href="/canta/Herkese%20Egitim%20cantasi.zip" download>Çantayı indir</a><p class="cnt-boy">{len(indirilen)} dosya, yaklaşık {_ctop_s} MB. İnternetsiz açılır.</p></div></aside></div>
 <script type="application/json" id="canta-veri">''' + json.dumps(cv, ensure_ascii=False).replace("</","<\\/") + '''</script><script src="/fflate.min.js"></script>'''
 yaz("/canta/", sayfa("Çanta | Herkese Eğitim","Atölye ve araçları öğretmen, öğrenci ya da herkes için tek zip dosyasında indirin.","/canta/",cg,None," / Çanta"))
 
