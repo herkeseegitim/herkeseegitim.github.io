@@ -810,3 +810,44 @@ footer.cikis .kucuk{margin-top:12px}
 .hk-oyku p{font-size:16.5px;line-height:1.55}
 .hk-oyku p+p{margin-top:12px}
 }
+/* 3 saniye: soru torbası */
+.vg-oyna{background:none;box-shadow:none;transform:none;border-radius:0;padding:0;color:var(--mur);display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;align-items:center}
+.vg-oyna .vg-oy-s{display:none}
+.vg-torba{width:150px;height:auto;overflow:visible;transform-origin:50% 90%}
+.vg-torba .tb{fill:var(--tur);stroke:var(--mur);stroke-width:3.5;stroke-linejoin:round}
+.vg-torba .tb-k{fill:none;stroke:rgba(42,28,16,.35);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:2 7}
+.vg-torba .tb-a{fill:var(--kir);stroke:var(--mur);stroke-width:3.5}
+.vg-torba .tb-i{fill:none;stroke:var(--mur);stroke-width:3;stroke-linecap:round}
+.vg-torba .tb-e{fill:var(--kag);stroke:var(--mur);stroke-width:3}
+.vg-torba .tb-y{font:800 22px BG,sans-serif;fill:var(--mur);text-anchor:middle}
+.vg-torba .tb-s{font:700 10px BG,sans-serif;fill:var(--sol);text-anchor:middle}
+.vg-torba .tk rect{stroke:var(--mur);stroke-width:3}
+.vg-torba .tk1 rect{fill:var(--kag)}.vg-torba .tk2 rect{fill:var(--cet)}
+.vg-torba .tk text{font:800 30px BG,sans-serif;fill:var(--kir);text-anchor:middle}
+.vg-torba .tk2 text{fill:var(--mur);font-size:26px}
+.vg-torba .tk{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.vg-torba .tk1{transform:rotate(-9deg);transform-origin:75px 70px}
+.vg-torba .tk2{transform:rotate(12deg);transform-origin:109px 70px}
+.vg-oyna:hover .vg-torba{animation:vgsalla .6s ease}
+.vg-oyna:hover .tk1{transform:translateY(-8px) rotate(-14deg)}
+.vg-oyna:hover .tk2{transform:translateY(-4px) rotate(18deg)}
+.vg-oyna.cekti .tk1{transition:transform .38s ease-in,opacity .38s;transform:translate(10px,-90px) rotate(20deg) scale(1.2);opacity:0}
+@keyframes vgsalla{0%,100%{transform:none}25%{transform:rotate(-5deg)}60%{transform:rotate(4deg)}}
+.vg-oy-m p{color:var(--yum);font-size:17px;margin:0}
+.vg-oy-m .vg-oy-b{font-size:clamp(24px,2.4vw,32px);font-weight:800;color:var(--mur);letter-spacing:-.02em;line-height:1.1;margin-bottom:6px}
+.vg-oy-m .vg-oy-b b{color:var(--kir)}
+.vg-oy-a{margin-top:14px!important;display:block}
+@media (max-width:700px){.vg-oyna{grid-template-columns:104px minmax(0,1fr);gap:14px}.vg-torba{width:104px}.vg-oy-m p{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.vg-oyna:hover .vg-torba{animation:none}}
+.vg-torba .tb-y{font-size:20px}
+/* yol satırı: kapıdan tabelaya ayak izleri */
+.sayfa .yol{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;font-size:16px;margin-bottom:26px}
+.sayfa .yol a:not(.eve){color:var(--mur);font-weight:650;padding:10px 6px;text-decoration:underline;text-decoration-color:var(--cizgi);text-decoration-thickness:2px;text-underline-offset:5px}
+.sayfa .yol a:not(.eve):hover{text-decoration-color:var(--kir)}
+.yol .ayak{display:inline-block;width:46px;height:22px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 22' fill='%236E5A44'%3E%3Cg opacity='.55'%3E%3Cellipse cx='8' cy='15' rx='3' ry='4.6' transform='rotate(80 8 15)'/%3E%3Ccircle cx='13.5' cy='13' r='1.2'/%3E%3Ccircle cx='13.6' cy='16.4' r='1.1'/%3E%3C/g%3E%3Cg opacity='.75'%3E%3Cellipse cx='22' cy='8' rx='3' ry='4.6' transform='rotate(80 22 8)'/%3E%3Ccircle cx='27.5' cy='6' r='1.2'/%3E%3Ccircle cx='27.6' cy='9.4' r='1.1'/%3E%3C/g%3E%3Cellipse cx='36' cy='15' rx='3' ry='4.6' transform='rotate(80 36 15)'/%3E%3Ccircle cx='41.5' cy='13' r='1.2'/%3E%3Ccircle cx='41.6' cy='16.4' r='1.1'/%3E%3C/svg%3E") no-repeat center/contain}
+.yol:hover .ayak{animation:yuru 1s steps(3) infinite}
+@keyframes yuru{0%{clip-path:inset(0 66% 0 0)}50%{clip-path:inset(0 33% 0 0)}100%{clip-path:inset(0 0 0 0)}}
+.yol .tabela{position:relative;display:inline-block;background:var(--kag);color:var(--mur);font-weight:800;font-size:15px;letter-spacing:.02em;padding:7px 26px;border:2px solid var(--mur);border-radius:6px;box-shadow:3px 3px 0 var(--cizgi);
+ background-image:radial-gradient(circle at 10px 50%,var(--sol) 0 2.5px,transparent 3px),radial-gradient(circle at calc(100% - 10px) 50%,var(--sol) 0 2.5px,transparent 3px)}
+@media (prefers-reduced-motion:reduce){.yol:hover .ayak{animation:none}}
+@media (max-width:700px){.yol .ayak{width:34px}.yol .tabela{padding:6px 22px;font-size:14px}}

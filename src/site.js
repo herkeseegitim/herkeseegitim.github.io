@@ -257,7 +257,9 @@ izle.addEventListener("click",function(){saat.hidden=true;izle.hidden=true;sNt.h
 dl.querySelector(".vg-baska").addEventListener("click",yeni);
 dl.querySelector(".vg-kapat").addEventListener("click",function(){dl.close();});
 dl.addEventListener("close",temiz);dl.addEventListener("click",function(e){if(e.target===dl)dl.close();});
-ac.addEventListener("click",function(){dl.showModal();yeni();});
+var torba=document.querySelector(".vg-torba"),oyna=document.querySelector(".vg-oyna");
+function cek(){var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(az||!oyna){dl.showModal();yeni();return;}oyna.classList.remove("cekti");void oyna.offsetWidth;oyna.classList.add("cekti");setTimeout(function(){dl.showModal();yeni();oyna.classList.remove("cekti");},380);}
+ac.addEventListener("click",cek);if(torba){torba.style.cursor="pointer";torba.addEventListener("click",cek);}
 })();
 (function(){var z=document.querySelector(".cetvel-z");if(!z)return;
 var g=document.querySelector(".hk-suz"),yil=[].slice.call(z.querySelectorAll(".yil"));
