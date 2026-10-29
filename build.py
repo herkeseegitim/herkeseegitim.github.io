@@ -377,7 +377,7 @@ for u in urunler:
     v = urun_video(u)
     sema = [sema_urun(u)] + ([sema_video(v, urun_sayfa(u))] if v else [])
     sayfa = bas(f"{u['ad']}: {u['sinif']} | Herkese Eğitim", u["kisa"]+" "+u["ne"][:120], urun_sayfa(u), sema=sema, og=u.get("kapak_w")) + ust_koyu() + f'''
-<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a> / <a href="/#kitaplik">Kitaplık</a></p>
+<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/#kitaplik">Kitaplık</a></p>
 <div class="soz-sayfa"><article class="makale"><h1>{E(u["ad"])}</h1><p style="font-size:22px;color:var(--mur)">{E(u["kisa"])}</p><p>{E(u["ne"])}</p>
 <div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme çıktısı: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir") or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
@@ -401,7 +401,7 @@ for i,a in enumerate(atasozleri):
     onc = atasozleri[i-1] if i>0 else None; snr = atasozleri[i+1] if i+1<len(atasozleri) else None
     gez = '<p style="margin-top:36px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">' + (f'<a href="{soz_sayfa(onc)}">Önceki: {E(onc["soz"])}</a>' if onc else "<span></span>") + (f'<a href="{soz_sayfa(snr)}">Sonraki: {E(snr["soz"])}</a>' if snr else "") + "</p>"
     sayfa = bas(f"{a['soz']}: anlamı | Atasözlerimizi Yaşatalım", f"{a['soz']} atasözünün anlamı. "+(a.get("anlam") or "")[:110], soz_sayfa(a), sema=sema, og=a.get("kapak_w")) + ust_koyu() + f'''
-<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a> / <a href="/atasozleri/">Atasözleri</a> / No. {E(a.get("no"))}</p>
+<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/atasozleri/">Atasözleri</a> / No. {E(a.get("no"))}</p>
 <div class="soz-sayfa"><article class="makale"><h1 class="soz">{E(a["soz"])}</h1>
 <div class="kutu"><h2>Anlamı</h2><p>{E(a.get("anlam"))}</p></div>
 {f'<div class="kutu"><h2>{E((sz.get("kelime") or "")[:1].replace("i","İ").upper()+(sz.get("kelime") or "")[1:])} ne demek?</h2><p>{E(sz.get("anlam"))}</p></div>' if sz.get("kelime") and sz.get("anlam") else ""}
@@ -450,21 +450,21 @@ soz_liste = (f'<p class="sz-etiket">En yeni söz</p><ol class="sz-liste">{_soz_l
 open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
   bas("Atasözlerimizi Yaşatalım | Herkese Eğitim","Az bilinen atasözleri, anlamları ve unutulan sözcükleri. Her atasözünün kendi sayfası ve kısa videosu var.","/atasozleri/",
       sema=[{"@context":"https://schema.org","@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/","hasDefinedTerm":[{"@type":"DefinedTerm","name":a["soz"],"url":SITE+soz_sayfa(a)} for a in atasozleri]}])
-  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Unutulan sözler,<br>söylendikçe yaşar.</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section>{soz_liste}</div></main>{ALT}')
+  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Unutulan sözler,<br>söylendikçe yaşar.</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section>{soz_liste}</div></main>{ALT}')
 
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
 open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
   bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten, eğitim teknolojileri. Herkese Eğitim'de öğretmene, öğrenciye, herkese ücretsiz paylaşımlar hazırlıyor.","/hakkinda/",
       sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}]) + ust_koyu()
-  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a> / Hakkında</p><article class="hk">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
+  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
 # ---- 404, robots, sitemap, llms.txt
 open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | Herkese Eğitim","Bu sayfa teneffüse çıktı.","/404.html")+ust_koyu()+'''<main id="ana" class="teneffus"><div class="w">
 <div class="tahta-404"><p class="tebesir">Bu sayfa teneffüse çıktı.</p><p class="tebesir kucuk">Zil çalınca döner. Bir atölye yeni açılıyorsa birkaç dakika sonra yeniden deneyin.</p>
 <svg class="zil" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 18c-18 0-30 14-30 32v22l-10 14h80L90 72V50c0-18-12-32-30-32z" fill="none" stroke="#FFF4DE" stroke-width="5" stroke-linejoin="round"/><circle cx="60" cy="96" r="8" fill="#FFC21A"/><path d="M60 8v10" stroke="#FFF4DE" stroke-width="5" stroke-linecap="round"/></svg>
 <p class="silgi" aria-hidden="true"></p></div>
-<p class="git">Bu arada: <a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
+<p class="git">Bu arada: <a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
 </div></main>'''+ALT)
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
