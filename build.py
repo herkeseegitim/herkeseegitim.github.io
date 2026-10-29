@@ -133,6 +133,9 @@ for v in videolar:
         w,h = Image.open(v["kapak_dosya"]).size; dik = h > w
     v["kapak_w"] = resim(v.get("kapak_dosya"), "v-"+v["id"], 420 if dik else 960); v["dik"] = dik
     v["kisa_ad"] = re.split(r"\s+\|\s+", v.get("baslik") or "")[0]
+    if not v["kisa_ad"]:
+        _u = UR.get(v.get("urun") or "")
+        v["kisa_ad"] = (_u["ad"]+" tanıtımı") if _u else "Herkese Eğitim videosu"
 for a in atasozleri:
     eş = next((v for v in videolar if v["id"] == a.get("video")), None)
     a["kapak_w"] = eş["kapak_w"] if eş else resim(a.get("kapak_dosya"), "a-"+a["slug"], 420)
@@ -188,7 +191,7 @@ def qr_gizli():
     return "".join(f'<template id="qr-{u["id"]}">{qr_svg(u["url"])}</template>' for u in urunler if u["durum"]=="yayinda")
 
 # ---- schema.org
-KISI = {"@type":"Person","@id":SITE+"/hakkinda/#idiye","name":"İdiye Ökten","jobTitle":"Eğitim teknolojileri müdürü","url":SITE+"/hakkinda/","sameAs":["https://www.linkedin.com/in/idiye/"]}
+KISI = {"@type":"Person","@id":SITE+"/hakkinda/#idiye","name":"İdiye Ökten","url":SITE+"/hakkinda/","sameAs":["https://www.linkedin.com/in/idiye/"]}
 KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
   "sameAs":["https://www.youtube.com/@egitimtek","https://www.instagram.com/egitimtek/","https://x.com/cincinosos","https://github.com/herkeseegitim"]}
 def sema_urun(u):
@@ -320,7 +323,7 @@ ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
 <canvas class="tahta" id="tahta" aria-hidden="true"></canvas>
 <div class="w"><div class="yazi">
-<h1 id="h1" class="gir" style="--d:150ms">Derste işe yarasın diye yaptığım ücretsiz paylaşımlar.</h1>
+<h1 id="h1" class="gir" style="--d:150ms">Öğretmene, öğrenciye, herkese ücretsiz paylaşımlar.</h1>
 <a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
 <p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, kısa tahmin videoları.</p>
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
