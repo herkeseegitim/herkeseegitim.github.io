@@ -166,7 +166,7 @@ NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer><div class="w"><div class="ic">
-<div><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46"><p style="margin-top:16px;max-width:36ch">Öğretmenler için ücretsiz araçlar, atölyeler ve kısa videolar.</p></div>
+<div><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46"><p style="margin-top:16px;max-width:36ch">Öğretmene, öğrenciye, herkese ücretsiz paylaşımlar: araçlar, atölyeler, videolar.</p></div>
 <div><ul><li><a href="https://www.youtube.com/@egitimtek">YouTube @egitimtek</a></li><li><a href="https://www.instagram.com/egitimtek/">Instagram @egitimtek</a></li><li><a href="https://www.tiktok.com/@egitimtek">TikTok @egitimtek</a></li><li><a href="https://x.com/cincinosos">X @cincinosos</a></li><li><a href="https://github.com/herkeseegitim">GitHub herkeseegitim</a></li></ul></div>
 <div><ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li><li><a href="/yenilikler.xml">Yenilikler (RSS)</a></li><li><a href="/llms.txt">Düz metin özet</a></li></ul></div>
 </div><p class="kucuk">Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
@@ -316,8 +316,8 @@ sema_ana = [{"@context":"https://schema.org","@graph":[KURUM,KISI,{"@type":"WebS
 open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, ensure_ascii=False))
 gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
 ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
-ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler",
-  "İdiye Ökten'in öğretmenler için yaptığı ücretsiz tahta araçları, MEB öğrenme çıktılarına bağlı atölyeler ve kısa videolar. ", "/", sema=sema_ana) + f'''
+ana = bas("Herkese Eğitim: öğretmene, öğrenciye, herkese ücretsiz paylaşımlar",
+  "İdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. ", "/", sema=sema_ana) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
@@ -391,7 +391,7 @@ open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
 open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
-  bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten, eğitim teknolojileri. Herkese Eğitim'de öğretmenler için ücretsiz araçlar ve atölyeler yapıyor.","/hakkinda/",
+  bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten, eğitim teknolojileri. Herkese Eğitim'de öğretmene, öğrenciye, herkese ücretsiz paylaşımlar hazırlıyor.","/hakkinda/",
       sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}]) + ust_koyu()
   + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
@@ -405,7 +405,7 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
 open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc><lastmod>{BUGUN.isoformat()}</lastmod></url>" for y in yollar)+"</urlset>\n")
-L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmenler için yaptığı ücretsiz araçlar, MEB öğrenme çıktılarına bağlı atölyeler ve kısa videolar. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
+L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmene, öğrenciye, herkese ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
 for u in urunler:
     L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme çıktısı: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
 L.append("\n## Atasözlerimizi Yaşatalım\n")
