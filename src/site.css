@@ -797,3 +797,16 @@ footer.cikis .kucuk{margin-top:12px}
 .hk-yaz .hk-yaz-e{margin-top:10px;font-size:14px;color:var(--yum);word-break:break-all}
 @media (max-width:760px){.hk-yaz{max-width:none;transform:rotate(-.8deg)}}
 @media (max-width:760px){.hk-kim{display:contents}.hk-kim img{margin-bottom:0}.hk-oyku{order:2}.hk-yaz{order:3;margin-top:8px}}
+/* hakkında: ilk kutu tek ekrana */
+@media (min-width:761px){
+.hk-bas{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);padding:32px 40px 34px;gap:40px;margin-bottom:56px}
+.hk-kim img{width:112px;height:112px;border-width:4px;margin-bottom:14px}
+.hk-kim h1{font-size:clamp(44px,5vw,72px)}
+.hk-kim .soz{font-size:19px;margin-top:10px}
+.hk-yaz{margin-top:22px;padding:20px 20px 16px}
+.hk-yaz p{font-size:16px}
+.hk-yaz .hk-yaz-a{margin-top:10px}
+.hk-oyku p:first-child{font-size:19px;line-height:1.5}
+.hk-oyku p{font-size:16.5px;line-height:1.55}
+.hk-oyku p+p{margin-top:12px}
+}
