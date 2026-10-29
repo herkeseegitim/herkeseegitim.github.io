@@ -870,3 +870,11 @@ footer.cikis .kucuk{margin-top:12px}
 .bk-l{display:block;columns:3 260px;column-gap:20px}
 .bk{break-inside:avoid;margin-bottom:20px;display:block}
 .bk:first-child{grid-row:auto}
+.bk{padding:16px 18px 10px;margin-bottom:16px;box-shadow:4px 4px 0 var(--cizgi)}
+.bk-l{column-gap:16px;columns:3 250px}
+.bk h3{font-size:16.5px;margin-bottom:8px}
+.bk-m{width:40px;height:40px;font-size:17px;top:10px;right:12px}
+.bk ul li{padding:7px 0}
+.bk ul li b{font-size:15px}
+.bk ul li span{font-size:13.5px}
+@media (min-width:1200px){.bk-l{columns:4 230px}}
