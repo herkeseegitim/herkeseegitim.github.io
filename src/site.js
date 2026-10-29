@@ -217,3 +217,36 @@ if(logo)logo.addEventListener("click",function(e){var t=Date.now();dok=(t-zaman<
 /* zümrene gönder */
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-paylas]");if(!b)return;var u=b.dataset.paylas,t=b.dataset.baslik;
  if(navigator.share){navigator.share({title:t,url:u}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){b.textContent="Adres kopyalandı";setTimeout(function(){b.textContent="Zümreye gönderin";},2500);});}});
+(function(){var ul=document.querySelector("ul.vg");if(!ul)return;
+var kart=[].slice.call(ul.querySelectorAll(".vg-k")),ay=[].slice.call(ul.querySelectorAll(".vg-ay")),q=document.getElementById("vg-q"),say=document.querySelector(".vg-say"),yok=document.querySelector(".vg-yok"),daha=document.querySelector(".vg-daha"),SAY=24,sayfa=1,d={dizi:"",brans:"",q:""};
+function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[^\wçğıöşü ]+/g," ");}
+var bugun=Date.now();kart.forEach(function(k){var t=k.dataset.tarih;if(t&&bugun-new Date(t+"T00:00:00").getTime()<7*864e5)k.classList.add("yeni");k._a=n(k.dataset.ara);});
+function hashOku(){var h=location.hash.replace(/^#/,"");var m=h.match(/^d-([\w-]+)$/);if(m){d.dizi=m[1];return;}h.split("&").forEach(function(p){var kv=p.split("=");if(kv[0]==="dizi"||kv[0]==="brans")d[kv[0]]=decodeURIComponent(kv[1]||"");});}
+function hashYaz(){var p=[];if(d.dizi)p.push("dizi="+d.dizi);if(d.brans)p.push("brans="+d.brans);history.replaceState(null,"",p.length?"#"+p.join("&"):location.pathname);}
+function dugmeler(){document.querySelectorAll(".vg-cip button").forEach(function(b){b.setAttribute("aria-pressed",String(d[b.dataset.k]===b.dataset.d||(b.dataset.k==="brans"&&false)));});}
+function uygula(){var sz=n(d.q).trim().split(/\s+/).filter(Boolean),uy=[];
+ kart.forEach(function(k){var ok=(!d.dizi||k.dataset.dizi===d.dizi)&&(!d.brans||(" "+k.dataset.brans+" ").indexOf(" "+d.brans+" ")>-1)&&sz.every(function(s){return k._a.indexOf(s)>-1;});k._u=ok;if(ok)uy.push(k);});
+ var sinir=sayfa*SAY;kart.forEach(function(k){k.hidden=!k._u;});uy.forEach(function(k,i){if(i>=sinir)k.hidden=true;});
+ ay.forEach(function(a){var x=a.nextElementSibling,var_=false;while(x&&!x.classList.contains("vg-ay")){if(!x.hidden){var_=true;break;}x=x.nextElementSibling;}a.hidden=!var_;});
+ var gos=Math.min(uy.length,sinir);say.textContent=(d.dizi||d.brans||sz.length)?(uy.length+" video bulundu."):(kart.length+" video, en yenisi en üstte.");
+ yok.hidden=uy.length>0;daha.hidden=uy.length<=sinir;if(!daha.hidden)daha.textContent="Daha fazla göster ("+(uy.length-gos)+")";dugmeler();}
+document.querySelectorAll(".vg-cip").forEach(function(g){g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=b.dataset.k;d[k]=(k==="brans"&&d.brans===b.dataset.d)?"":b.dataset.d;sayfa=1;hashYaz();uygula();});});
+var zt;q.addEventListener("input",function(){clearTimeout(zt);zt=setTimeout(function(){d.q=q.value;sayfa=1;uygula();},120);});
+daha.addEventListener("click",function(){var ilk=kart.filter(function(k){return k._u&&k.hidden;})[0];sayfa++;uygula();if(ilk){var a=ilk.querySelector("a");if(a)a.focus({preventScroll:true});}});
+document.querySelector(".vg-sifir").addEventListener("click",function(){d={dizi:"",brans:"",q:""};q.value="";sayfa=1;hashYaz();uygula();q.focus();});
+hashOku();uygula();
+/* üç saniye */
+var veri=[];try{veri=JSON.parse(document.getElementById("vg-veri").textContent);}catch(e){}
+var ac=document.querySelector(".vg-ac"),dl=document.querySelector(".vg-sah");if(!veri.length||!dl||!dl.showModal)return;ac.hidden=false;
+var sD=dl.querySelector(".vg-sah-d"),sS=dl.querySelector(".vg-sah-s"),saat=dl.querySelector(".vg-saat"),sN=saat.querySelector("span"),cev=dl.querySelector(".vg-cev"),izle=dl.querySelector(".vg-izle"),git=dl.querySelector(".vg-git"),son=-1,tm=[],sec;
+function temiz(){tm.forEach(clearTimeout);tm=[];cev.innerHTML="";cev.hidden=true;}
+function yeni(){temiz();var i;do{i=Math.floor(Math.random()*veri.length);}while(veri.length>1&&i===son);son=i;sec=veri[i];
+ sD.textContent=sec.d;sS.textContent=sec.s;git.href=sec.u;izle.hidden=true;saat.hidden=false;saat.classList.remove("kos","bitti");sN.textContent="3";void saat.offsetWidth;saat.classList.add("kos");
+ [2,1].forEach(function(s,j){tm.push(setTimeout(function(){sN.textContent=s;},(j+1)*1000));});
+ tm.push(setTimeout(function(){sN.textContent="?";saat.classList.add("bitti");izle.hidden=false;izle.focus();},3000));}
+izle.addEventListener("click",function(){saat.hidden=true;izle.hidden=true;cev.className="vg-cev"+(sec.dik?"":" yat");var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(sec.id)+"?autoplay=1&rel=0&playsinline=1";f.title=sec.s;f.allow="autoplay; encrypted-media; picture-in-picture";f.allowFullscreen=true;cev.appendChild(f);cev.hidden=false;});
+dl.querySelector(".vg-baska").addEventListener("click",yeni);
+dl.querySelector(".vg-kapat").addEventListener("click",function(){dl.close();});
+dl.addEventListener("close",temiz);dl.addEventListener("click",function(e){if(e.target===dl)dl.close();});
+ac.addEventListener("click",function(){dl.showModal();yeni();});
+})();

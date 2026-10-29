@@ -44,8 +44,54 @@ for b in sorted({x for u in urunler for x in u["branslar"] if x!="hepsi"}):
     yaz(f"/brans/{b}/", sayfa(f"{ad} | Herkese Eğitim", f"{ad} için ücretsiz atölyeler, tahta araçları ve kısa videolar.", f"/brans/{b}/", g, None, f" / {E(ad)}"))
 
 # videolar
-gv = '<div class="makale" style="margin-bottom:28px"><h1>Videolar</h1><p>Kısa sorular ve tanıtımlar. Hepsi YouTube kanalında da var: @egitimtek.</p></div><div class="diziler">' + "".join(raf(d, 999) for d in ["tahmin","atasozu","ozel-gun","bilgisayarin-icinde","tanitim"]) + '</div>'
-yaz("/videolar/", sayfa("Videolar | Herkese Eğitim", "3 saniyede tahmin et, Atasözlerimizi Yaşatalım, Özel Günler ve tanıtım videoları.", "/videolar/", gv, None, " / Videolar"))
+VRENK = {"tahmin":"tur","atasozu":"kir","ozel-gun":"cet","bilgisayarin-icinde":"mur","tanitim":"sol"}
+VSIRA = ["tahmin","atasozu","ozel-gun","bilgisayarin-icinde","tanitim"]
+def _vbrans(v):
+    u = UR.get(v.get("urun") or "")
+    return " ".join(x for x in (u["branslar"] if u else []) if x!="hepsi")
+def _vt(v): return v.get("tarih") or ""
+vs = sorted(videolar, key=lambda v: _vt(v), reverse=True)
+def vgkart(v):
+    dz = v.get("dizi") or "tanitim"; u = UR.get(v.get("urun") or "")
+    ust = f'<span class="vg-dz">{E(DIZI.get(dz,("Video",))[0])}</span>'
+    alt = " · ".join(x for x in [tarih_tr(v["tarih"]) if v.get("tarih") else "", E(u["ad"]) if u else ""] if x)
+    img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="{420 if v.get("dik") else 960}" height="{746 if v.get("dik") else 540}">' if v.get("kapak_w") else f'<span class="vg-bos" aria-hidden="true"><em>{E(v.get("kisa_ad") or "")}</em></span>'
+    ara_m = " ".join([v.get("kisa_ad") or "", DIZI.get(dz,("",))[0], u["ad"] if u else ""])
+    return (f'<li class="vg-k{" yat" if not v.get("dik") else ""}" data-dizi="{dz}" data-brans="{_vbrans(v)}" data-tarih="{E(_vt(v))}" data-ara="{E(ara_m)}" style="--r:var(--{VRENK.get(dz,"sol")})">'
+            f'<a href="{video_sayfa(v)}"><span class="vg-g">{img}{ust}</span><b>{E(v.get("kisa_ad"))}</b><span class="vg-a">{alt}</span></a></li>')
+AY_ = {}
+for v in vs:
+    k = v["tarih"][:7] if v.get("tarih") else "eski"
+    AY_.setdefault(k, []).append(v)
+def ay_ad(k):
+    if k=="eski": return "Daha önce"
+    y,m = k.split("-"); return f"{AYLAR[int(m)-1].capitalize()} {y}"
+izgara = "".join(f'<li class="vg-ay" data-ay="{k}"><h2>{ay_ad(k)}</h2></li>' + "".join(vgkart(v) for v in l) for k,l in AY_.items())
+dsay = {d: sum(1 for v in videolar if v.get("dizi")==d) for d in VSIRA}
+bsay = {}
+for v in videolar:
+    for b in _vbrans(v).split():
+        bsay[b] = bsay.get(b,0)+1
+cip = '<button type="button" data-k="dizi" data-d="" aria-pressed="true">Hepsi <i>{}</i></button>'.format(len(videolar)) + "".join(
+    f'<button type="button" data-k="dizi" data-d="{d}" aria-pressed="false" style="--r:var(--{VRENK[d]})"><s aria-hidden="true"></s>{E(DIZI[d][0])} <i>{n}</i></button>' for d,n in dsay.items() if n)
+bcip = "".join(f'<button type="button" data-k="brans" data-d="{b}" aria-pressed="false">{E(BRANS_AD.get(b,b))} <i>{n}</i></button>' for b,n in sorted(bsay.items(), key=lambda x:-x[1])) if len(bsay)>1 else ""
+oyun = [dict(id=v["id"], s=v.get("kisa_ad"), d=DIZI.get(v.get("dizi"),("",))[0], k=v.get("kapak_w") or "", u=video_sayfa(v), dik=bool(v.get("dik"))) for v in videolar if v.get("dizi")!="tanitim" and (v.get("kisa_ad") or "").strip().endswith("?")]
+oyun_json = json.dumps(oyun, ensure_ascii=False).replace("</","<\\/")
+gv = f'''<section class="vg-bas"><div><h1>Videolar</h1><p>Kısa sorular, atasözleri, özel günler ve tanıtımlar. {len(videolar)} video, hepsi <a href="https://www.youtube.com/@egitimtek">YouTube kanalında</a> da var.</p></div>
+<div class="vg-oyna"><p><b>Üç saniyen var.</b> Rastgele bir soru gelsin, düşün, cevabı izle.</p><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button></div></section>
+<div class="vg-ust"><div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Videolarda ara: makara, harman, fermuar…" autocomplete="off"></div>
+<div class="vg-cip" role="group" aria-label="Diziye göre">{cip}</div>{f'<div class="vg-cip vg-b" role="group" aria-label="Branşa göre">{bcip}</div>' if bcip else ""}</div>
+<p class="vg-say" role="status" aria-live="polite"></p>
+<ul class="vg">{izgara}</ul>
+<p class="vg-yok" hidden>Bu aramayla video çıkmadı. Başka bir sözcük deneyin ya da <button type="button" class="vg-sifir">süzgeci temizleyin</button>.</p>
+<p class="vg-daha-k"><button type="button" class="dugme acik vg-daha" hidden>Daha fazla göster</button></p>
+<dialog class="vg-sah" aria-label="Üç saniye"><div class="vg-sah-i"><p class="vg-sah-d"></p><p class="vg-sah-s"></p>
+<div class="vg-saat" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="vg-kalan" cx="60" cy="60" r="52"/></svg><span>3</span></div>
+<div class="vg-cev" hidden></div>
+<p class="vg-sah-b"><button type="button" class="dugme kir vg-izle" hidden>Cevabı izle</button> <button type="button" class="dugme acik vg-baska">Başka soru</button> <a class="vg-git" href="#">Sayfasına git</a></p>
+<button type="button" class="vg-kapat" aria-label="Kapat">×</button></div></dialog>
+<script type="application/json" id="vg-veri">{oyun_json}</script>'''
+yaz("/videolar/", sayfa("Videolar | Herkese Eğitim", "3 saniyede tahmin et, Atasözlerimizi Yaşatalım, Özel Günler ve tanıtım videoları. Sınıfta derse giriş için kısa sorular.", "/videolar/", gv, None, " / Videolar"))
 for v in videolar:
     if any(a.get("video")==v["id"] for a in atasozleri): continue
     u = UR.get(v.get("urun") or "")
