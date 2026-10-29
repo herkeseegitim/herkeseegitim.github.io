@@ -498,3 +498,4 @@ footer.cikis .kucuk{margin-top:22px;color:#A8987E;font-size:14px}
 @media (max-width:760px){.cikis-ust{grid-template-columns:1fr}.odev{justify-self:start;transform:rotate(1.5deg)}.m b{width:64px;height:64px;font-size:20px}.miknatis{gap:18px 20px}}
 @media (prefers-reduced-motion:reduce){.cikis.gor .zil-b{animation:none}}
 footer.cikis .m,footer.cikis .m:hover,footer.cikis .odev:hover{text-decoration:none;opacity:1}
+.m-wp b{background:#F7F0E1;color:var(--kir);font-family:Georgia,serif;font-style:italic}
