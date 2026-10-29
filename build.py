@@ -409,11 +409,23 @@ for i,a in enumerate(atasozleri):
 <aside>{vid_btn(v, a["soz"]) if v else ""}</aside></div></div></main>{ALT}'''
     os.makedirs(os.path.join(OUT,"atasozleri",a["slug"]), exist_ok=True)
     open(os.path.join(OUT,"atasozleri",a["slug"],"index.html"),"w",encoding="utf-8").write(sayfa)
-soz_liste = "".join(f'<li><a href="{soz_sayfa(a)}"><small>No. {E(a.get("no"))}</small><b>{E(a["soz"])}</b><span>{E((a.get("anlam") or "")[:110])}</span></a></li>' for a in atasozleri)
+def _soz_html(a):
+    k = (a.get("sozcuk") or {}).get("kelime")
+    out = []
+    for w in a["soz"].split():
+        cls = "k u" if k and k in w.lower() else "k"
+        out.append(f'<span class="{cls}">{E(w)}</span>')
+    return " ".join(out)
+def _soz_li(a):
+    sk = a.get("sozcuk") or {}
+    not_ = f'<p class="sz-not"><b>{E(sk.get("kelime"))}:</b> {E(sk.get("anlam"))}</p>' if sk.get("kelime") else ""
+    return (f'<li class="sz"><span class="sz-no" aria-hidden="true">{E(a.get("no"))}</span><div class="sz-g">'
+            f'<p class="sz-s"><a href="{soz_sayfa(a)}">{_soz_html(a)}</a></p><p class="sz-a">{E(a.get("anlam") or "")}</p>{not_}</div></li>')
+soz_liste = "".join(_soz_li(a) for a in atasozleri)
 open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
   bas("Atasözlerimizi Yaşatalım | Herkese Eğitim","Az bilinen atasözleri, anlamları ve unutulan sözcükleri. Her atasözünün kendi sayfası ve kısa videosu var.","/atasozleri/",
       sema=[{"@context":"https://schema.org","@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/","hasDefinedTerm":[{"@type":"DefinedTerm","name":a["soz"],"url":SITE+soz_sayfa(a)} for a in atasozleri]}])
-  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Atasözleri</p>{lbas("Atasözlerimizi Yaşatalım","Az bilinen atasözleri ve içlerinde unutulan sözcükler. Her birinin anlamı ve kısa videosu kendi sayfasında.",[("Defter","Atasözleri"),("İçinde",f"{len(atasozleri)} atasözü"),("Son eklenen",E(atasozleri[-1]["soz"]) if atasozleri else "-")])}<ul class="soz-liste">{soz_liste}</ul></div></main>{ALT}')
+  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Bir atasözü,<br>söylendikçe yaşar.</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section><ol class="sz-liste">{soz_liste}</ol></div></main>{ALT}')
 
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
