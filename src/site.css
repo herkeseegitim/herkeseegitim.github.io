@@ -558,3 +558,5 @@ footer.cikis .kucuk{margin-top:12px}
 .vid.dik .vid-bos{background-color:var(--sahne);color:var(--krem)}
 @media (max-width:700px){.vd-alt .dugme{margin-left:0}}
 .vd-platform{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 22px}
+/* kalem cetveli: yazı sütununun altına, sola hizalı */
+@media (min-width:901px){.cetvel{left:max(40px,calc((100% - 1240px)/2 + 40px));transform:rotate(-1.5deg);transform-origin:left bottom}}
