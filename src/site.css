@@ -851,3 +851,22 @@ footer.cikis .kucuk{margin-top:12px}
  background-image:radial-gradient(circle at 10px 50%,var(--sol) 0 2.5px,transparent 3px),radial-gradient(circle at calc(100% - 10px) 50%,var(--sol) 0 2.5px,transparent 3px)}
 @media (prefers-reduced-motion:reduce){.yol:hover .ayak{animation:none}}
 @media (max-width:700px){.yol .ayak{width:34px}.yol .tabela{padding:6px 22px;font-size:14px}}
+/* hakkında: lisanslar ve sertifikalar */
+.hk-belge{margin-bottom:64px}
+.hk-belge-bas{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-bottom:6px}
+.hk-belge-bas h2{margin:0!important}
+.hk-belge-bas p{margin:0;color:var(--sol);font-size:17px}
+.bk-l{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;align-items:start}
+.bk{position:relative;background:var(--kag);border:2px solid var(--mur);border-radius:14px;padding:20px 20px 16px;box-shadow:5px 5px 0 var(--cizgi)}
+.bk:first-child{grid-row:span 2}
+.bk h3{margin:0 56px 12px 0;font-size:18px;line-height:1.25;color:var(--mur)}
+.bk-m{position:absolute;right:14px;top:12px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:19px;color:var(--kir);border:2.5px solid var(--kir);transform:rotate(-12deg);background:radial-gradient(circle,transparent 15px,rgba(217,50,43,.12) 16px,transparent 17px)}
+.bk-m::after{content:"";position:absolute;inset:4px;border-radius:50%;border:1.5px dashed var(--kir);opacity:.7}
+.bk ul{list-style:none;margin:0;padding:0}
+.bk ul li{padding:9px 0;border-top:1px dashed var(--cizgi)}
+.bk ul li b{display:block;font-size:16px;line-height:1.3;color:var(--mur)}
+.bk ul li span{display:block;font-size:14px;color:var(--sol);margin-top:2px}
+@media (max-width:700px){.bk:first-child{grid-row:auto}}
+.bk-l{display:block;columns:3 260px;column-gap:20px}
+.bk{break-inside:avoid;margin-bottom:20px;display:block}
+.bk:first-child{grid-row:auto}
