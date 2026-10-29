@@ -1,0 +1,554 @@
+{
+ "urunler": [
+  {
+   "id": "ciztahta",
+   "ad": "ÇizTahta",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": "2026-10-16",
+   "kisa": "Kurulum yok, kayıt yok. Aç ve anlat.",
+   "ne": "Tarayıcıda açılan tek dosyalık tahta. Kalem, perde, spot, süre, rastgele öğrenci ve gruplar tek yerde; PDF açıp üstüne yazarsınız. İnternet istemez, hesap yok.",
+   "sinif": [
+    "hepsi"
+   ],
+   "brans": [
+    "hepsi"
+   ],
+   "kazanim": [],
+   "url": "https://herkeseegitim.github.io/ciztahta/",
+   "video": "mY8zhg8sXM8",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\github\\kapak.png",
+   "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\ciztahta.html"
+  },
+  {
+   "id": "ciztahta-eklenti",
+   "ad": "ÇizTahta eklentisi",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": "2026-10-24",
+   "kisa": "Açtığınız her sayfa tahtanız olsun.",
+   "ne": "Chrome eklentisi. Açık web sayfasının üstüne kalemle yazarsınız; kâğıt, tablo, etiket eklersiniz. Kura, süre, perde ve spot çubukta.",
+   "sinif": [
+    "hepsi"
+   ],
+   "brans": [
+    "hepsi"
+   ],
+   "kazanim": [],
+   "url": "https://chromewebstore.google.com/detail/hhiahdcgklpocanikedojaflhagegakf",
+   "kurulum": "https://herkeseegitim.github.io/ciztahta/eklenti/",
+   "video": "2qJOXs_TSh8",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\Shorts\\Eklenti tanıtım\\CizTahta eklenti tanitim kapak.png",
+   "canta": null
+  },
+  {
+   "id": "yaztahta",
+   "ad": "YazTahta",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": null,
+   "kisa": "Her tuşun bir işi var.",
+   "ne": "İlkokulda çocuklar klavyedeki tuşların yerini ve ne yaptığını görerek, deneyerek öğrenir. Laboratuvarda her öğrenci kendi klavyesiyle, tahtada sınıfça çalışılır. Harf sırası ilk okuma yazma ses sırasını izler.",
+   "sinif": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "brans": [
+    "sinif",
+    "bilisim"
+   ],
+   "kazanim": [],
+   "url": "https://herkeseegitim.github.io/yaztahta/",
+   "video": "3dFYUrfl44E",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\YazTahta\\Uzun video\\kapak uzun TR.png",
+   "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\YazTahta\\yaztahta.html"
+  },
+  {
+   "id": "basit-makineler",
+   "ad": "Basit Makineler Atölyesi",
+   "tur": "atolye",
+   "durum": "yayinda",
+   "lansman": "2026-10-24",
+   "kisa": "Kuvvetten kazanırsan yoldan kaybedersin: tahtada deneyin.",
+   "ne": "8. sınıf basit makineler için tahtada dokunarak çalışılan atölye. Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar ve ipi parmağıyla çeker. Sürtünmesiz düzenekte iş çubuklarının eşit kaldığını görür.",
+   "sinif": [
+    "8"
+   ],
+   "brans": [
+    "fen"
+   ],
+   "kazanim": [
+    "F.8.5.1.1",
+    "F.8.5.1.2"
+   ],
+   "url": "https://herkeseegitim.github.io/atolye/fen-8-f-8-5/",
+   "video": "aaafnoukZoo",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Video\\Basit Makineler YouTube kucuk resim.png",
+   "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\FEN 8 F.8.5 Basit Makineler Atölyesi.html"
+  },
+  {
+   "id": "bilgisayarin-ici",
+   "ad": "Bilgisayarın İçi Atölyesi",
+   "tur": "atolye",
+   "durum": "yayinda",
+   "lansman": "2026-10-25",
+   "kisa": "Kaydetmeden kapattınız. Yazınız nereye gitti?",
+   "ne": "5. sınıf için 3B simülasyon. Öğrenci bir cümle yazar, harflerin bit olarak RAM'e gittiğini, fiş çekilince RAM'in boşaldığını, Kaydet'e basınca bitlerin depolama birimine yazıldığını görür.",
+   "sinif": [
+    "5"
+   ],
+   "brans": [
+    "bilisim"
+   ],
+   "kazanim": [
+    "BTY.5.1.5"
+   ],
+   "url": "https://herkeseegitim.github.io/atolye/bty-5-1-5/",
+   "video": "4UMHg4ggUS4",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\BİLİŞİM 5 BTY.5.1.5 Bilgisayarın İçi\\Video\\Bilgisayarın İçi yatay kapak 1280.png",
+   "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\BİLİŞİM 5 BTY.5.1.5 Bilgisayarın İçi\\Bilgisayarın İçi.html"
+  },
+  {
+   "id": "yuzdeler",
+   "ad": "Yüzdeler Atölyesi",
+   "tur": "atolye",
+   "durum": "yakinda",
+   "lansman": "2026-10-30",
+   "kisa": "%20 indirimin üstüne %20 daha: %40 mı?",
+   "ne": "7. sınıf yüzdeler için şeritle çalışılan atölye. Yüzdesini bulur, tamamını bulur, yüzde olarak yazar, artırır ve azaltırsınız. Takılınca ipucu var; sonunda sınava hazırlık soruları.",
+   "sinif": [
+    "7"
+   ],
+   "brans": [
+    "matematik"
+   ],
+   "kazanim": [
+    "MAT.7.1.7"
+   ],
+   "url": "https://herkeseegitim.github.io/atolye/mat-7-1-7/",
+   "video": null,
+   "kapak": null,
+   "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler Atölyesi.html"
+  },
+  {
+   "id": "yanki",
+   "ad": "Yankı",
+   "tur": "oyun",
+   "durum": "yakinda",
+   "lansman": "2026-11-06",
+   "kisa": "Yer altı şehrinde yapay zekâ okuryazarlığı ve dijital vatandaşlık.",
+   "ne": "5 ve 6. sınıf için oyun: dijital ayak izi, bilişim etiği, gizlilik ve yapay zekâ girdileri katlarda oynanarak işlenir.",
+   "sinif": [
+    "5",
+    "6"
+   ],
+   "brans": [
+    "bilisim"
+   ],
+   "kazanim": [
+    "BTY.5.1.3",
+    "BTY.5.1.4",
+    "BTY.5.4.1",
+    "BTY.5.4.2",
+    "BTY.5.5.1",
+    "BTY.5.5.2",
+    "BTY.6.4.1",
+    "BTY.6.4.3",
+    "BTY.6.5.1",
+    "BTY.6.5.2"
+   ],
+   "url": null,
+   "video": null,
+   "kapak": null,
+   "canta": null
+  }
+ ],
+ "videolar": [
+  {
+   "id": "mY8zhg8sXM8",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta",
+   "tarih": "2026-10-18",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\Uzun video\\ÇizTahta bir ders baştan sona kapak.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ydp5nstgcnI",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\Uzun video\\English\\ChizTahta one lesson thumbnail.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "2qJOXs_TSh8",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta-eklenti",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\ÇizTahta\\Shorts\\Eklenti tanıtım\\CizTahta eklenti tanitim kapak.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "3dFYUrfl44E",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "yaztahta",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\YazTahta\\Uzun video\\kapak uzun TR.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "aaafnoukZoo",
+   "baslik": "Basit makineler tahtada: kuvvetten kazanırsan yoldan kaybedersin | 8. sınıf fen atölyesi",
+   "dizi": "tanitim",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-24",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Video\\Basit Makineler YouTube kucuk resim.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "4UMHg4ggUS4",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "bilgisayarin-ici",
+   "tarih": "2026-10-25",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\BİLİŞİM 5 BTY.5.1.5 Bilgisayarın İçi\\Video\\Bilgisayarın İçi yatay kapak 1280.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "FfwNwkKYmhg",
+   "baslik": "Makara ekledikçe kuvvet hep azalır mı? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-26",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Makara ekledikçe\\kapak Makara ekledikçe.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "pqS-Vj6D82A",
+   "baslik": "Kuvvet yarıya inince iş de yarıya iner mi? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-26",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Kuvvet yarıya inince\\kapak Kuvvet yarıya inince.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "rH82cHDcSWk",
+   "baslik": "Ş harfi bilgisayarda A harfinden daha çok yer kaplar mı? | Bilgisayarın İçi",
+   "dizi": "bilgisayarin-icinde",
+   "urun": "bilgisayarin-ici",
+   "tarih": "2026-10-26",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\BİLİŞİM 5 BTY.5.1.5 Bilgisayarın İçi\\Shorts\\Bilgisayarın içinde ne oluyor\\Ş harfi kaç bayt\\kapak Ş harfi kaç bayt.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "wnPAGstIWMA",
+   "baslik": "Bu sahneye hangi atasözü uyar? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-26",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 1 Horozu çok olan köyde\\kapak Atasözü 1.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "gtBbZv2P-C8",
+   "baslik": "Bu ağaç neden başını eğdi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 2 Ağaç meyvesi olunca\\kapak Atasözü 2.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "WFbrAVtNjf8",
+   "baslik": "Merdiven hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Merdiven\\kapak Merdiven.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "6LucFCXd25s",
+   "baslik": "Kilide taktığınız anahtar hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Anahtar\\kapak Anahtar.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "BIUCZnTQ5eA",
+   "baslik": "30 kiloluk bir çocuk 90 kiloluk bir yetişkini tahterevallide kaldırabilir mi? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Tahterevalli\\kapak Tahterevalli.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "x9iiduv616M",
+   "baslik": "Dağ, gönül, yol: hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 3 Dağlar araya girse de\\kapak Atasözü 3.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "zL2-T0FTODA",
+   "baslik": "Harman ne demek? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 4 Tarlada izi olmayanın\\kapak Atasözü 4.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "02qhrvYhoG4",
+   "baslik": "103 ışık. Sonuncusu yanınca ne oluyor?",
+   "dizi": "ozel-gun",
+   "urun": null,
+   "tarih": "2026-10-29",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Özel Günler\\29 Ekim 103 ışık\\kapak 103 ışık.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "HPQevHZoUBU",
+   "baslik": "29 Ekim 1923 belgesinde hangi yıl yazıyordu? | 3 saniyede tahmin et",
+   "dizi": "ozel-gun",
+   "urun": null,
+   "tarih": "2026-10-29",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Özel Günler\\29 Ekim Belgede 1923 yazmıyor\\kapak Belgede 1923 yazmıyor.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "y0sC2KuEsHI",
+   "baslik": "Fermuar hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Fermuar\\kapak Fermuar.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "F3VTSDNv0d8",
+   "baslik": "Kalın kartonu makasın ucuyla mı, dibiyle mi daha kolay kesersiniz? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Makas\\kapak Makas.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "q5LUUoRvFZE",
+   "baslik": "Kamyonların direksiyonu neden otomobilinkinden büyük? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Direksiyon\\kapak Direksiyon.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  }
+ ],
+ "atasozleri": [
+  {
+   "no": 1,
+   "soz": "Horozu çok olan köyde sabah geç olur.",
+   "slug": "horozu-cok-olan-koyde-sabah-gec-olur",
+   "soru": "Bu sahneye hangi atasözü uyar?",
+   "anlam": "Karışanı çok olan işten sonuç güç alınır.",
+   "sozcuk": null,
+   "video": "wnPAGstIWMA",
+   "tarih": "2026-10-26",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 1 Horozu çok olan köyde\\kapak Atasözü 1.png"
+  },
+  {
+   "no": 2,
+   "soz": "Ağaç meyvesi olunca başını aşağı salar.",
+   "slug": "agac-meyvesi-olunca-basini-asagi-salar",
+   "soru": "Bu ağaç neden başını eğdi?",
+   "anlam": "Yararlı işler yapan, bilgili insan alçak gönüllü olur.",
+   "sozcuk": null,
+   "video": "gtBbZv2P-C8",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 2 Ağaç meyvesi olunca\\kapak Atasözü 2.png"
+  },
+  {
+   "no": 3,
+   "soz": "Dağlar araya girse de, gönül gönüle yol bulur.",
+   "slug": "daglar-araya-girse-de-gonul-gonule-yol-bulur",
+   "soru": "Dağ, gönül, yol. Bu üç kelime hangi atasözünde?",
+   "anlam": "Uzaklık ve engeller birbirini sevenleri ayıramaz.",
+   "sozcuk": null,
+   "video": "x9iiduv616M",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 3 Dağlar araya girse de\\kapak Atasözü 3.png"
+  },
+  {
+   "no": 4,
+   "soz": "Tarlada izi olmayanın harmanda sözü olmaz.",
+   "slug": "tarlada-izi-olmayanin-harmanda-sozu-olmaz",
+   "soru": "Harman ne demek?",
+   "anlam": "Kendini işe vermeyenden, iş üretmeyenden hayır gelmez.",
+   "sozcuk": {
+    "kelime": "harman",
+    "anlam": "Ekinin dövülüp tanesinin ayrıldığı yer."
+   },
+   "video": "zL2-T0FTODA",
+   "tarih": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 4 Tarlada izi olmayanın\\kapak Atasözü 4.png"
+  }
+ ],
+ "takvim": [
+  {
+   "tarih": "2026-10-16",
+   "baslik": "ÇizTahta",
+   "tur": "atolye",
+   "not": "İlk ürün, lansman videosu ve X zinciri."
+  },
+  {
+   "tarih": "2026-10-24",
+   "baslik": "Basit Makineler Atölyesi",
+   "tur": "atolye",
+   "not": "8. sınıf fen, F.8.5.1.1 ve F.8.5.1.2. Cumartesi."
+  },
+  {
+   "tarih": "2026-10-25",
+   "baslik": "Bilgisayarın İçi Atölyesi",
+   "tur": "atolye",
+   "not": "5. sınıf bilişim, BTY.5.1.5. Pazar; tarih yayın paketinden."
+  },
+  {
+   "tarih": "2026-10-26",
+   "baslik": "Atasözlerimizi Yaşatalım",
+   "tur": "dizi",
+   "not": "No. 1 Horozu çok olan köyde."
+  },
+  {
+   "tarih": "2026-10-26",
+   "baslik": "3 saniyede tahmin et: Basit Makineler",
+   "tur": "dizi",
+   "not": "Günde 3 kısa video, 12:30, 16:30, 20:30."
+  },
+  {
+   "tarih": "2026-10-29",
+   "baslik": "29 Ekim Cumhuriyet Bayramı",
+   "tur": "ozel-gun",
+   "not": "103 ışık ve Belgede 1923 yazmıyor, sabah yayın."
+  },
+  {
+   "tarih": "2026-10-30",
+   "baslik": "Yüzdeler Atölyesi",
+   "tur": "atolye",
+   "not": "7. sınıf matematik, MAT.7.1.7. Cuma lansmanı."
+  },
+  {
+   "tarih": "2026-10-31",
+   "baslik": "3 saniyede tahmin et: Yüzdeler",
+   "tur": "dizi",
+   "not": "31 Ekim–4 Kasım, 15 soru, günde 3; sorular onay bekliyor."
+  },
+  {
+   "tarih": "2026-11-06",
+   "baslik": "Yankı",
+   "tur": "atolye",
+   "not": "5–6. sınıf bilişim oyunu. Cuma lansmanı."
+  },
+  {
+   "tarih": "2026-11-10",
+   "baslik": "10 Kasım",
+   "tur": "ozel-gun",
+   "not": null
+  }
+ ]
+}

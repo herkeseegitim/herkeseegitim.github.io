@@ -1,0 +1,11 @@
+[
+{"v":"FfwNwkKYmhg","s":"Makara ekledikçe kuvvet hep azalır mı?","se":["Hep azalır","Aynı kalabilir","Artar"],"c":1,"a":"Kuvveti makara sayısı değil, yükü taşıyan ip sayısı belirler. Yalnız yön değiştiren makara kuvveti azaltmaz."},
+{"v":"pqS-Vj6D82A","s":"Kuvvet yarıya inince iş de yarıya iner mi?","se":["Yarıya iner","Aynı kalır","İki katına çıkar"],"c":1,"a":"Kuvvet yarıya inerken ipi iki kat uzun çekersiniz. Yapılan iş aynı kalır."},
+{"v":"WFbrAVtNjf8","s":"Merdiven hangi basit makine?","se":["Kaldıraç","Eğik düzlem","Hiçbiri"],"c":1,"a":"Merdiven basamaklı bir rampa, yani eğik düzlem."},
+{"v":"6LucFCXd25s","s":"Kilide taktığınız anahtar hangi basit makine?","se":["Kaldıraç","Çıkrık","Eğik düzlem"],"c":1,"a":"Çıkrık: anahtarın başı kol, gövdesi mil."},
+{"v":"BIUCZnTQ5eA","s":"30 kiloluk bir çocuk 90 kiloluk bir yetişkini tahterevallide kaldırabilir mi?","se":["Hayır, imkânsız","Ancak zıplarsa","Evet, yeri doğruysa"],"c":2,"a":"Evet: çocuk destek noktasına yetişkinden 3 kat uzak oturursa, örneğin yetişkin 0,5 m, çocuk 1,5 m."},
+{"v":"y0sC2KuEsHI","s":"Fermuar hangi basit makine?","se":["Kaldıraç","Eğik düzlem","Çıkrık"],"c":1,"a":"Eğik düzlem: sürgünün içindeki kamalar dişleri ayırır ya da birleştirir."},
+{"v":"F3VTSDNv0d8","s":"Kalın kartonu makasın ucuyla mı, dibiyle mi daha kolay kesersiniz?","se":["Ucuyla","Fark etmez","Dibiyle"],"c":2,"a":"Dibiyle: karton vidaya yaklaşınca aynı el kuvvetiyle ağızda daha büyük kuvvet oluşur."},
+{"v":"q5LUUoRvFZE","s":"Kamyonların direksiyonu neden otomobilinkinden büyük?","se":["Daha kolay görünsün diye","Daha az kuvvetle çevirmek için","Daha hızlı dönsün diye"],"c":1,"a":"Direksiyon bir çıkrık. Çember büyüyünce aynı mili daha az kuvvetle çevirirsiniz."},
+{"v":"rH82cHDcSWk","s":"Ş harfi bilgisayarda A harfinden daha çok yer kaplar mı?","se":["Daha az","Aynı","Daha çok"],"c":2,"a":"Daha çok: A bir bayt, Ş iki bayt yer kaplar."}
+]
