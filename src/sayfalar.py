@@ -62,7 +62,7 @@ def vgkart(v):
     img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="{420 if v.get("dik") else 960}" height="{746 if v.get("dik") else 540}">' if v.get("kapak_w") else f'<span class="vg-bos" aria-hidden="true"><em>{E(v.get("kisa_ad") or "")}</em></span>'
     ara_m = " ".join([v.get("kisa_ad") or "", DIZI.get(dz,("",))[0], u["ad"] if u else ""])
     return (f'<li class="vg-k{" yat" if not v.get("dik") else ""}" data-dizi="{dz}" data-brans="{_vbrans(v)}" data-tarih="{E(_vt(v))}" data-ara="{E(ara_m)}" style="--r:var(--{VRENK.get(dz,"sol")})">'
-            f'<a href="{video_sayfa(v)}"><span class="vg-g">{img}{ust}</span><b>{E(v.get("kisa_ad"))}</b><span class="vg-a">{alt}</span></a></li>')
+            f'<a href="{video_sayfa(v)}"><span class="vg-g">{img}</span>{ust}<b>{E(v.get("kisa_ad"))}</b><span class="vg-a">{alt}</span></a></li>')
 AY_ = {}
 for v in vs:
     k = v["tarih"][:7] if v.get("tarih") else "eski"
@@ -98,7 +98,7 @@ oyun = [dict(id=v["id"], s=v.get("kisa_ad"), d=DIZI.get(v.get("dizi"),("",))[0],
 oyun_json = json.dumps(oyun, ensure_ascii=False).replace("</","<\\/")
 gv = f'''<section class="vg-bas"><div><h1>Videolar</h1><p>Kısa sorular, atasözleri, özel günler ve tanıtımlar. {len(videolar)} video, hepsi <a href="https://www.youtube.com/@egitimtek">YouTube kanalında</a> da var.</p></div>
 <div class="vg-oyna"><p><b>Üç saniyen var.</b> Rastgele bir soru gelsin, düşün, cevabı izle.</p><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button></div></section>
-<div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ya da arayın: makara, harman, fermuar…" autocomplete="off"></div></div>
+<div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ya da arayın: makara, harman…" autocomplete="off"></div></div>
 <ul class="vg">{izgara}</ul>
 <p class="vg-yok" hidden>Bu aramayla video çıkmadı. Başka bir sözcük deneyin ya da <button type="button" class="vg-sifir">süzgeci temizleyin</button>.</p>
 <p class="vg-daha-k"><button type="button" class="dugme acik vg-daha" hidden>Daha fazla göster</button></p>

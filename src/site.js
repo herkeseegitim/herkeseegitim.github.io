@@ -220,7 +220,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 (function(){var ul=document.querySelector("ul.vg");if(!ul)return;
 var kart=[].slice.call(ul.querySelectorAll(".vg-k")),ay=[].slice.call(ul.querySelectorAll(".vg-ay")),q=document.getElementById("vg-q"),say=document.querySelector(".vg-say"),yok=document.querySelector(".vg-yok"),daha=document.querySelector(".vg-daha"),SAY=24,sayfa=1,d={dizi:"",brans:"",q:""};
 function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[^\wçğıöşü ]+/g," ");}
-var bugun=Date.now();kart.forEach(function(k){var t=k.dataset.tarih;if(t&&bugun-new Date(t+"T00:00:00").getTime()<7*864e5)k.classList.add("yeni");k._a=n(k.dataset.ara);});
+var bugun=Date.now();kart.forEach(function(k,i){var t=k.dataset.tarih;if(i<3&&t&&bugun-new Date(t+"T00:00:00").getTime()<7*864e5)k.classList.add("yeni");k._a=n(k.dataset.ara);});
 function hashOku(){var h=location.hash.replace(/^#/,"");var m=h.match(/^d-([\w-]+)$/);if(m){d.dizi=m[1];return;}h.split("&").forEach(function(p){var kv=p.split("=");if(kv[0]==="dizi"||kv[0]==="brans")d[kv[0]]=decodeURIComponent(kv[1]||"");});}
 function hashYaz(){var p=[];if(d.dizi)p.push("dizi="+d.dizi);if(d.brans)p.push("brans="+d.brans);history.replaceState(null,"",p.length?"#"+p.join("&"):location.pathname);}
 var sil=document.querySelector(".vg-sil");

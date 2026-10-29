@@ -719,3 +719,9 @@ footer.cikis .kucuk{margin-top:12px}
 @media (max-width:860px){.vg-bl{display:inline}.vg-sl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:2px 4px}}
 @keyframes vgyaz{from{opacity:0}to{opacity:1}}
 @media (max-width:860px){.vg-sl.dolu{background:none}.vg-sl{display:inline-block}}
+/* videolar kart: dizi etiketi kapağın dışında */
+.vg-k .vg-dz{position:static;display:flex;align-items:center;gap:6px;background:none;color:var(--sol);padding:0;margin-top:12px;font-size:13px;font-weight:700;border-radius:0;max-width:none;white-space:normal}
+.vg-k .vg-dz::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--r);flex:none}
+.vg-k[data-dizi=ozel-gun] .vg-dz{color:var(--sol)}
+.vg-k .vg-dz+b{margin-top:3px}
+.vg-k.yeni .vg-g::after{right:auto;bottom:auto;left:8px;top:8px}
