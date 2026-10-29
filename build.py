@@ -479,6 +479,19 @@ for v in videolar: L.append(f"- {v.get('baslik')} ({DIZI.get(v.get('dizi'),('Vid
 L.append("\n## Takvim\n")
 for t in takvim: L.append(f"- {t['tarih']}: {t['baslik']}" + (f" ({t['not']})" if t.get('not') else ""))
 open(os.path.join(OUT,"llms.txt"),"w",encoding="utf-8").write("\n".join(L)+"\n")
+def _yol_cevir(m):
+    parca = m.group(1).split(" / ")
+    ic = []
+    for i,x in enumerate(parca):
+        if i: ic.append('<i class="ayak" aria-hidden="true"></i>')
+        ic.append(x if (x.startswith("<a") or i < len(parca)-1) else f'<span class="tabela" aria-current="page">{x}</span>')
+    return '<nav class="yol" aria-label="Bulunduğunuz yer">' + "".join(ic) + '</nav>'
+for _k,_d,_ds in os.walk(OUT):
+    for _f in _ds:
+        if _f.endswith(".html"):
+            _p = os.path.join(_k,_f); _h = open(_p,encoding="utf-8").read()
+            _y = re.sub(r'<p class="yol">(.*?)</p>', _yol_cevir, _h)
+            if _y != _h: open(_p,"w",encoding="utf-8").write(_y)
 open(os.path.join(OUT,".nojekyll"),"w").write("")
 if os.environ.get("CNAME"): open(os.path.join(OUT,"CNAME"),"w").write(os.environ["CNAME"]+"\n")
 print("tamam:", len(urunler),"ürün,",len(videolar),"video,",len(atasozleri),"atasözü, çanta:",len(canta_dosyalar))
