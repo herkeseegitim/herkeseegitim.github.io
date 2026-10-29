@@ -317,3 +317,15 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
 .paylas{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 @media (max-width:900px){.gunun .ic{grid-template-columns:1fr;gap:24px}}
 @media (prefers-reduced-motion:reduce){.gs-sayac.akiyor .dol{transition:none}}
+
+/* 404: teneffüs */
+.teneffus{background:var(--krem);padding:48px 0 80px}
+.tahta-404{position:relative;background:#2F3A33;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 28px);border:14px solid #8B5A2B;border-radius:10px;box-shadow:0 10px 0 rgba(0,0,0,.25);padding:56px 48px 70px;min-height:340px;overflow:hidden}
+.tebesir{color:#FFF4DE;font-size:clamp(34px,5vw,64px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-shadow:0 0 1px #fff,0 0 8px rgba(255,244,222,.35);max-width:16ch;font-variation-settings:"wdth" 85}
+.tebesir.kucuk{font-size:clamp(18px,2vw,22px);font-weight:500;margin-top:18px;max-width:40ch;color:#E9E1CF}
+.zil{position:absolute;right:48px;top:40px;width:110px;transform-origin:60px 10px;animation:zil 1.2s ease-in-out 3}
+@keyframes zil{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+.silgi{position:absolute;right:48px;bottom:18px;width:120px;height:28px;background:linear-gradient(#F2C14E 0 55%,#4A3826 55%);border-radius:5px;margin:0}
+.teneffus .w>p{margin-top:24px;font-size:18px}
+@media (max-width:700px){.tahta-404{padding:36px 22px 70px}.zil{width:70px;right:18px;top:18px}}
+@media (prefers-reduced-motion:reduce){.zil{animation:none}}

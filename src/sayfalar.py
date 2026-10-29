@@ -16,7 +16,7 @@ def vkart(v):
 def uv(u): return [v for v in videolar if v.get("urun")==u["id"]]
 
 # liste sayfaları
-for yol, turler, baslik, ac in [("/atolyeler/",("atolye","oyun"),"Atölyeler","MEB kazanımına bağlı atölyeler ve oyunlar. Sınıfa ya da branşa göre süzün."),
+for yol, turler, baslik, ac in [("/atolyeler/",("atolye","oyun"),"Atölyeler","MEB öğrenme hedeflerine bağlı atölyeler ve oyunlar. Sınıfa ya da branşa göre süzün."),
                                 ("/araclar/",("arac",),"Araçlar","Tahtada ve tarayıcıda açılan araçlar.")]:
     l = [u for u in urunler if u["tur"] in turler]
     sinif_ = sorted({x for u in l for x in u["siniflar"] if x!="hepsi"}, key=int)
@@ -104,7 +104,7 @@ yaz("/gizlilik/", sayfa("Gizlilik | Herkese Eğitim","Bu sitede sayaç, takip ve
 <p>Soru ve öneri: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p></article>''', None, " / Gizlilik"))
 
 konu_konu = urllib.parse.quote("Atölye önerisi")
-konu_govde = urllib.parse.quote("Sınıf:\nBranş:\nKonu ya da kazanım:\nÖğrencilerin en çok takıldığı yer:\n")
+konu_govde = urllib.parse.quote("Sınıf:\nBranş:\nKonu ya da öğrenme hedefi:\nÖğrencilerin en çok takıldığı yer:\n")
 yaz("/konu/", sayfa("Konu önerin | Herkese Eğitim","Sınıfınızın konusunu yazın, atölyesini birlikte düşünelim.","/konu/",f'''<article class="makale"><h1>Konu önerin</h1>
 <p>Sınıfınızın konusunu yazın, atölyesini birlikte düşünelim. Öğrencilerin en çok nerede takıldığını yazarsanız atölye oradan başlar.</p>
 <p>Öğrenci adı yazmayın.</p>
