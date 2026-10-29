@@ -80,6 +80,14 @@ for i,k in enumerate(SIRA, 1):
     u.update(id=k, no=f"{i:02d}", url=d.get("url"), video=d.get("video"), lansman=d.get("lansman"),
              kazanim=d.get("kazanim") or [], kapak=kp(d.get("id") or k), canta=(os.path.join(KOK,"data","canta",CANTA[k]) if k in CANTA else None))
     u["durum"] = "yayinda" if u["url"] and not (u["lansman"] and datetime.date.fromisoformat(u["lansman"]) > BUGUN) else "yakinda"
+    u["bugun"] = False
+    if u["durum"]=="yayinda" and u.get("lansman")==BUGUN.isoformat() and os.environ.get("ADRES_DENE"):
+        # lansman günü: atölye adresi henüz açılmadıysa "bugün açılıyor" kalır
+        try:
+            import urllib.request
+            urllib.request.urlopen(urllib.request.Request(u["url"], method="HEAD"), timeout=10)
+        except Exception:
+            u["durum"] = "yakinda"; u["bugun"] = True
     urunler.append(u)
 UR = {u["id"]: u for u in urunler}
 
@@ -186,7 +194,7 @@ def sema_urun(u):
         s = {"@context":"https://schema.org","@type":"LearningResource","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr","isAccessibleForFree":True,
              "learningResourceType":"Etkileşimli simülasyon","educationalLevel":u["sinif"],"audience":{"@type":"EducationalAudience","educationalRole":"teacher"},
              "provider":{"@id":KURUM["@id"]},"author":{"@id":KISI["@id"]}}
-        if u["kazanim"]: s["teaches"] = u["kazanim"]; s["educationalAlignment"] = [{"@type":"AlignmentObject","alignmentType":"teaches","educationalFramework":"MEB Türkiye Yüzyılı Maarif Modeli","targetName":k} for k in u["kazanim"]]
+        if u["kazanim"]: s["teaches"] = u["kazanim"]; s["educationalAlignment"] = [{"@type":"AlignmentObject","alignmentType":"teaches","educationalFramework":"MEB öğretim programı","targetName":k} for k in u["kazanim"]]
     else:
         s = {"@context":"https://schema.org","@type":"SoftwareApplication" if u["tur"]=="arac" else "VideoGame","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr",
              "applicationCategory":"EducationalApplication","operatingSystem":"Tarayıcı","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"author":{"@id":KISI["@id"]},"publisher":{"@id":KURUM["@id"]}}
@@ -255,7 +263,7 @@ for u in urunler:
     cls = "sat" + (" cuma" if u is hafta_u else "") + (" yakinda" if u["durum"]!="yayinda" and u is not hafta_u else "")
     zaman = ""
     if u["durum"] != "yayinda":
-        zaman = f'<span class="dugme acik" aria-disabled="true">{tarih_tr(u["lansman"])}</span>' if u.get("lansman") else '<span class="dugme acik" aria-disabled="true">Yakında</span>'
+        zaman = f'<span class="dugme acik" aria-disabled="true">{"Bugün açılıyor" if u.get("bugun") else tarih_tr(u["lansman"])}</span>' if u.get("lansman") else '<span class="dugme acik" aria-disabled="true">Yakında</span>'
     satirlar.append(f'''<div class="{cls}" id="u-{u["id"]}" data-tarih="{u.get("lansman") or ""}" data-durum="{u["durum"]}" data-kademe="{u["kademe"]}" data-ihtiyac="{u["ihtiyac"]}" data-kim="{u["kim"]}"><span class="rozet" hidden>Size uygun</span><span class="no" aria-hidden="true">{u["no"]}</span>
 <h3><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></h3><p class="ne">{E(u["kisa"])}</p><p class="sin">{E(u["sinif"])}{"<br><b>"+E(ETIKET)+"</b>" if u is hafta_u else ""}</p><div class="eyl">{ac_dugme(u) or zaman}</div></div>''')
 
@@ -304,7 +312,7 @@ open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, en
 gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
 ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
 ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler",
-  "İdiye Ökten'in öğretmenler için yaptığı ücretsiz tahta araçları, MEB kazanımına bağlı atölyeler ve kısa videolar. ", "/", sema=sema_ana) + f'''
+  "İdiye Ökten'in öğretmenler için yaptığı ücretsiz tahta araçları, MEB öğrenme hedeflerine bağlı atölyeler ve kısa videolar. ", "/", sema=sema_ana) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
@@ -312,7 +320,7 @@ ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler
 <div class="w"><div class="yazi">
 <h1 id="h1" class="gir" style="--d:150ms">Derste işe yarasın diye yaptığım ücretsiz paylaşımlar.</h1>
 <a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
-<p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB kazanımına bağlı atölyeler, kısa tahmin videoları.</p>
+<p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB öğrenme hedeflerine bağlı atölyeler, kısa tahmin videoları.</p>
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
 </div></div>
@@ -339,7 +347,7 @@ for u in urunler:
     sayfa = bas(f"{u['ad']}: {u['sinif']} | Herkese Eğitim", u["kisa"]+" "+u["ne"][:120], urun_sayfa(u), sema=sema, og=u.get("kapak_w")) + ust_koyu() + f'''
 <main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / <a href="/#kitaplik">Kitaplık</a></p>
 <div class="soz-sayfa"><article class="makale"><h1>{E(u["ad"])}</h1><p style="font-size:22px;color:var(--mur)">{E(u["kisa"])}</p><p>{E(u["ne"])}</p>
-<div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Kazanım: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
+<div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme hedefi: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir") or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
 {'<div class="kutu"><h2>Veliler için</h2><p>Ücretsiz. Hesap açılmaz, kişisel bilgi istenmez.'+(' Öğrenci tarayıcıda tahmin eder, dener, sonucu kendi görür.' if u["tur"]=="atolye" else '')+'</p></div>' if u["tur"]!="oyun" else ''}
 <div class="paylas"><button class="dugme acik" type="button" data-paylas="{SITE}{urun_sayfa(u)}" data-baslik="{E(u["ad"])}">Zümreye gönderin</button><a class="dugme acik" href="https://wa.me/?text={E(urllib.parse.quote(u["ad"]+": "+SITE+urun_sayfa(u)))}" rel="noopener">WhatsApp</a></div>
@@ -383,13 +391,18 @@ open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
   + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Hakkında</p><article class="makale">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
 # ---- 404, robots, sitemap, llms.txt
-open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Sayfa bulunamadı | Herkese Eğitim","Aradığınız sayfa burada değil.","/404.html")+ust_koyu()+'<main id="ana" class="sayfa"><div class="w makale"><h1>Bu sayfa burada değil.</h1><p>Adres değişmiş olabilir. <a href="/">Ana sayfadan</a> arayın.</p></div></main>'+ALT)
+open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | Herkese Eğitim","Bu sayfa teneffüse çıktı.","/404.html")+ust_koyu()+'''<main id="ana" class="teneffus"><div class="w">
+<div class="tahta-404"><p class="tebesir">Bu sayfa teneffüse çıktı.</p><p class="tebesir kucuk">Zil çalınca döner. Bir atölye yeni açılıyorsa birkaç dakika sonra yeniden deneyin.</p>
+<svg class="zil" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 18c-18 0-30 14-30 32v22l-10 14h80L90 72V50c0-18-12-32-30-32z" fill="none" stroke="#FFF4DE" stroke-width="5" stroke-linejoin="round"/><circle cx="60" cy="96" r="8" fill="#FFC21A"/><path d="M60 8v10" stroke="#FFF4DE" stroke-width="5" stroke-linecap="round"/></svg>
+<p class="silgi" aria-hidden="true"></p></div>
+<p class="git">Bu arada: <a href="/">Ana sayfa</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
+</div></main>'''+ALT)
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
 open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc><lastmod>{BUGUN.isoformat()}</lastmod></url>" for y in yollar)+"</urlset>\n")
-L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmenler için yaptığı ücretsiz araçlar, MEB kazanımına bağlı atölyeler ve kısa videolar. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
+L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmenler için yaptığı ücretsiz araçlar, MEB öğrenme hedeflerine bağlı atölyeler ve kısa videolar. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
 for u in urunler:
-    L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Kazanım: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
+    L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme hedefi: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
 L.append("\n## Atasözlerimizi Yaşatalım\n")
 for a in atasozleri: L.append(f"- [{a['soz']}]({SITE}{soz_sayfa(a)}): {a.get('anlam') or ''}")
 L.append("\n## Videolar\n")
