@@ -281,3 +281,7 @@ f.querySelectorAll(".m").forEach(function(m){var bx,by,dx=0,dy=0,ox=0,oy=0,tut=f
  m.addEventListener("pointerup",bit);m.addEventListener("pointercancel",bit);
  m.addEventListener("click",function(e){if(kaydi){e.preventDefault();kaydi=false;}});
  m.addEventListener("dragstart",function(e){e.preventDefault();});});})();
+(function(){var c=document.querySelector(".cizik");if(c){if("IntersectionObserver" in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){c.classList.add("gor");io.disconnect();}},{threshold:.4});io.observe(c);}else c.classList.add("gor");}
+var k=document.querySelector(".kalan");if(!k)return;var d=document.querySelector(".sil-durum");
+function goster(){k.querySelectorAll("li").forEach(function(li){var v=null;try{v=localStorage.getItem(li.dataset.k);}catch(e){}li.querySelector("span").textContent=v?(li.dataset.k=="he-son"?v:"kayıtlı"):"yok";});}
+goster();document.querySelector(".sil-not").addEventListener("click",function(){try{localStorage.removeItem("he-kapi");localStorage.removeItem("he-son");}catch(e){}goster();d.textContent="Silindi. Bu tarayıcıda bizden not kalmadı.";});})();

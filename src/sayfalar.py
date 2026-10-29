@@ -15,6 +15,10 @@ def vkart(v):
     return f'<figure>{vid_btn(v)}<figcaption><a href="{video_sayfa(v)}">{E(v.get("kisa_ad"))}</a></figcaption></figure>'
 def uv(u): return [v for v in videolar if v.get("urun")==u["id"]]
 
+def son_ad(l):
+    y=[u for u in l if u['durum']=='yayinda']
+    y=sorted(y,key=lambda u:u.get('lansman') or '')
+    return y[-1]['ad'] if y else '-'
 # liste sayfaları
 for yol, turler, baslik, ac in [("/atolyeler/",("atolye","oyun"),"Atölyeler","MEB öğrenme çıktılarına bağlı atölyeler ve oyunlar. Sınıfa ya da branşa göre süzün."),
                                 ("/araclar/",("arac",),"Araçlar","Tahtada ve tarayıcıda açılan araçlar.")]:
@@ -25,21 +29,21 @@ for yol, turler, baslik, ac in [("/atolyeler/",("atolye","oyun"),"Atölyeler","M
     if len(l) > 3:
         suzgec = '<div class="suzgec" role="group" aria-label="Süz"><button type="button" data-s="" aria-pressed="true">Hepsi</button>' + "".join(f'<button type="button" data-s="sinif:{x}" aria-pressed="false">{x}. sınıf</button>' for x in sinif_) + "".join(f'<button type="button" data-s="brans:{x}" aria-pressed="false">{E(BRANS_AD.get(x,x))}</button>' for x in brans_) + '</div>'
     sema = [{"@context":"https://schema.org","@type":"CollectionPage","name":baslik,"url":SITE+yol,"hasPart":[{"@type":"CreativeWork","name":u["ad"],"url":SITE+urun_sayfa(u)} for u in l]}]
-    yaz(yol, sayfa(f"{baslik} | Herkese Eğitim", ac, yol, f'<div class="makale" style="margin-bottom:28px"><h1>{baslik}</h1><p>{ac}</p></div>{suzgec}<ul class="kartlar">{"".join(kart(u) for u in l)}</ul>', sema, f" / {baslik}"))
+    yaz(yol, sayfa(f"{baslik} | Herkese Eğitim", ac, yol, lbas(baslik, ac, [("Defter", baslik), ("İçinde", f"{len(l)} {baslik.lower()[:-3] if False else ('atölye ve oyun' if 'atolye' in turler else 'araç')}"), ("Son eklenen", E(son_ad(l)))]) + f'{suzgec}<ul class="kartlar">{"".join(kart(u) for u in l)}</ul>', sema, f" / {baslik}"))
 
 # sınıf ve branş sayfaları
 sinif_hepsi = sorted({x for u in urunler for x in u["siniflar"] if x!="hepsi"}, key=int)
 for x in sinif_hepsi:
     l = [u for u in urunler if x in u["siniflar"]]; ortak = [u for u in urunler if "hepsi" in u["siniflar"]]
     vl = [v for u in l for v in uv(u)]
-    g = f'<div class="makale" style="margin-bottom:28px"><h1>{x}. sınıf</h1><p>{x}. sınıf için atölyeler, araçlar ve kısa videolar.</p></div><ul class="kartlar">{"".join(kart(u) for u in l)}</ul>'
+    g = lbas(f"{x}. sınıf", f"{x}. sınıf için atölyeler, araçlar ve kısa videolar.", [("Defter", f"{x}. sınıf"), ("İçinde", f"{len(l)} atölye ve araç" + (f", {len(vl)} video" if vl else ""))]) + f'<ul class="kartlar">{"".join(kart(u) for u in l)}</ul>'
     if vl: g += f'<h2 class="ara-b">Kısa videolar</h2><div class="raf">{"".join(vkart(v) for v in vl[:16])}</div>'
     if ortak: g += f'<h2 class="ara-b">Her sınıfta kullanılanlar</h2><ul class="kartlar">{"".join(kart(u) for u in ortak)}</ul>'
     yaz(f"/sinif/{x}/", sayfa(f"{x}. sınıf etkinlik, atölye ve araçları | Herkese Eğitim", f"{x}. sınıf için ücretsiz atölyeler, tahta araçları ve kısa videolar.", f"/sinif/{x}/", g, None, f" / {x}. sınıf"))
 for b in sorted({x for u in urunler for x in u["branslar"] if x!="hepsi"}):
     l = [u for u in urunler if b in u["branslar"]]; vl = [v for u in l for v in uv(u)]
     ad = BRANS_AD.get(b,b)
-    g = f'<div class="makale" style="margin-bottom:28px"><h1>{E(ad)}</h1><p>{E(ad)} için atölyeler, araçlar ve kısa videolar.</p></div><ul class="kartlar">{"".join(kart(u) for u in l)}</ul>'
+    g = lbas(E(ad), f"{E(ad)} için atölyeler, araçlar ve kısa videolar.", [("Defter", ad), ("İçinde", f"{len(l)} atölye ve araç" + (f", {len(vl)} video" if vl else ""))]) + f'<ul class="kartlar">{"".join(kart(u) for u in l)}</ul>'
     if vl: g += f'<h2 class="ara-b">Kısa videolar</h2><div class="raf">{"".join(vkart(v) for v in vl[:16])}</div>'
     yaz(f"/brans/{b}/", sayfa(f"{ad} | Herkese Eğitim", f"{ad} için ücretsiz atölyeler, tahta araçları ve kısa videolar.", f"/brans/{b}/", g, None, f" / {E(ad)}"))
 
@@ -141,18 +145,21 @@ rss = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="ht
 open(os.path.join(OUT,"yenilikler.xml"),"w",encoding="utf-8").write(rss)
 
 # gizlilik
-yaz("/gizlilik/", sayfa("Gizlilik | Herkese Eğitim","Bu sitede sayaç, takip ve çerez yok.","/gizlilik/",'''<article class="makale"><h1>Gizlilik</h1>
+yaz("/gizlilik/", sayfa("Gizlilik | Herkese Eğitim","Bu sitede sayaç, takip ve çerez yok.","/gizlilik/",'''<div class="yan-yana"><article class="makale"><h1>Gizlilik</h1>
 <p>Bu sitede sayaç, takip kodu ve çerez yok. Sitede hesap açılmaz, form doldurulmaz.</p>
-<p>"Üç soru" seçimleriniz yalnız kendi tarayıcınızda saklanır, bize gelmez. Tarayıcının site verilerini silince kaybolur.</p>
+<p>Tarayıcınızda iki küçük not kalır: "Üç soru" seçimleriniz ve son ziyaret tarihiniz ("Yeni" etiketleri için). İkisi de bize gelmez. Yandaki düğmeyle hemen silebilirsiniz.</p>
 <p>Videolar YouTube'dan gelir ve siz oynat düğmesine dokunana kadar yüklenmez. Dokununca YouTube'un çerezsiz oynatıcısı (youtube-nocookie.com) açılır; o andan sonra YouTube'un kendi kuralları geçerlidir.</p>
-<p>Site GitHub Pages'ta durur ve Cloudflare üzerinden sunulur. Bu hizmetler, her web sitesinde olduğu gibi, sayfanın size ulaşması için teknik kayıt tutar; biz bu kayıtlardan yalnız toplam sayfa görüntüleme sayısını görürüz, kimin baktığını görmeyiz.</p>
+<p>Site GitHub Pages'ta durur, alan adı Cloudflare'dedir. Bu hizmetler, her web sitesinde olduğu gibi, sayfanın size ulaşması için teknik kayıt tutar. Biz kimin baktığını görmeyiz.</p>
 <p>Araçlar ve atölyeler tarayıcınızda çalışır; içlerine yazdığınız bir şey bize gönderilmez.</p>
-<p>Soru ve öneri: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p></article>''', None, " / Gizlilik"))
+<p>Soru ve öneri: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p></article>
+<aside class="yan-pano"><div class="tahta-liste"><p class="tl-b">Bu sitede yok</p><ul class="cizik"><li>Sayaç</li><li>Takip kodu</li><li>Çerez</li><li>Reklam</li><li>Hesap açma</li><li>Form</li></ul></div>
+<div class="not-kagit"><p class="tl-b">Bu tarayıcıda kalan</p><ul class="kalan"><li data-k="he-kapi"><b>Üç soru seçimi</b><span></span></li><li data-k="he-son"><b>Son ziyaret tarihi</b><span></span></li></ul><button type="button" class="dugme kir sil-not">Bu tarayıcıdan sil</button><p class="sil-durum" role="status"></p></div></aside></div>''', None, " / Gizlilik"))
 
 konu_konu = urllib.parse.quote("Atölye önerisi")
 konu_govde = urllib.parse.quote("Sınıf:\nBranş:\nKonu ya da öğrenme çıktısı:\nÖğrencilerin en çok takıldığı yer:\n")
-yaz("/konu/", sayfa("Konu önerin | Herkese Eğitim","Sınıfınızın konusunu yazın, atölyesini birlikte düşünelim.","/konu/",f'''<article class="makale"><h1>Konu önerin</h1>
+yaz("/konu/", sayfa("Konu önerin | Herkese Eğitim","Sınıfınızın konusunu yazın, atölyesini birlikte düşünelim.","/konu/",f'''<div class="yan-yana"><article class="makale"><h1>Konu önerin</h1>
 <p>Sınıfınızın konusunu yazın, atölyesini birlikte düşünelim. Öğrencilerin en çok nerede takıldığını yazarsanız atölye oradan başlar.</p>
 <p>Öğrenci adı yazmayın.</p>
 <div class="paylas" style="margin-top:22px"><a class="dugme kir" href="https://mail.google.com/mail/?view=cm&amp;to=herkeseegitimtek@gmail.com&amp;su={konu_konu}&amp;body={konu_govde}" rel="noopener">Gmail ile yaz</a><a class="dugme acik" href="https://outlook.live.com/mail/0/deeplink/compose?to=herkeseegitimtek@gmail.com&amp;subject={konu_konu}&amp;body={konu_govde}" rel="noopener">Outlook ile yaz</a><a class="dugme acik" href="mailto:herkeseegitimtek@gmail.com?subject={konu_konu}&amp;body={konu_govde}">E-posta programı</a></div>
-<p style="margin-top:18px;font-size:16px">Adres: herkeseegitimtek@gmail.com</p></article>''', None, " / Konu önerin"))
+<p style="margin-top:18px;font-size:16px">Adres: herkeseegitimtek@gmail.com</p></article>
+<aside class="yan-pano"><div class="not-kagit ornek"><p class="tl-b">Örnek bir öneri</p><dl><dt>Sınıf</dt><dd>7</dd><dt>Branş</dt><dd>Matematik</dd><dt>Konu</dt><dd>Yüzdeler</dd><dt>En çok takıldıkları yer</dt><dd>İndirimden sonra yeniden zam yapınca fiyatın eskisine döneceğini sanıyorlar.</dd></dl></div></aside></div>''', None, " / Konu önerin"))
