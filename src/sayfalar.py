@@ -97,15 +97,15 @@ cumle = (f'<div class="vg-cumle"><p class="vg-yon"><b>Boşluğu doldurun.</b> Ş
 oyun = [dict(id=v["id"], s=v.get("kisa_ad"), d=DIZI.get(v.get("dizi"),("",))[0], k=v.get("kapak_w") or "", u=video_sayfa(v), dik=bool(v.get("dik"))) for v in videolar if v.get("dizi")!="tanitim" and (v.get("kisa_ad") or "").strip().endswith("?")]
 oyun_json = json.dumps(oyun, ensure_ascii=False).replace("</","<\\/")
 gv = f'''<section class="vg-bas"><div><h1>Videolar</h1><p>Kısa sorular, atasözleri, özel günler ve tanıtımlar. {len(videolar)} video, hepsi <a href="https://www.youtube.com/@egitimtek">YouTube kanalında</a> da var.</p></div>
-<div class="vg-oyna"><p><b>Üç saniyen var.</b> Rastgele bir soru gelsin, düşün, cevabı izle.</p><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button></div></section>
+<div class="vg-oyna"><div class="vg-oy-s" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/><circle class="k" cx="60" cy="60" r="50"/></svg><b>3</b></div><div class="vg-oy-m"><p class="vg-oy-b">Üç saniyen var.</p><p>Rastgele bir soru gelsin. Düşün, sonra cevabı izle.</p><p class="vg-oy-a"><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button><span>{len(oyun)} soru torbada</span></p></div></div></section>
 <div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ara: makara, harman…" autocomplete="off"></div></div>
 <ul class="vg">{izgara}</ul>
 <p class="vg-yok" hidden>Bu aramayla video çıkmadı. Başka bir sözcük deneyin ya da <button type="button" class="vg-sifir">süzgeci temizleyin</button>.</p>
 <p class="vg-daha-k"><button type="button" class="dugme acik vg-daha" hidden>Daha fazla göster</button></p>
-<dialog class="vg-sah" aria-label="Üç saniye"><div class="vg-sah-i"><p class="vg-sah-d"></p><p class="vg-sah-s"></p>
+<dialog class="vg-sah" aria-label="Üç saniye"><div class="vg-sah-i"><p class="vg-sah-d"></p><p class="vg-sah-s"></p><p class="vg-sah-n" aria-live="polite"></p>
 <div class="vg-saat" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="vg-kalan" cx="60" cy="60" r="52"/></svg><span>3</span></div>
 <div class="vg-cev" hidden></div>
-<p class="vg-sah-b"><button type="button" class="dugme kir vg-izle" hidden>Cevabı izle</button> <button type="button" class="dugme acik vg-baska">Başka soru</button> <a class="vg-git" href="#">Sayfasına git</a></p>
+<p class="vg-sah-b"><button type="button" class="dugme kir vg-izle" hidden>Cevabı izle</button> <button type="button" class="dugme acik vg-baska">Başka soru</button> <a class="vg-git" href="#">Sayfasına git</a></p><p class="vg-seri" aria-live="polite"></p>
 <button type="button" class="vg-kapat" aria-label="Kapat">×</button></div></dialog>
 <script type="application/json" id="vg-veri">{oyun_json}</script>'''
 yaz("/videolar/", sayfa("Videolar | Herkese Eğitim", "3 saniyede tahmin et, Atasözlerimizi Yaşatalım, Özel Günler ve tanıtım videoları. Sınıfta derse giriş için kısa sorular.", "/videolar/", gv, None, " / Videolar"))

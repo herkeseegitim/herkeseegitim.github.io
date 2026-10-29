@@ -247,11 +247,13 @@ var veri=[];try{veri=JSON.parse(document.getElementById("vg-veri").textContent);
 var ac=document.querySelector(".vg-ac"),dl=document.querySelector(".vg-sah");if(!veri.length||!dl||!dl.showModal)return;ac.hidden=false;
 var sD=dl.querySelector(".vg-sah-d"),sS=dl.querySelector(".vg-sah-s"),saat=dl.querySelector(".vg-saat"),sN=saat.querySelector("span"),cev=dl.querySelector(".vg-cev"),izle=dl.querySelector(".vg-izle"),git=dl.querySelector(".vg-git"),son=-1,tm=[],sec;
 function temiz(){tm.forEach(clearTimeout);tm=[];cev.innerHTML="";cev.hidden=true;}
+var sNt=dl.querySelector(".vg-sah-n"),seriP=dl.querySelector(".vg-seri"),seri=0;
+function tik(v){sN.textContent=v;sN.classList.remove("tik");void sN.offsetWidth;sN.classList.add("tik");saat.dataset.s=v;}
 function yeni(){temiz();var i;do{i=Math.floor(Math.random()*veri.length);}while(veri.length>1&&i===son);son=i;sec=veri[i];
- sD.textContent=sec.d;sS.textContent=sec.s;git.href=sec.u;izle.hidden=true;saat.hidden=false;saat.classList.remove("kos","bitti");sN.textContent="3";void saat.offsetWidth;saat.classList.add("kos");
- [2,1].forEach(function(s,j){tm.push(setTimeout(function(){sN.textContent=s;},(j+1)*1000));});
- tm.push(setTimeout(function(){sN.textContent="?";saat.classList.add("bitti");izle.hidden=false;izle.focus();},3000));}
-izle.addEventListener("click",function(){saat.hidden=true;izle.hidden=true;cev.className="vg-cev"+(sec.dik?"":" yat");var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(sec.id)+"?autoplay=1&rel=0&playsinline=1";f.title=sec.s;f.allow="autoplay; encrypted-media; picture-in-picture";f.allowFullscreen=true;cev.appendChild(f);cev.hidden=false;});
+ sD.textContent=sec.d;sS.textContent=sec.s;git.href=sec.u;izle.hidden=true;saat.hidden=false;sNt.hidden=false;sNt.textContent="Düşün…";saat.classList.remove("kos","bitti");tik("3");void saat.offsetWidth;saat.classList.add("kos");
+ [2,1].forEach(function(s,j){tm.push(setTimeout(function(){tik(s);},(j+1)*1000));});
+ tm.push(setTimeout(function(){tik("?");saat.classList.add("bitti");sNt.textContent="Süre doldu. Cevabın hazır mı?";izle.hidden=false;izle.focus();},3000));}
+izle.addEventListener("click",function(){saat.hidden=true;izle.hidden=true;sNt.hidden=true;seri++;seriP.textContent="Bu oturumda "+seri+" soru düşündünüz.";cev.className="vg-cev"+(sec.dik?"":" yat");cev.style.backgroundImage=sec.k?"url("+sec.k+")":"";var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(sec.id)+"?autoplay=1&rel=0&playsinline=1";f.title=sec.s;f.allow="autoplay; encrypted-media; picture-in-picture";f.allowFullscreen=true;cev.appendChild(f);cev.hidden=false;});
 dl.querySelector(".vg-baska").addEventListener("click",yeni);
 dl.querySelector(".vg-kapat").addEventListener("click",function(){dl.close();});
 dl.addEventListener("close",temiz);dl.addEventListener("click",function(e){if(e.target===dl)dl.close();});
