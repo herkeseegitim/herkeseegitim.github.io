@@ -465,3 +465,36 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
 .teneffus-satir a:hover .zil-k,.teneffus-satir a:focus-visible .zil-k{animation:zilSalla .5s ease-in-out 3}
 @keyframes zilSalla{0%,100%{transform:rotate(0)}25%{transform:rotate(18deg)}75%{transform:rotate(-18deg)}}
 @media (max-width:760px){.program a{grid-template-columns:1fr auto;gap:2px 12px;padding:14px 16px}.program .saat{grid-column:1/-1}.program b{font-size:21px}.program .ne{grid-column:1/-1;grid-row:3}.program .kim{grid-row:2;grid-column:2}}
+/* çıkış: footer tahtası */
+footer.cikis{background:var(--sahne);color:var(--krem);padding:72px 0 36px;position:relative;overflow:hidden;background-image:radial-gradient(ellipse at 15% 20%,rgba(255,244,222,.07),transparent 55%),radial-gradient(ellipse at 85% 70%,rgba(255,244,222,.05),transparent 50%);border-top:14px solid #8A5A2B;box-shadow:inset 0 14px 0 rgba(0,0,0,.25)}
+.cikis-ust{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
+.zil-blok{position:relative}
+.zil-b{width:64px;height:64px;fill:var(--cet);transform-origin:50% 4%;display:block;margin-bottom:6px}
+.cikis.gor .zil-b{animation:zilSalla .45s ease-in-out 4}
+.cikis-b{font-size:clamp(64px,10vw,140px);line-height:.9;font-weight:800;letter-spacing:-.04em;font-variation-settings:"wdth" 80;margin:0;color:#F7F0E1;text-shadow:0 0 1px rgba(255,255,255,.6),2px 2px 0 rgba(255,255,255,.06),-1px 1px 0 rgba(255,255,255,.05);transform:rotate(-2deg);transform-origin:left}
+.cikis-a{font-size:20px;color:#E6D8BD;margin:18px 0 0}
+.odev{display:block;background:var(--cet);color:var(--mur);text-decoration:none;padding:22px 24px 24px;border-radius:4px;transform:rotate(2.5deg);box-shadow:0 10px 0 rgba(0,0,0,.35);position:relative;max-width:420px;justify-self:end;transition:transform .25s}
+.odev::before{content:"";position:absolute;top:-12px;left:50%;width:80px;height:24px;margin-left:-40px;background:rgba(255,244,222,.55);transform:rotate(-3deg)}
+.odev:hover,.odev:focus-visible{transform:rotate(0) scale(1.02)}
+.odev-e{display:block;font-size:15px;font-weight:700;color:var(--kirk)}
+.odev b{display:block;font-size:24px;line-height:1.2;margin:8px 0 10px;letter-spacing:-.01em}
+.odev-n{font-size:16px}
+.miknatis{position:relative;display:flex;flex-wrap:wrap;gap:22px 28px;margin:64px 0 8px;min-height:110px}
+.m{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:var(--krem);touch-action:none;user-select:none;-webkit-user-select:none;position:relative;z-index:1}
+.m b{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:800;letter-spacing:-.02em;box-shadow:0 7px 0 rgba(0,0,0,.4),inset 0 -6px 0 rgba(0,0,0,.18),inset 0 5px 0 rgba(255,255,255,.25);transition:transform .2s,box-shadow .2s}
+.m span{font-size:15px;color:#E6D8BD}
+.m:nth-child(odd) b{transform:rotate(-6deg)}.m:nth-child(even) b{transform:rotate(5deg)}
+.m:hover b,.m:focus-visible b{transform:translateY(-6px) rotate(0);box-shadow:0 13px 0 rgba(0,0,0,.35),inset 0 -6px 0 rgba(0,0,0,.18),inset 0 5px 0 rgba(255,255,255,.25)}
+.m.surukle b{transform:scale(1.12) rotate(0);box-shadow:0 20px 14px rgba(0,0,0,.45),inset 0 -6px 0 rgba(0,0,0,.18),inset 0 5px 0 rgba(255,255,255,.25)}
+.m.surukle{z-index:5;cursor:grabbing}
+.m-yt b{background:var(--kir);color:#fff}.m-ig b{background:var(--tur);color:var(--mur)}.m-tt b{background:var(--cet);color:var(--mur)}.m-x b{background:var(--krem);color:var(--mur)}.m-in b{background:#2E6E5E;color:#fff}.m-gh b{background:#6E5A44;color:var(--krem)}
+.miknatis-not{font-size:14px;color:#A8987E;margin:0 0 48px;font-style:italic}
+.cikis-alt{display:flex;flex-wrap:wrap;align-items:center;gap:18px 34px;border-top:2px dashed rgba(255,244,222,.18);padding-top:28px}
+.cikis-alt .imza{height:42px;width:auto}
+.cikis-alt ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 22px}
+.cikis-alt a{color:#E6D8BD;text-decoration:none;display:inline-block;padding:10px 0;font-size:16px}
+.cikis-alt a:hover{color:var(--cet);text-decoration:underline}
+footer.cikis .kucuk{margin-top:22px;color:#A8987E;font-size:14px}
+@media (max-width:760px){.cikis-ust{grid-template-columns:1fr}.odev{justify-self:start;transform:rotate(1.5deg)}.m b{width:64px;height:64px;font-size:20px}.miknatis{gap:18px 20px}}
+@media (prefers-reduced-motion:reduce){.cikis.gor .zil-b{animation:none}}
+footer.cikis .m,footer.cikis .m:hover,footer.cikis .odev:hover{text-decoration:none;opacity:1}
