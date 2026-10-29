@@ -285,3 +285,8 @@ f.querySelectorAll(".m").forEach(function(m){var bx,by,dx=0,dy=0,ox=0,oy=0,tut=f
 var k=document.querySelector(".kalan");if(!k)return;var d=document.querySelector(".sil-durum");
 function goster(){k.querySelectorAll("li").forEach(function(li){var v=null;try{v=localStorage.getItem(li.dataset.k);}catch(e){}li.querySelector("span").textContent=v?(li.dataset.k=="he-son"?v:"kayıtlı"):"yok";});}
 goster();document.querySelector(".sil-not").addEventListener("click",function(){try{localStorage.removeItem("he-kapi");localStorage.removeItem("he-son");}catch(e){}goster();d.textContent="Silindi. Bu tarayıcıda bizden not kalmadı.";});})();
+(function(){var l=[].slice.call(document.querySelectorAll(".sz"));if(!l.length)return;
+l.forEach(function(s){[].slice.call(s.querySelectorAll(".k")).forEach(function(k,i){k.style.transitionDelay=(i*90)+"ms";});});
+if(!("IntersectionObserver" in window)){l.forEach(function(s){s.classList.add("canli");});return;}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("canli");io.unobserve(e.target);}});},{threshold:.45,rootMargin:"0px 0px -10% 0px"});
+l.forEach(function(s){io.observe(s);});})();
