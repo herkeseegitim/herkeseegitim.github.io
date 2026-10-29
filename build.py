@@ -167,16 +167,18 @@ def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
 <div class="cikis-ust"><div class="zil-blok"><svg class="zil-b" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-18 8-18 20v12l-6 8h48l-6-8V26C50 14 43 6 32 6z"/><circle cx="32" cy="52" r="5"/><rect x="29" y="1" width="6" height="7" rx="2"/></svg><p class="cikis-b">Zil çaldı.</p><p class="cikis-a">Yarın yine buradayız. Çıkmadan bir ödev:</p></div>
-__ODEV__</div>
-<div class="miknatis" role="list" aria-label="Sosyal medya">
+__ODEV__
+<div class="mik-kol"><div class="miknatis" role="list" aria-label="Sosyal medya">
 <a role="listitem" class="m m-yt" href="https://www.youtube.com/@egitimtek"><b>YT</b><span>YouTube</span></a>
 <a role="listitem" class="m m-ig" href="https://www.instagram.com/egitimtek/"><b>IG</b><span>Instagram</span></a>
 <a role="listitem" class="m m-tt" href="https://www.tiktok.com/@egitimtek"><b>TT</b><span>TikTok</span></a>
 <a role="listitem" class="m m-x" href="https://x.com/cincinosos"><b>X</b><span>X</span></a>
 <a role="listitem" class="m m-in" href="https://www.linkedin.com/in/idiye/"><b>in</b><span>LinkedIn</span></a>
+<a role="listitem" class="m m-wp" href="https://egitimteknoloji.wordpress.com/"><b>W</b><span>Blog</span></a>
 <a role="listitem" class="m m-gh" href="https://github.com/herkeseegitim"><b>GH</b><span>GitHub</span></a>
 </div>
-<p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p>
+<p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p></div></div>
+
 <div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
 <ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li><li><a href="/yenilikler.xml">Yenilikler (RSS)</a></li><li><a href="/llms.txt">Düz metin özet</a></li></ul></div>
 <p class="kucuk">Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
