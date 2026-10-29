@@ -180,7 +180,7 @@ __ODEV__
 <p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p></div></div>
 
 <div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
-<ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li><li><a href="/yenilikler.xml">Yenilikler (RSS)</a></li><li><a href="/llms.txt">Düz metin özet</a></li></ul></div>
+<ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li></ul></div>
 <p class="kucuk">Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
 <dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
 <script src="/site.js?v={SURUM}"></script></body></html>"""
@@ -423,7 +423,7 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 <p class="silgi" aria-hidden="true"></p></div>
 <p class="git">Bu arada: <a href="/">Ana sayfa</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
 </div></main>'''+ALT)
-open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
+open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
 open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc><lastmod>{BUGUN.isoformat()}</lastmod></url>" for y in yollar)+"</urlset>\n")
 L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmene, öğrenciye, herkese ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
