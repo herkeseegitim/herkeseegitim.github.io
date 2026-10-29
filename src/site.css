@@ -446,3 +446,4 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
 @media (max-width:860px){.od-t{font-size:13px}}
 .mini .yaz.son{transform:translateX(-88%)}
 .js .hk-zaman .yil{opacity:.55}.js .hk-zaman .yil.su{opacity:1}
+.t-yol{--c:var(--mur)}
