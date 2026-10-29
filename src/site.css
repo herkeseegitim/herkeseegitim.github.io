@@ -678,3 +678,44 @@ footer.cikis .kucuk{margin-top:12px}
 .yol .eve svg{width:18px;height:18px;fill:none;stroke:var(--cet);stroke-width:2;stroke-linecap:round}
 .yol .eve:hover,.yol .eve:focus-visible{transform:rotate(0) translateY(-2px)}
 .yol a.eve,.yol a.eve:visited{color:var(--krem);text-decoration:none;font-size:15px}
+.sz-grup{scroll-margin-top:84px}
+.sz-grup.parla h2{animation:szp 1.4s ease}
+@keyframes szp{0%,40%{color:var(--cet);-webkit-text-stroke-color:var(--mur);transform:scale(1.15)}100%{color:transparent;transform:none}}
+@media (prefers-reduced-motion:reduce){.sz-grup.parla h2{animation:none}}
+/* videolar: boşluk doldurma süzgeci */
+.vg-ust{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,340px);gap:14px 40px;align-items:end;padding:18px 0 16px}
+.vg-yon{margin:0 0 6px;font-size:15px;color:var(--sol)}
+.vg-yon b{color:var(--kirk);font-weight:800;margin-right:4px}
+.vg-c{margin:0;font-size:clamp(22px,2.6vw,32px);line-height:1.5;font-weight:650;letter-spacing:-.01em;color:var(--mur)}
+.vg-bl{position:relative;display:inline-block}
+.vg-sl{font:inherit;color:var(--sol);background:none;border:0;padding:0 6px 2px;cursor:pointer;border-bottom:3px dashed var(--mur);font-weight:500;font-style:italic;min-height:44px}
+.vg-sl::after{content:"";display:inline-block;width:.42em;height:.42em;margin:0 0 .18em .35em;border-right:3px solid currentColor;border-bottom:3px solid currentColor;transform:rotate(45deg);opacity:.6}
+.vg-sl.dolu{color:var(--mur);font-style:normal;font-weight:750;border-bottom:3px solid var(--kir);background:linear-gradient(transparent 62%,var(--cet) 62%)}
+.vg-sl:hover,.vg-sl[aria-expanded=true]{border-bottom-style:solid;color:var(--mur)}
+.vg-sl.yaz span{animation:vgyaz .5s steps(12) both}
+@keyframes vgyaz{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.vg-c .vg-say{font-size:inherit;color:var(--kir);margin:0;font-weight:800;min-height:0}
+.vg-sira{color:var(--sol);font-weight:500;font-size:.62em}
+.vg-sil{font:inherit;font-size:15px;font-weight:700;vertical-align:middle;margin-left:6px;background:var(--sahne);color:var(--krem);border:0;border-radius:999px;padding:6px 14px;min-height:36px;cursor:pointer}
+.vg-sk{position:absolute;left:-6px;top:calc(100% + 8px);z-index:20;background:var(--kag);border:2px solid var(--mur);border-radius:14px;box-shadow:6px 6px 0 var(--mur);padding:8px;min-width:280px;max-width:min(92vw,440px);
+ background-image:repeating-linear-gradient(transparent 0 47px,var(--cizgi) 47px 48px)}
+.vg-sk .vg-cip{display:block;list-style:none;margin:0;padding:0;overflow:visible}
+.vg-sk .vg-cip button{display:flex;width:100%;align-items:center;gap:10px;border:0;border-radius:8px;background:none;color:var(--mur);padding:0 10px;min-height:48px;font-size:17px;font-weight:600;text-align:left;white-space:normal}
+.vg-sk .vg-cip button span{flex:1}
+.vg-sk .vg-cip button u{text-decoration:none;font-weight:800;color:var(--sol);width:30px;height:30px;display:grid;place-items:center;flex:none;position:relative}
+.vg-sk .vg-cip button[aria-pressed=true]{background:none;color:var(--mur)}
+.vg-sk .vg-cip button[aria-pressed=true] u{color:var(--kir)}
+.vg-sk .vg-cip button[aria-pressed=true] u::after{content:"";position:absolute;inset:-1px -3px -3px -1px;border:2.5px solid var(--kir);border-radius:50% 46% 52% 44%;transform:rotate(-8deg)}
+.vg-sk .vg-cip button:hover,.vg-sk .vg-cip button:focus-visible{background:var(--cet)}
+.vg-sk .vg-cip button i{font-style:normal;font-size:14px;color:var(--sol);font-weight:600}
+@media (max-width:860px){.vg-ust{grid-template-columns:1fr}.vg-sk{position:fixed;left:12px;right:12px;top:auto;bottom:12px;max-width:none;min-width:0}}
+@media (prefers-reduced-motion:reduce){.vg-sl.yaz span{animation:none}}
+.vg-sk{min-width:360px;background-image:none;padding:6px 8px}
+.vg-sk li+li{border-top:1px solid var(--cizgi)}
+.vg-sk .vg-cip li:first-child button{padding-right:10px}
+.vg-sk .vg-cip li:first-child u{margin-right:21px}
+@media (max-width:860px){.vg-sk{min-width:0}}
+.vg-sl{text-align:left}
+@media (max-width:860px){.vg-bl{display:inline}.vg-sl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:2px 4px}}
+@keyframes vgyaz{from{opacity:0}to{opacity:1}}
+@media (max-width:860px){.vg-sl.dolu{background:none}.vg-sl{display:inline-block}}

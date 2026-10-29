@@ -6,7 +6,7 @@ def yaz(yol, icerik):
     os.makedirs(os.path.dirname(p), exist_ok=True); open(p,"w",encoding="utf-8").write(icerik)
     if yol.endswith("/"): EK_YOLLAR.append(yol)
 def sayfa(baslik, aciklama, yol, govde, sema=None, yolcuk="", og=None):
-    return bas(baslik, aciklama, yol, sema=sema, og=og) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
+    return bas(baslik, aciklama, yol, sema=sema, og=og) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
 def kart(u):
     durum = "" if u["durum"]=="yayinda" else f'<span class="etk">{tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında"}</span>'
     img = f'<img src="{u["kapak_w"]}" alt="" loading="lazy">' if u.get("kapak_w") else f'<span class="kart-soru">{E(u["kisa"])}</span>'
@@ -76,16 +76,29 @@ bsay = {}
 for v in videolar:
     for b in _vbrans(v).split():
         bsay[b] = bsay.get(b,0)+1
-cip = '<button type="button" data-k="dizi" data-d="" aria-pressed="true">Hepsi <i>{}</i></button>'.format(len(videolar)) + "".join(
-    f'<button type="button" data-k="dizi" data-d="{d}" aria-pressed="false" style="--r:var(--{VRENK[d]})"><s aria-hidden="true"></s>{E(DIZI[d][0])} <i>{n}</i></button>' for d,n in dsay.items() if n)
-bcip = "".join(f'<button type="button" data-k="brans" data-d="{b}" aria-pressed="false">{E(BRANS_AD.get(b,b))} <i>{n}</i></button>' for b,n in sorted(bsay.items(), key=lambda x:-x[1])) if len(bsay)>1 else ""
+SIK = "abcçdefgğh"
+def _sik(k, ops, sec_l):
+    li = ""
+    for i,(d,ad,l,n,r) in enumerate(ops):
+        st = ' style="--r:var(--%s)"' % r if r else ""
+        nk = '<s aria-hidden="true"></s>' if r else ""
+        bas_ = "true" if not d else "false"
+        li += f'<li><button type="button" data-k="{k}" data-d="{d}" data-l="{E(l)}" aria-pressed="{bas_}"{st}><u>{SIK[i]})</u>{nk}<span>{E(ad)}</span><i>{n}</i></button></li>'
+    et = "Dizi seçin" if k=="dizi" else "Branş seçin"
+    return (f'<span class="vg-bl" data-k="{k}"><button type="button" class="vg-sl" aria-expanded="false" aria-controls="vg-s-{k}"><span>{E(sec_l)}</span></button>'
+            f'<span class="vg-sk" id="vg-s-{k}" hidden><ul class="vg-cip" aria-label="{et}">{li}</ul></span></span>')
+d_ops = [("","Hepsi","her diziden",len(videolar),"")] + [(d,DIZI[d][0],f"«{DIZI[d][0]}» dizisinden",n,VRENK[d]) for d,n in dsay.items() if n]
+b_ops = [("","Hepsi","her branş",len(videolar),"")] + [(b,BRANS_AD.get(b,b),BRANS_AD.get(b,b).lower(),n,"") for b,n in sorted(bsay.items(), key=lambda x:-x[1])]
+_bsl = _sik("brans", b_ops, "her branş") if len(bsay)>1 else "her branş"
+cumle = (f'<div class="vg-cumle"><p class="vg-yon"><b>Boşluğu doldurun.</b> Şıkkı seçin, liste değişsin.</p>'
+         f'<div class="vg-c">{_sik("dizi", d_ops, "her diziden")}, {_bsl} için '
+         f'<b class="vg-say" role="status" aria-live="polite">{len(videolar)} video</b>.<span class="vg-sira"> En yenisi başta.</span> '
+         f'<button type="button" class="vg-sil" hidden>Baştan</button></div></div>')
 oyun = [dict(id=v["id"], s=v.get("kisa_ad"), d=DIZI.get(v.get("dizi"),("",))[0], k=v.get("kapak_w") or "", u=video_sayfa(v), dik=bool(v.get("dik"))) for v in videolar if v.get("dizi")!="tanitim" and (v.get("kisa_ad") or "").strip().endswith("?")]
 oyun_json = json.dumps(oyun, ensure_ascii=False).replace("</","<\\/")
 gv = f'''<section class="vg-bas"><div><h1>Videolar</h1><p>Kısa sorular, atasözleri, özel günler ve tanıtımlar. {len(videolar)} video, hepsi <a href="https://www.youtube.com/@egitimtek">YouTube kanalında</a> da var.</p></div>
 <div class="vg-oyna"><p><b>Üç saniyen var.</b> Rastgele bir soru gelsin, düşün, cevabı izle.</p><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button></div></section>
-<div class="vg-ust"><div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Videolarda ara: makara, harman, fermuar…" autocomplete="off"></div>
-<div class="vg-cip" role="group" aria-label="Diziye göre">{cip}</div>{f'<div class="vg-cip vg-b" role="group" aria-label="Branşa göre">{bcip}</div>' if bcip else ""}</div>
-<p class="vg-say" role="status" aria-live="polite"></p>
+<div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ya da arayın: makara, harman, fermuar…" autocomplete="off"></div></div>
 <ul class="vg">{izgara}</ul>
 <p class="vg-yok" hidden>Bu aramayla video çıkmadı. Başka bir sözcük deneyin ya da <button type="button" class="vg-sifir">süzgeci temizleyin</button>.</p>
 <p class="vg-daha-k"><button type="button" class="dugme acik vg-daha" hidden>Daha fazla göster</button></p>

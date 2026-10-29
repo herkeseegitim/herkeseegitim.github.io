@@ -223,14 +223,21 @@ function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[^\wçğıöşü ]
 var bugun=Date.now();kart.forEach(function(k){var t=k.dataset.tarih;if(t&&bugun-new Date(t+"T00:00:00").getTime()<7*864e5)k.classList.add("yeni");k._a=n(k.dataset.ara);});
 function hashOku(){var h=location.hash.replace(/^#/,"");var m=h.match(/^d-([\w-]+)$/);if(m){d.dizi=m[1];return;}h.split("&").forEach(function(p){var kv=p.split("=");if(kv[0]==="dizi"||kv[0]==="brans")d[kv[0]]=decodeURIComponent(kv[1]||"");});}
 function hashYaz(){var p=[];if(d.dizi)p.push("dizi="+d.dizi);if(d.brans)p.push("brans="+d.brans);history.replaceState(null,"",p.length?"#"+p.join("&"):location.pathname);}
-function dugmeler(){document.querySelectorAll(".vg-cip button").forEach(function(b){b.setAttribute("aria-pressed",String(d[b.dataset.k]===b.dataset.d||(b.dataset.k==="brans"&&false)));});}
+var sil=document.querySelector(".vg-sil");
+function dugmeler(){document.querySelectorAll(".vg-cip button").forEach(function(b){var on=d[b.dataset.k]===b.dataset.d;b.setAttribute("aria-pressed",String(on));if(on){var bl=b.closest(".vg-bl");if(bl){var sl=bl.querySelector(".vg-sl");sl.firstChild.textContent=b.dataset.l;sl.classList.toggle("dolu",!!b.dataset.d);}}});if(sil)sil.hidden=!(d.dizi||d.brans||d.q);}
+function kapa(x){document.querySelectorAll(".vg-bl").forEach(function(bl){if(bl===x)return;bl.querySelector(".vg-sk").hidden=true;bl.querySelector(".vg-sl").setAttribute("aria-expanded","false");});}
+document.querySelectorAll(".vg-bl").forEach(function(bl){var sl=bl.querySelector(".vg-sl"),sk=bl.querySelector(".vg-sk");sl.addEventListener("click",function(){var ac=sk.hidden;kapa(bl);sk.hidden=!ac;sl.setAttribute("aria-expanded",String(ac));if(ac){var p=sk.querySelector("[aria-pressed=true]")||sk.querySelector("button");p.focus();}});
+ bl.addEventListener("keydown",function(e){if(e.key==="Escape"&&!sk.hidden){sk.hidden=true;sl.setAttribute("aria-expanded","false");sl.focus();}
+  if((e.key==="ArrowDown"||e.key==="ArrowUp")&&!sk.hidden){var bs=[].slice.call(sk.querySelectorAll("button")),i=bs.indexOf(document.activeElement);i=(i+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length;bs[i].focus();e.preventDefault();}});});
+document.addEventListener("click",function(e){if(!e.target.closest(".vg-bl"))kapa(null);});
 function uygula(){var sz=n(d.q).trim().split(/\s+/).filter(Boolean),uy=[];
  kart.forEach(function(k){var ok=(!d.dizi||k.dataset.dizi===d.dizi)&&(!d.brans||(" "+k.dataset.brans+" ").indexOf(" "+d.brans+" ")>-1)&&sz.every(function(s){return k._a.indexOf(s)>-1;});k._u=ok;if(ok)uy.push(k);});
  var sinir=sayfa*SAY;kart.forEach(function(k){k.hidden=!k._u;});uy.forEach(function(k,i){if(i>=sinir)k.hidden=true;});
  ay.forEach(function(a){var x=a.nextElementSibling,var_=false;while(x&&!x.classList.contains("vg-ay")){if(!x.hidden){var_=true;break;}x=x.nextElementSibling;}a.hidden=!var_;});
- var gos=Math.min(uy.length,sinir);say.textContent=(d.dizi||d.brans||sz.length)?(uy.length+" video bulundu."):(kart.length+" video, en yenisi en üstte.");
+ var gos=Math.min(uy.length,sinir);say.textContent=uy.length+" video";
  yok.hidden=uy.length>0;daha.hidden=uy.length<=sinir;if(!daha.hidden)daha.textContent="Daha fazla göster ("+(uy.length-gos)+")";dugmeler();}
-document.querySelectorAll(".vg-cip").forEach(function(g){g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=b.dataset.k;d[k]=(k==="brans"&&d.brans===b.dataset.d)?"":b.dataset.d;sayfa=1;hashYaz();uygula();});});
+document.querySelectorAll(".vg-cip").forEach(function(g){g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;d[b.dataset.k]=b.dataset.d;sayfa=1;hashYaz();uygula();var bl=b.closest(".vg-bl");if(bl){kapa(null);var sl=bl.querySelector(".vg-sl");sl.focus();sl.classList.remove("yaz");void sl.offsetWidth;sl.classList.add("yaz");}});});
+if(sil)sil.addEventListener("click",function(){d={dizi:"",brans:"",q:""};q.value="";sayfa=1;hashYaz();uygula();});
 var zt;q.addEventListener("input",function(){clearTimeout(zt);zt=setTimeout(function(){d.q=q.value;sayfa=1;uygula();},120);});
 daha.addEventListener("click",function(){var ilk=kart.filter(function(k){return k._u&&k.hidden;})[0];sayfa++;uygula();if(ilk){var a=ilk.querySelector("a");if(a)a.focus({preventScroll:true});}});
 document.querySelector(".vg-sifir").addEventListener("click",function(){d={dizi:"",brans:"",q:""};q.value="";sayfa=1;hashYaz();uygula();q.focus();});
@@ -304,3 +311,9 @@ var t;q.addEventListener("input",function(){clearTimeout(t);t=setTimeout(functio
  function esc(e){if(e.key==="Escape")kapat();}
  k.addEventListener("click",kapat);document.addEventListener("keydown",esc);k.focus();if(d.requestFullscreen)d.requestFullscreen().catch(function(){});});})();
 (function(){document.querySelectorAll(".sz-bant-k a").forEach(function(a){a.addEventListener("click",function(e){if(!a.classList.contains("yazildi")){e.preventDefault();a.classList.add("yazildi");}});});})();
+(function(){var bar=document.querySelector(".sz-harf");if(!bar)return;
+bar.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)return;var g=document.getElementById(decodeURIComponent(a.hash.slice(1)));if(!g)return;e.preventDefault();
+ var h=bar.getBoundingClientRect().height,y=g.getBoundingClientRect().top+window.pageYOffset-h-14;
+ var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:y,behavior:az?"auto":"smooth"});
+ history.replaceState(null,"",a.hash);g.classList.remove("parla");void g.offsetWidth;g.classList.add("parla");
+ var l=g.querySelector("a");if(l)l.focus({preventScroll:true});});})();
