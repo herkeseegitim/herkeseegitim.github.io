@@ -92,13 +92,13 @@ b_ops = [("","Hepsi","her branş",len(videolar),"")] + [(b,BRANS_AD.get(b,b),BRA
 _bsl = _sik("brans", b_ops, "her branş") if len(bsay)>1 else "her branş"
 cumle = (f'<div class="vg-cumle"><p class="vg-yon"><b>Boşluğu doldurun.</b> Şıkkı seçin, liste değişsin.</p>'
          f'<div class="vg-c">{_sik("dizi", d_ops, "her diziden")}, {_bsl} için '
-         f'<b class="vg-say" role="status" aria-live="polite">{len(videolar)} video</b>.<span class="vg-sira"> En yenisi başta.</span> '
+         f'<b class="vg-say" role="status" aria-live="polite">{len(videolar)} video</b>.'
          f'<button type="button" class="vg-sil" hidden>Baştan</button></div></div>')
 oyun = [dict(id=v["id"], s=v.get("kisa_ad"), d=DIZI.get(v.get("dizi"),("",))[0], k=v.get("kapak_w") or "", u=video_sayfa(v), dik=bool(v.get("dik"))) for v in videolar if v.get("dizi")!="tanitim" and (v.get("kisa_ad") or "").strip().endswith("?")]
 oyun_json = json.dumps(oyun, ensure_ascii=False).replace("</","<\\/")
 gv = f'''<section class="vg-bas"><div><h1>Videolar</h1><p>Kısa sorular, atasözleri, özel günler ve tanıtımlar. {len(videolar)} video, hepsi <a href="https://www.youtube.com/@egitimtek">YouTube kanalında</a> da var.</p></div>
 <div class="vg-oyna"><p><b>Üç saniyen var.</b> Rastgele bir soru gelsin, düşün, cevabı izle.</p><button type="button" class="dugme kir vg-ac" hidden>Bir soru çek</button></div></section>
-<div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ya da arayın: makara, harman…" autocomplete="off"></div></div>
+<div class="vg-ust">{cumle}<div class="vg-ara"><label for="vg-q" class="gizli">Videolarda ara</label><input id="vg-q" type="search" placeholder="Ara: makara, harman…" autocomplete="off"></div></div>
 <ul class="vg">{izgara}</ul>
 <p class="vg-yok" hidden>Bu aramayla video çıkmadı. Başka bir sözcük deneyin ya da <button type="button" class="vg-sifir">süzgeci temizleyin</button>.</p>
 <p class="vg-daha-k"><button type="button" class="dugme acik vg-daha" hidden>Daha fazla göster</button></p>
