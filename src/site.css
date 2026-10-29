@@ -546,3 +546,15 @@ footer.cikis .kucuk{margin-top:12px}
 .defter-etiket dt{font-weight:800;font-size:16px;color:var(--kirk)}
 .defter-etiket dd{margin:0;font-size:19px;font-weight:600;color:var(--mur);border-bottom:2px dotted var(--cizgi);padding-bottom:2px;font-style:italic;min-width:0;overflow-wrap:anywhere}
 @media (max-width:760px){.liste-bas{grid-template-columns:1fr}.defter-etiket{justify-self:start;transform:rotate(-1deg)}}
+/* ana sayfa: son videolar */
+.vd-dz{display:block;font-size:13px;font-weight:700;color:var(--kirk);padding-top:8px}
+.raf figcaption .vd-dz+a{padding-top:2px}
+.vd-alt{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.vd-cip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--mur);border-radius:999px;padding:8px 14px;font-weight:650;font-size:15px;color:var(--mur);text-decoration:none;min-height:44px}
+.vd-cip i{font-style:normal;opacity:.65;font-weight:500}
+.vd-cip:hover{background:var(--cet)}
+.vd-alt .dugme{margin-left:auto}
+.vid-bos{position:absolute;inset:0;display:flex;align-items:flex-end;padding:16px 16px 18px;background:var(--tur);background-image:radial-gradient(circle at 85% 15%,rgba(255,255,255,.25) 0 18%,transparent 19%);color:var(--mur);font-weight:800;font-size:clamp(16px,1.6vw,22px);line-height:1.15;text-align:left;letter-spacing:-.01em}
+.vid.dik .vid-bos{background-color:var(--sahne);color:var(--krem)}
+@media (max-width:700px){.vd-alt .dugme{margin-left:0}}
+.vd-platform{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 22px}

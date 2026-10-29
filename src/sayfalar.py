@@ -104,7 +104,7 @@ for v in videolar:
     g = f'''<div class="soz-sayfa"><article class="makale"><p style="font-weight:700;color:#9A1B15">{E(dz[0])}</p><h1>{E(v.get("kisa_ad"))}</h1>
 {f'<p>{E(v["metin"])}</p>' if v.get("metin") else f'<p>{E(dz[1])}</p>'}
 {f'<div class="kutu"><h2>İlgili {"atölye" if u["tur"]=="atolye" else "araç"}</h2><p><a href="{urun_sayfa(u)}">{E(u["ad"])}</a>: {E(u["kisa"])}</p></div>' if u else ""}
-<p style="margin-top:22px"><a href="https://www.youtube.com/watch?v={E(v["id"])}">YouTube'da aç</a></p></article><aside>{vid_btn(v)}</aside></div>
+<p class="vd-platform"><a href="https://www.youtube.com/watch?v={E(v["id"])}">YouTube'da aç</a>{"".join(f'<a href="{E(u_)}">{ad_}</a>' for k_,ad_ in (("ig","Instagram'da aç"),("tt","TikTok'ta aç"),("x","X'te aç")) for u_ in [(v.get("platformlar") or {}).get(k_)] if u_)}</p></article><aside>{vid_btn(v)}</aside></div>
 {f'<h2 class="ara-b">Aynı diziden</h2><div class="raf">{"".join(vkart(x) for x in ayni)}</div>' if ayni else ""}'''
     yaz(video_sayfa(v), sayfa(f"{v.get('kisa_ad')} | Herkese Eğitim", (v.get("metin") or v.get("kisa_ad") or "")[:150], video_sayfa(v), g, [sema_video(v, video_sayfa(v))], " / <a href=\"/videolar/\">Videolar</a>", og=v.get("kapak_w")))
 
