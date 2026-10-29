@@ -146,6 +146,8 @@ def kisa_adres(url):
     return re.sub(r"^https?://(www\.)?","",url or "").rstrip("/")
 
 # ---- ortak parçalar
+import hashlib as _h
+SURUM = _h.sha1((open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()+open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()).encode()).hexdigest()[:8]
 def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None):
     can = SITE + yol
     s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []))
@@ -155,7 +157,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None):
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="tr_TR">
 <meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/img/logo.png">
-<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css"><link rel="alternate" type="application/rss+xml" title="Herkese Eğitim yenilikler" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">İçeriğe geç</a>"""
+<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="Herkese Eğitim yenilikler" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">İçeriğe geç</a>"""
 
 NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a></nav>'
 def ust_koyu():
@@ -166,7 +168,7 @@ ALT = f"""<footer><div class="w"><div class="ic">
 <div><ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li><li><a href="/yenilikler.xml">Yenilikler (RSS)</a></li><li><a href="/llms.txt">Düz metin özet</a></li></ul></div>
 </div><p class="kucuk">Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
 <dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
-<script src="/site.js"></script></body></html>"""
+<script src="/site.js?v={SURUM}"></script></body></html>"""
 
 def vid_btn(v, ad=None):
     if not v: return ""
