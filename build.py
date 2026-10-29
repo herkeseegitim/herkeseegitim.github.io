@@ -314,7 +314,7 @@ open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, en
 gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
 ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
 ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler",
-  "İdiye Ökten'in öğretmenler için yaptığı ücretsiz tahta araçları, MEB öğrenme hedeflerine bağlı atölyeler ve kısa videolar. ", "/", sema=sema_ana) + f'''
+  "İdiye Ökten'in öğretmenler için yaptığı ücretsiz tahta araçları, MEB öğrenme çıktılarına bağlı atölyeler ve kısa videolar. ", "/", sema=sema_ana) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
@@ -322,7 +322,7 @@ ana = bas("Herkese Eğitim: öğretmenler için ücretsiz araçlar ve atölyeler
 <div class="w"><div class="yazi">
 <h1 id="h1" class="gir" style="--d:150ms">Derste işe yarasın diye yaptığım ücretsiz paylaşımlar.</h1>
 <a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
-<p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB öğrenme hedeflerine bağlı atölyeler, kısa tahmin videoları.</p>
+<p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, kısa tahmin videoları.</p>
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
 </div></div>
@@ -349,7 +349,7 @@ for u in urunler:
     sayfa = bas(f"{u['ad']}: {u['sinif']} | Herkese Eğitim", u["kisa"]+" "+u["ne"][:120], urun_sayfa(u), sema=sema, og=u.get("kapak_w")) + ust_koyu() + f'''
 <main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / <a href="/#kitaplik">Kitaplık</a></p>
 <div class="soz-sayfa"><article class="makale"><h1>{E(u["ad"])}</h1><p style="font-size:22px;color:var(--mur)">{E(u["kisa"])}</p><p>{E(u["ne"])}</p>
-<div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme hedefi: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
+<div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme çıktısı: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir") or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
 {'<div class="kutu"><h2>Veliler için</h2><p>Ücretsiz. Hesap açılmaz, kişisel bilgi istenmez.'+(' Öğrenci tarayıcıda tahmin eder, dener, sonucu kendi görür.' if u["tur"]=="atolye" else '')+'</p></div>' if u["tur"]!="oyun" else ''}
 <div class="paylas"><button class="dugme acik" type="button" data-paylas="{SITE}{urun_sayfa(u)}" data-baslik="{E(u["ad"])}">Zümreye gönderin</button><a class="dugme acik" href="https://wa.me/?text={E(urllib.parse.quote(u["ad"]+": "+SITE+urun_sayfa(u)))}" rel="noopener">WhatsApp</a></div>
@@ -402,9 +402,9 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
 open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc><lastmod>{BUGUN.isoformat()}</lastmod></url>" for y in yollar)+"</urlset>\n")
-L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmenler için yaptığı ücretsiz araçlar, MEB öğrenme hedeflerine bağlı atölyeler ve kısa videolar. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
+L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmenler için yaptığı ücretsiz araçlar, MEB öğrenme çıktılarına bağlı atölyeler ve kısa videolar. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
 for u in urunler:
-    L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme hedefi: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
+    L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme çıktısı: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
 L.append("\n## Atasözlerimizi Yaşatalım\n")
 for a in atasozleri: L.append(f"- [{a['soz']}]({SITE}{soz_sayfa(a)}): {a.get('anlam') or ''}")
 L.append("\n## Videolar\n")
