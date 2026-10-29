@@ -393,7 +393,7 @@ hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
 open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
   bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten, eğitim teknolojileri. Herkese Eğitim'de öğretmenler için ücretsiz araçlar ve atölyeler yapıyor.","/hakkinda/",
       sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}]) + ust_koyu()
-  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Hakkında</p><article class="makale">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
+  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
 # ---- 404, robots, sitemap, llms.txt
 open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | Herkese Eğitim","Bu sayfa teneffüse çıktı.","/404.html")+ust_koyu()+'''<main id="ana" class="teneffus"><div class="w">
