@@ -290,3 +290,17 @@ l.forEach(function(s){[].slice.call(s.querySelectorAll(".k")).forEach(function(k
 if(!("IntersectionObserver" in window)){l.forEach(function(s){s.classList.add("canli");});return;}
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("canli");io.unobserve(e.target);}});},{threshold:.45,rootMargin:"0px 0px -10% 0px"});
 l.forEach(function(s){io.observe(s);});})();
+(function(){var q=document.getElementById("sz-q");if(!q)return;var gr=[].slice.call(document.querySelectorAll(".sz-grup")),say=document.querySelector(".sz-say"),yok=document.querySelector(".sz-yok");
+function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[çğıöşüâî]/g,function(c){return "cgiosuai"["çğıöşüâî".indexOf(c)];});}
+var harf=[].slice.call(document.querySelectorAll(".sz-harf a"));
+gr.forEach(function(g){[].slice.call(g.querySelectorAll("li")).forEach(function(li){li._a=n(li.dataset.ara);});});
+var t;q.addEventListener("input",function(){clearTimeout(t);t=setTimeout(function(){var v=n(q.value).trim().split(/\s+/).filter(Boolean),top=0;
+ gr.forEach(function(g){var c=0;g.querySelectorAll("li").forEach(function(li){var ok=v.every(function(w){return li._a.indexOf(w)>-1;});li.hidden=!ok;if(ok)c++;});g.hidden=!c;top+=c;});
+ say.textContent=(v.length&&top)?(top+" atasözü bulundu."):"";yok.hidden=top>0;
+ harf.forEach(function(a){var g=document.getElementById(decodeURIComponent(a.hash.slice(1)));a.classList.toggle("bos",!!(g&&g.hidden));});},120);});})();
+(function(){var b=document.querySelector(".sz-soyle");if(!b)return;b.addEventListener("click",function(){var d=document.createElement("div");d.className="sz-tam";d.setAttribute("role","dialog");d.setAttribute("aria-label","Atasözü tahtada");
+ var p=document.createElement("p");p.textContent=b.dataset.soz;var k=document.createElement("button");k.type="button";k.className="sz-tam-k";k.textContent="Kapat";d.appendChild(p);d.appendChild(k);document.body.appendChild(d);
+ function kapat(){if(document.fullscreenElement)document.exitFullscreen().catch(function(){});d.remove();document.removeEventListener("keydown",esc);b.focus();}
+ function esc(e){if(e.key==="Escape")kapat();}
+ k.addEventListener("click",kapat);document.addEventListener("keydown",esc);k.focus();if(d.requestFullscreen)d.requestFullscreen().catch(function(){});});})();
+(function(){document.querySelectorAll(".sz-bant-k a").forEach(function(a){a.addEventListener("click",function(e){if(!a.classList.contains("yazildi")){e.preventDefault();a.classList.add("yazildi");}});});})();

@@ -6,7 +6,7 @@ def yaz(yol, icerik):
     os.makedirs(os.path.dirname(p), exist_ok=True); open(p,"w",encoding="utf-8").write(icerik)
     if yol.endswith("/"): EK_YOLLAR.append(yol)
 def sayfa(baslik, aciklama, yol, govde, sema=None, yolcuk="", og=None):
-    return bas(baslik, aciklama, yol, sema=sema, og=og) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a href="/">Ana sayfa</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
+    return bas(baslik, aciklama, yol, sema=sema, og=og) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3z"/><path d="M7 20h10M12 16v4"/></svg>Sınıfa dön</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
 def kart(u):
     durum = "" if u["durum"]=="yayinda" else f'<span class="etk">{tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında"}</span>'
     img = f'<img src="{u["kapak_w"]}" alt="" loading="lazy">' if u.get("kapak_w") else f'<span class="kart-soru">{E(u["kisa"])}</span>'
