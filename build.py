@@ -486,11 +486,19 @@ def _yol_cevir(m):
         if i: ic.append('<i class="ayak" aria-hidden="true"></i>')
         ic.append(x if (x.startswith("<a") or i < len(parca)-1) else f'<span class="tabela" aria-current="page">{x}</span>')
     return '<nav class="yol" aria-label="Bulunduğunuz yer">' + "".join(ic) + '</nav>'
+def _dis_sekme(m):
+    ic = m.group(1)
+    if "target=" in ic: return m.group(0)
+    h = re.search(r'href="([^"]*)"', ic)
+    if (h and re.match(r'https?://', h.group(1)) and not re.match(r'https?://(www\.)?herkeseegitim\.com(/|$)', h.group(1))) or 'class="dugme kir ac"' in ic:
+        return '<a ' + ic + ' target="_blank" rel="noopener">'
+    return m.group(0)
 for _k,_d,_ds in os.walk(OUT):
     for _f in _ds:
         if _f.endswith(".html"):
             _p = os.path.join(_k,_f); _h = open(_p,encoding="utf-8").read()
             _y = re.sub(r'<p class="yol">(.*?)</p>', _yol_cevir, _h)
+            _y = re.sub(r'<a ([^>]*?)>', _dis_sekme, _y)
             if _y != _h: open(_p,"w",encoding="utf-8").write(_y)
 open(os.path.join(OUT,".nojekyll"),"w").write("")
 if os.environ.get("CNAME"): open(os.path.join(OUT,"CNAME"),"w").write(os.environ["CNAME"]+"\n")
