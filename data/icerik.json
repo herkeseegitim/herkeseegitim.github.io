@@ -129,7 +129,7 @@
    ],
    "url": "https://herkeseegitim.github.io/atolye/mat-7-1-7/",
    "video": null,
-   "kapak": null,
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\Yüzdeler Atölyesi yatay kapak 1280.png",
    "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler Atölyesi.html"
   },
   {
@@ -421,7 +421,7 @@
    "tarih": "2026-10-29",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Makas\\kapak Makas.png",
    "platformlar": {
-    "ig": null,
+    "ig": "https://www.instagram.com/egitimtek/reel/DfFR-2dPAhY/",
     "tt": null,
     "x": null
    }
@@ -477,6 +477,19 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "xvpLaY3ABHM",
+   "baslik": "Bu sahneye hangi atasözü uyar? Apartman grubunda çatı akıyor | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 5 Lafla peynir gemisi\\kapak Atasözü 5.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfGq-8YBQ_t/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -499,7 +512,7 @@
    "anlam": "Yararlı işler yapan, bilgili insan alçak gönüllü olur.",
    "sozcuk": null,
    "video": "gtBbZv2P-C8",
-   "tarih": null,
+   "tarih": "2026-10-27",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 2 Ağaç meyvesi olunca\\kapak Atasözü 2.png"
   },
   {
@@ -510,7 +523,7 @@
    "anlam": "Uzaklık ve engeller birbirini sevenleri ayıramaz.",
    "sozcuk": null,
    "video": "x9iiduv616M",
-   "tarih": null,
+   "tarih": "2026-10-28",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 3 Dağlar araya girse de\\kapak Atasözü 3.png"
   },
   {
@@ -524,8 +537,19 @@
     "anlam": "Ekinin dövülüp tanesinin ayrıldığı yer."
    },
    "video": "zL2-T0FTODA",
-   "tarih": null,
+   "tarih": "2026-10-29",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 4 Tarlada izi olmayanın\\kapak Atasözü 4.png"
+  },
+  {
+   "no": 5,
+   "soz": "Lafla peynir gemisi yürümez.",
+   "slug": "lafla-peynir-gemisi-yurumez",
+   "soru": "Bu sahneye hangi atasözü uyar?",
+   "anlam": "Şöyle yaparım, böyle yaparım demekle yapılması gereken iş yapılmaz.",
+   "sozcuk": null,
+   "video": "xvpLaY3ABHM",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 5 Lafla peynir gemisi\\kapak Atasözü 5.png"
   }
  ],
  "takvim": [
