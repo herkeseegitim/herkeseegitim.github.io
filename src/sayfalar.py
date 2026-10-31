@@ -185,3 +185,52 @@ yaz("/konu/", sayfa("Konu önerin | Herkese Eğitim","Sınıfınızın konusunu 
 <div class="paylas" style="margin-top:22px"><a class="dugme kir" href="https://mail.google.com/mail/?view=cm&amp;to=herkeseegitimtek@gmail.com&amp;su={konu_konu}&amp;body={konu_govde}" rel="noopener">Gmail ile yaz</a><a class="dugme acik" href="https://outlook.live.com/mail/0/deeplink/compose?to=herkeseegitimtek@gmail.com&amp;subject={konu_konu}&amp;body={konu_govde}" rel="noopener">Outlook ile yaz</a><a class="dugme acik" href="mailto:herkeseegitimtek@gmail.com?subject={konu_konu}&amp;body={konu_govde}">E-posta programı</a></div>
 <p style="margin-top:18px;font-size:16px">Adres: herkeseegitimtek@gmail.com</p></article>
 <aside class="yan-pano"><div class="not-kagit ornek"><p class="tl-b">Örnek bir öneri</p><dl><dt>Sınıf</dt><dd>7</dd><dt>Branş</dt><dd>Matematik</dd><dt>Konu</dt><dd>Yüzdeler</dd><dt>En çok takıldıkları yer</dt><dd>İndirimden sonra yeniden zam yapınca fiyatın eskisine döneceğini sanıyorlar.</dd></dl></div></aside></div>''', None, " / Konu önerin"))
+
+# ---- İngilizce giriş sayfası (/en/): yalnız bu sayfa İngilizce; araç ve atölye adresleri veriden
+EN_ARAC = {
+ "ciztahta": dict(ne="A whiteboard that opens in your browser. Open a PDF and write on every page.",
+   ozellik=["Pen, curtain, spotlight and laser", "Timer, random student and groups", "Save the lesson and your notes as a PDF"],
+   dil="Opens in English when your browser is not set to Turkish.", video="ydp5nstgcnI", ek=""),
+ "yaztahta": dict(ne="Keyboard skills for grades 1 to 4. Where each key is and what it does.",
+   ozellik=["At the computer, or the whole class at the board", "Letters are introduced in Jolly Phonics order", "English interface and US keyboard layout"],
+   dil="The link below opens it in English.", video="BfgQQ4M0OvQ", ek="#en-us"),
+}
+EN_ATOLYE = {
+ "basit-makineler": ("Simple machines", "Grade 8 science. Build pulleys, levers and winches on the board and try them out."),
+ "bilgisayarin-ici": ("Inside the computer", "Grade 5 IT. A 3D model shows where your typing goes, and why saving matters."),
+ "yuzdeler": ("Percentages", "Grade 7 maths. Drag a bar to find a part, the whole, or a percentage change."),
+}
+_ue = {u["id"]: u for u in urunler}
+def _en_arac(k, i):
+    u = _ue.get(k); d = EN_ARAC[k]
+    if not u or u["durum"] != "yayinda": return ""
+    li = "".join(f"<li>{E(x)}</li>" for x in d["ozellik"])
+    return (f'<article class="en-arac en-{i}"><h3>{E(u["ad"])}</h3><p class="en-ne">{E(d["ne"])}</p><ul>{li}</ul>'
+            f'<p class="en-dil">{E(d["dil"])}</p><p class="en-eyl"><a class="dugme kir" href="{E(u["url"] + d["ek"])}">Open {E(u["ad"])}</a>'
+            f'<a class="dugme acik" href="https://www.youtube.com/watch?v={d["video"]}">Watch the English video</a></p></article>')
+_en_tr = "".join(f'<li><b>{E(EN_ATOLYE[k][0])}</b><span>{E(EN_ATOLYE[k][1])}</span><a href="{E(_ue[k]["url"])}" lang="tr">{E(_ue[k]["ad"])}</a><i>Turkish interface</i></li>'
+                 for k in EN_ATOLYE if k in _ue and _ue[k]["durum"] == "yayinda")
+_en_sema = [{"@context":"https://schema.org","@type":"WebPage","name":"Herkese Eğitim in English","inLanguage":"en","url":SITE+"/en/","isPartOf":{"@id":SITE+"/#site"},"publisher":{"@id":KURUM["@id"]}}]
+_en = bas("Herkese Eğitim: free classroom tools from Türkiye",
+  "Free tools, workshops and short videos for classrooms in Türkiye. They open in the browser, with nothing to install and no account. Two tools work in English: ÇizTahta and YazTahta.",
+  "/en/", sema=_en_sema, dil="en", alt=DIL_ALT) + f'''<header class="ust koyu"><div class="w"><a class="logo" href="/en/"><img src="{LOGO}" alt="Herkese Eğitim, English page" width="200" height="46"></a><nav aria-label="Language"><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav></div></header>
+<main id="ana" class="sayfa en"><div class="w">
+<section class="en-bas" aria-labelledby="en-h1">
+<h1 id="en-h1"><span lang="tr">Herkese Eğitim</span></h1>
+<p class="en-sozluk">Turkish for “education for everyone”.</p>
+<p class="en-gir">Free tools, workshops and short videos for classrooms in Türkiye. Everything opens in the browser. Nothing to install, no account.</p>
+</section>
+<section class="en-blok" aria-labelledby="en-h2a"><h2 id="en-h2a">Two tools that work in English</h2>
+<div class="en-araclar">{_en_arac("ciztahta",1)}{_en_arac("yaztahta",2)}</div></section>
+<section class="en-blok" aria-labelledby="en-h2b"><h2 id="en-h2b">Workshops, in Turkish for now</h2>
+<p class="en-not">Curriculum simulations for Turkish classrooms. The interface is in Turkish, but you can still try them.</p>
+<ul class="en-tr">{_en_tr}</ul></section>
+<section class="en-blok en-son" aria-labelledby="en-h2c"><h2 id="en-h2c">Short videos</h2>
+<p>Three-second quiz questions, Turkish proverbs and special occasions, mostly in Turkish. The English videos sit in their own playlist on the channel.</p>
+<p><a class="dugme acik" href="https://www.youtube.com/@egitimtek">YouTube: @egitimtek</a></p>
+</section>
+</div></main>
+<footer class="en-alt"><div class="w"><p>Made by <span lang="tr">İdiye Ökten</span>. Questions or ideas: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p>
+<p>No analytics, no cookies, no tracking. <a href="/" hreflang="tr" lang="tr">Türkçe site</a></p></div></footer>
+<script src="/site.js?v={SURUM}" defer></script></body></html>'''
+yaz("/en/", _en)
