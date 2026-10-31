@@ -222,7 +222,11 @@ def sema_video(v, sayfa):
     s = {"@context":"https://schema.org","@type":"VideoObject","name":v.get("baslik"),"description":v.get("aciklama") or v.get("baslik"),
          "embedUrl":"https://www.youtube-nocookie.com/embed/"+v["id"],"contentUrl":"https://www.youtube.com/watch?v="+v["id"],"inLanguage":"tr","publisher":{"@id":KURUM["@id"]}}
     if v.get("kapak_w"): s["thumbnailUrl"] = SITE + v["kapak_w"]
-    if v.get("tarih"): s["uploadDate"] = v["tarih"]
+    if v.get("tarih"):
+        t = str(v["tarih"]).strip()
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", t): t += "T09:00:00+03:00"
+        elif re.fullmatch(r"\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2})?", t): t = t.replace(" ","T") + ("" if t.count(":")==2 else ":00") + "+03:00"
+        s["uploadDate"] = t
     return s
 
 # ---- sayfa adresleri
