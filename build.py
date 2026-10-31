@@ -153,7 +153,7 @@ import hashlib as _h
 SURUM = _h.sha1((open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()+open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()).encode()).hexdigest()[:8]
 def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None):
     can = SITE + yol
-    s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []))
+    s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
     return f"""<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><link rel="canonical" href="{E(can)}">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
@@ -194,7 +194,7 @@ VBY = {v["id"]: v for v in videolar}
 def urun_video(u):
     v = VBY.get(u.get("video"))
     if v: return v
-    if u.get("video"): return {"id":u["video"],"baslik":u["ad"],"kapak_w":u.get("kapak_w"),"dik":False}
+    if u.get("video"): return {"id":u["video"],"baslik":u["ad"],"kapak_w":u.get("kapak_w"),"dik":False,"tarih":u.get("lansman")}
     return None
 def ac_dugme(u, sinif="dugme"):
     if u["durum"] != "yayinda": return ""
@@ -222,12 +222,24 @@ def sema_video(v, sayfa):
     s = {"@context":"https://schema.org","@type":"VideoObject","name":v.get("baslik"),"description":v.get("aciklama") or v.get("baslik"),
          "embedUrl":"https://www.youtube-nocookie.com/embed/"+v["id"],"contentUrl":"https://www.youtube.com/watch?v="+v["id"],"inLanguage":"tr","publisher":{"@id":KURUM["@id"]}}
     if v.get("kapak_w"): s["thumbnailUrl"] = SITE + v["kapak_w"]
-    if v.get("tarih"):
-        t = str(v["tarih"]).strip()
-        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", t): t += "T09:00:00+03:00"
-        elif re.fullmatch(r"\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2})?", t): t = t.replace(" ","T") + ("" if t.count(":")==2 else ":00") + "+03:00"
-        s["uploadDate"] = t
+    t = tarih_iso(v.get("tarih"))
+    if t: s["uploadDate"] = t
+    eksik = [k for k in ("name","thumbnailUrl","uploadDate") if not s.get(k)]
+    if eksik:  # Google VideoObject: name, thumbnailUrl, uploadDate zorunlu; eksik öğe yayınlanmaz
+        print(f"UYARI: {v['id']} videosunun şeması yazılmadı, eksik: {', '.join(eksik)} (tarih={v.get('tarih')!r})", file=sys.stderr)
+        return None
     return s
+def tarih_iso(t):
+    """uploadDate: ISO 8601, saat ve saat dilimiyle. Yalnız gün verilirse 09:00 İstanbul; geçersizse None."""
+    if not t: return None
+    t = str(t).strip().replace(" ", "T")
+    try:
+        d = datetime.datetime.fromisoformat(t[:-1] + "+00:00" if t.endswith("Z") else t)
+    except ValueError:
+        return None
+    if len(t) == 10: d = d.replace(hour=9)
+    if d.tzinfo is None: d = d.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=3)))
+    return d.isoformat(timespec="seconds")
 
 # ---- sayfa adresleri
 def urun_sayfa(u): return f"/urun/{u['id']}/"
@@ -398,7 +410,7 @@ for u in urunler:
 
 # ---- atasözü sayfaları
 for i,a in enumerate(atasozleri):
-    v = VBY.get(a.get("video")) or ({"id":a["video"],"baslik":a["soz"],"kapak_w":a.get("kapak_w"),"dik":True} if a.get("video") else None)
+    v = VBY.get(a.get("video")) or ({"id":a["video"],"baslik":a["soz"],"kapak_w":a.get("kapak_w"),"dik":True,"tarih":a.get("tarih")} if a.get("video") else None)
     sz = a.get("sozcuk") or {}
     sema = [{"@context":"https://schema.org","@type":"DefinedTerm","name":a["soz"],"description":a.get("anlam"),"inDefinedTermSet":{"@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/"},"url":SITE+soz_sayfa(a)}]
     if v: sema.append(sema_video(v, soz_sayfa(a)))
