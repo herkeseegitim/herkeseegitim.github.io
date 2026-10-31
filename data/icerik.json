@@ -128,7 +128,7 @@
     "MAT.7.1.7"
    ],
    "url": "https://herkeseegitim.github.io/atolye/mat-7-1-7/",
-   "video": null,
+   "video": "M5_Mv79Bbg4",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\Yüzdeler Atölyesi yatay kapak 1280.png",
    "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler Atölyesi.html"
   },
@@ -490,6 +490,71 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "M5_Mv79Bbg4",
+   "baslik": "%20 indirimin üstüne %20 daha: toplam indirim yüzde kaç? | Yüzdeler Atölyesi, 7. sınıf matematik",
+   "dizi": "tanitim",
+   "urun": "yuzdeler",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\Yüzdeler Atölyesi yatay kapak 1280.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfHp0pjuX8O/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116193409002008932"
+   }
+  },
+  {
+   "id": "ey_cJAeje-c",
+   "baslik": "Dağ yolları neden dümdüz değil de kıvrıla kıvrıla çıkar? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Dağ yolu\\kapak Dağ yolu.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfH_FgjhIO4/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ikSxIcJC9JM",
+   "baslik": "Tek kişi, 1 tonluk arabayı krikoyla nasıl kaldırır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Kriko\\kapak Kriko.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIKpEGNqT3/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "g4_yLZ2wOkY",
+   "baslik": "Bisikletin pedalı hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Pedal\\kapak Pedal.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIWwk9u15P/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "i782m2_LpRU",
+   "baslik": "Bu yorganın altında hangi atasözü var? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 6 Ayağını yorganına göre uzat\\kapak Atasözü 6.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIXrXIA2Tm/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -550,6 +615,17 @@
    "video": "xvpLaY3ABHM",
    "tarih": "2026-10-30",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 5 Lafla peynir gemisi\\kapak Atasözü 5.png"
+  },
+  {
+   "no": 6,
+   "soz": "Ayağını yorganına göre uzat.",
+   "slug": "ayagini-yorganina-gore-uzat",
+   "soru": "Bu yorganın altında hangi atasözü var?",
+   "anlam": "Giderini mutlaka gelirine uydurmalısın.",
+   "sozcuk": null,
+   "video": "i782m2_LpRU",
+   "tarih": "2026-10-30",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 6 Ayağını yorganına göre uzat\\kapak Atasözü 6.png"
   }
  ],
  "takvim": [

@@ -7,5 +7,8 @@
 {"v":"y0sC2KuEsHI","s":"Fermuar hangi basit makine?","se":["Kaldıraç","Eğik düzlem","Çıkrık"],"c":1,"a":"Eğik düzlem: sürgünün içindeki kamalar dişleri ayırır ya da birleştirir."},
 {"v":"F3VTSDNv0d8","s":"Kalın kartonu makasın ucuyla mı, dibiyle mi daha kolay kesersiniz?","se":["Ucuyla","Fark etmez","Dibiyle"],"c":2,"a":"Dibiyle: karton vidaya yaklaşınca aynı el kuvvetiyle ağızda daha büyük kuvvet oluşur."},
 {"v":"q5LUUoRvFZE","s":"Kamyonların direksiyonu neden otomobilinkinden büyük?","se":["Daha kolay görünsün diye","Daha az kuvvetle çevirmek için","Daha hızlı dönsün diye"],"c":1,"a":"Direksiyon bir çıkrık. Çember büyüyünce aynı mili daha az kuvvetle çevirirsiniz."},
-{"v":"rH82cHDcSWk","s":"Ş harfi bilgisayarda A harfinden daha çok yer kaplar mı?","se":["Daha az","Aynı","Daha çok"],"c":2,"a":"Daha çok: A bir bayt, Ş iki bayt yer kaplar."}
+{"v":"rH82cHDcSWk","s":"Ş harfi bilgisayarda A harfinden daha çok yer kaplar mı?","se":["Daha az","Aynı","Daha çok"],"c":2,"a":"Daha çok: A bir bayt, Ş iki bayt yer kaplar."},
+{"v":"ey_cJAeje-c","s":"Dağ yolları neden dümdüz değil de kıvrıla kıvrıla çıkar?","se":["Daha az kuvvetle çıkmak için","Daha az enerji harcansın diye","Yol kısalsın diye"],"c":0,"a":"Kıvrılan yol bir eğik düzlem. Yol 3 kat uzayınca gereken kuvvet üçte birine iner, yükselme işi aynı kalır."},
+{"v":"ikSxIcJC9JM","s":"Tek kişi, 1 tonluk arabayı krikoyla nasıl kaldırır?","se":["Kriko arabayı hafifletir","Vida dişleri ve kol","İçindeki yay arabayı iter"],"c":1,"a":"Krikonun kolu bir çıkrık, vida dişleri sarılmış bir rampa: kol çok tur döner, araba birkaç cm kalkar."},
+{"v":"g4_yLZ2wOkY","s":"Bisikletin pedalı hangi basit makine?","se":["Kaldıraç","Eğik düzlem","Çıkrık"],"c":2,"a":"Çıkrık: pedal kolu ile aynakol aynı milde birlikte döner, kol büyük çember çizer."}
 ]
