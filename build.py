@@ -149,20 +149,22 @@ def kisa_adres(url):
     return re.sub(r"^https?://(www\.)?","",url or "").rstrip("/")
 
 # ---- ortak parçalar
+DIL_ALT = [("tr","/"),("en","/en/"),("x-default","/")]
 import hashlib as _h
 SURUM = _h.sha1((open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()+open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()).encode()).hexdigest()[:8]
-def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None):
+def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=None):
     can = SITE + yol
+    hl = "".join(f'<link rel="alternate" hreflang="{d}" href="{SITE}{y}">' for d,y in (alt or []))
     s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
-    return f"""<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    return f"""<!doctype html><html lang="{dil}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><link rel="canonical" href="{E(can)}">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
-<meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="tr_TR">
+<meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
 <meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/img/logo.png">
-<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="Herkese Eğitim yenilikler" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">İçeriğe geç</a>"""
+<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="Herkese Eğitim yenilikler" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
-NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a></nav>'
+NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
@@ -360,7 +362,7 @@ open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, en
 gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
 ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
 ana = bas("Herkese Eğitim: öğretmene, öğrenciye, herkese ücretsiz paylaşımlar",
-  "İdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. ", "/", sema=sema_ana) + f'''
+  "İdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. ", "/", sema=sema_ana, alt=DIL_ALT) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
