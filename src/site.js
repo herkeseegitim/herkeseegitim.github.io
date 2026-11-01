@@ -321,3 +321,16 @@ bar.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)retur
  var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:y,behavior:az?"auto":"smooth"});
  history.replaceState(null,"",a.hash);g.classList.remove("parla");void g.offsetWidth;g.classList.add("parla");
  var l=g.querySelector("a");if(l)l.focus({preventScroll:true});});})();
+/* İngilizce atasözü: sözcüğe dokun, karşılığı çıksın (aynı anda bir tane); Reveal meaning; açılışta ilk sözcük bir kez gösterilir */
+(function(){var at=document.querySelector(".ats");if(!at)return;var dokundu=false;
+ function sec(k){[].forEach.call(at.querySelectorAll(".ats-k[aria-pressed=true]"),function(x){if(x!==k)x.setAttribute("aria-pressed","false");});
+  [].forEach.call(at.querySelectorAll(".ats-p.yan"),function(p){p.classList.remove("yan");});
+  if(!k)return;var acik=k.getAttribute("aria-pressed")!=="true";k.setAttribute("aria-pressed",acik?"true":"false");
+  if(acik){[].forEach.call(at.querySelectorAll('.ats-p[data-w~="'+k.dataset.w+'"]'),function(p){p.classList.add("yan");});sigdir(k);}}
+ function sigdir(k){var g=k.querySelector(".ats-gl");if(!g)return;g.classList.remove("sag","kir");var sinir=document.documentElement.clientWidth-8;
+  if(g.getBoundingClientRect().right>sinir){g.classList.add("sag");if(g.getBoundingClientRect().left<8){g.classList.remove("sag");g.classList.add("kir");}}}
+ [].forEach.call(at.querySelectorAll(".ats-k"),function(k){k.setAttribute("aria-pressed","false");});
+ at.addEventListener("click",function(e){var k=e.target.closest(".ats-k");if(k){dokundu=true;sec(k);return;}
+  var b=e.target.closest(".ats-ac");if(b){var c=document.getElementById(b.getAttribute("aria-controls"));if(!c)return;c.classList.add("acik");b.setAttribute("aria-expanded","true");
+  b.parentNode.hidden=true;c.setAttribute("tabindex","-1");c.focus({preventScroll:true});}});
+ var ilk=at.querySelector(".ats-k");if(ilk)setTimeout(function(){if(dokundu)return;sec(ilk);setTimeout(function(){if(!dokundu)sec(null);},1800);},900);})();

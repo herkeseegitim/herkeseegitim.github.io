@@ -286,30 +286,70 @@ if _soz_en:
 <p>Old Turkish sayings, first translated literally, then explained. Each one has a short video with English subtitles.</p></section>
 <ol class="soz-liste en-pl">{"".join(_en_soz_li(a) for a in reversed(_soz_en))}</ol>
 </div></main>{_EN_ALT}''')
+def _ats_kelime(a, e):
+    """Türkçe sözcükler + İngilizce karşılıklar ve literal içindeki parlatma aralıkları. Uymazsa (None, None) ve UYARI."""
+    w = e.get("words") or []
+    if not w: return None, None
+    tr = re.sub(r"[.,;:!?]", "", a["soz"]).split()
+    if [x[0] for x in w] != tr:
+        print("UYARI: atasozleri_en words Türkçe sözle uymuyor, no", a.get("no")); return None, None
+    lit = e["literal"]; ar = []
+    for i, x in enumerate(w):
+        for parca in (x[2] if len(x) > 2 else "").split("|"):
+            if not parca: continue
+            m = re.fullmatch(r"(.*?)(?:#(\d+))?", parca); ifade, kac = m.group(1), int(m.group(2) or 1)
+            bul = [k.start() for k in re.finditer(r"(?<!\w)" + re.escape(ifade) + r"(?!\w)", lit)]
+            if len(bul) < kac:
+                print("UYARI: atasozleri_en parlatma bulunamadı, no", a.get("no"), parca); return None, None
+            ar.append((bul[kac-1], bul[kac-1] + len(ifade), i))
+    bir = {}
+    for s1, e1, i in ar: bir.setdefault((s1, e1), []).append(str(i))  # aynı parça iki sözcüğe ait olabilir (çok + olur)
+    ar = sorted((s1, e1, " ".join(ii)) for (s1, e1), ii in bir.items())
+    for (s1, e1, _), (s2, _, _) in zip(ar, ar[1:]):
+        if s2 < e1:
+            print("UYARI: atasozleri_en parlatma çakışıyor, no", a.get("no")); return None, None
+    h, p = "", 0
+    for s1, e1, i in ar:
+        h += E(lit[p:s1]) + f'<span class="ats-p" data-w="{i}">{E(lit[s1:e1])}</span>'; p = e1
+    h += E(lit[p:])
+    h = re.sub(r"\(([^()<]*)\)", r'<span class="ats-par">(\1)</span>', h)
+    k = " ".join(f'<button class="ats-k" type="button" data-w="{i}"><span class="ats-t">{E(x[0])}</span><span class="ats-gl" lang="en">{E(x[1])}</span></button>' for i, x in enumerate(w))
+    return h, k
 for i,a in enumerate(_soz_en):
     e = a["en"]; v = VBY.get(a.get("video")) or ({"id":a["video"],"baslik":a["soz"],"kapak_w":a.get("kapak_w"),"dik":True,"tarih":a.get("tarih")} if a.get("video") else None)
     lit = e["literal"].rstrip(".")
     esd = e.get("equivalent") or "No direct English equivalent."
-    kay = ("A folk saying, not in the TDK dictionary; the meaning is our own reading." if (e.get("source") or "").lower().startswith("folk")
-           else "Meaning based on the dictionary of the Turkish Language Association (TDK).")
+    esb = "English equivalent"
+    if esd.startswith("Closest:"): esb, esd = "Nearest English saying", esd[8:].strip()[:1].upper() + esd[8:].strip()[1:]
+    kay = ("A folk saying not found in the TDK dictionary. The meaning is our own interpretation." if (e.get("source") or "").lower().startswith("folk")
+           else "Meaning from the TDK (Turkish Language Association) dictionary.")
     sema = [{"@context":"https://schema.org","@type":"DefinedTerm","name":a["soz"],"alternateName":e["literal"],"description":e["meaning"],"inLanguage":"tr",
              "inDefinedTermSet":_ens_set,"url":SITE+en_soz(e),"sameAs":SITE+soz_sayfa(a)}]
     if v:
         _vs = sema_video(v, en_soz(e))
         if _vs: sema.append(_vs)
-    onc = _soz_en[i-1] if i>0 else None; snr = _soz_en[i+1] if i+1<len(_soz_en) else None
-    gez = '<p class="en-gez">' + (f'<a href="{en_soz(onc["en"])}">Previous: {E(onc["en"]["literal"])}</a>' if onc else "<span></span>") + (f'<a href="{en_soz(snr["en"])}">Next: {E(snr["en"]["literal"])}</a>' if snr else "") + f'</p><p><a class="dugme acik" href="/en/proverbs/">All Turkish proverbs ({len(_soz_en)})</a></p>'
+    snr = _soz_en[i+1] if i+1<len(_soz_en) else None
+    sonra = (f'<a class="dugme acik" href="{en_soz(snr["en"])}">Next proverb</a>' if snr else '<a class="dugme acik" href="/en/proverbs/">All Turkish proverbs</a>')
+    lit_h, kel_h = _ats_kelime(a, e)
+    tr_h = f'<p class="ats-tr" lang="tr">{kel_h or E(a["soz"])}</p>'
+    no = E(a.get("no"))
+    vid_h = _en_vid(v, e["literal"]) if v else ""
     yaz(en_soz(e), bas(f"Turkish proverb: {lit}", _kisalt(f"{e['literal']} Meaning: {e['meaning']}", 160), en_soz(e), sema=sema, og=a.get("kapak_w"),
-        dil="en", alt=[("en",en_soz(e)),("tr",soz_sayfa(a))]) + _EN_UST + f'''
+        dil="en", alt=[("en",en_soz(e)),("tr",soz_sayfa(a))]) + _EN_UST + f"""
 <main id="ana" class="sayfa en"><div class="w">
-<p class="en-yol"><a href="/en/">Home</a> / <a href="/en/proverbs/">Turkish proverbs</a> / No. {E(a.get("no"))}</p>
-<div class="soz-sayfa"><article class="makale">
-<p class="en-etk">Turkish proverb</p>
-<h1 class="soz" lang="tr">{E(a["soz"])}</h1>
-<div class="kutu"><h2>Word for word</h2><p>{E(e["literal"])}</p></div>
-<div class="kutu"><h2>Meaning</h2><p>{E(e["meaning"])}</p></div>
-<div class="kutu"><h2>English equivalent</h2><p>{E(esd)}</p></div>
-<p class="en-kay">{E(kay)} <a href="{soz_sayfa(a)}" hreflang="tr" lang="tr">Türkçe sayfa</a></p>
-{gez}</article>
-<aside>{('<p class="vid-not en-cc">English subtitles available.</p>' + _en_vid(v, e["literal"])) if v else ""}</aside></div>
-</div></main>{_EN_ALT}''')
+<article class="ats">
+<div class="ats-v">{vid_h}</div>
+<div class="ats-m">
+<h1 class="ats-lit">{lit_h or E(e["literal"])}</h1>
+<p class="ats-q">What do you think it means?</p>
+{tr_h}
+<p class="ats-ac-p"><button class="dugme ats-ac" type="button" aria-expanded="false" aria-controls="ats-c{no}">Reveal meaning</button></p>
+<div class="ats-c" id="ats-c{no}">
+<p><b>Meaning</b>{E(e["meaning"])}</p>
+<p><b>{esb}</b>{E(esd)}</p>
+<p>{sonra}</p>
+</div>
+<p class="ats-kay">{E(kay)} <a href="{soz_sayfa(a)}" hreflang="tr">In Turkish</a></p>
+</div>
+</article>
+</div></main>{_EN_ALT}""")
