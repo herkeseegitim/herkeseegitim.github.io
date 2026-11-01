@@ -145,7 +145,7 @@ function zil(){if(!ses||!ac)return;[523,659,784,1047].forEach(function(f,i){setT
 bSes.addEventListener("click",function(){ses=!ses;bSes.setAttribute("aria-pressed",ses);if(ses){sesHazir();if(ac&&ac.resume)ac.resume();tik(880);}});
 
 /* kalem */
-function kalemAc(ac_){sahne.classList.toggle("yaziyor",ac_);bKalem.setAttribute("aria-pressed",ac_);if(ac_){ipucu.textContent="Yazın, çizin. Haftanın atölyesini kalemle çember içine alın.";}tik(ac_?740:520);}
+function kalemAc(ac_){sahne.classList.toggle("yaziyor",ac_);bKalem.setAttribute("aria-pressed",ac_);if(ac_){ipucu.textContent=ipucu.dataset.yaz||"Yazın, çizin. Haftanın atölyesini kalemle çember içine alın.";}tik(ac_?740:520);}
 bKalem.addEventListener("click",function(){kalemAc(!sahne.classList.contains("yaziyor"));});
 bTem.addEventListener("click",function(){cizgiler=[];simdiki=null;yenidenCiz();var a=sahne.querySelector(".soz-an");if(a)a.remove();sahne.classList.remove("soz-acik");tik(420);});
 function nokta(e){var r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
@@ -169,14 +169,14 @@ var sozler=VERI.soz||[],sira=0;
 function sozYaz(){if(!sozler.length)return;var o=sozler[sira++%sozler.length];var eski=sahne.querySelector(".soz-an");if(eski)eski.remove();
  var d=document.createElement("div");d.className="soz-an";var p=document.createElement("p");d.appendChild(p);
  o.s.split("").forEach(function(ch){var sp=document.createElement("span");sp.className="harf";sp.textContent=ch;p.appendChild(sp);});
- sahne.classList.add("soz-acik");var a=document.createElement("a");a.href=o.u;a.textContent="Atasözlerimizi Yaşatalım No. "+o.n+": anlamı";a.style.opacity="0";d.appendChild(a);sahne.appendChild(d);
+ sahne.classList.add("soz-acik");var a=document.createElement("a");a.href=o.u;a.textContent=(sahne.dataset.sozEt||"Atasözlerimizi Yaşatalım No. ")+o.n+(sahne.dataset.sozSon||": anlamı");a.style.opacity="0";d.appendChild(a);sahne.appendChild(d);
  var h=p.querySelectorAll(".harf"),i=0;
  if(azH){h.forEach(function(x){x.classList.add("on");});a.style.opacity="1";return;}
  tebesirBasla();tebesirHiz(18);
  (function adim(){if(i<h.length){h[i++].classList.add("on");setTimeout(adim,45);}else{tebesirBitir();a.style.transition="opacity .4s";a.style.opacity="1";}})();}
 document.addEventListener("keydown",function(e){var t=e.target;if(t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA"||t.isContentEditable))return;if((e.key==="t"||e.key==="T")&&!e.ctrlKey&&!e.metaKey&&!e.altKey){var r=sahne.getBoundingClientRect();if(r.bottom>0)sozYaz();}});
 var logo=document.querySelector(".ust .logo"),dok=0,zaman=0;
-if(logo)logo.addEventListener("click",function(e){var t=Date.now();dok=(t-zaman<600)?dok+1:1;zaman=t;if(dok>=3){e.preventDefault();dok=0;sozYaz();}else if(location.pathname==="/"){e.preventDefault();}});
+if(logo)logo.addEventListener("click",function(e){var t=Date.now();dok=(t-zaman<600)?dok+1:1;zaman=t;if(dok>=3){e.preventDefault();dok=0;sozYaz();}else if(location.pathname==="/"||location.pathname==="/en/"){e.preventDefault();}});
 })();
 
 /* süzgeç */
@@ -321,16 +321,19 @@ bar.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)retur
  var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:y,behavior:az?"auto":"smooth"});
  history.replaceState(null,"",a.hash);g.classList.remove("parla");void g.offsetWidth;g.classList.add("parla");
  var l=g.querySelector("a");if(l)l.focus({preventScroll:true});});})();
-/* İngilizce atasözü: sözcüğe dokun, karşılığı çıksın (aynı anda bir tane); Reveal meaning; açılışta ilk sözcük bir kez gösterilir */
-(function(){var at=document.querySelector(".ats");if(!at)return;var dokundu=false;
- function sec(k){[].forEach.call(at.querySelectorAll(".ats-k[aria-pressed=true]"),function(x){if(x!==k)x.setAttribute("aria-pressed","false");});
+/* İngilizce atasözü: açılışta sözcükler sırayla gösterilir, sonunda hepsinin karşılığı açık kalır; dokununca o sözcüğün karşılığı parlar; Reveal meaning */
+(function(){var at=document.querySelector(".ats");if(!at)return;var tr=at.querySelector(".ats-tr");
+ var ks=[].slice.call(at.querySelectorAll(".ats-k")),dur=false,zaman=null;
+ ks.forEach(function(k){k.setAttribute("aria-pressed","false");});
+ function sec(k){ks.forEach(function(x){if(x!==k)x.setAttribute("aria-pressed","false");});
   [].forEach.call(at.querySelectorAll(".ats-p.yan"),function(p){p.classList.remove("yan");});
   if(!k)return;var acik=k.getAttribute("aria-pressed")!=="true";k.setAttribute("aria-pressed",acik?"true":"false");
-  if(acik){[].forEach.call(at.querySelectorAll('.ats-p[data-w~="'+k.dataset.w+'"]'),function(p){p.classList.add("yan");});sigdir(k);}}
- function sigdir(k){var g=k.querySelector(".ats-gl");if(!g)return;g.classList.remove("sag","kir");var sinir=document.documentElement.clientWidth-8;
-  if(g.getBoundingClientRect().right>sinir){g.classList.add("sag");if(g.getBoundingClientRect().left<8){g.classList.remove("sag");g.classList.add("kir");}}}
- [].forEach.call(at.querySelectorAll(".ats-k"),function(k){k.setAttribute("aria-pressed","false");});
- at.addEventListener("click",function(e){var k=e.target.closest(".ats-k");if(k){dokundu=true;sec(k);return;}
+  if(acik)[].forEach.call(at.querySelectorAll('.ats-p[data-w~="'+k.dataset.w+'"]'),function(p){p.classList.add("yan");});}
+ function hepsi(){dur=true;clearTimeout(zaman);sec(null);if(tr)tr.classList.add("hepsi");}
+ at.addEventListener("click",function(e){var k=e.target.closest(".ats-k");if(k){dur=true;clearTimeout(zaman);sec(k);return;}
   var b=e.target.closest(".ats-ac");if(b){var c=document.getElementById(b.getAttribute("aria-controls"));if(!c)return;c.classList.add("acik");b.setAttribute("aria-expanded","true");
   b.parentNode.hidden=true;c.setAttribute("tabindex","-1");c.focus({preventScroll:true});}});
- var ilk=at.querySelector(".ats-k");if(ilk)setTimeout(function(){if(dokundu)return;sec(ilk);setTimeout(function(){if(!dokundu)sec(null);},1800);},900);})();
+ if(!ks.length)return;
+ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){hepsi();return;}
+ var i=0;function adim(){if(dur)return;if(i>=ks.length){hepsi();return;}sec(ks[i]);i++;zaman=setTimeout(adim,1200);}
+ zaman=setTimeout(adim,900);})();

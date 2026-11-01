@@ -210,16 +210,36 @@ def _en_arac(k, i):
             f'<a class="dugme acik" href="https://www.youtube.com/watch?v={d["video"]}">Watch the English video</a></p></article>')
 _en_tr = "".join(f'<li><b>{E(EN_ATOLYE[k][0])}</b><span>{E(EN_ATOLYE[k][1])}</span><a href="{E(_ue[k]["url"])}" lang="tr">{E(_ue[k]["ad"])}</a><i>Turkish interface</i></li>'
                  for k in EN_ATOLYE if k in _ue and _ue[k]["durum"] == "yayinda")
-_EN_UST = f'<header class="ust koyu"><div class="w"><a class="logo" href="/en/"><img src="{LOGO}" alt="Herkese Eğitim, English home" width="200" height="46"></a><nav aria-label="Main"><a href="/en/#teachers">Tools</a><a href="/en/proverbs/">Turkish proverbs</a><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav></div></header>'
-_EN_ALT = f"""<footer class="en-alt"><div class="w"><p>Made by <span lang="tr">İdiye Ökten</span>. Questions or ideas: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p>
-<p>No analytics, no cookies, no tracking. <a href="/" hreflang="tr" lang="tr">Türkçe site</a></p></div></footer>
-<script src="/site.js?v={SURUM}" defer></script></body></html>"""
 EN_SLOGAN = "Old wisdom, new technology."
 EN_ALT_SL = "For using technology well, ethically and where it fits."
 def _kisalt(t, n):
     return t if len(t) <= n else t[:n-1].rsplit(' ',1)[0].rstrip(',;:') + '…'
+_EN_UST = f'<header class="ust koyu"><div class="w"><a class="logo" href="/en/"><img src="{LOGO}" alt="Herkese Eğitim, English home" width="200" height="46"></a><nav aria-label="Main"><a href="/en/#teachers">Tools</a><a href="/en/proverbs/">Turkish proverbs</a><a href="/en/about/">About</a><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav></div></header>'
 _soz_en = [a for a in atasozleri if a.get("en")]
 _bugun_en = max(_soz_en, key=lambda a: ((a.get("tarih") or ""), a.get("no") or 0)) if _soz_en else None
+# İngilizce sayfa sonu: Türkçe sayfa sonunun (ALT) aynısı, metinler İngilizce
+_en_odev = (f'<a class="odev" href="{en_soz(_bugun_en["en"])}"><span class="odev-e">Today’s homework</span><b>{E(_bugun_en["en"]["literal"])}</b>'
+            f'<span class="odev-n">Guess the meaning first, then check.</span></a>') if _bugun_en else ""
+_EN_ALT = re.sub(r'<dialog class="kare".*?</dialog>\n?', "", ALT, flags=re.S)
+for _a, _b in [("<p class=\"cikis-b\">Zil çaldı.</p>", "<p class=\"cikis-b\">The bell rang.</p>"),
+               ("Yarın yine buradayız. Çıkmadan bir ödev:", "See you tomorrow. One piece of homework before you go:"),
+               ('aria-label="Sosyal medya"', 'aria-label="Social media"'),
+               ("Mıknatısları tahtada gezdirebilirsiniz.", "You can move the magnets around the board."),
+               ('<li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li>',
+                '<li><a href="/en/about/">About</a></li><li><a href="/" hreflang="tr" lang="tr">Türkçe</a></li>'),
+               ("Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez.", "No analytics, no cookies, no tracking. YouTube videos load only when you tap them.")]:
+    assert _a in _EN_ALT, ("EN sayfa sonu", _a)
+    _EN_ALT = _EN_ALT.replace(_a, _b)
+if _oh: _EN_ALT = _EN_ALT.replace(_oh, _en_odev)
+assert "Bugünün ödevi" not in _EN_ALT and "Zil çaldı" not in _EN_ALT
+_EV_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>'
+def _en_yol(*parca):
+    """Türkçe yol satırının aynısı (ev, ayak izi, tabela), İngilizce."""
+    ic = [f'<a class="eve" href="/en/" title="Home">{_EV_SVG}Home</a>']
+    for i, (ad, h) in enumerate(parca):
+        ic.append('<i class="ayak" aria-hidden="true"></i>')
+        ic.append(f'<a href="{h}">{E(ad)}</a>' if h else f'<span class="tabela" aria-current="page">{E(ad)}</span>')
+    return '<nav class="yol" aria-label="You are here">' + "".join(ic) + '</nav>'
 def _en_vid(v, ad):
     if not v: return ""
     img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy">' if v.get("kapak_w") else ""
@@ -241,17 +261,33 @@ _en_bsoz = (f'<section class="blm bsoz" aria-labelledby="en-bsoz"><div class="w"
   f'<h2 id="en-bsoz"><a href="{en_soz(_bugun_en["en"])}">{E(_bugun_en["en"]["literal"])}</a></h2>'
   f'<p class="bsoz-a"><span lang="tr">{E(_bugun_en["soz"])}</span></p>'
   f'<p class="bsoz-b"><a class="dugme acik" href="{en_soz(_bugun_en["en"])}">Meaning and video</a><a class="dugme acik" href="/en/proverbs/">All Turkish proverbs</a></p></div></section>') if _bugun_en else ""
+_EN_NAV = '<nav aria-label="Main"><a href="/en/#teachers">Tools</a><a href="/en/proverbs/">Turkish proverbs</a><a href="/en/about/">About</a><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav>'
+_bk = None
+if _bugun_en:
+    _bv = VBY.get(_bugun_en.get("video")) or {}
+    _bk = _bugun_en.get("kapak_w") or _bv.get("kapak_w")
+_en_cuma = (f'<a class="cuma-not" href="{en_soz(_bugun_en["en"])}">' + (f'<img src="{_bk}" alt="">' if _bk else f'<span class="soru-b">{E(_bugun_en["en"]["literal"])}</span>')
+            + f'<small>Today’s Turkish proverb</small><b>{E(_bugun_en["en"]["literal"])}</b><span>Guess what it means.</span>'
+            + '<span class="bul">You found it. Now guess what it means.</span></a>') if _bugun_en else ""
+_en_veri = json.dumps({"soz":[{"s":a["soz"],"u":en_soz(a["en"]),"n":a.get("no")} for a in _soz_en]}, ensure_ascii=False).replace("</","<\\/")
+_EN_SAHNE = f'''<header class="ust"><div class="w"><a class="logo" href="/en/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim, English home" width="200" height="46"></a>{_EN_NAV}</div></header>
+<main id="ana" class="en-ana">
+<section class="sahne" aria-labelledby="h1" data-soz-et="Turkish proverb No. " data-soz-son=": meaning"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
+<canvas class="tahta" id="tahta" aria-hidden="true"></canvas>
+<div class="w"><div class="yazi">
+<h1 id="h1" class="gir" style="--d:150ms">{E(EN_SLOGAN)}</h1>
+<p class="alt alt-sl gir" style="--d:300ms">{E(EN_ALT_SL)}</p>
+<a class="ben gir" style="--d:420ms" href="/en/about/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650" lang="tr">İdiye Ökten</b><br><i class="soz">For the love of learning and teaching.</i></span></a>
+<div class="en-sahne-not gir" style="--d:700ms"><p>Free classroom tools, workshops and a Turkish proverb every day, from Türkiye. Nothing to install, no account.</p><p class="en-sozluk"><span lang="tr">Herkese Eğitim</span>: Turkish for “education for everyone”.</p></div>
+</div></div>
+{_en_cuma}
+<div class="cetvel" role="toolbar" aria-label="Board"><button type="button" id="t-kalem" aria-pressed="false">Pen</button><button type="button" id="t-temizle">Clear</button><button type="button" id="t-ses" aria-pressed="false">Sound</button><span class="ipucu" id="t-ipucu" data-yaz="Write and draw. Circle today’s proverb with the pen.">This page is a board too. Pick up the pen and write.</span></div>
+</section>'''
+
 _en_sema = [{"@context":"https://schema.org","@type":"WebPage","name":"Herkese Eğitim in English","description":EN_SLOGAN+" "+EN_ALT_SL,"inLanguage":"en","url":SITE+"/en/","isPartOf":{"@id":SITE+"/#site"},"publisher":{"@id":KURUM["@id"]}}]
 _en = bas("Herkese Eğitim: old wisdom, new technology",
   "Old wisdom, new technology. Free classroom tools, workshops and a Turkish proverb every day, for using technology well, ethically and where it fits.",
-  "/en/", sema=_en_sema, dil="en", alt=DIL_ALT) + _EN_UST + f'''
-<main id="ana" class="sayfa en"><div class="w">
-<section class="en-bas" aria-labelledby="en-h1">
-<h1 id="en-h1">{E(EN_SLOGAN)}</h1>
-<p class="en-alt-sl">{E(EN_ALT_SL)}</p>
-<p class="en-somut">Free classroom tools, workshops and a Turkish proverb every day, from Türkiye. Nothing to install, no account.</p>
-<p class="en-sozluk"><span lang="tr">Herkese Eğitim</span>: Turkish for “education for everyone”.</p>
-</section></div>
+  "/en/", sema=_en_sema, dil="en", alt=DIL_ALT) + _EN_SAHNE + f'''
 {_en_yollar}
 {_en_band("merak", "Curious minds", "Old Turkish sayings, word for word, with a short video for each.", "curious")}
 {_en_bsoz}
@@ -266,7 +302,7 @@ _en = bas("Herkese Eğitim: old wisdom, new technology",
 <div class="w"><section class="en-blok" aria-labelledby="en-h2b"><h2 id="en-h2b">Workshops, in Turkish for now</h2>
 <p class="en-not">Curriculum simulations for Turkish classrooms. The interface is in Turkish, but you can still try them. No account needed.</p>
 <ul class="en-tr">{_en_tr}</ul></section></div>
-</main>{_EN_ALT}'''
+</main><script type="application/json" id="veri">{_en_veri}</script>{_EN_ALT}'''
 yaz("/en/", _en)
 
 # ---- Turkish proverbs (/en/proverbs/): veri data/atasozleri_en.json + icerik.json atasozleri; sayfalara elle dokunulmaz
@@ -281,7 +317,7 @@ if _soz_en:
       "/en/proverbs/", sema=[dict({"@context":"https://schema.org"}, **_ens_set, hasDefinedTerm=[{"@type":"DefinedTerm","name":a["soz"],"alternateName":a["en"]["literal"],"url":SITE+en_soz(a["en"])} for a in _soz_en])],
       dil="en", alt=[("en","/en/proverbs/"),("tr","/atasozleri/")]) + _EN_UST + f'''
 <main id="ana" class="sayfa en"><div class="w">
-<p class="en-yol"><a href="/en/">Home</a> / Turkish proverbs</p>
+{_en_yol(("Turkish proverbs", None))}
 <section class="en-pbas"><h1>Turkish proverbs, word for word</h1>
 <p>Old Turkish sayings, first translated literally, then explained. Each one has a short video with English subtitles.</p></section>
 <ol class="soz-liste en-pl">{"".join(_en_soz_li(a) for a in reversed(_soz_en))}</ol>
@@ -328,28 +364,46 @@ for i,a in enumerate(_soz_en):
     if v:
         _vs = sema_video(v, en_soz(e))
         if _vs: sema.append(_vs)
-    snr = _soz_en[i+1] if i+1<len(_soz_en) else None
-    sonra = (f'<a class="dugme acik" href="{en_soz(snr["en"])}">Next proverb</a>' if snr else '<a class="dugme acik" href="/en/proverbs/">All Turkish proverbs</a>')
+    onc = _soz_en[i-1] if i>0 else None; snr = _soz_en[i+1] if i+1<len(_soz_en) else None
+    gez = ('<p class="en-gez">' + (f'<a href="{en_soz(onc["en"])}">Previous: {E(onc["en"]["literal"])}</a>' if onc else "<span></span>")
+           + (f'<a href="{en_soz(snr["en"])}">Next: {E(snr["en"]["literal"])}</a>' if snr else "") + "</p>")
     lit_h, kel_h = _ats_kelime(a, e)
     tr_h = f'<p class="ats-tr" lang="tr">{kel_h or E(a["soz"])}</p>'
     no = E(a.get("no"))
-    vid_h = _en_vid(v, e["literal"]) if v else ""
     yaz(en_soz(e), bas(f"Turkish proverb: {lit}", _kisalt(f"{e['literal']} Meaning: {e['meaning']}", 160), en_soz(e), sema=sema, og=a.get("kapak_w"),
         dil="en", alt=[("en",en_soz(e)),("tr",soz_sayfa(a))]) + _EN_UST + f"""
-<main id="ana" class="sayfa en"><div class="w">
-<article class="ats">
-<div class="ats-v">{vid_h}</div>
-<div class="ats-m">
-<h1 class="ats-lit">{lit_h or E(e["literal"])}</h1>
+<main id="ana" class="sayfa en"><div class="w">{_en_yol(("Turkish proverbs", "/en/proverbs/"), (f"No. {a.get('no')}", None))}
+<div class="soz-sayfa ats"><article class="makale">
+<h1 class="soz ats-lit">{lit_h or E(e["literal"])}</h1>
 <p class="ats-q">What do you think it means?</p>
 {tr_h}
 <p class="ats-ac-p"><button class="dugme ats-ac" type="button" aria-expanded="false" aria-controls="ats-c{no}">Reveal meaning</button></p>
 <div class="ats-c" id="ats-c{no}">
-<p><b>Meaning</b>{E(e["meaning"])}</p>
-<p><b>{esb}</b>{E(esd)}</p>
-<p>{sonra}</p>
+<div class="kutu"><h2>Meaning</h2><p>{E(e["meaning"])}</p></div>
+<div class="kutu"><h2>{esb}</h2><p>{E(esd)}</p></div>
 </div>
-<p class="ats-kay">{E(kay)} <a href="{soz_sayfa(a)}" hreflang="tr">In Turkish</a></p>
-</div>
-</article>
+<p class="ats-trs"><a href="{soz_sayfa(a)}" hreflang="tr">In Turkish: <span lang="tr">{E(a["soz"])}</span></a></p>
+<p class="ats-kay">{E(kay)}</p>
+{gez}</article>
+<aside>{_en_vid(v, e["literal"]) if v else ""}</aside></div>
 </div></main>{_EN_ALT}""")
+
+# ---- About (/en/about/): Türkçe Hakkında'nın ilk tahtası, İngilizce; Claude satırı yalnız burada
+_EN_MISYON = "Rooted in education, Herkese Eğitim works to spread the use of technology done well, ethically and where it fits. It aims to make people’s work easier and to help them be more productive and build more meaningful lives."
+yaz("/en/about/", bas("About: İdiye Ökten | Herkese Eğitim",
+    "İdiye Ökten and Herkese Eğitim. Old wisdom, new technology: free classroom tools, workshops and videos for using technology well, ethically and where it fits.",
+    "/en/about/", sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/en/about/","inLanguage":"en"}],
+    dil="en", alt=[("en","/en/about/"),("tr","/hakkinda/")]) + _EN_UST + f"""
+<main id="ana" class="sayfa en"><div class="w">{_en_yol(("About", None))}<article class="hk">
+<section class="hk-bas">
+<div class="hk-kim"><img src="{AVATAR}" alt="Drawing of İdiye Ökten" width="150" height="150"><div><h1 lang="tr">İdiye Ökten</h1><p class="soz">For the love of learning and teaching.</p></div>
+<aside class="hk-yaz" aria-label="Write to me"><p class="hk-yaz-b">Write to me</p><p>Tell me your class topic and let’s think about a workshop together.</p><p class="hk-yaz-a"><a class="dugme kir" href="mailto:herkeseegitimtek@gmail.com">Send an email</a></p><p class="hk-yaz-e">herkeseegitimtek@gmail.com</p></aside></div>
+<div class="hk-oyku">
+<p>I have worked with technology in education for about thirty years. At <span lang="tr">Herkese Eğitim</span> I share free resources for teachers, students and anyone else: tools that open on the classroom board, workshops built on Turkish curriculum outcomes, three-second quiz questions, a Turkish proverb series and special-day videos.</p>
+<p>My first job, in 1997, brought me into education. <span lang="tr">Herkese Eğitim</span> was first the name of a project we entered in the education category of the TEKNOFEST Technology for Humanity competition in 2018. During the pandemic, in the summer of 2020, we met with teachers every evening for 15 days, under this name. Each day we looked at one web tool; the articles appeared on <span lang="tr">Bilim Şenliği</span> and the how-to videos on the <a href="https://www.youtube.com/@egitimtek">YouTube channel</a>. More than a hundred videos on Padlet, Wakelet, Wordwall, Edpuzzle, Quizizz, Flipgrid, Mentimeter and others were collected on a Wakelet board. Now it is the name of this library. In the age of AI, the sharing goes on.</p>
+<p>Claude is my teammate in this work. <span class="kalp" role="img" aria-label="heart">♥</span></p>
+</div>
+</section>
+<section class="hk-misyon" aria-label="Herkese Eğitim"><p class="hk-sl">{E(EN_SLOGAN)}</p><p class="hk-mi">{E(_EN_MISYON)}</p></section>
+<p class="ats-trs"><a href="/hakkinda/" hreflang="tr">In Turkish: <span lang="tr">Hakkında</span></a> (with talks, certificates and the full timeline)</p>
+</article></div></main>{_EN_ALT}""")

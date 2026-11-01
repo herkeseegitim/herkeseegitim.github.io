@@ -900,7 +900,6 @@ footer.cikis .kucuk{margin-top:12px}
 .bk h3{margin-right:0}
 /* İngilizce giriş sayfası (/en/) ve dil bağlantısı */
 nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padding:1px 7px;margin-left:4px}
-.sayfa.en .w{max-width:1040px}
 .en-bas{background:var(--sahne);color:var(--krem);border-radius:22px;padding:clamp(28px,5vw,56px);box-shadow:0 10px 0 var(--tur);margin:8px 0 64px;
  background-image:radial-gradient(ellipse at 15% 0%,rgba(255,244,222,.07),transparent 60%)}
 .en-bas h1{margin:0;font-size:clamp(48px,8vw,104px);line-height:.92;letter-spacing:-.035em;font-variation-settings:"wdth" 78;color:var(--krem)}
@@ -990,11 +989,8 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 .en-bas h1#en-h1{font-size:clamp(40px,6.4vw,84px);line-height:.98;max-width:16ch}
 .en-alt-sl{margin:18px 0 0;font-size:clamp(20px,2.4vw,28px);color:#EFE3CC;max-width:34ch;line-height:1.3}
 .en-bas .en-sozluk{font-size:clamp(17px,1.8vw,20px);margin-top:22px}
-.sayfa.en .en-bas{margin-bottom:0}
 .en-yollar{padding-top:36px}
-.en-yollar .w,.sayfa.en>.yol-band .w{max-width:1040px}
-.sayfa.en>.yol-band+.w,.sayfa.en>.yol-band+.bsoz{margin-top:26px}
-.sayfa.en .bsoz .w{max-width:1040px}
+.en-ana>.yol-band+.w,.en-ana>.yol-band+.bsoz{margin-top:26px}
 .en-yol{font-size:15px;color:var(--sol);margin:0 0 22px}.en-yol a{color:var(--mur);font-weight:650}
 .en-pbas h1{font-size:clamp(36px,5vw,60px);letter-spacing:-.03em;line-height:1.02;margin:0 0 14px;font-variation-settings:"wdth" 85}
 .en-pbas p{font-size:19px;max-width:56ch;color:var(--yum);margin:0 0 30px}
@@ -1007,32 +1003,39 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 .vid-not.en-cc{margin:0 0 8px;font-weight:700;color:var(--mur);font-size:15px}
 @media (max-width:700px){.sayfa.en .en-bas{padding:24px 20px;margin-top:0}.sayfa.en .en-bas .en-alt-sl{margin-top:12px}}
 /* İngilizce atasözü sayfası: önce tahmin (1 Kas) */
-.ats{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start;margin:8px 0 56px}
-.ats-v .vid.dik{max-height:76vh;margin:0 auto}
-.ats-lit{margin:0;font-size:clamp(30px,4.4vw,56px);line-height:1.08;letter-spacing:-.01em;text-transform:uppercase;font-variation-settings:"wdth" 82;color:var(--mur)}
 .ats-p{border-radius:6px;transition:background .2s,box-shadow .2s}
 .ats-p.yan{background:var(--cet);box-shadow:0 0 0 4px var(--cet)}
 .ats-q{margin:22px 0 0;font-size:clamp(20px,2.2vw,26px);font-weight:650;color:var(--kirk)}
 .ats-tr{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px 8px;align-items:flex-start;font-size:20px}
-.ats-k{font:inherit;color:var(--mur);background:none;border:0;padding:6px 2px 4px;min-height:44px;position:relative;cursor:pointer;text-align:left}
-.js .ats-k{padding-bottom:26px}
+.ats-k{font:inherit;color:var(--mur);background:none;border:0;padding:6px 2px 4px;min-height:44px;position:relative;cursor:pointer;text-align:left;display:inline-flex;flex-direction:column;align-items:flex-start}
 .ats-t{text-decoration:underline dotted 2px var(--sol);text-underline-offset:6px}
 .ats-k:hover .ats-t{text-decoration-color:var(--kir)}
 .ats-k[aria-pressed=true] .ats-t{text-decoration:underline solid 2px var(--kir)}
 .ats-k:focus-visible{outline:3px solid var(--kir);outline-offset:2px;border-radius:6px}
 .ats-gl{display:block;font-size:15px;font-weight:600;color:var(--kirk);margin-top:8px;line-height:1.25}
-.js .ats-gl{position:absolute;left:2px;top:calc(100% - 22px);margin:0;white-space:nowrap;z-index:1}
-.js .ats-gl.sag{left:auto;right:2px}
-.js .ats-gl.kir{white-space:normal;width:min(80vw,280px)}
-.js .ats-k:not([aria-pressed=true]) .ats-gl{display:none}
 .ats-ac-p{display:none;margin:30px 0 0}
 .js .ats-ac-p{display:block}
 .ats-ac{font-size:19px}
-.ats-c{margin-top:30px;border-top:2px solid var(--mur);padding-top:18px}
+.ats-c{margin-top:8px}
 .js .ats-c:not(.acik){display:none}
-.ats-c p{margin:0 0 16px;font-size:19px;line-height:1.5;max-width:56ch}
-.ats-c b{display:block;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--sol);margin-bottom:2px}
 .ats-c.acik{animation:belir .4s ease-out both}
 .ats-kay{margin:40px 0 0;font-size:14px;color:var(--sol)}
-@media (max-width:760px){.ats{grid-template-columns:1fr;gap:16px;margin-top:-12px}.ats-v .vid.dik{max-height:33vh;width:auto;aspect-ratio:9/16}.ats-q{margin-top:14px}.ats-tr{margin-top:14px}.ats-ac-p{margin-top:16px}}
 .ats-lit .ats-par{text-transform:none;font-size:.62em;letter-spacing:0;font-weight:600}
+
+
+/* İngilizce atasözü Türkçe yerleşimde (1 Kas 16:00) */
+.soz-sayfa h1.soz.ats-lit{text-transform:uppercase;margin-bottom:0}
+.ats-q{margin:22px 0 0}
+.ats-trs{margin-top:22px;font-size:16px}
+.ats-kay{margin:10px 0 0}
+.en-sahne-not{margin-top:28px;max-width:44ch}
+.en-sahne-not p{margin:0;font-size:clamp(17px,1.6vw,19px);line-height:1.5;color:#EFE3CC}
+.en-sahne-not .en-sozluk{margin-top:10px;font-size:16px;color:var(--cet);font-weight:600}
+.en-ana .en-blok{margin-bottom:64px}
+.makale .ats-trs{font-size:16px;margin-top:22px}
+.makale .ats-kay{font-size:14px;color:var(--sol);margin-top:8px}
+.makale .ats-q{font-size:clamp(20px,2.2vw,26px);font-weight:650;color:var(--kirk);margin-top:22px}
+.makale .ats-tr{margin-top:18px}
+.makale .ats-ac-p{margin-top:22px}
+.ats-gl{max-width:12em}
+.js .ats-tr:not(.hepsi) .ats-k:not([aria-pressed=true]) .ats-gl{visibility:hidden}
