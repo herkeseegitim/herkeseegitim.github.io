@@ -393,7 +393,7 @@ def yol_band(k):
     ad, ne = YOL[k]
     return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
 _kapilar = [
- ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")]),
+ ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else [])),
  ("ogretmen", [("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
  ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
 ]
