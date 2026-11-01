@@ -128,8 +128,8 @@
     "MAT.7.1.7"
    ],
    "url": "https://herkeseegitim.github.io/atolye/mat-7-1-7/",
-   "video": "M5_Mv79Bbg4",
-   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\Yüzdeler Atölyesi yatay kapak 1280.png",
+   "video": "nyNESfB6x8M",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\1.0\\Yüzdeler Atölyesi yatay kapak 1280.png",
    "canta": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler Atölyesi.html"
   },
   {
@@ -492,16 +492,16 @@
    }
   },
   {
-   "id": "M5_Mv79Bbg4",
-   "baslik": "%20 indirimin üstüne %20 daha: toplam indirim yüzde kaç? | Yüzdeler Atölyesi, 7. sınıf matematik",
+   "id": "nyNESfB6x8M",
+   "baslik": "%20 indirimin üstüne %20 daha: toplam indirim yüzde kaç? | Yüzdeler Atölyesi",
    "dizi": "tanitim",
    "urun": "yuzdeler",
-   "tarih": "2026-10-30",
-   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\Yüzdeler Atölyesi yatay kapak 1280.png",
+   "tarih": "2026-10-31",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\MATEMATİK 7 MAT.7.1.7 Yüzdeler\\Video\\1.0\\Yüzdeler Atölyesi yatay kapak 1280.png",
    "platformlar": {
-    "ig": "https://www.instagram.com/egitimtek/reel/DfHp0pjuX8O/",
+    "ig": "https://www.instagram.com/egitimtek/reel/DfKlqVesWNc/",
     "tt": null,
-    "x": "https://x.com/cincinosos/status/2116193409002008932"
+    "x": "https://x.com/cincinosos/status/2116572203844321491"
    }
   },
   {
@@ -554,6 +554,45 @@
     "ig": "https://www.instagram.com/egitimtek/reel/DfIXrXIA2Tm/",
     "tt": null,
     "x": null
+   }
+  },
+  {
+   "id": "ep_bqO1SywQ",
+   "baslik": "Portakallar yere saçıldı, herkes akıl veriyor. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-31",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 7 Araba devrilince\\kapak Atasözü 7.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfKdElKPYUS/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "4n4I3yFfRPg",
+   "baslik": "Bu siteyi her sabah Claude güncelliyor | Herkese Eğitim",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Tanıtım\\Claude iş akışı\\kapak tr v3.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116638297816781231"
+   }
+  },
+  {
+   "id": "zeDfP75mf7o",
+   "baslik": "Claude updates this site every morning | Herkese Eğitim",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Tanıtım\\Claude iş akışı\\kapak en v3.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116638888186048876"
    }
   }
  ],
@@ -626,6 +665,17 @@
    "video": "i782m2_LpRU",
    "tarih": "2026-10-30",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 6 Ayağını yorganına göre uzat\\kapak Atasözü 6.png"
+  },
+  {
+   "no": 7,
+   "soz": "Araba devrilince yol gösteren çok olur.",
+   "slug": "araba-devrilince-yol-gosteren-cok-olur",
+   "soru": "Portakallar yere saçıldı, herkes akıl veriyor. Hangi atasözü?",
+   "anlam": "İş işten geçtikten sonra verilen öğüdün değeri yoktur.",
+   "sozcuk": null,
+   "video": "ep_bqO1SywQ",
+   "tarih": "2026-10-31",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 7 Araba devrilince\\kapak Atasözü 7.png"
   }
  ],
  "takvim": [
