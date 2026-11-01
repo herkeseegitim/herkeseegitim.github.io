@@ -12,7 +12,7 @@ document.addEventListener("click",function(e){
  var b=e.target.closest&&e.target.closest("button.vid");if(!b||b.dataset.yuklendi)return;
  var id=b.dataset.id;if(!/^[\w-]{6,20}$/.test(id))return;
  var f=document.createElement("iframe");
- f.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0";
+ f.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"+(b.dataset.cc==="en"?"&hl=en&cc_load_policy=1&cc_lang_pref=en":"");
  f.title=b.getAttribute("aria-label")||"YouTube videosu";
  f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";f.allowFullscreen=true;
  var d=document.createElement("div");d.className=b.className;d.appendChild(f);b.replaceWith(d);f.focus();

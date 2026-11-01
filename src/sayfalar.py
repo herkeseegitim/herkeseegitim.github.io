@@ -189,7 +189,7 @@ yaz("/konu/", sayfa("Konu önerin | Herkese Eğitim","Sınıfınızın konusunu 
 # ---- İngilizce giriş sayfası (/en/): yalnız bu sayfa İngilizce; araç ve atölye adresleri veriden
 EN_ARAC = {
  "ciztahta": dict(ne="A whiteboard that opens in your browser. Open a PDF and write on every page.",
-   ozellik=["Pen, curtain, spotlight and laser", "Timer, random student and groups", "Save the lesson and your notes as a PDF"],
+   ozellik=["Pen, curtain, spotlight and laser", "Timer, random name picker and groups", "Save the lesson and your notes as a PDF"],
    dil="Opens in English when your browser is not set to Turkish.", video="ydp5nstgcnI", ek=""),
  "yaztahta": dict(ne="Keyboard skills for grades 1 to 4. Where each key is and what it does.",
    ozellik=["At the computer, or the whole class at the board", "Letters are introduced in Jolly Phonics order", "English interface and US keyboard layout"],
@@ -198,7 +198,7 @@ EN_ARAC = {
 EN_ATOLYE = {
  "basit-makineler": ("Simple machines", "Grade 8 science. Build pulleys, levers and winches on the board and try them out."),
  "bilgisayarin-ici": ("Inside the computer", "Grade 5 IT. A 3D model shows where your typing goes, and why saving matters."),
- "yuzdeler": ("Percentages", "Grade 7 maths. Drag a bar to find a part, the whole, or a percentage change."),
+ "yuzdeler": ("Percentages", "Grade 7 math. Drag a bar to find a part, the whole, or a percentage change."),
 }
 _ue = {u["id"]: u for u in urunler}
 def _en_arac(k, i):
@@ -210,27 +210,106 @@ def _en_arac(k, i):
             f'<a class="dugme acik" href="https://www.youtube.com/watch?v={d["video"]}">Watch the English video</a></p></article>')
 _en_tr = "".join(f'<li><b>{E(EN_ATOLYE[k][0])}</b><span>{E(EN_ATOLYE[k][1])}</span><a href="{E(_ue[k]["url"])}" lang="tr">{E(_ue[k]["ad"])}</a><i>Turkish interface</i></li>'
                  for k in EN_ATOLYE if k in _ue and _ue[k]["durum"] == "yayinda")
-_en_sema = [{"@context":"https://schema.org","@type":"WebPage","name":"Herkese Eğitim in English","inLanguage":"en","url":SITE+"/en/","isPartOf":{"@id":SITE+"/#site"},"publisher":{"@id":KURUM["@id"]}}]
-_en = bas("Herkese Eğitim: free classroom tools from Türkiye",
-  "Free tools, workshops and short videos for classrooms in Türkiye. They open in the browser, with nothing to install and no account. Two tools work in English: ÇizTahta and YazTahta.",
-  "/en/", sema=_en_sema, dil="en", alt=DIL_ALT) + f'''<header class="ust koyu"><div class="w"><a class="logo" href="/en/"><img src="{LOGO}" alt="Herkese Eğitim, English page" width="200" height="46"></a><nav aria-label="Language"><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav></div></header>
+_EN_UST = f'<header class="ust koyu"><div class="w"><a class="logo" href="/en/"><img src="{LOGO}" alt="Herkese Eğitim, English home" width="200" height="46"></a><nav aria-label="Main"><a href="/en/#teachers">Tools</a><a href="/en/proverbs/">Turkish proverbs</a><a class="dil" href="/" hreflang="tr" lang="tr">Türkçe</a></nav></div></header>'
+_EN_ALT = f"""<footer class="en-alt"><div class="w"><p>Made by <span lang="tr">İdiye Ökten</span>. Questions or ideas: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p>
+<p>No analytics, no cookies, no tracking. <a href="/" hreflang="tr" lang="tr">Türkçe site</a></p></div></footer>
+<script src="/site.js?v={SURUM}" defer></script></body></html>"""
+EN_SLOGAN = "Old wisdom, new technology."
+EN_ALT_SL = "For using technology well, ethically and where it fits."
+def _kisalt(t, n):
+    return t if len(t) <= n else t[:n-1].rsplit(' ',1)[0].rstrip(',;:') + '…'
+_soz_en = [a for a in atasozleri if a.get("en")]
+_bugun_en = max(_soz_en, key=lambda a: ((a.get("tarih") or ""), a.get("no") or 0)) if _soz_en else None
+def _en_vid(v, ad):
+    if not v: return ""
+    img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy">' if v.get("kapak_w") else ""
+    return f'<button class="vid{" dik" if v.get("dik") else ""}" type="button" data-id="{E(v["id"])}" data-cc="en" aria-label="Play the video: {E(ad)}">{img}<span class="oynat" aria-hidden="true"></span></button>'
+def _en_band(k, ad, ne, hid):
+    return f'<div class="yol-band yb-{k}" id="{hid}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
+_EN_YOL = [
+ ("merak", "Curious minds", "A Turkish proverb every day, translated word for word. Short videos: guess first, then watch.",
+   [("Turkish proverbs", "/en/proverbs/")] + ([("Today’s proverb", en_soz(_bugun_en["en"]))] if _bugun_en else []), "curious"),
+ ("ogretmen", "Teachers", "For the classroom: tools that open in the browser. Nothing to install, no account.",
+   [("Two tools in English", "#teachers")], "teachers"),
+ ("ogrenci", "Students", "Workshops students work through at their own pace: guess, try, see what happens. Turkish interface for now.",
+   [("Workshops", "#students")], "students"),
+]
+_en_yollar = '<nav class="yollar en-yollar" aria-label="Who it is for"><div class="w">' + "".join(
+  f'<div class="yk yk-{k}"><h2><a href="#{hid}">{ad}</a></h2><p>{ne}</p><p class="yk-b">' + "".join(f'<a href="{h}">{E(t)}</a>' for t,h in l) + '</p></div>'
+  for k,ad,ne,l,hid in _EN_YOL) + '</div></nav>'
+_en_bsoz = (f'<section class="blm bsoz" aria-labelledby="en-bsoz"><div class="w"><p class="bsoz-k">Today’s Turkish proverb</p>'
+  f'<h2 id="en-bsoz"><a href="{en_soz(_bugun_en["en"])}">{E(_bugun_en["en"]["literal"])}</a></h2>'
+  f'<p class="bsoz-a"><span lang="tr">{E(_bugun_en["soz"])}</span></p>'
+  f'<p class="bsoz-b"><a class="dugme acik" href="{en_soz(_bugun_en["en"])}">Meaning and video</a><a class="dugme acik" href="/en/proverbs/">All Turkish proverbs</a></p></div></section>') if _bugun_en else ""
+_en_sema = [{"@context":"https://schema.org","@type":"WebPage","name":"Herkese Eğitim in English","description":EN_SLOGAN+" "+EN_ALT_SL,"inLanguage":"en","url":SITE+"/en/","isPartOf":{"@id":SITE+"/#site"},"publisher":{"@id":KURUM["@id"]}}]
+_en = bas("Herkese Eğitim: old wisdom, new technology",
+  "Old wisdom, new technology. Free classroom tools, workshops and a Turkish proverb every day, for using technology well, ethically and where it fits.",
+  "/en/", sema=_en_sema, dil="en", alt=DIL_ALT) + _EN_UST + f'''
 <main id="ana" class="sayfa en"><div class="w">
 <section class="en-bas" aria-labelledby="en-h1">
-<h1 id="en-h1"><span lang="tr">Herkese Eğitim</span></h1>
-<p class="en-sozluk">Turkish for “education for everyone”.</p>
-<p class="en-gir">Free tools, workshops and short videos for classrooms in Türkiye. Everything opens in the browser. Nothing to install, no account.</p>
-</section>
-<section class="en-blok" aria-labelledby="en-h2a"><h2 id="en-h2a">Two tools that work in English</h2>
-<div class="en-araclar">{_en_arac("ciztahta",1)}{_en_arac("yaztahta",2)}</div></section>
-<section class="en-blok" aria-labelledby="en-h2b"><h2 id="en-h2b">Workshops, in Turkish for now</h2>
-<p class="en-not">Curriculum simulations for Turkish classrooms. The interface is in Turkish, but you can still try them.</p>
-<ul class="en-tr">{_en_tr}</ul></section>
-<section class="en-blok en-son" aria-labelledby="en-h2c"><h2 id="en-h2c">Short videos</h2>
-<p>Three-second quiz questions, Turkish proverbs and special occasions, mostly in Turkish. The English videos sit in their own playlist on the channel.</p>
+<h1 id="en-h1">{E(EN_SLOGAN)}</h1>
+<p class="en-alt-sl">{E(EN_ALT_SL)}</p>
+<p class="en-somut">Free classroom tools, workshops and a Turkish proverb every day, from Türkiye. Nothing to install, no account.</p>
+<p class="en-sozluk"><span lang="tr">Herkese Eğitim</span>: Turkish for “education for everyone”.</p>
+</section></div>
+{_en_yollar}
+{_en_band("merak", "Curious minds", "Old Turkish sayings, word for word, with a short video for each.", "curious")}
+{_en_bsoz}
+<div class="w"><section class="en-blok en-son" aria-labelledby="en-h2c"><h2 id="en-h2c">Short videos</h2>
+<p>Three-second quiz questions, Turkish proverbs and special days, mostly in Turkish. The proverb videos have English subtitles. The English videos have their own playlist on the channel.</p>
 <p><a class="dugme acik" href="https://www.youtube.com/@egitimtek">YouTube: @egitimtek</a></p>
-</section>
-</div></main>
-<footer class="en-alt"><div class="w"><p>Made by <span lang="tr">İdiye Ökten</span>. Questions or ideas: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p>
-<p>No analytics, no cookies, no tracking. <a href="/" hreflang="tr" lang="tr">Türkçe site</a></p></div></footer>
-<script src="/site.js?v={SURUM}" defer></script></body></html>'''
+</section></div>
+{_en_band("ogretmen", "Teachers", "Free tools that open in the browser. Nothing to install, no account.", "teachers")}
+<div class="w"><section class="en-blok" aria-labelledby="en-h2a"><h2 id="en-h2a">Two tools that work in English</h2>
+<div class="en-araclar">{_en_arac("ciztahta",1)}{_en_arac("yaztahta",2)}</div></section></div>
+{_en_band("ogrenci", "Students", "Workshops students work through on their own, from a link their teacher or parent gives them.", "students")}
+<div class="w"><section class="en-blok" aria-labelledby="en-h2b"><h2 id="en-h2b">Workshops, in Turkish for now</h2>
+<p class="en-not">Curriculum simulations for Turkish classrooms. The interface is in Turkish, but you can still try them. No account needed.</p>
+<ul class="en-tr">{_en_tr}</ul></section></div>
+</main>{_EN_ALT}'''
 yaz("/en/", _en)
+
+# ---- Turkish proverbs (/en/proverbs/): veri data/atasozleri_en.json + icerik.json atasozleri; sayfalara elle dokunulmaz
+def _en_soz_li(a):
+    e = a["en"]
+    return (f'<li><a href="{en_soz(e)}"><small>No. {E(a.get("no"))}</small><b>{E(e["literal"])}</b>'
+            f'<span lang="tr">{E(a["soz"])}</span></a></li>')
+_ens_set = {"@type":"DefinedTermSet","@id":SITE+"/en/proverbs/#set","name":"Turkish proverbs","inLanguage":"en","url":SITE+"/en/proverbs/"}
+if _soz_en:
+    yaz("/en/proverbs/", bas("Turkish proverbs, word for word | Herkese Eğitim",
+      "Old Turkish proverbs translated word for word, with their meaning, the closest English saying and a short video with English subtitles.",
+      "/en/proverbs/", sema=[dict({"@context":"https://schema.org"}, **_ens_set, hasDefinedTerm=[{"@type":"DefinedTerm","name":a["soz"],"alternateName":a["en"]["literal"],"url":SITE+en_soz(a["en"])} for a in _soz_en])],
+      dil="en", alt=[("en","/en/proverbs/"),("tr","/atasozleri/")]) + _EN_UST + f'''
+<main id="ana" class="sayfa en"><div class="w">
+<p class="en-yol"><a href="/en/">Home</a> / Turkish proverbs</p>
+<section class="en-pbas"><h1>Turkish proverbs, word for word</h1>
+<p>Old Turkish sayings, first translated literally, then explained. Each one has a short video with English subtitles.</p></section>
+<ol class="soz-liste en-pl">{"".join(_en_soz_li(a) for a in reversed(_soz_en))}</ol>
+</div></main>{_EN_ALT}''')
+for i,a in enumerate(_soz_en):
+    e = a["en"]; v = VBY.get(a.get("video")) or ({"id":a["video"],"baslik":a["soz"],"kapak_w":a.get("kapak_w"),"dik":True,"tarih":a.get("tarih")} if a.get("video") else None)
+    lit = e["literal"].rstrip(".")
+    esd = e.get("equivalent") or "No direct English equivalent."
+    kay = ("A folk saying, not in the TDK dictionary; the meaning is our own reading." if (e.get("source") or "").lower().startswith("folk")
+           else "Meaning based on the dictionary of the Turkish Language Association (TDK).")
+    sema = [{"@context":"https://schema.org","@type":"DefinedTerm","name":a["soz"],"alternateName":e["literal"],"description":e["meaning"],"inLanguage":"tr",
+             "inDefinedTermSet":_ens_set,"url":SITE+en_soz(e),"sameAs":SITE+soz_sayfa(a)}]
+    if v:
+        _vs = sema_video(v, en_soz(e))
+        if _vs: sema.append(_vs)
+    onc = _soz_en[i-1] if i>0 else None; snr = _soz_en[i+1] if i+1<len(_soz_en) else None
+    gez = '<p class="en-gez">' + (f'<a href="{en_soz(onc["en"])}">Previous: {E(onc["en"]["literal"])}</a>' if onc else "<span></span>") + (f'<a href="{en_soz(snr["en"])}">Next: {E(snr["en"]["literal"])}</a>' if snr else "") + f'</p><p><a class="dugme acik" href="/en/proverbs/">All Turkish proverbs ({len(_soz_en)})</a></p>'
+    yaz(en_soz(e), bas(f"Turkish proverb: {lit}", _kisalt(f"{e['literal']} Meaning: {e['meaning']}", 160), en_soz(e), sema=sema, og=a.get("kapak_w"),
+        dil="en", alt=[("en",en_soz(e)),("tr",soz_sayfa(a))]) + _EN_UST + f'''
+<main id="ana" class="sayfa en"><div class="w">
+<p class="en-yol"><a href="/en/">Home</a> / <a href="/en/proverbs/">Turkish proverbs</a> / No. {E(a.get("no"))}</p>
+<div class="soz-sayfa"><article class="makale">
+<p class="en-etk">Turkish proverb</p>
+<h1 class="soz" lang="tr">{E(a["soz"])}</h1>
+<div class="kutu"><h2>Word for word</h2><p>{E(e["literal"])}</p></div>
+<div class="kutu"><h2>Meaning</h2><p>{E(e["meaning"])}</p></div>
+<div class="kutu"><h2>English equivalent</h2><p>{E(esd)}</p></div>
+<p class="en-kay">{E(kay)} <a href="{soz_sayfa(a)}" hreflang="tr" lang="tr">Türkçe sayfa</a></p>
+{gez}</article>
+<aside>{('<p class="vid-not en-cc">English subtitles available.</p>' + _en_vid(v, e["literal"])) if v else ""}</aside></div>
+</div></main>{_EN_ALT}''')
