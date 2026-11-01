@@ -414,8 +414,9 @@ INV = json.load(open(_INV_YOL, encoding="utf-8")) if os.path.exists(_INV_YOL) el
 INV_ADRES = "/icinde-ne-var/"
 def _inv_video(b):
     if not b.get("video"): return ""
-    return ('<button type="button" id="hev-ac" style="position:fixed;left:12px;bottom:56px;z-index:50;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:999px;border:2px solid #2A2420;background:#FFC21A;color:#2A2420;cursor:pointer">▶ Videosu</button>'
-      '<dialog id="hev-d" style="padding:0;border:0;background:#2A2420;border-radius:14px;max-width:96vw"><div style="display:flex;justify-content:flex-end;padding:6px"><button type="button" id="hev-k" style="font:600 14px system-ui,sans-serif;background:#F7F0E1;border:0;border-radius:999px;padding:8px 14px;cursor:pointer">Kapat</button></div><div id="hev-v" style="width:min(360px,90vw);aspect-ratio:9/16"></div></dialog>'
+    return ('<style>#hev-ac{position:fixed;left:12px;bottom:56px;z-index:50;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:999px;border:2px solid #2A2420;background:#FFC21A;color:#2A2420;cursor:pointer}@media (max-width:700px){#hev-ac{left:auto;right:10px;bottom:auto;top:132px;font-size:13px;padding:8px 12px}}</style>'
+      '<button type="button" id="hev-ac">▶ Videosu</button>'
+      '<dialog id="hev-d" style="position:fixed;inset:0;margin:auto;padding:0;border:0;background:#2A2420;border-radius:14px;max-width:96vw;max-height:96vh;height:fit-content;width:fit-content"><div style="display:flex;justify-content:flex-end;padding:6px"><button type="button" id="hev-k" style="font:600 14px system-ui,sans-serif;background:#F7F0E1;border:0;border-radius:999px;padding:8px 14px;cursor:pointer">Kapat</button></div><div id="hev-v" style="height:min(640px,82vh);aspect-ratio:9/16;max-width:92vw"></div></dialog>'
       '<script>(function(){var d=document.getElementById("hev-d"),v=document.getElementById("hev-v");document.getElementById("hev-ac").onclick=function(){v.innerHTML=\'<iframe src="https://www.youtube-nocookie.com/embed/' + E(b["video"]) + '?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0"></iframe>\';d.showModal()};document.getElementById("hev-k").onclick=function(){d.close()};d.addEventListener("close",function(){v.innerHTML=""})})();</script>')
 _inv_k = []
 for b in INV:
