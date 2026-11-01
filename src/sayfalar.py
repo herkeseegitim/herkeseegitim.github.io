@@ -407,3 +407,32 @@ yaz("/en/about/", bas("About: İdiye Ökten | Herkese Eğitim",
 <section class="hk-misyon" aria-label="Herkese Eğitim"><p class="hk-sl">{E(EN_SLOGAN)}</p><p class="hk-mi">{E(_EN_MISYON)}</p></section>
 <p class="ats-trs"><a href="/hakkinda/" hreflang="tr">In Turkish: <span lang="tr">Hakkında</span></a> (with talks, certificates and the full timeline)</p>
 </article></div></main>{_EN_ALT}""")
+
+# ---- İçinde Ne Var? (bilişim dizisi): data/icinde-ne-var/bolumler.json; her bölüm kendi tek dosyalık 3B sayfası
+_INV_YOL = os.path.join(KOK, "data", "icinde-ne-var", "bolumler.json")
+INV = json.load(open(_INV_YOL, encoding="utf-8")) if os.path.exists(_INV_YOL) else []
+INV_ADRES = "/icinde-ne-var/"
+def _inv_video(b):
+    if not b.get("video"): return ""
+    return ('<button type="button" id="hev-ac" style="position:fixed;left:12px;bottom:56px;z-index:50;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:999px;border:2px solid #2A2420;background:#FFC21A;color:#2A2420;cursor:pointer">▶ Videosu</button>'
+      '<dialog id="hev-d" style="padding:0;border:0;background:#2A2420;border-radius:14px;max-width:96vw"><div style="display:flex;justify-content:flex-end;padding:6px"><button type="button" id="hev-k" style="font:600 14px system-ui,sans-serif;background:#F7F0E1;border:0;border-radius:999px;padding:8px 14px;cursor:pointer">Kapat</button></div><div id="hev-v" style="width:min(360px,90vw);aspect-ratio:9/16"></div></dialog>'
+      '<script>(function(){var d=document.getElementById("hev-d"),v=document.getElementById("hev-v");document.getElementById("hev-ac").onclick=function(){v.innerHTML=\'<iframe src="https://www.youtube-nocookie.com/embed/' + E(b["video"]) + '?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0"></iframe>\';d.showModal()};document.getElementById("hev-k").onclick=function(){d.close()};d.addEventListener("close",function(){v.innerHTML=""})})();</script>')
+_inv_k = []
+for b in INV:
+    assert re.fullmatch(r"[a-z0-9-]{3,60}", b["slug"]), "İçinde Ne Var: kötü slug"
+    assert not b.get("video") or re.fullmatch(r"[A-Za-z0-9_-]{11}", b["video"]), "İçinde Ne Var: kötü video kimliği"
+    if (b.get("tarih") or "9") > BUGUN.isoformat(): continue
+    h = open(os.path.join(KOK, "data", b["sayfa"]), encoding="utf-8").read()
+    if b.get("video"): h = h.replace("</body>", _inv_video(b) + "\n</body>", 1)
+    yaz(f"{INV_ADRES}{b['slug']}/", h)
+    b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
+    vb = vid_btn({"id": b["video"], "kapak_w": b["kapak_w"], "dik": True, "baslik": b["soru"]}) if b.get("video") else ""
+    _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
+      + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">Sayfayı açın, kendiniz sökün</span></a>'
+      + (f'<figure style="margin:10px 0 0">{vb}<figcaption>{E(b["soru"])}</figcaption></figure>' if vb else "") + '</li>')
+if _inv_k:
+    _inv_ac = "Her hafta eski bir aleti 3B olarak söküyoruz, yerine geleni de. Sayfayı tarayıcıda açın, parçaları kendiniz sökün; kurulum yok, akıllı tahtada da açılır."
+    yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,
+      lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k)} bölüm"), ("Her hafta", "eski bir alet, yerine gelenle")])
+      + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
+      [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?"))
