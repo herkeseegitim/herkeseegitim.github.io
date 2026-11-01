@@ -167,14 +167,15 @@ rss = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="ht
 open(os.path.join(OUT,"yenilikler.xml"),"w",encoding="utf-8").write(rss)
 
 # gizlilik
-yaz("/gizlilik/", sayfa("Gizlilik | Herkese Eğitim","Bu sitede sayaç, takip ve çerez yok.","/gizlilik/",'''<div class="yan-yana"><article class="makale"><h1>Gizlilik</h1>
-<p>Bu sitede sayaç, takip kodu ve çerez yok. Sitede hesap açılmaz, form doldurulmaz.</p>
+yaz("/gizlilik/", sayfa("Gizlilik | Herkese Eğitim","Bu sitede takip kodu ve çerez yok. Ziyaretler kişisel veri toplanmadan sayılır.","/gizlilik/",'''<div class="yan-yana"><article class="makale"><h1>Gizlilik</h1>
+<p>Bu sitede takip kodu ve çerez yok. Sitede hesap açılmaz, form doldurulmaz.</p>
+<p>Kaç kişinin hangi sayfayı açtığı GoatCounter ile kişisel veri toplanmadan sayılır. Çerez yazılmaz, sizi tanıyan bir kimlik tutulmaz. Araçlar, atölyeler ve indirilen dosyalarda sayaç yoktur.</p>
 <p>Tarayıcınızda iki küçük not kalır: "Üç soru" seçimleriniz ve son ziyaret tarihiniz ("Yeni" etiketleri için). İkisi de bize gelmez. Yandaki düğmeyle hemen silebilirsiniz.</p>
 <p>Videolar YouTube'dan gelir ve siz oynat düğmesine dokunana kadar yüklenmez. Dokununca YouTube'un çerezsiz oynatıcısı (youtube-nocookie.com) açılır; o andan sonra YouTube'un kendi kuralları geçerlidir.</p>
 <p>Site GitHub Pages'ta durur, alan adı Cloudflare'dedir. Bu hizmetler, her web sitesinde olduğu gibi, sayfanın size ulaşması için teknik kayıt tutar. Biz kimin baktığını görmeyiz.</p>
 <p>Araçlar ve atölyeler tarayıcınızda çalışır; içlerine yazdığınız bir şey bize gönderilmez.</p>
 <p>Soru ve öneri: <a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></p></article>
-<aside class="yan-pano"><div class="tahta-liste"><p class="tl-b">Bu sitede yok</p><ul class="cizik"><li>Sayaç</li><li>Takip kodu</li><li>Çerez</li><li>Reklam</li><li>Hesap açma</li><li>Form</li></ul></div>
+<aside class="yan-pano"><div class="tahta-liste"><p class="tl-b">Bu sitede yok</p><ul class="cizik"><li>Takip kodu</li><li>Çerez</li><li>Reklam</li><li>Hesap açma</li><li>Form</li></ul></div>
 <div class="not-kagit"><p class="tl-b">Bu tarayıcıda kalan</p><ul class="kalan"><li data-k="he-kapi"><b>Üç soru seçimi</b><span></span></li><li data-k="he-son"><b>Son ziyaret tarihi</b><span></span></li></ul><button type="button" class="dugme kir sil-not">Bu tarayıcıdan sil</button><p class="sil-durum" role="status"></p></div></aside></div>''', None, " / Gizlilik"))
 
 konu_konu = urllib.parse.quote("Atölye önerisi")
@@ -227,7 +228,7 @@ for _a, _b in [("<p class=\"cikis-b\">Zil çaldı.</p>", "<p class=\"cikis-b\">T
                ("Mıknatısları tahtada gezdirebilirsiniz.", "You can move the magnets around the board."),
                ('<li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li>',
                 '<li><a href="/en/about/">About</a></li><li><a href="/" hreflang="tr" lang="tr">Türkçe</a></li>'),
-               ("Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez.", "No analytics, no cookies, no tracking. YouTube videos load only when you tap them.")]:
+               ("Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez.", "No cookies. Visits are counted without collecting personal data. YouTube videos load only when you tap them.")]:
     assert _a in _EN_ALT, ("EN sayfa sonu", _a)
     _EN_ALT = _EN_ALT.replace(_a, _b)
 if _oh: _EN_ALT = _EN_ALT.replace(_oh, _en_odev)
@@ -406,6 +407,7 @@ yaz("/en/about/", bas("About: İdiye Ökten | Herkese Eğitim",
 </section>
 <section class="hk-misyon" aria-label="Herkese Eğitim"><p class="hk-sl">{E(EN_SLOGAN)}</p><p class="hk-mi">{E(_EN_MISYON)}</p></section>
 <p class="ats-trs"><a href="/hakkinda/" hreflang="tr">In Turkish: <span lang="tr">Hakkında</span></a> (with talks, certificates and the full timeline)</p>
+<p class="ats-trs">This site uses no cookies. GoatCounter counts how many people open each page, without collecting personal data.</p>
 </article></div></main>{_EN_ALT}""")
 
 # ---- İçinde Ne Var? (bilişim dizisi): data/icinde-ne-var/bolumler.json; her bölüm kendi tek dosyalık 3B sayfası
