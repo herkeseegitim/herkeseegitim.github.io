@@ -121,6 +121,7 @@ takvim = [
 if os.path.exists(OUT): shutil.rmtree(OUT)
 for d in ["fonts","img","urun","atasozleri","hakkinda","canta"]: os.makedirs(os.path.join(OUT,d), exist_ok=True)
 for f in ["bg.woff2","bg-ext.woff2"]: shutil.copy(os.path.join(KOK,"fonts",f), os.path.join(OUT,"fonts",f))
+os.makedirs(os.path.join(OUT,"assets"), exist_ok=True); shutil.copy(os.path.join(KOK,"src","count.js"), os.path.join(OUT,"assets","count.js"))  # GoatCounter v2.7.0, yalnız site sayfalarında
 css = open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()
 js = open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()
 open(os.path.join(OUT,"site.css"),"w",encoding="utf-8").write(css)
@@ -173,7 +174,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
     s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
     return f"""<!doctype html><html lang="{dil}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><link rel="canonical" href="{E(can)}">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://herkeseegitim.goatcounter.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self' https://herkeseegitim.goatcounter.com; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
 <meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/img/logo.png">
@@ -198,9 +199,9 @@ __ODEV__
 
 <div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
 <ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li></ul></div>
-<p class="kucuk">Bu sitede sayaç ve takip yok. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
+<p class="kucuk">Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
 <dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
-<script src="/site.js?v={SURUM}"></script></body></html>"""
+<script data-goatcounter="https://herkeseegitim.goatcounter.com/count" async src="/assets/count.js"></script><script src="/site.js?v={SURUM}"></script></body></html>"""
 
 def vid_btn(v, ad=None):
     if not v: return ""
@@ -369,7 +370,7 @@ hafta_html = f'''<section class="blm hafta" id="hafta" aria-labelledby="hafta-b"
 <div>{vid_btn(hv, hafta_u["ad"]) if hv else (f'<img src="{hafta_u["kapak_w"]}" alt="" style="border-radius:12px">' if hafta_u.get("kapak_w") else "")}</div></div>
 <h3 class="gizli">Takvim</h3><ol class="cumalar" aria-label="Takvim">{cumalar}</ol></div></section>'''
 
-kapi_html = '''<section class="kapi" id="kapi" aria-labelledby="kapi-b"><div class="w"><div><h2 id="kapi-b">Üç soru</h2><p class="ac">Seçtiklerinize uyanları listenin başına alırım. Seçiminiz yalnız bu cihazda kalır; sitede sayaç ve takip yok.</p></div><div>
+kapi_html = '''<section class="kapi" id="kapi" aria-labelledby="kapi-b"><div class="w"><div><h2 id="kapi-b">Üç soru</h2><p class="ac">Seçtiklerinize uyanları listenin başına alırım. Seçiminiz yalnız bu cihazda kalır; sitede çerez ve takip yok.</p></div><div>
 <fieldset class="soru"><legend>Kimsiniz?</legend>''' + '<div class="sec">' + "".join(f'<label><input type="radio" name="kim" value="{v}"><span>{t}</span></label>' for v,t in [("ogretmen","Öğretmenim"),("veli","Veliyim"),("ogrenci","Öğrenciyim"),("meraklı","Merak ettim")]) + '''</div></fieldset>
 <fieldset class="soru"><legend>Hangi sınıf?</legend><div class="sec">''' + "".join(f'<label><input type="radio" name="kademe" value="{v}"><span>{t}</span></label>' for v,t in [("ilkokul","İlkokul"),("ortaokul","Ortaokul"),("lise","Lise")]) + '''</div></fieldset>
 <fieldset class="soru"><legend>Ne lazım?</legend><div class="sec">''' + "".join(f'<label><input type="radio" name="ihtiyac" value="{v}"><span>{t}</span></label>' for v,t in [("tahta","Tahtada araç"),("giris","Derse giriş sorusu"),("atolye","Konuyu keşfettiren atölye"),("kendim","Evde kendi çalışma")]) + '''</div></fieldset>
@@ -573,3 +574,17 @@ for _k,_d,_ds in os.walk(OUT):
 open(os.path.join(OUT,".nojekyll"),"w").write("")
 if os.environ.get("CNAME"): open(os.path.join(OUT,"CNAME"),"w").write(os.environ["CNAME"]+"\n")
 print("tamam:", len(urunler),"ürün,",len(videolar),"video,",len(atasozleri),"atasözü, çanta:",len(canta_dosyalar))
+
+# ---- sayaç denetimi: araç, atölye, çanta zip'i ve İçinde Ne Var? bölüm dosyalarında GoatCounter olmamalı
+def _gc_yok(ad, b):
+    assert b"goatcounter" not in b.lower(), ("sayaç araç dosyasına girdi", ad)
+for _k, _d, _fs in os.walk(OUT):
+    _r = os.path.relpath(_k, OUT).replace(os.sep, "/")
+    _arac = _r.split("/")[0] in ("indir", "atolye") or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
+    for _f in _fs:
+        _y = os.path.join(_k, _f)
+        if _f.endswith(".zip"):
+            with zipfile.ZipFile(_y) as _z:
+                for _n in _z.namelist(): _gc_yok(_r + "/" + _f + ":" + _n, _z.read(_n))
+        elif _arac and _f.endswith((".html", ".js")):
+            _gc_yok(_r + "/" + _f, open(_y, "rb").read())
