@@ -177,7 +177,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
 <meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/img/logo.png">
-<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="Herkese Eğitim yenilikler" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
+<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
 NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
 def ust_koyu():
@@ -526,7 +526,7 @@ open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
 open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
   bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten ve Herkese Eğitim. Eskinin bilgeliği, yeninin teknolojisi: teknolojinin doğru, etik ve yerinde kullanımı için ücretsiz araçlar, atölyeler ve videolar.","/hakkinda/",
-      sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}]) + ust_koyu()
+      sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}], alt=[("tr","/hakkinda/"),("en","/en/about/")]) + ust_koyu()
   + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{SLOGAN}",E(SLOGAN)).replace("{MISYON}",E(MISYON)).replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
 # ---- 404, robots, sitemap, llms.txt
