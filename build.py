@@ -94,6 +94,21 @@ UR = {u["id"]: u for u in urunler}
 videolar = sorted(veri.get("videolar", []), key=lambda v: v.get("tarih") or "", reverse=True)
 atasozleri = sorted(veri.get("atasozleri", []), key=lambda a: int(a.get("no") or 0))
 for a in atasozleri: a["slug"] = a.get("slug") or slug(a["soz"])
+# İngilizce katman (Turkish proverbs): data/atasozleri_en.json, no ile eşlenir; yalnız Türkçe kaydı olan ve yayındaki söz İngilizce sayfa alır
+_en_yol = os.path.join(KOK,"data","atasozleri_en.json")
+SOZ_EN = json.load(open(_en_yol, encoding="utf-8")) if os.path.exists(_en_yol) else []
+_en_no, _en_sl = set(), set()
+for x in SOZ_EN:
+    assert isinstance(x.get("no"), int) and x["no"] not in _en_no, ("atasozleri_en no", x.get("no"))
+    assert re.fullmatch(r"[a-z0-9-]{3,80}", x.get("slug") or ""), ("atasozleri_en slug", x.get("slug"))
+    assert x["slug"] not in _en_sl, ("atasozleri_en slug tekrar", x["slug"])
+    for f in ("literal","meaning"): assert isinstance(x.get(f), str) and x[f].strip(), ("atasozleri_en", x["no"], f)
+    assert x.get("equivalent") is None or isinstance(x["equivalent"], str), ("atasozleri_en equivalent", x["no"])
+    _en_no.add(x["no"]); _en_sl.add(x["slug"])
+_en_by = {x["no"]: x for x in SOZ_EN}
+for a in atasozleri:
+    e = _en_by.get(int(a.get("no") or 0))
+    a["en"] = e if (e and (a.get("tarih") or "") <= BUGUN.isoformat()) else None
 takvim = [
  {"tarih":"2026-10-16","baslik":"ÇizTahta","tur":"arac","not":"Tarayıcıda açılan tahta"},
  {"tarih":"2026-10-24","baslik":"Basit Makineler","tur":"atolye","not":"8. sınıf fen","urun":"basit-makineler"},
@@ -249,6 +264,7 @@ def tarih_iso(t):
 # ---- sayfa adresleri
 def urun_sayfa(u): return f"/urun/{u['id']}/"
 def soz_sayfa(a): return f"/atasozleri/{a['slug']}/"
+def en_soz(e): return f"/en/proverbs/{e['slug']}/"
 def video_sayfa(v):
     a = next((a for a in atasozleri if a.get("video")==v["id"]), None)
     if a: return soz_sayfa(a)
@@ -453,12 +469,13 @@ for i,a in enumerate(atasozleri):
     if v: sema.append(sema_video(v, soz_sayfa(a)))
     onc = atasozleri[i-1] if i>0 else None; snr = atasozleri[i+1] if i+1<len(atasozleri) else None
     gez = '<p style="margin-top:36px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">' + (f'<a href="{soz_sayfa(onc)}">Önceki: {E(onc["soz"])}</a>' if onc else "<span></span>") + (f'<a href="{soz_sayfa(snr)}">Sonraki: {E(snr["soz"])}</a>' if snr else "") + "</p>"
-    sayfa = bas(f"{a['soz']}: anlamı | Atasözlerimizi Yaşatalım", f"{a['soz']} atasözünün anlamı. "+(a.get("anlam") or "")[:110], soz_sayfa(a), sema=sema, og=a.get("kapak_w")) + ust_koyu() + f'''
+    _alt = [("tr",soz_sayfa(a)),("en",en_soz(a["en"]))] if a.get("en") else None
+    sayfa = bas(f"{a['soz']}: anlamı | Atasözlerimizi Yaşatalım", f"{a['soz']} atasözünün anlamı. "+(a.get("anlam") or "")[:110], soz_sayfa(a), sema=sema, og=a.get("kapak_w"), alt=_alt) + ust_koyu() + f'''
 <main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/atasozleri/">Atasözleri</a> / No. {E(a.get("no"))}</p>
 <div class="soz-sayfa"><article class="makale"><h1 class="soz">{E(a["soz"])}</h1>
 <div class="kutu"><h2>Anlamı</h2><p>{E(a.get("anlam"))}</p></div>
 {f'<div class="kutu"><h2>{E((sz.get("kelime") or "")[:1].replace("i","İ").upper()+(sz.get("kelime") or "")[1:])} ne demek?</h2><p>{E(sz.get("anlam"))}</p></div>' if sz.get("kelime") and sz.get("anlam") else ""}
-{f'<p style="margin-top:22px">Videodaki soru: {E(a.get("soru"))}</p>' if a.get("soru") else ""}{gez}</article>
+{f'<p style="margin-top:22px">Videodaki soru: {E(a.get("soru"))}</p>' if a.get("soru") else ""}{f'<p style="margin-top:14px;font-size:16px"><a href="{en_soz(a["en"])}" hreflang="en" lang="en">In English: {E(a["en"]["literal"])}</a></p>' if a.get("en") else ""}{gez}</article>
 <aside>{vid_btn(v, a["soz"]) if v else ""}</aside></div></div></main>{ALT}'''
     os.makedirs(os.path.join(OUT,"atasozleri",a["slug"]), exist_ok=True)
     open(os.path.join(OUT,"atasozleri",a["slug"],"index.html"),"w",encoding="utf-8").write(sayfa)
