@@ -206,7 +206,10 @@ def qr_gizli():
 
 # ---- schema.org
 KISI = {"@type":"Person","@id":SITE+"/hakkinda/#idiye","name":"İdiye Ökten","url":SITE+"/hakkinda/","sameAs":["https://www.linkedin.com/in/idiye/"]}
-KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
+SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi."
+MISYON = "Herkese Eğitim, eğitimden yola çıkarak teknolojinin doğru, etik ve yerinde kullanımını yaygınlaştırır. Amacı insanların işini kolaylaştırmak, daha üretken olmalarına ve daha anlamlı bir hayat kurmalarına yardım etmek."
+ACIKLAMA = "Eskinin bilgeliği, yeninin teknolojisi. Teknolojiyi doğru, etik ve yerinde kullanmak için ücretsiz araçlar, atölyeler, tahmin soruları ve her gün bir atasözü."
+KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","slogan":SLOGAN,"description":MISYON,"founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
   "sameAs":["https://www.youtube.com/@egitimtek","https://www.instagram.com/egitimtek/","https://x.com/cincinosos","https://github.com/herkeseegitim"]}
 def sema_urun(u):
     if u["tur"] == "atolye":
@@ -356,30 +359,62 @@ kapi_html = '''<section class="kapi" id="kapi" aria-labelledby="kapi-b"><div cla
 <fieldset class="soru"><legend>Ne lazım?</legend><div class="sec">''' + "".join(f'<label><input type="radio" name="ihtiyac" value="{v}"><span>{t}</span></label>' for v,t in [("tahta","Tahtada araç"),("giris","Derse giriş sorusu"),("atolye","Konuyu keşfettiren atölye"),("kendim","Evde kendi çalışma")]) + '''</div></fieldset>
 <p class="kapi-sonuc" id="kapi-sonuc" role="status" aria-live="polite"></p><button class="temizle" type="button">Seçimleri temizle</button></div></div></section>'''
 
-sema_ana = [{"@context":"https://schema.org","@graph":[KURUM,KISI,{"@type":"WebSite","@id":SITE+"/#site","url":SITE+"/","name":"Herkese Eğitim","inLanguage":"tr","publisher":{"@id":KURUM["@id"]}},
+sema_ana = [{"@context":"https://schema.org","@graph":[KURUM,KISI,{"@type":"WebSite","@id":SITE+"/#site","url":SITE+"/","name":"Herkese Eğitim","description":ACIKLAMA,"inLanguage":"tr","publisher":{"@id":KURUM["@id"]}},
    {"@type":"ItemList","name":"Herkese Eğitim kitaplığı","itemListElement":[{"@type":"ListItem","position":i+1,"url":SITE+urun_sayfa(u),"name":u["ad"]} for i,u in enumerate(urunler)]}]}]
 open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, ensure_ascii=False))
 gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
 ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
-ana = bas("Herkese Eğitim: öğretmene, öğrenciye, herkese ücretsiz paylaşımlar",
-  "İdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. ", "/", sema=sema_ana, alt=DIL_ALT) + f'''
+# ---- üç yol (Yönetim Kararları 18)
+_bs = [a for a in atasozleri if (a.get("tarih") or "") <= BUGUN.isoformat()]
+bugun_soz = max(_bs, key=lambda a: ((a.get("tarih") or ""), a.get("no") or 0)) if _bs else None
+_atolyeler = [u for u in urunler if u["tur"]=="atolye" and u["durum"]=="yayinda"]
+YOL = {
+ "merak": ("Merak edenler", "Her gün bir atasözü, 3 saniyelik tahmin soruları."),
+ "ogretmen": ("Öğretmenler", "Derste kullanım: tahtada açılan araçlar, öğrenme çıktısına bağlı atölyeler, çevrimdışı çanta."),
+ "ogrenci": ("Öğrenciler", "Atölyelerde kendi hızında çalışma: öğrenci tahmin eder, dener, sonucu görür."),
+}
+def yol_band(k):
+    ad, ne = YOL[k]
+    return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
+_kapilar = [
+ ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")]),
+ ("ogretmen", [("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
+ ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
+]
+yollar_html = '<nav class="yollar" aria-label="Kimin için"><div class="w">' + "".join(
+  f'<div class="yk yk-{k}"><h2><a href="#{k}">{YOL[k][0]}</a></h2><p>{YOL[k][1]}</p><p class="yk-b">' + "".join(f'<a href="{h}">{E(t)}</a>' for t,h in l) + '</p></div>'
+  for k,l in _kapilar) + '</div></nav>'
+soz_html = (f'<section class="blm bsoz" aria-labelledby="bsoz-b"><div class="w"><p class="bsoz-k">Bugünün atasözü</p><h2 id="bsoz-b"><a href="{soz_sayfa(bugun_soz)}">{E(bugun_soz["soz"])}</a></h2>'
+  + (f'<p class="bsoz-a">{E(bugun_soz["anlam"])}</p>' if bugun_soz.get("anlam") else "")
+  + '<p class="bsoz-b"><a class="dugme acik" href="' + soz_sayfa(bugun_soz) + '">Anlamı ve videosu</a><a class="dugme acik" href="/atasozleri/">Bütün atasözleri</a></p></div></section>') if bugun_soz else ""
+ogrenci_html = ('<section class="blm ogr" aria-label="Atölyeler"><div class="w"><ul class="ogr-l" id="atolyeler">' + "".join(
+  f'<li><b><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></b><span class="ogr-s">{E(u["sinif"])}</span><span class="ogr-n">{E(u["kisa"])}</span><span class="ogr-e"><a href="{urun_sayfa(u)}">Ayrıntı ve adres</a></span></li>' for u in _atolyeler)
+  + '</ul><p class="ogr-not" id="ogr-not">Veliler için: öğrenci atölyeyi öğretmeninin ya da sizin verdiğiniz adresten açar; hesap gerekmez.</p></div></section>') if _atolyeler else ""
+ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
+  ACIKLAMA, "/", sema=sema_ana, alt=DIL_ALT) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
 <canvas class="tahta" id="tahta" aria-hidden="true"></canvas>
 <div class="w"><div class="yazi">
-<h1 id="h1" class="gir" style="--d:150ms">Öğretmene, öğrenciye, herkese ücretsiz paylaşımlar.</h1>
+<h1 id="h1" class="gir" style="--d:150ms">Eskinin bilgeliği, yeninin teknolojisi.</h1>
+<p class="alt alt-sl gir" style="--d:300ms">Teknolojiyi doğru, etik ve yerinde kullanmak için.</p>
 <a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
-<p class="alt gir" style="--d:560ms">Tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, kısa tahmin videoları.</p>
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
 </div></div>
 <a class="cuma-not" href="#hafta">{f'<img src="{hafta_u["kapak_w"]}" alt="">' if hafta_u.get("kapak_w") else '<span class="soru-b">'+E(hafta_u["kisa"])+'</span>'}<small>{ETIKET}</small><b>{E(hafta_u["ad"])}</b><span>{E(hafta_u["sinif"])}</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
 <div class="cetvel" role="toolbar" aria-label="Tahta"><button type="button" id="t-kalem" aria-pressed="false">Kalem</button><button type="button" id="t-temizle">Temizle</button><button type="button" id="t-ses" aria-pressed="false">Ses</button><span class="ipucu" id="t-ipucu">Bu sayfa da bir tahta. Kalemi alın, yazın.</span></div>
 </section>
-{kapi_html}
+{yollar_html}
+{yol_band("merak")}
 <section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün.</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
 <div class="gs-kutu"><div class="gs-sayac" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="iz"/><circle cx="60" cy="60" r="52" class="dol"/></svg><span>3</span></div><div class="gs-sec" role="group" aria-label="Seçenekler"></div><p class="gs-cevap" role="status" aria-live="polite"></p></div></div></section>
+{soz_html}
+{yol_band("ogrenci")}
+{ogrenci_html}
+{yol_band("ogretmen")}
+{kapi_html}
 {hafta_html}
 <section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
 <div class="katalog">{"".join(satirlar)}</div></div></section>
@@ -473,9 +508,9 @@ open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
 open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
-  bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten, eğitim teknolojileri. Herkese Eğitim'de öğretmene, öğrenciye, herkese ücretsiz paylaşımlar hazırlıyor.","/hakkinda/",
+  bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten ve Herkese Eğitim. Eskinin bilgeliği, yeninin teknolojisi: teknolojinin doğru, etik ve yerinde kullanımı için ücretsiz araçlar, atölyeler ve videolar.","/hakkinda/",
       sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}]) + ust_koyu()
-  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
+  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{SLOGAN}",E(SLOGAN)).replace("{MISYON}",E(MISYON)).replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
 
 # ---- 404, robots, sitemap, llms.txt
 open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | Herkese Eğitim","Bu sayfa teneffüse çıktı.","/404.html")+ust_koyu()+'''<main id="ana" class="teneffus"><div class="w">
@@ -487,7 +522,7 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
 open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc><lastmod>{BUGUN.isoformat()}</lastmod></url>" for y in yollar)+"</urlset>\n")
-L = [f"# Herkese Eğitim\n\n> İdiye Ökten'in öğretmene, öğrenciye, herkese ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
+L = [f"# Herkese Eğitim\n\n> {ACIKLAMA}\n\n{MISYON}\n\nİdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
 for u in urunler:
     L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme çıktısı: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
 L.append("\n## Atasözlerimizi Yaşatalım\n")
