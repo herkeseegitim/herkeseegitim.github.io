@@ -5,8 +5,8 @@ def yaz(yol, icerik):
     p = os.path.join(OUT, yol.strip("/"), "index.html") if yol.endswith("/") else os.path.join(OUT, yol.strip("/"))
     os.makedirs(os.path.dirname(p), exist_ok=True); open(p,"w",encoding="utf-8").write(icerik)
     if yol.endswith("/"): EK_YOLLAR.append(yol)
-def sayfa(baslik, aciklama, yol, govde, sema=None, yolcuk="", og=None):
-    return bas(baslik, aciklama, yol, sema=sema, og=og) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
+def sayfa(baslik, aciklama, yol, govde, sema=None, yolcuk="", og=None, og_baslik=None, og_aciklama=None):
+    return bas(baslik, aciklama, yol, sema=sema, og=og, og_baslik=og_baslik, og_aciklama=og_aciklama) + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a>{yolcuk}</p>{govde}</div></main>{qr_gizli()}{ALT}'
 def kart(u):
     durum = "" if u["durum"]=="yayinda" else f'<span class="etk">{tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında"}</span>'
     img = f'<img src="{u["kapak_w"]}" alt="" loading="lazy">' if u.get("kapak_w") else f'<span class="kart-soru">{E(u["kisa"])}</span>'
@@ -420,13 +420,23 @@ def _inv_video(b):
       '<button type="button" id="hev-ac">▶ Videosu</button>'
       '<dialog id="hev-d" style="position:fixed;inset:0;margin:auto;padding:0;border:0;background:#2A2420;border-radius:14px;max-width:96vw;max-height:96vh;height:fit-content;width:fit-content"><div style="display:flex;justify-content:flex-end;padding:6px"><button type="button" id="hev-k" style="font:600 14px system-ui,sans-serif;background:#F7F0E1;border:0;border-radius:999px;padding:8px 14px;cursor:pointer">Kapat</button></div><div id="hev-v" style="height:min(640px,82vh);aspect-ratio:9/16;max-width:92vw"></div></dialog>'
       '<script>(function(){var d=document.getElementById("hev-d"),v=document.getElementById("hev-v");document.getElementById("hev-ac").onclick=function(){v.innerHTML=\'<iframe src="https://www.youtube-nocookie.com/embed/' + E(b["video"]) + '?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0"></iframe>\';d.showModal()};document.getElementById("hev-k").onclick=function(){d.close()};d.addEventListener("close",function(){v.innerHTML=""})})();</script>')
-_inv_k = []
+def _inv_og(b):  # bağlantı önizlemesi: başlık, açıklama, görsel (bölüm kendi görselini og_gorsel ile verebilir)
+    ad = b["ad"][:1].lower() + b["ad"][1:]
+    return f'{b["soru"]} | İçinde Ne Var?', f"Sayfada kendiniz sökün: {ad}, parça parça.", b.get("og_gorsel") or "/img/paylas-icinde-ne-var.png"
+def _inv_meta(b):
+    t, a, g = _inv_og(b); u = SITE + INV_ADRES + b["slug"] + "/"
+    return (f'<meta property="og:type" content="website"><meta property="og:title" content="{E(t)}"><meta property="og:description" content="{E(a)}">'
+      f'<meta property="og:url" content="{E(u)}"><meta property="og:image" content="{SITE}{g}"><meta property="og:locale" content="tr_TR">'
+      f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{g}">\n')
+_inv_k = []; _inv_son = None
 for b in INV:
     assert re.fullmatch(r"[a-z0-9-]{3,60}", b["slug"]), "İçinde Ne Var: kötü slug"
     assert not b.get("video") or re.fullmatch(r"[A-Za-z0-9_-]{11}", b["video"]), "İçinde Ne Var: kötü video kimliği"
     if (b.get("tarih") or "9") > BUGUN.isoformat(): continue
     h = open(os.path.join(KOK, "data", b["sayfa"]), encoding="utf-8").read()
     if b.get("video"): h = h.replace("</body>", _inv_video(b) + "\n</body>", 1)
+    assert "</head>" in h and 'property="og:' not in h, "İçinde Ne Var: head"
+    h = h.replace("</head>", _inv_meta(b) + "</head>", 1); _inv_son = b
     yaz(f"{INV_ADRES}{b['slug']}/", h)
     b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
     vb = vid_btn({"id": b["video"], "kapak_w": b["kapak_w"], "dik": True, "baslik": b["soru"]}) if b.get("video") else ""
@@ -438,4 +448,4 @@ if _inv_k:
     yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,
       lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k)} bölüm"), ("Her hafta", "eski bir alet, yerine gelenle")])
       + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
-      [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?"))
+      [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og=_inv_og(_inv_son)[2], og_baslik=_inv_og(_inv_son)[0], og_aciklama=_inv_og(_inv_son)[1]))
