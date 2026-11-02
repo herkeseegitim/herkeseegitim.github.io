@@ -594,6 +594,32 @@
     "tt": null,
     "x": "https://x.com/cincinosos/status/2116638888186048876"
    }
+  },
+  {
+   "id": "aZ1N4FNi5uI",
+   "baslik": "Bu kargaya ne oldu? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 8 Karga kekliği taklit edeyim derken\\kapak Atasözü 8.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfL87A5heqy/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "5A0T85Gc4mE",
+   "baslik": "Asansörde motor, kabini tek başına mı kaldırır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-11-01",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Asansör\\kapak Asansör.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfMinWFBT81/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -676,6 +702,17 @@
    "video": "ep_bqO1SywQ",
    "tarih": "2026-10-31",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 7 Araba devrilince\\kapak Atasözü 7.png"
+  },
+  {
+   "no": 8,
+   "soz": "Karga kekliği taklit edeyim derken kendi yürüyüşünü şaşırmış.",
+   "slug": "karga-kekligi-taklit-edeyim-derken-kendi-yuruyusunu-sasirmis",
+   "soru": "Bu kargaya ne oldu?",
+   "anlam": "Görgüsüz kişi, görgülü kişinin yaptığını yapmaya kalkışırsa beceremez, kendisinin doğal davranışını da yitirir, gülünç duruma düşer.",
+   "sozcuk": null,
+   "video": "aZ1N4FNi5uI",
+   "tarih": "2026-11-01",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 8 Karga kekliği taklit edeyim derken\\kapak Atasözü 8.png"
   }
  ],
  "takvim": [
