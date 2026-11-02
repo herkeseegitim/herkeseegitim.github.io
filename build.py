@@ -139,7 +139,8 @@ for f,ad in [("marka/imza-acik.png","imza-acik"),("marka/imza.png","imza"),("mar
     p = os.path.join(KOK,"data",f)
     if os.path.exists(p):
         im = Image.open(p); im.thumbnail((600,600)); im.save(os.path.join(OUT,"img",ad+".png"), optimize=True)
-shutil.copy(os.path.join(KOK,"data","marka","paylas.png"), os.path.join(OUT,"img","paylas.png"))
+for _p in ["paylas.png","paylas-2026.png","paylas-2026-en.png","paylas-icinde-ne-var.png"]:  # eski gönderiler için paylas.png yerinde kalır
+    shutil.copy(os.path.join(KOK,"data","marka",_p), os.path.join(OUT,"img",_p))
 LOGO_ACIK, LOGO, AVATAR = "/img/imza-acik.png", "/img/imza.png", "/img/avatar.png"
 
 for u in urunler: u["kapak_w"] = resim(u["kapak"], "urun-"+u["id"], 960)
@@ -168,16 +169,17 @@ def kisa_adres(url):
 DIL_ALT = [("tr","/"),("en","/en/"),("x-default","/")]
 import hashlib as _h
 SURUM = _h.sha1((open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()+open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()).encode()).hexdigest()[:8]
-def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=None):
+def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=None, og_baslik=None, og_aciklama=None):
     can = SITE + yol
+    og = og or ("/img/paylas-2026-en.png" if dil=="en" else "/img/paylas-2026.png")
     hl = "".join(f'<link rel="alternate" hreflang="{d}" href="{SITE}{y}">' for d,y in (alt or []))
     s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
     return f"""<!doctype html><html lang="{dil}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><link rel="canonical" href="{E(can)}">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://herkeseegitim.goatcounter.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self' https://herkeseegitim.goatcounter.com; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
-<meta property="og:type" content="website"><meta property="og:title" content="{E(baslik)}"><meta property="og:description" content="{E(aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og or "/img/paylas.png"}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
-<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/img/logo.png">
+<meta property="og:type" content="website"><meta property="og:title" content="{E(og_baslik or baslik)}"><meta property="og:description" content="{E(og_aciklama or aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{og}"><link rel="icon" href="/img/logo.png">
 <script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
 NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
