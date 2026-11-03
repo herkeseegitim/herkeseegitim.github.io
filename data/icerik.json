@@ -620,6 +620,32 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "ADxUI_1bVdo",
+   "baslik": "Ovanın en yükseği arkasına bakınca ne gördü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-02",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 9 Alçak yerde tepecik\\kapak Atasözü 9.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfOhXCytBxe/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "8dmjVcjYHks",
+   "baslik": "Pedallı çöp kovasında ayağınızla birkaç cm basınca kapak neden bu kadar açılır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-11-02",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atölyeler\\FEN 8 F.8.5 Basit Makineler\\Shorts\\3 saniyede tahmin et\\Pedallı çöp kovası\\kapak Pedallı çöp kovası.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfPeMOcv-Et/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -713,6 +739,17 @@
    "video": "aZ1N4FNi5uI",
    "tarih": "2026-11-01",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 8 Karga kekliği taklit edeyim derken\\kapak Atasözü 8.png"
+  },
+  {
+   "no": 9,
+   "soz": "Alçak yerde tepecik kendisini dağ sanır.",
+   "slug": "alcak-yerde-tepecik-kendisini-dag-sanir",
+   "soru": "Ovanın en yükseği arkasına bakınca ne gördü?",
+   "anlam": "Bilgili kimselerin bulunmadığı yerde cahil kişi bilgiçlik taslar.",
+   "sozcuk": null,
+   "video": "ADxUI_1bVdo",
+   "tarih": "2026-11-02",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 9 Alçak yerde tepecik\\kapak Atasözü 9.png"
   }
  ],
  "takvim": [
