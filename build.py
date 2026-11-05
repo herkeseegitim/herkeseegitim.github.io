@@ -220,7 +220,7 @@ def ac_dugme(u, sinif="dugme", etiket=None):
     if u["durum"] != "yayinda": return ""
     return f'<a class="{sinif}" href="{E(u["url"])}" data-kare="{u["id"]}" aria-haspopup="dialog" data-ad="{E(u["ad"])}" data-url="{E(u["url"])}" data-kisa="{E(kisa_adres(u["url"]))}" data-etiket="Bu cihazda aç">{E(etiket or u["etiket"])}</a>'
 def sayfa_etiket(u):
-    # ürün sayfasındaki ana düğme: atölyede "Simülasyonu deneyin", araçta "Aracı açın" (mağaza bağlantısı kendi etiketini korur)
+    # ürün sayfasındaki ana düğme: atölyede "Simülasyonu deneyin", araçta "Aracı açın" (mağaza bağlantısı kendi etiketini korur; 5 Kas)
     if u["tur"] == "atolye": return "Simülasyonu deneyin"
     if u["tur"] == "arac" and "chromewebstore" not in (u.get("url") or ""): return "Aracı açın"
     return None
