@@ -6,7 +6,7 @@ from PIL import Image
 
 KOK = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(KOK, "out")
-SITE = os.environ.get("SITE", "https://herkeseegitim.github.io").rstrip("/")
+SITE = os.environ.get("SITE", "https://herkeseegitim.com").rstrip("/")
 BUGUN = datetime.date.fromisoformat(os.environ.get("BUGUN", datetime.date.today().isoformat()))
 E = lambda s: html.escape(str(s or ""), quote=True)
 AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
@@ -216,9 +216,14 @@ def urun_video(u):
     if v: return v
     if u.get("video"): return {"id":u["video"],"baslik":u["ad"],"kapak_w":u.get("kapak_w"),"dik":False,"tarih":u.get("lansman")}
     return None
-def ac_dugme(u, sinif="dugme"):
+def ac_dugme(u, sinif="dugme", etiket=None):
     if u["durum"] != "yayinda": return ""
-    return f'<a class="{sinif}" href="{E(u["url"])}" data-kare="{u["id"]}" aria-haspopup="dialog" data-ad="{E(u["ad"])}" data-url="{E(u["url"])}" data-kisa="{E(kisa_adres(u["url"]))}" data-etiket="Bu cihazda aç">{E(u["etiket"])}</a>'
+    return f'<a class="{sinif}" href="{E(u["url"])}" data-kare="{u["id"]}" aria-haspopup="dialog" data-ad="{E(u["ad"])}" data-url="{E(u["url"])}" data-kisa="{E(kisa_adres(u["url"]))}" data-etiket="Bu cihazda aç">{E(etiket or u["etiket"])}</a>'
+def sayfa_etiket(u):
+    # ürün sayfasındaki ana düğme: atölyede "Simülasyonu deneyin", araçta "Aracı açın" (mağaza bağlantısı kendi etiketini korur)
+    if u["tur"] == "atolye": return "Simülasyonu deneyin"
+    if u["tur"] == "arac" and "chromewebstore" not in (u.get("url") or ""): return "Aracı açın"
+    return None
 def qr_gizli():
     return "".join(f'<template id="qr-{u["id"]}">{qr_svg(u["url"])}</template>' for u in urunler if u["durum"]=="yayinda")
 
@@ -452,7 +457,7 @@ for u in urunler:
 <main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/#kitaplik">Kitaplık</a></p>
 <div class="soz-sayfa"><article class="makale"><h1>{E(u["ad"])}</h1><p style="font-size:22px;color:var(--mur)">{E(u["kisa"])}</p><p>{E(u["ne"])}</p>
 <div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme çıktısı: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir") or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir",sayfa_etiket(u)) or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
 {'<div class="kutu"><h2>Veliler için</h2><p>Ücretsiz. Hesap açılmaz, kişisel bilgi istenmez.'+(' Öğrenci tarayıcıda tahmin eder, dener, sonucu kendi görür.' if u["tur"]=="atolye" else '')+'</p></div>' if u["tur"]!="oyun" else ''}
 <div class="paylas"><button class="dugme acik" type="button" data-paylas="{SITE}{urun_sayfa(u)}" data-baslik="{E(u["ad"])}">Zümreye gönderin</button><a class="dugme acik" href="https://wa.me/?text={E(urllib.parse.quote(u["ad"]+": "+SITE+urun_sayfa(u)))}" rel="noopener">WhatsApp</a></div>
 {f'<div class="kutu"><h2>Bu sürümde</h2><p>{E(u["surum_notu"])}</p></div>' if u.get("surum_notu") else ""}
