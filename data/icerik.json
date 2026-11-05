@@ -646,6 +646,32 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "KmsXKZVsJK4",
+   "baslik": "Tek kova bu çarka yeter mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-03",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 10 Dökme su ile değirmen dönmez\\kapak Atasözü 10.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfRGRYXOkFi/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "9Ba8ix179WI",
+   "baslik": "Her anlatışta biraz daha uzuyor. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-04",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 11 Kaçan balık büyük olur\\kapak Atasözü 11.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfTrNW_hKG_/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -750,6 +776,28 @@
    "video": "ADxUI_1bVdo",
    "tarih": "2026-11-02",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 9 Alçak yerde tepecik\\kapak Atasözü 9.png"
+  },
+  {
+   "no": 10,
+   "soz": "Dökme su ile değirmen dönmez.",
+   "slug": "dokme-su-ile-degirmen-donmez",
+   "soru": "Tek kova bu çarka yeter mi?",
+   "anlam": "İşi yapacak olanda yeteri kadar güç bulunmadıkça başkalarının küçük katkılarıyla sürekli ve büyük bir iş yürütülemez.",
+   "sozcuk": null,
+   "video": "KmsXKZVsJK4",
+   "tarih": "2026-11-03",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 10 Dökme su ile değirmen dönmez\\kapak Atasözü 10.png"
+  },
+  {
+   "no": 11,
+   "soz": "Kaçan balık büyük olur.",
+   "slug": "kacan-balik-buyuk-olur",
+   "soru": "Her anlatışta biraz daha uzuyor. Hangi atasözü?",
+   "anlam": "Elden kaçırılan fırsat gözde büyütülür.",
+   "sozcuk": null,
+   "video": "9Ba8ix179WI",
+   "tarih": "2026-11-04",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 11 Kaçan balık büyük olur\\kapak Atasözü 11.png"
   }
  ],
  "takvim": [
