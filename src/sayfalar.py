@@ -445,10 +445,9 @@ for b in INV:
         os.makedirs(os.path.dirname(_ky), exist_ok=True)
         open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";location.replace("{_hd}"+q)}})()</script><meta http-equiv="refresh" content="0; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a> · <a href="{_hd}?dil=en" lang="en">Open in English</a></p></body></html>\n')
     b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
-    vb = vid_btn({"id": b["video"], "kapak_w": b["kapak_w"], "dik": True, "baslik": b["soru"]}) if b.get("video") else ""
     _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
       + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'
-      + (f'<figure style="margin:10px 0 0">{vb}<figcaption>{E(b["soru"])}</figcaption></figure>' if vb else "") + '</li>')
+      + (f'<a class="inv-vid" href="https://www.youtube.com/shorts/{b["video"]}" rel="noopener">Videoyu YouTube\'da izleyin</a>' if b.get("video") else "") + '</li>')
 if _inv_k:
     _inv_ac = "Gündelik aletleri 3B olarak açıyoruz. Sayfayı tarayıcıda açın, parçaları ekranda kendiniz ayırın; kurulum yok."
     yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,

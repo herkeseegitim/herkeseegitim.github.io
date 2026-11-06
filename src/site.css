@@ -1039,3 +1039,5 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 .makale .ats-ac-p{margin-top:22px}
 .ats-gl{max-width:12em}
 .js .ats-tr:not(.hepsi) .ats-k:not([aria-pressed=true]) .ats-gl{visibility:hidden}
+
+.kart.inv{display:flex;flex-direction:column}.kart.inv>a:first-child{height:auto;flex:1 1 auto}.kart.inv a.inv-vid{display:inline;height:auto;flex:none;align-self:flex-start;background:none;border:0;border-radius:0;padding:0;box-shadow:none;margin:12px 0 0 4px;font-size:15px;font-weight:700;color:var(--mur);text-decoration:underline;text-underline-offset:3px}.kart.inv a.inv-vid:hover{box-shadow:none;color:var(--kir)}
