@@ -422,7 +422,7 @@ def _inv_video(b):
       '<script>(function(){var d=document.getElementById("hev-d"),v=document.getElementById("hev-v");document.getElementById("hev-ac").onclick=function(){v.innerHTML=\'<iframe src="https://www.youtube-nocookie.com/embed/' + E(b["video"]) + '?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0"></iframe>\';d.showModal()};document.getElementById("hev-k").onclick=function(){d.close()};d.addEventListener("close",function(){v.innerHTML=""})})();</script>')
 def _inv_og(b):  # bağlantı önizlemesi: başlık, açıklama, görsel (bölüm kendi görselini og_gorsel ile verebilir)
     ad = b["ad"][:1].lower() + b["ad"][1:]
-    return f'{b["soru"]} | İçinde Ne Var?', f"Sayfada kendiniz sökün: {ad}, parça parça.", b.get("og_gorsel") or "/img/paylas-icinde-ne-var.png"
+    return f'{b["soru"]} | İçinde Ne Var?', b.get("og_aciklama") or f"Sayfada kendiniz sökün: {ad}, parça parça.", b.get("og_gorsel") or "/img/paylas-icinde-ne-var.png"
 def _inv_meta(b):
     t, a, g = _inv_og(b); u = SITE + INV_ADRES + b["slug"] + "/"
     return (f'<meta property="og:type" content="website"><meta property="og:title" content="{E(t)}"><meta property="og:description" content="{E(a)}">'
@@ -438,10 +438,16 @@ for b in INV:
     assert "</head>" in h and 'property="og:' not in h, "İçinde Ne Var: head"
     h = h.replace("</head>", _inv_meta(b) + "</head>", 1); _inv_son = b
     yaz(f"{INV_ADRES}{b['slug']}/", h)
+    if b.get("kisa_adres"):  # kısa adres (videoda yazılan): /<kisa>/ -> bölüm sayfası; site haritasına girmez. Sorgu korunur (lang= -> dil=); tarayıcı dili Türkçe değilse ?dil=en eklenir
+        assert re.fullmatch(r"[a-z0-9-]{3,30}", b["kisa_adres"]), "İçinde Ne Var: kötü kısa adres"
+        _ky = os.path.join(OUT, b["kisa_adres"], "index.html"); assert not os.path.exists(_ky), "İçinde Ne Var: kısa adres dolu"
+        _hd = INV_ADRES + b["slug"] + "/"
+        os.makedirs(os.path.dirname(_ky), exist_ok=True)
+        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";location.replace("{_hd}"+q)}})()</script><meta http-equiv="refresh" content="0; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a> · <a href="{_hd}?dil=en" lang="en">Open in English</a></p></body></html>\n')
     b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
     vb = vid_btn({"id": b["video"], "kapak_w": b["kapak_w"], "dik": True, "baslik": b["soru"]}) if b.get("video") else ""
     _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
-      + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">Sayfayı açın, kendiniz sökün</span></a>'
+      + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'
       + (f'<figure style="margin:10px 0 0">{vb}<figcaption>{E(b["soru"])}</figcaption></figure>' if vb else "") + '</li>')
 if _inv_k:
     _inv_ac = "Her hafta eski bir aleti 3B olarak söküyoruz, yerine geleni de. Sayfayı tarayıcıda açın, parçaları kendiniz sökün; kurulum yok, akıllı tahtada da açılır."
