@@ -60,7 +60,7 @@ URUN = {
    sinif="5–6. sınıf bilişim", kademe="ortaokul", ihtiyac="atolye", kim="ogretmen veli", etiket="Aç",
    ne="Dijital vatandaşlık oyunu."),
 }
-SIRA = ["ciztahta","yaztahta","eklenti","basit-makineler","bilgisayarin-ici","yuzdeler","yanki"]
+SIRA = ["ciztahta","yaztahta","eklenti","basit-makineler","bilgisayarin-ici","yuzdeler"]  # yanki: yayında değil, sitede gizli (İdiye 6 Kas 23:54); URUN kaydı yerinde
 EŞ_ = EŞ = {"ciztahta-eklentisi":"eklenti","ciztahta-eklenti":"eklenti","yuzdeler-atolyesi":"yuzdeler","matematik-yuzde":"yuzdeler","basit-makineler-atolyesi":"basit-makineler","bilgisayarin-ici-atolyesi":"bilgisayarin-ici"}
 vu = {u.get("id"): u for u in veri.get("urunler", [])}
 CANTA = {"ciztahta":"ÇizTahta.html","yaztahta":"YazTahta.html","basit-makineler":"Basit Makineler Atölyesi.html","bilgisayarin-ici":"Bilgisayarın İçi Atölyesi.html","yuzdeler":"Yüzdeler Atölyesi.html"}
@@ -114,7 +114,7 @@ takvim = [
  {"tarih":"2026-10-24","baslik":"Basit Makineler","tur":"atolye","not":"8. sınıf fen","urun":"basit-makineler"},
  {"tarih":"2026-10-25","baslik":"Bilgisayarın İçi","tur":"atolye","not":"5. sınıf bilişim","urun":"bilgisayarin-ici"},
  {"tarih":"2026-10-30","baslik":"Yüzdeler","tur":"atolye","not":"7. sınıf matematik","urun":"yuzdeler"},
- {"tarih":"2026-11-06","baslik":"Yankı","tur":"atolye","not":"5–6. sınıf bilişim oyunu","urun":"yanki"},
+ # {"tarih":"2026-11-06","baslik":"Yankı",...} yayında değil, gizli (6 Kas)
 ]
 
 # ---- çıktı klasörü
@@ -402,7 +402,7 @@ def yol_band(k):
     return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
 _kapilar = [
  ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else [])),
- ("ogretmen", [("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
+ ("ogretmen", [("Padlet adım adım", "#padlet"), ("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
  ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
 ]
 yollar_html = '<nav class="yollar" aria-label="Kimin için"><div class="w">' + "".join(
@@ -414,6 +414,17 @@ soz_html = (f'<section class="blm bsoz" aria-labelledby="bsoz-b"><div class="w">
 ogrenci_html = ('<section class="blm ogr" aria-label="Atölyeler"><div class="w"><ul class="ogr-l" id="atolyeler">' + "".join(
   f'<li><b><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></b><span class="ogr-s">{E(u["sinif"])}</span><span class="ogr-n">{E(u["kisa"])}</span><span class="ogr-e"><a href="{urun_sayfa(u)}">Ayrıntı ve adres</a></span></li>' for u in _atolyeler)
   + '</ul><p class="ogr-not" id="ogr-not">Veliler için: öğrenci atölyeyi öğretmeninin ya da sizin verdiğiniz adresten açar; hesap gerekmez.</p></div></section>') if _atolyeler else ""
+# ---- Padlet adım adım (YouTube dizisi; İdiye 6 Kas 23:54: Yankı'nın yerinde öne çıkar). Kartta video gömülmez, yalnız bağlantı (g79 dersi).
+PADLET = dict(ad="Padlet adım adım", kisa="Padlet ve Padlet Arcade, 2026 arayüzüyle adım adım. Ücretsiz.",
+  liste="https://www.youtube.com/playlist?list=PLDpeHNCZjwRQ",
+  bolumler=[("Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Padlet Arcade Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY")],
+  kapak_w=resim("kapak/padlet-adim-adim.png","padlet-adim-adim",640))
+padlet_html = (f'<section class="blm" id="padlet" aria-labelledby="pad-b" style="padding-top:0"><div class="w"><div class="inv-ana" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
+  + (f'<a href="{PADLET["liste"]}" style="flex:0 1 260px"><img src="{PADLET["kapak_w"]}" alt="" loading="lazy" style="width:100%;border-radius:10px;display:block"></a>' if PADLET["kapak_w"] else "")
+  + f'<div style="flex:1;min-width:220px"><small>YouTube dizisi</small><h2 id="pad-b" style="margin:4px 0;font-size:1.35em">{E(PADLET["ad"])}</h2><p style="margin:0 0 8px">{E(PADLET["kisa"])}</p><ul style="margin:0 0 10px;padding-left:18px">'
+  + "".join(f'<li><a href="{h}">{E(t)}</a></li>' for t,h in PADLET["bolumler"])
+  + f'</ul><a class="dugme acik" href="{PADLET["liste"]}">Bütün bölümler</a></div></div></div></section>')
+
 ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
   ACIKLAMA, "/", sema=sema_ana, alt=DIL_ALT) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
@@ -427,7 +438,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
 </div></div>
-<a class="cuma-not" href="#hafta">{f'<img src="{hafta_u["kapak_w"]}" alt="">' if hafta_u.get("kapak_w") else '<span class="soru-b">'+E(hafta_u["kisa"])+'</span>'}<small>{ETIKET}</small><b>{E(hafta_u["ad"])}</b><span>{E(hafta_u["sinif"])}</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
+<a class="cuma-not" href="#padlet">{f'<img src="{PADLET["kapak_w"]}" alt="">' if PADLET.get("kapak_w") else '<span class="soru-b">'+E(PADLET["kisa"])+'</span>'}<small>Yeni dizi</small><b>{E(PADLET["ad"])}</b><span>2 bölüm, 2026 arayüzü</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
 <div class="cetvel" role="toolbar" aria-label="Tahta"><button type="button" id="t-kalem" aria-pressed="false">Kalem</button><button type="button" id="t-temizle">Temizle</button><button type="button" id="t-ses" aria-pressed="false">Ses</button><span class="ipucu" id="t-ipucu">Bu sayfa da bir tahta. Kalemi alın, yazın.</span></div>
 </section>
 {yollar_html}
@@ -439,6 +450,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 {yol_band("ogrenci")}
 {ogrenci_html}
 {yol_band("ogretmen")}
+{padlet_html}
 {kapi_html}
 {hafta_html}
 <section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
