@@ -672,6 +672,19 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "s_WpifNXDxI",
+   "baslik": "Bu kumbara cimri mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-05",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 12 Ak akçe kara gün içindir\\kapak Atasözü 12.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfWQC2ZuAIq/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -798,6 +811,20 @@
    "video": "9Ba8ix179WI",
    "tarih": "2026-11-04",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 11 Kaçan balık büyük olur\\kapak Atasözü 11.png"
+  },
+  {
+   "no": 12,
+   "soz": "Ak akçe kara gün içindir.",
+   "slug": "ak-akce-kara-gun-icindir",
+   "soru": "Bu kumbara cimri mi?",
+   "anlam": "Çalışarak kazanılan para dar zamanda sıkıntıdan kurtarır.",
+   "sozcuk": {
+    "kelime": "akçe",
+    "anlam": "Küçük gümüş para."
+   },
+   "video": "s_WpifNXDxI",
+   "tarih": "2026-11-05",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 12 Ak akçe kara gün içindir\\kapak Atasözü 12.png"
   }
  ],
  "takvim": [
