@@ -134,6 +134,8 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 @media (max-width:520px){.slogan{display:none}}
 @media (max-width:420px){.rozet{font-size:9.5px;letter-spacing:.06em;padding:3px 6px}.ab{gap:7px;padding:3px 10px;font-size:12px}.ab-im{height:16px}.ab-av{width:20px;height:20px}.sag{gap:5px}.sag .dug{min-height:40px;padding:0 7px;font-size:13px}#hafif{max-width:62px;line-height:1.05;font-size:12px}.dil .dug{min-width:38px}}
 @media (max-width:799px) and (max-height:700px){main{grid-template-rows:minmax(0,54fr) minmax(0,46fr)}.ab{min-height:26px}.lis{font-size:11px;padding:1px 8px}.baslik p{display:none}}
+/* 6 Kas: alt bilgi notr zemin, kahverengi yok */
+.ab{background:#F4ECDF;color:#1F1710;border-top:1px solid rgba(31,23,16,.2);box-shadow:none}.ab-t{color:#54463A}.ab b,.ab .kir{color:#1F1710}.ab .yt{color:#54463A}.ab i{color:#54463A}.lis{background:#F4ECDF;color:#54463A}.lis a{color:#1F1710}
 </style>
 </head>
 <body>
@@ -1592,7 +1594,7 @@ function cizgi(){ var c=new THREE.LineCurve3(new THREE.Vector3(X0,0,0),new THREE
 function zemin(sc){ var o={}, P=2800;
   var mg=new THREE.PlaneGeometry(P,P); mg.rotateX(-Math.PI/2); o.masa=mesh(mg,M.masa,0,-.2,54.5-P/2); o.masa.castShadow=false; sc.add(o.masa);
   o.kenar=kutu(P,1.4,.4,M.masa,0,-.9,54.5); o.kenar.castShadow=false; sc.add(o.kenar);
-  var cg=new THREE.PlaneGeometry(P,P); cg.rotateX(-Math.PI/2); M.ceviz=L(tex.cevizC); M.ceviz.color.set(0xffffff); o.ceviz=mesh(cg,M.ceviz,0,-1.6,54+P/2-20); o.ceviz.castShadow=false; sc.add(o.ceviz);
+  var cg=new THREE.PlaneGeometry(P,P); cg.rotateX(-Math.PI/2); M.ceviz=L(tex.cevizC); M.ceviz.color.set(0xffffff); o.ceviz=mesh(cg,M.ceviz,0,-1.6,54+P/2-20); o.ceviz.castShadow=false; sc.add(o.ceviz); o.ceviz.visible=false;
   o.kagit=kagitP(); o.kagit.position.set(3,0,-8); sc.add(o.kagit);
   o.cetvel=cetvelP(); o.cetvel.rotation.y=Math.PI/2+.01; o.cetvel.position.set(-62,1.2,-9); sc.add(o.cetvel);
   return o; }
@@ -1770,7 +1772,7 @@ var M={
   kayB:'Kaynaklar',kayN:'Sayfadaki bilgiler aşağıdaki kaynaklara dayanır. Çalışmalardaki ürün adları bu sayfaya alınmadı.',kayG:[['Parçalar',['turner','pas','reid','unsw']],['Sıvı ve ölçümler',['fda','wang','rob','talih','sal','far','nas']],['Sağlık',['cdc1','cdc2','who']],['Türkiye',['rg','sb','dso']],['Pil ve atık',['epa1','epa2','tap']],['Destek',['alo']]],
   yedekNot:'Bu tarayıcı 3B çizimi desteklemiyor. Aynı modeli fotoğraf gibi görüyorsunuz.'},
  en:{dil:'en',ad:'What’s Inside?',title:'What’s Inside? 02 · Disposable e-cigarette · Herkese Eğitim',h1:'Disposable e-cigarette',alt:'Representative model.',slogan:'Old wisdom, new technology.',web:'https://herkeseegitim.com/en/',aria:'Herkese Eğitim, herkeseegitim.com (opens in a new tab)',
-  ab:'Free classroom tools and workshops',lis:'© 2026 Herkese Eğitim · herkeseegitim.com · {CC BY 4.0}: share with credit and link.',lisU:'https://creativecommons.org/licenses/by/4.0/deed.en',
+  ab:'Free tools and workshops',lis:'© 2026 Herkese Eğitim · herkeseegitim.com · {CC BY 4.0}: share with credit and link.',lisU:'https://creativecommons.org/licenses/by/4.0/deed.en',
   hafif:'Light mode',hafifOto:'Light mode is on because this screen draws slowly.',sok:'See the parts',isiD:'What forms when it heats?',sifir:'Reset view',ev:'Do not take one apart at home',ab2:'Exaggerated for display',
   sekme:[['parca','Parts'],['isi','Heating'],['bilgi','Facts'],['konus','Talk'],['kay','Sources']],kapat:'Close',kaynak:'Source',
   soru:'How many parts do you think are inside?',soru2:'Make a guess, then drag the “See the parts” slider.',ipucu:'Drag to turn it. Tap a part.',ipucu0:'Drag to turn it. See the parts first.',yol:['Air path','Air inlet','Heater','Mouthpiece'],aram:'The parts are moving onto the paper. Drag the slider to the end.',
@@ -1815,7 +1817,7 @@ function lisans(){ var h=T(); return h.lis.replace('{','<a href="'+h.lisU+'" tar
 function arayuz(){ var t=T(); document.documentElement.lang=dil; document.title=t.title; $('slogan').textContent=t.slogan; $('rozetA').textContent=t.ad; $('baslik').textContent=t.h1; $('altbaslik').textContent=t.alt;
   var a=$('hmA'); a.href=t.web; a.setAttribute('aria-label',t.aria); $('hafif').textContent=t.hafif; $('sokL').textContent=t.sok; $('isiD').textContent=t.isiD; $('sifir').textContent=t.sifir; $('cipEv').textContent=t.ev; $('cipAb').textContent=t.ab2; $('sahne').setAttribute('aria-label',t.alt);
   $('dTR').setAttribute('aria-pressed',dil==='tr'); $('dEN').setAttribute('aria-pressed',dil==='en');
-  $('ab').innerHTML='<img class="ab-av" src="'+MRK.av+'" alt="İdiye Ökten"><img class="ab-im" src="'+MRK.ima+'" alt="Herkese Eğitim"><span class="ab-t">'+t.ab+'</span><b class="kir">herkeseegitim.com</b><i aria-hidden="true">·</i><b class="yt">@egitimtek</b>'; $('lis').innerHTML=lisans();
+  $('ab').innerHTML='<img class="ab-av" src="'+MRK.av+'" alt="İdiye Ökten"><img class="ab-im" src="'+document.querySelector('img').src+'" alt="Herkese Eğitim"><span class="ab-t">'+t.ab+'</span><b class="kir">herkeseegitim.com</b><i aria-hidden="true">·</i><b class="yt">@egitimtek</b>'; $('lis').innerHTML=lisans();
   sekmeCiz(); icCiz(true); etiketMetin(); }
 $('dTR').onclick=function(){ dilYap('tr'); }; $('dEN').onclick=function(){ dilYap('en'); };
 function dilYap(d){ dil=d; try{ localStorage.setItem('inv-dil',d); }catch(e){} arayuz(); }

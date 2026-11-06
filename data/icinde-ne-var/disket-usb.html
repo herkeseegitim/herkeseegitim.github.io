@@ -260,6 +260,8 @@ body.kapak #vKapak{display:block;opacity:1}
 #vKapak .im img{height:120px}
 #vKapak svg{position:absolute;left:0;top:0}
 
+/* 6 Kas: alt bilgi notr zemin, kahverengi yok */
+.ab{background:#F4ECDF;color:#1F1710;border-top:1px solid rgba(31,23,16,.2);box-shadow:none}.ab-t{color:#54463A}.ab b,.ab .kir{color:#1F1710}.ab .yt{color:#54463A}.ab i{color:#54463A}.lis{background:#F4ECDF;color:#54463A}.lis a{color:#1F1710}
 </style>
 </head>
 <body>
@@ -1636,7 +1638,7 @@ var M = {
    led:['LED','Blinks while reading and writing. Not every model has one.'],
    pasif:['Small components','Resistors and capacitors: limit current, smooth voltage.']
   },
-  hm:{slogan:'Old wisdom, new technology.', ab:'Free classroom tools and workshops', web:'https://herkeseegitim.com/en/', lis:'© 2026 Herkese Eğitim · herkeseegitim.com · {CC BY 4.0}: share with credit and link.', lisU:'https://creativecommons.org/licenses/by/4.0/deed.en', title:'What’s Inside? 01 · Floppy disk and USB stick · Herkese Eğitim', av:'İdiye Ökten', aria:'Herkese Eğitim, herkeseegitim.com (opens in a new tab)'},
+  hm:{slogan:'Old wisdom, new technology.', ab:'Free tools and workshops', web:'https://herkeseegitim.com/en/', lis:'© 2026 Herkese Eğitim · herkeseegitim.com · {CC BY 4.0}: share with credit and link.', lisU:'https://creativecommons.org/licenses/by/4.0/deed.en', title:'What’s Inside? 01 · Floppy disk and USB stick · Herkese Eğitim', av:'İdiye Ökten', aria:'Herkese Eğitim, herkeseegitim.com (opens in a new tab)'},
   v:{ad:'3.5-inch floppy disk', s2:'In service: <b>1981–2011</b>', s3:'Reason for leaving:<br><b>The USB stick came along; the floppy stayed in a drawer.</b>',
      soru:'How many<br><span>parts</span> inside?', sayi:function(n){return '<span>'+n+'</span> parts';}, sayiA:'The label and the holes are not parts.',
      yerine:'What<br><span>replaced it?</span>', ka:'One 64 GB USB stick', kb:'43,000 <small>floppies</small>', kc:'Stacked up: 143 metres.',
@@ -1647,7 +1649,7 @@ var MRK={av:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABwCAIAAABJgmMcA
 var dil = (Q.dil==='en') ? 'en' : 'tr';
 try{ var kd = localStorage.getItem('inv-dil'); if(kd && !Q.dil) dil = kd; }catch(e){}
 function T(){ return M[dil]; }
-function altBilgi(d){ var h=M[d].hm; return '<img class="ab-av" src="'+MRK.av+'" alt="'+h.av+'"><img class="ab-im" src="'+MRK.ima+'" alt="Herkese Eğitim">'+
+function altBilgi(d){ var h=M[d].hm; return '<img class="ab-av" src="'+MRK.av+'" alt="'+h.av+'"><img class="ab-im" src="'+document.querySelector('img').src+'" alt="Herkese Eğitim">'+
   '<span class="ab-t">'+h.ab+'</span><b class="kir">herkeseegitim.com</b><i class="ayr" aria-hidden="true">·</i><b class="yt">@egitimtek</b>'; }
 function lisans(d){ var h=M[d].hm; return h.lis.replace('{','<a href="'+h.lisU+'" target="_blank" rel="noopener license">').replace('}','</a>'); }
 function markaDil(){ var h=M[dil].hm; var l=$('lis'); if(l) l.innerHTML=lisans(dil); var s=$('slogan'); if(s) s.textContent=h.slogan; var a=$('hmA'); if(a){ a.href=h.web; a.setAttribute('aria-label',h.aria); }
