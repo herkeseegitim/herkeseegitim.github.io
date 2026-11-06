@@ -182,7 +182,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{og}"><link rel="icon" href="/img/logo.png">
 <script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
-NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
+NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
@@ -435,6 +435,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 <section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün.</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
 <div class="gs-kutu"><div class="gs-sayac" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="iz"/><circle cx="60" cy="60" r="52" class="dol"/></svg><span>3</span></div><div class="gs-sec" role="group" aria-label="Seçenekler"></div><p class="gs-cevap" role="status" aria-live="polite"></p></div></div></section>
 {soz_html}
+{(lambda b: f'<section class="blm" id="icinde" aria-labelledby="inv-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{INV_ADRES}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy" style="width:min(220px,100%);border-radius:10px">' if b.get("kapak_w") else "") + f'<span style="flex:1;min-width:220px"><small>İçinde Ne Var?</small><b id="inv-b" style="display:block;font-size:1.35em;margin:4px 0">{E(b["soru"])}</b><span>{E(b["kisa"])}</span><br><span style="text-decoration:underline">Bütün bölümler</span></span></a></div></section>')(INV[-1]) if INV else ""}
 {yol_band("ogrenci")}
 {ogrenci_html}
 {yol_band("ogretmen")}
