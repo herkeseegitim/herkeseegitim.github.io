@@ -1768,7 +1768,7 @@ var M={
   destekB:'Destek',destek:'Bırakmak isteyene destek: ALO 171 Sigara Bırakma Danışma Hattı, <a href="https://alo171.saglik.gov.tr/TR-66752/nasil-destek-alabilirim-.html" target="_blank" rel="noopener">alo171.saglik.gov.tr</a>. Güvendiğiniz bir yetişkinle ya da rehber öğretmenle de konuşabilirsiniz.',
   temB:'Temsilî model',tem:'Bu model gerçek bir ürünü göstermez. Parçalar üründen ürüne değişir. Kendi işi olan ana katı parçaları saydık. Kablo, lehim, sıvı, etiket ve yapıştırıcı sayılmadı. Şarjlı modellerde USB girişi de olur. Bazı modellerde LED de var.',
   konB:'Konuşmak isterseniz',kon:['Videoda sizi en çok ne şaşırttı?','“Su buharı değil” denince ne anlıyorsunuz?','Bir arkadaşınız bırakmak istese nasıl yanında olursunuz?'],
-  gencB:'Kullandığını söyleyen gence',genc:'“Söylemen iyi oldu. Ne zamandır, ne için kullanıyorsun?” Önce dinlenir.',ogrB:'Öğretmen notu',ogr:'Sınıfta kişisel kullanım sorulmaz, el kaldırtılmaz.',
+  gencB:'Kullandığını söyleyen gence',genc:'“Söylemen iyi oldu. Ne zamandır, ne için kullanıyorsun?” Önce dinlenir.',
   kayB:'Kaynaklar',kayN:'Sayfadaki bilgiler aşağıdaki kaynaklara dayanır. Çalışmalardaki ürün adları bu sayfaya alınmadı.',kayG:[['Parçalar',['turner','pas','reid','unsw']],['Sıvı ve ölçümler',['fda','wang','rob','talih','sal','far','nas']],['Sağlık',['cdc1','cdc2','who']],['Türkiye',['rg','sb','dso']],['Pil ve atık',['epa1','epa2','tap']],['Destek',['alo']]],
   yedekNot:'Bu tarayıcı 3B çizimi desteklemiyor. Aynı modeli fotoğraf gibi görüyorsunuz.'},
  en:{dil:'en',ad:'What’s Inside?',title:'What’s Inside? 02 · Disposable e-cigarette · Herkese Eğitim',h1:'Disposable e-cigarette',alt:'Representative model.',slogan:'Old wisdom, new technology.',web:'https://herkeseegitim.com/en/',aria:'Herkese Eğitim, herkeseegitim.com (opens in a new tab)',
@@ -1785,7 +1785,7 @@ var M={
   destekB:'Support',destek:'Support for anyone who wants to quit: ALO 171 Quit Line in Türkiye, <a href="https://alo171.saglik.gov.tr/TR-66752/nasil-destek-alabilirim-.html" target="_blank" rel="noopener">alo171.saglik.gov.tr</a>. You can also talk to an adult you trust or a school counselor.',
   temB:'Representative model',tem:'This model does not show a real product. Parts vary from product to product. We counted the main solid parts that each have their own job. Wires, solder, liquid, labels and adhesive were not counted. Rechargeable models also have a USB port. Some models also have an LED.',
   konB:'If you want to talk about it',kon:['What surprised you most in the video?','What do you take “not water vapor” to mean?','If a friend wanted to quit, how would you support them?'],
-  gencB:'If a young person tells you they use one',genc:'“I’m glad you told me. How long have you been using it, and what do you use it for?” Listen first.',ogrB:'Teacher note',ogr:'Do not ask about personal use in class, and do not ask for a show of hands.',
+  gencB:'If a young person tells you they use one',genc:'“I’m glad you told me. How long have you been using it, and what do you use it for?” Listen first.',
   kayB:'Sources',kayN:'The information on this page comes from the sources below. Product names used in the studies are left out of this page.',kayG:[['Parts',['turner','pas','reid','unsw']],['Liquid and measurements',['fda','wang','rob','talih','sal','far','nas']],['Health',['cdc1','cdc2','who']],['Türkiye',['rg','sb','dso']],['Battery and waste',['epa1','epa2','tap']],['Support',['alo']]],
   yedekNot:'This browser does not support 3D drawing. You are seeing the same model as a still image.'}
 };
@@ -1805,7 +1805,7 @@ function icCiz(keepScroll){ var t=T(),h='',ic=$('ic'),sc=ic.scrollTop;
   if(S.sekme==='parca') h=parcaHtml();
   if(S.sekme==='isi'){ h='<h2>'+t.isiB+'</h2><p class="not">'+t.isiG+'</p>'+t.kat.map(function(k,i){ return '<div class="kat'+(i==1?' t':'')+'"><h3>'+k[0]+'</h3><p>'+k[1]+'</p></div>'; }).join('')+yolSvg()+'<p class="not">'+t.aer+'</p>'; }
   if(S.sekme==='bilgi'){ h='<p class="mes">'+t.mes+'</p>'+t.bilgi.map(function(k,i){ return '<div class="kutu'+(i==3?' uy':'')+'"><h3>'+k[0]+'</h3><p>'+k[1]+'</p></div>'; }).join('')+'<div class="kutu"><h3>'+t.destekB+'</h3><p>'+t.destek+'</p></div><div class="kutu"><h3>'+t.temB+'</h3><p>'+t.tem+'</p></div><p class="not">'+t.aer+'</p>'; }
-  if(S.sekme==='konus'){ h='<h2>'+t.konB+'</h2><ol style="padding-left:22px">'+t.kon.map(function(k){ return '<li style="margin-bottom:6px">'+k+'</li>'; }).join('')+'</ol><div class="kutu"><h3>'+t.gencB+'</h3><p>'+t.genc+'</p></div><div class="kutu"><h3>'+t.ogrB+'</h3><p>'+t.ogr+'</p></div>'; }
+  if(S.sekme==='konus'){ h='<h2>'+t.konB+'</h2><ol style="padding-left:22px">'+t.kon.map(function(k){ return '<li style="margin-bottom:6px">'+k+'</li>'; }).join('')+'</ol><div class="kutu"><h3>'+t.gencB+'</h3><p>'+t.genc+'</p></div>'; }
   if(S.sekme==='kay'){ h='<h2>'+t.kayB+'</h2><p class="not">'+t.kayN+'</p>'+t.kayG.map(function(g){ return '<h3>'+g[0]+'</h3><ul class="kay-l">'+g[1].map(function(k){ return '<li><a href="'+KY[k][1].replace(/&/g,'&amp;')+'" target="_blank" rel="noopener">'+kyA(k)+'</a></li>'; }).join('')+'</ul>'; }).join(''); }
   ic.innerHTML=h; ic.scrollTop=keepScroll?sc:0;
   Array.prototype.forEach.call(ic.querySelectorAll('button[data-id]'),function(b){ b.onclick=function(){ sec(b.getAttribute('data-id')); }; });
