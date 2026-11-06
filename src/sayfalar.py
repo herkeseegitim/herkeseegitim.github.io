@@ -450,8 +450,8 @@ for b in INV:
       + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'
       + (f'<figure style="margin:10px 0 0">{vb}<figcaption>{E(b["soru"])}</figcaption></figure>' if vb else "") + '</li>')
 if _inv_k:
-    _inv_ac = "Her hafta eski bir aleti 3B olarak söküyoruz, yerine geleni de. Sayfayı tarayıcıda açın, parçaları kendiniz sökün; kurulum yok, akıllı tahtada da açılır."
+    _inv_ac = "Gündelik aletleri 3B olarak açıyoruz. Sayfayı tarayıcıda açın, parçaları ekranda kendiniz ayırın; kurulum yok."
     yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,
-      lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k)} bölüm"), ("Her hafta", "eski bir alet, yerine gelenle")])
+      lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k)} bölüm"), ("Konu", "gündelik aletlerin içi")])
       + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
       [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og=_inv_og(_inv_son)[2], og_baslik=_inv_og(_inv_son)[0], og_aciklama=_inv_og(_inv_son)[1]))
