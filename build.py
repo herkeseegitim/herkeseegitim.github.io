@@ -46,7 +46,7 @@ URUN = {
    ne="Chrome'a bir kez eklenir. Derste hangi sayfa açıksa, web sayfası, PDF, sunum ya da video, Ç'ye basıp üstüne yazarsınız. Online toplantıda sunum yaparken de kullanılır."),
  "yaztahta": dict(ad="YazTahta", tur="arac", kisa="İlkokulda klavye: her tuşun yeri ve işi ekranda.",
    sinif="1–4. sınıf", kademe="ilkokul", ihtiyac="tahta atolye", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
-   ne="Harf Treni, Tuşun yolculuğu, Klavye yapbozu, Sınıfın treni. Laboratuvarda her öğrenci kendi klavyesiyle, akıllı tahtada bütün sınıf birlikte çalışır. Bir tuşa ilk dokunuşta sınıf önce tahmin eder, sonra görür."),
+   ne="Harf Treni, Tuşun yolculuğu, Klavye yapbozu, Sınıfın treni. Her öğrenci kendi klavyesiyle, akıllı tahtada bütün sınıf birlikte çalışır. Bir tuşa ilk dokunuşta sınıf önce tahmin eder, sonra görür."),
  "basit-makineler": dict(ad="Basit Makineler Atölyesi", tur="atolye", kisa="Tahmin edin, deneyin, açıklayın: makara, kaldıraç, eğik düzlem, çıkrık, dişli.",
    sinif="8. sınıf fen bilimleri", kademe="ortaokul", ihtiyac="atolye giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
    ne="Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar, ipi parmağıyla çeker. Kuvvetten kazanınca yoldan kaybettiğini kendi görür. Öğretmen sekmesinde ders akışı var."),
