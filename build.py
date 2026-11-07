@@ -182,7 +182,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{og}"><link rel="icon" href="/img/logo.png">
 <script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
-NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
+NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/maasim/">Maaşım ne olacak?</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
@@ -417,7 +417,9 @@ ogrenci_html = ('<section class="blm ogr" aria-label="Atölyeler"><div class="w"
 # ---- Padlet adım adım (YouTube dizisi; İdiye 6 Kas 23:54: Yankı'nın yerinde öne çıkar). Kartta video gömülmez, yalnız bağlantı (g79 dersi).
 PADLET = dict(ad="Padlet adım adım", kisa="Padlet ve Padlet Arcade, 2026 arayüzüyle adım adım. Ücretsiz.",
   liste="https://www.youtube.com/playlist?list=PLDpeHNCZjwRQ",
-  bolumler=[("Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Padlet Arcade Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY")],
+  bolumler=[("Bölüm 1: Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY"),
+    ("Bölüm 2: Panoyu silme ve geri getirme","https://youtu.be/4U6bd_w3HwI"),("Bölüm 3: Padlet nedir?","https://youtu.be/VzeyrKse8s4"),
+    ("Bölüm 4: Padlet ücretsiz mi? 3 padlet sınırı","https://youtu.be/aXeTKLLkUY8"),("Bölüm 5: Pano oluşturma, 5 biçim","https://youtu.be/G1gU77a27K8")],
   kapak_w=resim("kapak/padlet-adim-adim.png","padlet-adim-adim",640))
 padlet_html = (f'<section class="blm" id="padlet" aria-labelledby="pad-b" style="padding-top:0"><div class="w"><div class="inv-ana" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
   + (f'<a href="{PADLET["liste"]}" style="flex:0 1 260px"><img src="{PADLET["kapak_w"]}" alt="" loading="lazy" style="width:100%;border-radius:10px;display:block"></a>' if PADLET["kapak_w"] else "")
@@ -446,7 +448,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
 </div></div>
-<a class="cuma-not" href="#padlet">{f'<img src="{PADLET["kapak_w"]}" alt="">' if PADLET.get("kapak_w") else '<span class="soru-b">'+E(PADLET["kisa"])+'</span>'}<small>Yeni dizi</small><b>{E(PADLET["ad"])}</b><span>2 bölüm, 2026 arayüzü</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
+<a class="cuma-not" href="#padlet">{f'<img src="{PADLET["kapak_w"]}" alt="">' if PADLET.get("kapak_w") else '<span class="soru-b">'+E(PADLET["kisa"])+'</span>'}<small>Yeni dizi</small><b>{E(PADLET["ad"])}</b><span>{len(PADLET["bolumler"])} bölüm, 2026 arayüzü</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
 <div class="cetvel" role="toolbar" aria-label="Tahta"><button type="button" id="t-kalem" aria-pressed="false">Kalem</button><button type="button" id="t-temizle">Temizle</button><button type="button" id="t-ses" aria-pressed="false">Ses</button><span class="ipucu" id="t-ipucu">Bu sayfa da bir tahta. Kalemi alın, yazın.</span></div>
 </section>
 {yollar_html}
