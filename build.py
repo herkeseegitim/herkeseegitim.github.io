@@ -424,6 +424,14 @@ padlet_html = (f'<section class="blm" id="padlet" aria-labelledby="pad-b" style=
   + f'<div style="flex:1;min-width:220px"><small>YouTube dizisi</small><h2 id="pad-b" style="margin:4px 0;font-size:1.35em">{E(PADLET["ad"])}</h2><p style="margin:0 0 8px">{E(PADLET["kisa"])}</p><ul style="margin:0 0 10px;padding-left:18px">'
   + "".join(f'<li><a href="{h}">{E(t)}</a></li>' for t,h in PADLET["bolumler"])
   + f'</ul><a class="dugme acik" href="{PADLET["liste"]}">Bütün bölümler</a></div></div></div></section>')
+# ---- Maaşım Ne Olacak? (tek dosyalık araç, data/maasim/; İdiye 7 Kas 18:23 "siteye yükle"). İndirme bağlantısı yok (İdiye kararı); sayaçsız.
+os.makedirs(os.path.join(OUT,"maasim"), exist_ok=True)
+for _k,_f in [("maasim.html","index.html"),("maasim-onizleme.png","onizleme.png")]: shutil.copy(os.path.join(KOK,"data",_k), os.path.join(OUT,"maasim",_f))
+EK_YOLLAR.append("/maasim/")
+MAASIM = dict(ad="Maaşım ne olacak?", kisa="Emekli maaşınızın ocakta ne olacağını hesaplayın.", adres="/maasim/", kapak_w=resim("maasim-onizleme.png","maasim",640))
+maasim_html = (f'<section class="blm" id="maasim" aria-labelledby="maas-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{MAASIM["adres"]}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
+  + (f'<img src="{MAASIM["kapak_w"]}" alt="" loading="lazy" style="width:min(260px,100%);border-radius:10px">' if MAASIM["kapak_w"] else "")
+  + f'<span style="flex:1;min-width:220px"><small>Araç</small><b id="maas-b" style="display:block;font-size:1.35em;margin:4px 0">{E(MAASIM["ad"])}</b><span>{E(MAASIM["kisa"])}</span><br><span style="text-decoration:underline">Hesaplayın</span></span></a></div></section>')
 
 ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
   ACIKLAMA, "/", sema=sema_ana, alt=DIL_ALT) + f'''
@@ -451,6 +459,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 {ogrenci_html}
 {yol_band("ogretmen")}
 {padlet_html}
+{maasim_html}
 {kapi_html}
 {hafta_html}
 <section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
@@ -600,7 +609,7 @@ def _gc_yok(ad, b):
     assert b"goatcounter" not in b.lower(), ("sayaç araç dosyasına girdi", ad)
 for _k, _d, _fs in os.walk(OUT):
     _r = os.path.relpath(_k, OUT).replace(os.sep, "/")
-    _arac = _r.split("/")[0] in ("indir", "atolye") or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
+    _arac = _r.split("/")[0] in ("indir", "atolye", "maasim") or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
     for _f in _fs:
         _y = os.path.join(_k, _f)
         if _f.endswith(".zip"):
