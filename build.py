@@ -175,7 +175,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
     hl = "".join(f'<link rel="alternate" hreflang="{d}" href="{SITE}{y}">' for d,y in (alt or []))
     s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
     return f"""<!doctype html><html lang="{dil}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><link rel="canonical" href="{E(can)}">
+<title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><meta name="google-site-verification" content="fcOAHCubWEotluY-oCTJJcsWL2wB_IRUHvd5slJz56A" /><link rel="canonical" href="{E(can)}">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://herkeseegitim.goatcounter.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self' https://herkeseegitim.goatcounter.com; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
 <meta property="og:type" content="website"><meta property="og:title" content="{E(og_baslik or baslik)}"><meta property="og:description" content="{E(og_aciklama or aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og}"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
