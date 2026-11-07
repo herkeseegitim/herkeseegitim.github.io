@@ -685,6 +685,19 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "5B63ebGzx2k",
+   "baslik": "Altı ay uğraştı, örtü kalktı. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-06",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 13 Dağ doğura doğura\\kapak Atasözü 13.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfY8uFfBPsZ/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -825,6 +838,17 @@
    "video": "s_WpifNXDxI",
    "tarih": "2026-11-05",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 12 Ak akçe kara gün içindir\\kapak Atasözü 12.png"
+  },
+  {
+   "no": 13,
+   "soz": "Dağ doğura doğura bir fare doğurmuş.",
+   "slug": "dag-dogura-dogura-bir-fare-dogurmus",
+   "soru": "Altı ay uğraştı, örtü kalktı. Hangi atasözü?",
+   "anlam": "Büyük şeyler beklenen işten küçük sonuç çıkınca söylenir.",
+   "sozcuk": null,
+   "video": "5B63ebGzx2k",
+   "tarih": "2026-11-06",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 13 Dağ doğura doğura\\kapak Atasözü 13.png"
   }
  ],
  "takvim": [
