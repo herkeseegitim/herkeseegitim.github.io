@@ -698,6 +698,19 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "RDK5oWjSyII",
+   "baslik": "Bu iki tüy yeter mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-07",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 14 Kanatsız kuş uçmaz\\kapak Atasözü 14.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/Dfb25LCOPwA/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -849,6 +862,17 @@
    "video": "5B63ebGzx2k",
    "tarih": "2026-11-06",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 13 Dağ doğura doğura\\kapak Atasözü 13.png"
+  },
+  {
+   "no": 14,
+   "soz": "Kanatsız kuş uçmaz.",
+   "slug": "kanatsiz-kus-ucmaz",
+   "soru": "Bu iki tüy yeter mi?",
+   "anlam": "Hazırlanıp güçlenmeden amaca ulaşılmaz.",
+   "sozcuk": null,
+   "video": "RDK5oWjSyII",
+   "tarih": "2026-11-07",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 14 Kanatsız kuş uçmaz\\kapak Atasözü 14.png"
   }
  ],
  "takvim": [

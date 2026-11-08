@@ -11,5 +11,6 @@
 {"no": 10, "slug": "poured-water-wont-turn-a-mill", "literal": "Poured water won't turn a mill.", "meaning": "If the one doing the job lacks the strength, small contributions from others can't keep a big job going.", "equivalent": null, "source": "TDK"},
 {"no": 11, "slug": "the-fish-that-gets-away", "literal": "The fish that gets away is always big.", "meaning": "A missed chance grows bigger in your mind.", "equivalent": "The one that got away.", "source": "TDK"},
 {"no": 12, "slug": "a-white-coin-is-for-the-black-day", "literal": "A white coin is for the black day.", "meaning": "Money you earn by working saves you from hardship in tight times.", "equivalent": "Save it for a rainy day.", "source": "TDK"},
-{"no": 13, "slug": "the-mountain-gave-birth-to-a-mouse", "literal": "The mountain laboured and laboured and gave birth to a mouse.", "meaning": "Great things were expected, and the result was small.", "equivalent": "The mountain laboured and brought forth a mouse.", "source": "TDK"}
+{"no": 13, "slug": "the-mountain-gave-birth-to-a-mouse", "literal": "The mountain laboured and laboured and gave birth to a mouse.", "meaning": "Great things were expected, and the result was small.", "equivalent": "The mountain laboured and brought forth a mouse.", "source": "TDK"},
+{"no": 14, "slug": "a-bird-without-wings", "literal": "A bird without wings doesn't fly.", "meaning": "Without preparing and growing stronger, you don't reach the goal.", "equivalent": null, "source": "TDK"}
 ]
