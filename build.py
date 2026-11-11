@@ -195,6 +195,7 @@ __ODEV__
 <a role="listitem" class="m m-x" href="https://x.com/cincinosos"><b>X</b><span>X</span></a>
 <a role="listitem" class="m m-in" href="https://www.linkedin.com/in/idiye/"><b>in</b><span>LinkedIn</span></a>
 <a role="listitem" class="m m-wp" href="https://egitimteknoloji.wordpress.com/"><b>W</b><span>Blog</span></a>
+<a role="listitem" class="m m-gh" href="https://github.com/herkeseegitim"><b>GH</b><span>GitHub</span></a>
 </div>
 <p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p></div></div>
 
@@ -233,7 +234,7 @@ SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi"
 MISYON = "Herkese Eğitim, eğitimden yola çıkarak teknolojinin doğru, etik ve yerinde kullanımını yaygınlaştırır. Amacı insanların işini kolaylaştırmak, daha üretken olmalarına ve daha anlamlı bir hayat kurmalarına yardım etmek."
 ACIKLAMA = "Eskinin bilgeliği, yeninin teknolojisi. Teknolojiyi doğru, etik ve yerinde kullanmak için ücretsiz araçlar, atölyeler, tahmin soruları ve her gün bir atasözü."
 KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","slogan":SLOGAN,"description":MISYON,"founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
-  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek"]}
+  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek","https://github.com/herkeseegitim"]}
 def sema_urun(u):
     if u["tur"] == "atolye":
         s = {"@context":"https://schema.org","@type":"LearningResource","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr","isAccessibleForFree":True,
