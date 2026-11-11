@@ -711,6 +711,33 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "DGB0INXXTyg",
+   "baslik": "Bu top pes eder mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-08",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 15 Her yokuşun bir inişi\\kapak Atasözü 15.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfeOkQJMjGn/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "a2c8B1KW6a0",
+   "baslik": "Wordwall nasıl kullanılır? Ücretsiz hesap ve ilk eşleştirme etkinliği 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-08",
+   "aciklama": "Wordwall'da ücretsiz hesap açıp ilk eşleştirme etkinliğini adım adım hazırlıyoruz: içeriğinizi bir dakikada oyuna çevirin, derste oyun, sonunda ölçme.",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Wordwall\\Bolum 1\\kapak B1 A v2.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2119417554645008461"
+   }
   }
  ],
  "atasozleri": [
@@ -873,6 +900,17 @@
    "video": "RDK5oWjSyII",
    "tarih": "2026-11-07",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 14 Kanatsız kuş uçmaz\\kapak Atasözü 14.png"
+  },
+  {
+   "no": 15,
+   "soz": "Her yokuşun bir inişi, her inişin bir yokuşu vardır.",
+   "slug": "her-yokusun-bir-inisi-her-inisin-bir-yokusu-vardir",
+   "soru": "Bu top pes eder mi?",
+   "anlam": "Zor günler, iyi günler birbirini izler.",
+   "sozcuk": null,
+   "video": "DGB0INXXTyg",
+   "tarih": "2026-11-08",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 15 Her yokuşun bir inişi\\kapak Atasözü 15.png"
   }
  ],
  "takvim": [
