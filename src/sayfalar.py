@@ -222,7 +222,8 @@ _bugun_en = max(_soz_en, key=lambda a: ((a.get("tarih") or ""), a.get("no") or 0
 _en_odev = (f'<a class="odev" href="{en_soz(_bugun_en["en"])}"><span class="odev-e">Today’s homework</span><b>{E(_bugun_en["en"]["literal"])}</b>'
             f'<span class="odev-n">Guess the meaning first, then check.</span></a>') if _bugun_en else ""
 _EN_ALT = re.sub(r'<dialog class="kare".*?</dialog>\n?', "", ALT, flags=re.S)
-for _a, _b in [("<p class=\"cikis-b\">Zil çaldı.</p>", "<p class=\"cikis-b\">The bell rang.</p>"),
+_EN_ALT = _EN_ALT.replace('<p class="cikis-b">Zil çaldı.</p>', '<p class="cikis-b">Zil çaldı</p>')  # 11 Kas: başlıkta nokta yok; eski build.py ile de çalışır
+for _a, _b in [("<p class=\"cikis-b\">Zil çaldı</p>", "<p class=\"cikis-b\">The bell rang.</p>"),
                ("Yarın yine buradayız. Çıkmadan bir ödev:", "See you tomorrow. One piece of homework before you go:"),
                ('aria-label="Sosyal medya"', 'aria-label="Social media"'),
                ("Mıknatısları tahtada gezdirebilirsiniz.", "You can move the magnets around the board."),
@@ -231,6 +232,7 @@ for _a, _b in [("<p class=\"cikis-b\">Zil çaldı.</p>", "<p class=\"cikis-b\">T
                ("Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez.", "No cookies. Visits are counted without collecting personal data. YouTube videos load only when you tap them.")]:
     assert _a in _EN_ALT, ("EN sayfa sonu", _a)
     _EN_ALT = _EN_ALT.replace(_a, _b)
+_EN_ALT = _EN_ALT.replace(">Claude ile birlikte hazırlandı</a>", ">Made together with Claude</a>")  # 11 Kas: yeni build.py ile gelir; eski build.py'de yoksa dokunmaz
 if _oh: _EN_ALT = _EN_ALT.replace(_oh, _en_odev)
 assert "Bugünün ödevi" not in _EN_ALT and "Zil çaldı" not in _EN_ALT
 _EV_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>'
