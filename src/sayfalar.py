@@ -232,7 +232,7 @@ for _a, _b in [("<p class=\"cikis-b\">Zil çaldı</p>", "<p class=\"cikis-b\">Th
                ("Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez.", "No cookies. Visits are counted without collecting personal data. YouTube videos load only when you tap them.")]:
     assert _a in _EN_ALT, ("EN sayfa sonu", _a)
     _EN_ALT = _EN_ALT.replace(_a, _b)
-_EN_ALT = _EN_ALT.replace(">Claude ile birlikte hazırlandı</a>", ">Made together with Claude</a>")  # 11 Kas: yeni build.py ile gelir; eski build.py'de yoksa dokunmaz
+_EN_ALT = _EN_ALT.replace(">Claude ile birlikte hazırlandı</a>", ">Made together with Claude</a>").replace(">Claude ile birlikte hazırlandı</span>", ">Made together with Claude</span>")  # 11 Kas: yeni build.py ile gelir; eski build.py'de yoksa dokunmaz
 if _oh: _EN_ALT = _EN_ALT.replace(_oh, _en_odev)
 assert "Bugünün ödevi" not in _EN_ALT and "Zil çaldı" not in _EN_ALT
 _EV_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>'
