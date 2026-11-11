@@ -40,19 +40,19 @@ _dogrula(veri)
 URUN = {
  "ciztahta": dict(ad="ÇizTahta", tur="arac", kisa="Tarayıcıda açılan ücretsiz tahta. PDF üstüne yazın, perde, spot, kura.",
    sinif="Her branş, her sınıf", kademe="hepsi", ihtiyac="tahta", kim="ogretmen", etiket="Tahtada aç",
-   ne="Akıllı tahtada ya da projeksiyonda tarayıcıda açılır. PDF ve çalışma kâğıdı üstüne yazarsınız; cevabı perdeyle kapatıp sırayla açarsınız, spotla tek bir yere dikkat çekersiniz, kura ile söz hakkını herkese dağıtırsınız. Hesap açmadan kullanılır."),
+   ne="Akıllı tahtada ya da projeksiyonda tarayıcıda açılır. PDF ve çalışma kâğıdı üstüne yazarsınız; cevabı perdeyle kapatıp sırayla açarsınız, spotla tek bir yere dikkat çekersiniz, kura ile söz hakkını herkese dağıtırsınız. Hesap açmadan kullanılır. Ücretsiz akıllı tahta yazılımı ve ekran kalemi; kurulum gerekmez."),
  "eklenti": dict(ad="ÇizTahta eklentisi", tur="arac", kisa="Açtığınız her sayfa tahtanız olsun. Derste de, toplantıda da.",
    sinif="Chrome ve Edge", kademe="hepsi", ihtiyac="tahta", kim="ogretmen meraklı", etiket="Mağazada aç",
-   ne="Chrome'a bir kez eklenir. Derste hangi sayfa açıksa, web sayfası, PDF, sunum ya da video, Ç'ye basıp üstüne yazarsınız. Online toplantıda sunum yaparken de kullanılır."),
+   ne="Chrome'a bir kez eklenir. Derste hangi sayfa açıksa, web sayfası, PDF, sunum ya da video, Ç'ye basıp üstüne yazarsınız. Online toplantıda sunum yaparken de kullanılır. Ekrana çizim ve web sayfasına not almak için ücretsiz Chrome eklentisi."),
  "yaztahta": dict(ad="YazTahta", tur="arac", kisa="İlkokulda klavye: her tuşun yeri ve işi ekranda.",
    sinif="1–4. sınıf", kademe="ilkokul", ihtiyac="tahta atolye", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
-   ne="Harf Treni, Tuşun yolculuğu, Klavye yapbozu, Sınıfın treni. Her öğrenci kendi klavyesiyle, akıllı tahtada bütün sınıf birlikte çalışır. Bir tuşa ilk dokunuşta sınıf önce tahmin eder, sonra görür."),
+   ne="Harf Treni, Tuşun yolculuğu, Klavye yapbozu, Sınıfın treni. Her öğrenci kendi klavyesiyle, akıllı tahtada bütün sınıf birlikte çalışır. Bir tuşa ilk dokunuşta sınıf önce tahmin eder, sonra görür. Klavyeyi tanıma ve ilk klavye dersi için ücretsiz etkinlik."),
  "basit-makineler": dict(ad="Basit Makineler Atölyesi", tur="atolye", kisa="Tahmin edin, deneyin, açıklayın: makara, kaldıraç, eğik düzlem, çıkrık, dişli.",
    sinif="8. sınıf fen bilimleri", kademe="ortaokul", ihtiyac="atolye giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
-   ne="Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar, ipi parmağıyla çeker. Kuvvetten kazanınca yoldan kaybettiğini kendi görür. Öğretmen sekmesinde ders akışı var."),
+   ne="Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar, ipi parmağıyla çeker. Kuvvetten kazanınca yoldan kaybettiğini kendi görür. Öğretmen sekmesinde ders akışı var. Makara, kaldıraç, eğik düzlem ve dişli konuları için ücretsiz etkileşimli simülasyon."),
  "bilgisayarin-ici": dict(ad="Bilgisayarın İçi Atölyesi", tur="atolye", kisa="Kasa açılır: yazdığın cümle RAM'de mi, fişi çekince nereye gider?",
    sinif="5. sınıf bilişim teknolojileri ve yazılım", kademe="ortaokul", ihtiyac="atolye giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
-   ne="Öğrenci bir cümle yazar, 3B kasayı açar, harflerin RAM'de bit olarak durduğunu görür. Fişi çekince bitler söner; Kaydet'e basınca işletim sistemi bitleri depolama birimine yazar. Rehberli ders, deney masası, beş görev."),
+   ne="Öğrenci bir cümle yazar, 3B kasayı açar, harflerin RAM'de bit olarak durduğunu görür. Fişi çekince bitler söner; Kaydet'e basınca işletim sistemi bitleri depolama birimine yazar. Rehberli ders, deney masası, beş görev. RAM ile depolama biriminin farkını göstermek için ücretsiz 3B simülasyon."),
  "yuzdeler": dict(ad="Yüzdeler Atölyesi", tur="atolye", kisa="%20 indirimin üstüne %20 daha: %40 mı?",
    sinif="7. sınıf matematik", kademe="ortaokul", ihtiyac="atolye kendim giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
    ne="Yüzdeyi günlük hayattaki sorularla çalışır: indirim, artış, bütünün değişmesi. Önce \"%100 hangisi?\" sorulur, sonra tahmin. Kendim çalışıyorum bölümünde adım adım yol, takıldığında ipucu ve sınava hazırlık var."),
@@ -135,7 +135,7 @@ def resim(kaynak, ad, en, oran=None):
     im = Image.open(p).convert("RGB"); im.thumbnail((en, en*2))
     hedef = f"img/{ad}.webp"; im.save(os.path.join(OUT,hedef), quality=78, method=6)
     return "/"+hedef
-for f,ad in [("marka/imza-acik.png","imza-acik"),("marka/imza.png","imza"),("marka/avatar.png","avatar"),("marka/logo.png","logo")]:
+for f,ad in [("marka/imza-acik.png","imza-acik"),("marka/imza.png","imza"),("marka/avatar.png","avatar"),("marka/logo.png","logo"),("marka/my-finch.png","my-finch")]:
     p = os.path.join(KOK,"data",f)
     if os.path.exists(p):
         im = Image.open(p); im.thumbnail((600,600)); im.save(os.path.join(OUT,"img",ad+".png"), optimize=True)
@@ -186,7 +186,7 @@ NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
-<div class="cikis-ust"><div class="zil-blok"><svg class="zil-b" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-18 8-18 20v12l-6 8h48l-6-8V26C50 14 43 6 32 6z"/><circle cx="32" cy="52" r="5"/><rect x="29" y="1" width="6" height="7" rx="2"/></svg><p class="cikis-b">Zil çaldı.</p><p class="cikis-a">Yarın yine buradayız. Çıkmadan bir ödev:</p></div>
+<div class="cikis-ust"><div class="zil-blok"><svg class="zil-b" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-18 8-18 20v12l-6 8h48l-6-8V26C50 14 43 6 32 6z"/><circle cx="32" cy="52" r="5"/><rect x="29" y="1" width="6" height="7" rx="2"/></svg><p class="cikis-b">Zil çaldı</p><p class="cikis-a">Yarın yine buradayız. Çıkmadan bir ödev:</p></div>
 __ODEV__
 <div class="mik-kol"><div class="miknatis" role="list" aria-label="Sosyal medya">
 <a role="listitem" class="m m-yt" href="https://www.youtube.com/@egitimtek"><b>YT</b><span>YouTube</span></a>
@@ -201,6 +201,7 @@ __ODEV__
 
 <div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
 <ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li></ul></div>
+<p class="kucuk finch-not"><a href="https://github.com/herkeseegitim/my-finch?ref=site" style="display:inline-flex;gap:8px;align-items:center"><img src="/img/my-finch.png" alt="" width="24" height="24" style="border-radius:50%">Claude ile birlikte hazırlandı</a></p>
 <p class="kucuk">Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
 <dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
 <script data-goatcounter="https://herkeseegitim.goatcounter.com/count" async src="/assets/count.js"></script><script src="/site.js?v={SURUM}"></script></body></html>"""
@@ -229,11 +230,11 @@ def qr_gizli():
 
 # ---- schema.org
 KISI = {"@type":"Person","@id":SITE+"/hakkinda/#idiye","name":"İdiye Ökten","url":SITE+"/hakkinda/","sameAs":["https://www.linkedin.com/in/idiye/"]}
-SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi."
+SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi"
 MISYON = "Herkese Eğitim, eğitimden yola çıkarak teknolojinin doğru, etik ve yerinde kullanımını yaygınlaştırır. Amacı insanların işini kolaylaştırmak, daha üretken olmalarına ve daha anlamlı bir hayat kurmalarına yardım etmek."
 ACIKLAMA = "Eskinin bilgeliği, yeninin teknolojisi. Teknolojiyi doğru, etik ve yerinde kullanmak için ücretsiz araçlar, atölyeler, tahmin soruları ve her gün bir atasözü."
 KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","slogan":SLOGAN,"description":MISYON,"founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
-  "sameAs":["https://www.youtube.com/@egitimtek","https://www.instagram.com/egitimtek/","https://x.com/cincinosos","https://github.com/herkeseegitim"]}
+  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek","https://github.com/herkeseegitim"]}
 def sema_urun(u):
     if u["tur"] == "atolye":
         s = {"@context":"https://schema.org","@type":"LearningResource","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr","isAccessibleForFree":True,
@@ -402,7 +403,7 @@ def yol_band(k):
     return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
 _kapilar = [
  ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else [])),
- ("ogretmen", [("Padlet adım adım", "#padlet"), ("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
+ ("ogretmen", [("Padlet ve Padlet Arcade adım adım", "#padlet"), ("Wordwall adım adım", "#wordwall"), ("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
  ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
 ]
 yollar_html = '<nav class="yollar" aria-label="Kimin için"><div class="w">' + "".join(
@@ -415,35 +416,52 @@ ogrenci_html = ('<section class="blm ogr" aria-label="Atölyeler"><div class="w"
   f'<li><b><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></b><span class="ogr-s">{E(u["sinif"])}</span><span class="ogr-n">{E(u["kisa"])}</span><span class="ogr-e"><a href="{urun_sayfa(u)}">Ayrıntı ve adres</a></span></li>' for u in _atolyeler)
   + '</ul><p class="ogr-not" id="ogr-not">Veliler için: öğrenci atölyeyi öğretmeninin ya da sizin verdiğiniz adresten açar; hesap gerekmez.</p></div></section>') if _atolyeler else ""
 # ---- Padlet adım adım (YouTube dizisi; İdiye 6 Kas 23:54: Yankı'nın yerinde öne çıkar). Kartta video gömülmez, yalnız bağlantı (g79 dersi).
-PADLET = dict(ad="Padlet adım adım", kisa="Padlet ve Padlet Arcade, 2026 arayüzüyle adım adım. Ücretsiz.",
+WW_LISTE = "https://www.youtube.com/playlist?list=PLCLImbNsy-XM"  # "Wordwall adım adım 2026", oEmbed 200 (11 Kas)
+PADLET = dict(ad="Padlet ve Padlet Arcade adım adım", kisa="Padlet nasıl kullanılır, Padlet Arcade ile oyun nasıl hazırlanır: 2026 arayüzüyle adım adım. Ücretsiz.",
   liste="https://www.youtube.com/playlist?list=PLDpeHNCZjwRQ",
-  bolumler=[("Bölüm 1: Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY"),
-    ("Bölüm 2: Panoyu silme ve geri getirme","https://youtu.be/4U6bd_w3HwI"),("Bölüm 3: Padlet nedir?","https://youtu.be/VzeyrKse8s4"),
-    ("Bölüm 4: Padlet ücretsiz mi? 3 padlet sınırı","https://youtu.be/aXeTKLLkUY8"),("Bölüm 5: Pano oluşturma, 5 biçim","https://youtu.be/G1gU77a27K8")],
+  gruplar=[("Padlet",[("Bölüm 2: Panoyu silme ve geri getirme","https://youtu.be/4U6bd_w3HwI"),("Bölüm 3: Padlet nedir?","https://youtu.be/VzeyrKse8s4"),
+      ("Bölüm 4: Padlet ücretsiz mi? 3 padlet sınırı","https://youtu.be/aXeTKLLkUY8"),("Bölüm 5: Pano oluşturma, 5 biçim","https://youtu.be/G1gU77a27K8")]),
+    ("Padlet Arcade",[("Bölüm 1: Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY")])],
   kapak_w=resim("kapak/padlet-adim-adim.png","padlet-adim-adim",640))
-padlet_html = (f'<section class="blm" id="padlet" aria-labelledby="pad-b" style="padding-top:0"><div class="w"><div class="inv-ana" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
-  + (f'<a href="{PADLET["liste"]}" style="flex:0 1 260px"><img src="{PADLET["kapak_w"]}" alt="" loading="lazy" style="width:100%;border-radius:10px;display:block"></a>' if PADLET["kapak_w"] else "")
-  + f'<div style="flex:1;min-width:220px"><small>YouTube dizisi</small><h2 id="pad-b" style="margin:4px 0;font-size:1.35em">{E(PADLET["ad"])}</h2><p style="margin:0 0 8px">{E(PADLET["kisa"])}</p><ul style="margin:0 0 10px;padding-left:18px">'
-  + "".join(f'<li><a href="{h}">{E(t)}</a></li>' for t,h in PADLET["bolumler"])
-  + f'</ul><a class="dugme acik" href="{PADLET["liste"]}">Bütün bölümler</a></div></div></div></section>')
+PADLET["bolumler"] = [x for _g,l in PADLET["gruplar"] for x in l]
+# ---- Wordwall adım adım (İdiye 8 Kas 16:19): Padlet kartının yanında, aynı düzen; video gömülmez, bağlantı verilir
+WORDWALL = dict(ad="Wordwall adım adım", kisa="İçeriğinizi bir dakikada oyuna çevirin: derste oyun, sonunda ölçme. Ücretsiz hesapla baştan anlatım.",
+  liste=WW_LISTE,
+  gruplar=[("Wordwall",[("Bölüm 1: Wordwall nasıl kullanılır? Ücretsiz hesap ve ilk eşleştirme etkinliği","/video/a2c8B1KW6a0/")])],
+  kapak_w=resim("kapak/a2c8B1KW6a0.png","wordwall-adim-adim",640))
+def _dizi_kart(D, k):
+    ilk = D["liste"] or D["gruplar"][0][1][0][1]
+    return (f'<div class="inv-ana" id="{k}" style="display:flex;flex-direction:column;gap:12px;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
+      + (f'<a href="{ilk}"><img src="{D["kapak_w"]}" alt="" loading="lazy" style="width:100%;border-radius:10px;display:block"></a>' if D["kapak_w"] else "")
+      + f'<div><small>YouTube dizisi</small><h2 id="{k}-b" style="margin:4px 0;font-size:1.35em">{E(D["ad"])}</h2><p style="margin:0 0 8px">{E(D["kisa"])}</p>'
+      + "".join((f'<h3 style="margin:10px 0 4px;font-size:1em">{E(g)}</h3>' if len(D["gruplar"])>1 else "") + '<ul style="margin:0 0 10px;padding-left:18px">' + "".join(f'<li><a href="{h}">{E(t)}</a></li>' for t,h in l) + '</ul>' for g,l in D["gruplar"])
+      + (f'<a class="dugme acik" href="{D["liste"]}">Bütün bölümler</a>' if D["liste"] else "") + '</div></div>')
+padlet_html = ('<section class="blm" aria-label="YouTube dizileri" style="padding-top:0"><div class="w"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px;align-items:start">'
+  + _dizi_kart(PADLET, "padlet") + _dizi_kart(WORDWALL, "wordwall") + '</div></div></section>')
+sema_ana[0]["@graph"].extend({"@type":"CreativeWorkSeries","name":D["ad"],"alternateName":alt,"description":D["kisa"],"url":D["liste"] or (SITE+D["gruplar"][0][1][0][1]),"inLanguage":"tr","isAccessibleForFree":True,"publisher":{"@id":KURUM["@id"]},"author":{"@id":KISI["@id"]}}
+  for D,alt in [(PADLET,["Padlet adım adım","Padlet Arcade adım adım"]),(WORDWALL,["Wordwall nasıl kullanılır"])])
 # ---- Maaşım Ne Olacak? (tek dosyalık araç, data/maasim/; İdiye 7 Kas 18:23 "siteye yükle"). İndirme bağlantısı yok (İdiye kararı); sayaçsız.
 os.makedirs(os.path.join(OUT,"maasim"), exist_ok=True)
-for _k,_f in [("maasim.html","index.html"),("maasim-onizleme.png","onizleme.png")]: shutil.copy(os.path.join(KOK,"data",_k), os.path.join(OUT,"maasim",_f))
+for _k,_f in [("maasim-onizleme-memur.png","onizleme-memur.png"),("maasim-onizleme-memur.png","onizleme.png")]: shutil.copy(os.path.join(KOK,"data",_k), os.path.join(OUT,"maasim",_f))
+# İdiye 11 Kas: önizleme "SSK, Bağ-Kur ve memur emeklileri için"; yeni adla (paylaşım önbelleği eskiyi tutmasın), eski adres de yeni resmi verir
+_mh = open(os.path.join(KOK,"data","maasim.html"),encoding="utf-8").read()
+assert _mh.count("https://herkeseegitim.com/maasim/onizleme.png") == 1
+open(os.path.join(OUT,"maasim","index.html"),"w",encoding="utf-8").write(_mh.replace("https://herkeseegitim.com/maasim/onizleme.png","https://herkeseegitim.com/maasim/onizleme-memur.png"))
 EK_YOLLAR.append("/maasim/")
-MAASIM = dict(ad="Maaşım ne olacak?", kisa="Emekli maaşınızın ocakta ne olacağını hesaplayın.", adres="/maasim/", kapak_w=resim("maasim-onizleme.png","maasim",640))
+MAASIM = dict(ad="Maaşım ne olacak?", kisa="SSK, Bağ-Kur ve memur emeklileri için: maaşınızın ocakta ne olacağını hesaplayın.", adres="/maasim/", kapak_w=resim("maasim-onizleme-memur.png","maasim-memur",640))
 maasim_html = (f'<section class="blm" id="maasim" aria-labelledby="maas-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{MAASIM["adres"]}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
   + (f'<img src="{MAASIM["kapak_w"]}" alt="" loading="lazy" style="width:min(260px,100%);border-radius:10px">' if MAASIM["kapak_w"] else "")
   + f'<span style="flex:1;min-width:220px"><small>Araç</small><b id="maas-b" style="display:block;font-size:1.35em;margin:4px 0">{E(MAASIM["ad"])}</b><span>{E(MAASIM["kisa"])}</span><br><span style="text-decoration:underline">Hesaplayın</span></span></a></div></section>')
 
 ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
-  ACIKLAMA, "/", sema=sema_ana, alt=DIL_ALT) + f'''
+  ACIKLAMA+" Padlet, Padlet Arcade ve Wordwall adım adım.", "/", sema=sema_ana, alt=DIL_ALT) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
 <main id="ana">
 <section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
 <canvas class="tahta" id="tahta" aria-hidden="true"></canvas>
 <div class="w"><div class="yazi">
-<h1 id="h1" class="gir" style="--d:150ms">Eskinin bilgeliği, yeninin teknolojisi.</h1>
-<p class="alt alt-sl gir" style="--d:300ms">Teknolojiyi doğru, etik ve yerinde kullanmak için.</p>
+<h1 id="h1" class="gir" style="--d:150ms">Eskinin bilgeliği, yeninin teknolojisi</h1>
+<p class="alt alt-sl gir" style="--d:300ms">Teknolojiyi doğru, etik ve yerinde kullanmak için</p>
 <a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
 <div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
 <a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
@@ -453,7 +471,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 </section>
 {yollar_html}
 {yol_band("merak")}
-<section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün.</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
+<section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
 <div class="gs-kutu"><div class="gs-sayac" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="iz"/><circle cx="60" cy="60" r="52" class="dol"/></svg><span>3</span></div><div class="gs-sec" role="group" aria-label="Seçenekler"></div><p class="gs-cevap" role="status" aria-live="polite"></p></div></div></section>
 {soz_html}
 {(lambda b: f'<section class="blm" id="icinde" aria-labelledby="inv-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{INV_ADRES}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy" style="width:min(220px,100%);border-radius:10px">' if b.get("kapak_w") else "") + f'<span style="flex:1;min-width:220px"><small>İçinde Ne Var?</small><b id="inv-b" style="display:block;font-size:1.35em;margin:4px 0">{E(b["soru"])}</b><span>{E(b["kisa"])}</span><br><span style="text-decoration:underline">Bütün bölümler</span></span></a></div></section>')(INV[-1]) if INV else ""}
@@ -466,6 +484,11 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 {hafta_html}
 <section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
 <div class="katalog">{"".join(satirlar)}</div></div></section>
+<section class="blm" id="biz" aria-labelledby="biz-b"><div class="w"><div class="bas"><h2 id="biz-b">Biz</h2></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px">
+<a href="/hakkinda/" style="display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="{AVATAR}" alt="İdiye Ökten" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">İdiye Ökten</b><span>İçeriği hazırlayan ve kararları veren öğretmen.</span></span></a>
+<a href="https://github.com/herkeseegitim/my-finch?ref=site" style="display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="/img/my-finch.png" alt="My Finch: kâğıttan katlanmış ispinoz" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">My Finch</b><span>Kelimelerden hayat bulan bir ekip arkadaşı.</span></span></a>
+</div></div></section>
 <section class="blm" id="videolar" aria-labelledby="vid-b" style="padding-top:0"><div class="w"><div class="bas"><h2 id="vid-b">Videolar</h2><p>YouTube kanalı: @egitimtek. Video dokununca oynar.</p></div>
 <div class="diziler">{son_videolar()}</div></div></section>
 {canta_html}
@@ -552,7 +575,7 @@ soz_liste = (f'<p class="sz-etiket">En yeni söz</p><ol class="sz-liste">{_soz_l
 open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
   bas("Atasözlerimizi Yaşatalım | Herkese Eğitim","Az bilinen atasözleri, anlamları ve unutulan sözcükleri. Her atasözünün kendi sayfası ve kısa videosu var.","/atasozleri/",
       sema=[{"@context":"https://schema.org","@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/","hasDefinedTerm":[{"@type":"DefinedTerm","name":a["soz"],"url":SITE+soz_sayfa(a)} for a in atasozleri]}])
-  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Unutulan sözler,<br>söylendikçe yaşar.</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section>{soz_liste}</div></main>{ALT}')
+  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Unutulan sözler,<br>söylendikçe yaşar</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section>{soz_liste}</div></main>{ALT}')
 
 # ---- hakkında
 hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
@@ -574,6 +597,11 @@ open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="U
 L = [f"# Herkese Eğitim\n\n> {ACIKLAMA}\n\n{MISYON}\n\nİdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
 for u in urunler:
     L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme çıktısı: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' else (f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
+L.append("\n## YouTube dizileri\n")
+for D in (PADLET, WORDWALL):
+    L.append(f"- {D['ad']}: {D['kisa']}" + (f" Liste: {D['liste']}" if D['liste'] else ""))
+    for g,l in D["gruplar"]:
+        for t,h in l: L.append(f"  - {g}, {t}: {h if h.startswith('http') else SITE+h}")
 L.append("\n## Atasözlerimizi Yaşatalım\n")
 for a in atasozleri: L.append(f"- [{a['soz']}]({SITE}{soz_sayfa(a)}): {a.get('anlam') or ''}")
 L.append("\n## Videolar\n")
