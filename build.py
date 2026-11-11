@@ -195,13 +195,12 @@ __ODEV__
 <a role="listitem" class="m m-x" href="https://x.com/cincinosos"><b>X</b><span>X</span></a>
 <a role="listitem" class="m m-in" href="https://www.linkedin.com/in/idiye/"><b>in</b><span>LinkedIn</span></a>
 <a role="listitem" class="m m-wp" href="https://egitimteknoloji.wordpress.com/"><b>W</b><span>Blog</span></a>
-<a role="listitem" class="m m-gh" href="https://github.com/herkeseegitim"><b>GH</b><span>GitHub</span></a>
 </div>
 <p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p></div></div>
 
 <div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
 <ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li></ul></div>
-<p class="kucuk finch-not"><a href="https://github.com/herkeseegitim/my-finch?ref=site" style="display:inline-flex;gap:8px;align-items:center"><img src="/img/my-finch.png" alt="" width="24" height="24" style="border-radius:50%">Claude ile birlikte hazırlandı</a></p>
+<p class="kucuk finch-not"><span style="display:inline-flex;gap:8px;align-items:center"><img src="/img/my-finch.png" alt="" width="24" height="24" style="border-radius:50%">Claude ile birlikte hazırlandı</span></p>
 <p class="kucuk">Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
 <dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
 <script data-goatcounter="https://herkeseegitim.goatcounter.com/count" async src="/assets/count.js"></script><script src="/site.js?v={SURUM}"></script></body></html>"""
@@ -234,7 +233,7 @@ SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi"
 MISYON = "Herkese Eğitim, eğitimden yola çıkarak teknolojinin doğru, etik ve yerinde kullanımını yaygınlaştırır. Amacı insanların işini kolaylaştırmak, daha üretken olmalarına ve daha anlamlı bir hayat kurmalarına yardım etmek."
 ACIKLAMA = "Eskinin bilgeliği, yeninin teknolojisi. Teknolojiyi doğru, etik ve yerinde kullanmak için ücretsiz araçlar, atölyeler, tahmin soruları ve her gün bir atasözü."
 KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","slogan":SLOGAN,"description":MISYON,"founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
-  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek","https://github.com/herkeseegitim"]}
+  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek"]}
 def sema_urun(u):
     if u["tur"] == "atolye":
         s = {"@context":"https://schema.org","@type":"LearningResource","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr","isAccessibleForFree":True,
@@ -487,7 +486,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 <section class="blm" id="biz" aria-labelledby="biz-b"><div class="w"><div class="bas"><h2 id="biz-b">Biz</h2></div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px">
 <a href="/hakkinda/" style="display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="{AVATAR}" alt="İdiye Ökten" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">İdiye Ökten</b><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
-<a href="https://github.com/herkeseegitim/my-finch?ref=site" style="display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="/img/my-finch.png" alt="My Finch: kâğıttan katlanmış ispinoz" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">My Finch</b><span>Kelimelerden hayat bulan bir ekip arkadaşı.</span></span></a>
+<div style="display:flex;gap:16px;align-items:center;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="/img/my-finch.png" alt="My Finch: kâğıttan katlanmış ispinoz" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">My Finch</b><span>Kelimelerden hayat bulan bir ekip arkadaşı.</span></span></div>
 </div></div></section>
 <section class="blm" id="videolar" aria-labelledby="vid-b" style="padding-top:0"><div class="w"><div class="bas"><h2 id="vid-b">Videolar</h2><p>YouTube kanalı: @egitimtek. Video dokununca oynar.</p></div>
 <div class="diziler">{son_videolar()}</div></div></section>
