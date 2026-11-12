@@ -1,0 +1,23 @@
+<!-- Müze site kapısı: build.py bu parçayı müze sayfasının </body> önüne ekler. Müze dosyası (muze.html) değişince buna dokunulmaz.
+     Zaman koridoru: Kaset "Buradasınız", Disket sitedeki disket sayfasına gider, "Sıradaki" kutusu defteri açar. Koridor bulunamazsa hiçbir şey yapmaz. -->
+<style>.koridor a.ki{text-decoration:none;cursor:pointer}.koridor a.ki:hover b,.koridor a.ki:focus-visible b{text-decoration:underline}.koridor a.ki:focus-visible,.koridor button.ki:focus-visible{outline:2px solid #e8a35a;outline-offset:2px}.koridor button.ki{font:inherit;border:0;margin:0;text-align:left;cursor:pointer;color:inherit}.koridor button.ki.bos{text-align:center}</style>
+<script>(function(){
+var DISKET="/icinde-ne-var/disket-usb/";
+function kur(){
+ var l=document.querySelector(".koridor .kl");if(!l||l.getAttribute("data-kapi"))return;l.setAttribute("data-kapi","1");
+ Array.prototype.forEach.call(l.querySelectorAll(".ki"),function(d){
+  var b=d.querySelector("b"),t=b?b.textContent.replace(/[:\s]+$/,"").trim():"";
+  if(d.classList.contains("simdi")){
+   Array.prototype.forEach.call(d.querySelectorAll("span"),function(s){if(/^Bu vitrin$/i.test(s.textContent.trim()))s.textContent="Buradasınız";});
+   d.setAttribute("aria-current","page");
+  }else if(t==="Disket"&&d.tagName!=="A"){
+   var a=document.createElement("a");a.className=d.className;a.href=DISKET;a.innerHTML=d.innerHTML;
+   a.setAttribute("aria-label","Disket: İçinde Ne Var? disket sayfasını açın");d.parentNode.replaceChild(a,d);
+  }else if(d.classList.contains("bos")&&d.tagName!=="BUTTON"&&!d.querySelector("button,a")){
+   var k=document.createElement("button");k.type="button";k.className=d.className;k.setAttribute("data-act","defter");k.innerHTML=d.innerHTML;
+   k.setAttribute("aria-label","Sıradaki vitrin için öneri defterini açın");d.parentNode.replaceChild(k,d);
+  }
+ });
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",kur);else kur();
+})();</script>
