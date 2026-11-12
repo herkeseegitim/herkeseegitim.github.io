@@ -284,6 +284,7 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
 .inv-one-m b{font-size:clamp(28px,3.4vw,46px);line-height:1.05;letter-spacing:-.02em}
 .inv-one-a{font-size:19px;line-height:1.45}
 .inv-one .dugme{background:var(--cet);color:var(--mur);margin-top:4px}
+.inv-one-v{margin:-30px 0 40px 6px}.inv-one-v a{font-size:15px;font-weight:700;color:var(--mur);text-decoration:underline;text-underline-offset:3px}.inv-one-v a:hover{color:var(--kir)}
 @media (max-width:760px){.inv-one{grid-template-columns:minmax(0,1fr);gap:16px}.inv-one-m{padding:0 6px 8px}}
 .kart[hidden]{display:none}
 .suzgec{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}

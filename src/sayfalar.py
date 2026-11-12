@@ -455,7 +455,8 @@ for b in INV:
     if b.get("one_cikan"):  # öne çıkan giriş: liste sayfasında en üstte büyük kart
         _bw = resim(b.get("kapak"), "inv-" + b["slug"] + "-b", 960)
         _inv_one = (f'<a class="inv-one" href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{_bw}" alt="" width="960" height="504">' if _bw else "")
-          + f'<span class="inv-one-m"><b>{E(b["ad"])}</b><span class="inv-one-a">{E(b["kisa"])}</span><span class="dugme">{E(b.get("etiket") or "Sayfayı açın")}</span></span></a>')
+          + f'<span class="inv-one-m"><b>{E(b["ad"])}</b><span class="inv-one-a">{E(b["kisa"])}</span><span class="dugme">{E(b.get("etiket") or "Sayfayı açın")}</span></span></a>'
+          + (f'<p class="inv-one-v"><a class="inv-vid" href="https://www.youtube.com/shorts/{b["video"]}" rel="noopener">Videoyu YouTube\'da izleyin</a></p>' if b.get("video") else ""))
         continue
     _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
       + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'
@@ -465,4 +466,4 @@ if _inv_k:
     yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,
       lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k) + bool(_inv_one)} bölüm"), ("Konu", "gündelik aletlerin içi")])
       + _inv_one + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
-      [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og=_inv_og(_inv_son)[2], og_baslik=_inv_og(_inv_son)[0], og_aciklama=_inv_og(_inv_son)[1]))
+      [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og="/img/paylas-icinde-ne-var.png"))  # liste kendi önizlemesini taşır (bölümün başlığı ve görseli değil)
