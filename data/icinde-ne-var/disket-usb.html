@@ -262,6 +262,19 @@ body.kapak #vKapak{display:block;opacity:1}
 
 /* 6 Kas: alt bilgi notr zemin, kahverengi yok */
 .ab{background:#F4ECDF;color:#1F1710;border-top:1px solid rgba(31,23,16,.2);box-shadow:none}.ab-t{color:#54463A}.ab b,.ab .kir{color:#1F1710}.ab .yt{color:#54463A}.ab i{color:#54463A}.lis{background:#F4ECDF;color:#54463A}.lis a{color:#1F1710}
+/* 12 Kas: alttaki kutular kontrol panelinin boyuna göre dizilir (--altU: panelin üst kenarından ekranın altına) */
+.ipucu{bottom:calc(var(--altU,calc(96px + var(--fb))) + 6px)}
+.sayac{bottom:calc(var(--altU,calc(96px + var(--fb))) + 8px)}
+.kart{bottom:calc(var(--altU,calc(96px + var(--fb))) + 10px)}
+#ui.kartta .ipucu{visibility:hidden}
+@media (min-width:1201px){.soru{top:104px}}
+@media (max-width:1200px){.soru{top:auto;bottom:calc(var(--altU,calc(96px + var(--fb))) + 30px);width:max-content;max-width:min(560px,calc(100% - 40px))}}
+@media (max-width:980px){
+  .liste{bottom:calc(var(--altU,calc(96px + var(--fb))) + 30px);max-height:min(30%,calc(100% - var(--altU,200px) - 190px))}
+  #ui.kapali .liste{display:none}
+  #ui.sayacta .liste{bottom:calc(var(--altU,calc(96px + var(--fb))) + var(--sayH,60px) + 18px)}
+}
+@media (max-width:640px){.soru{padding:8px 14px;font-size:17px}.kart{left:12px;right:12px;width:auto}}
 </style>
 </head>
 <body>
@@ -2009,6 +2022,12 @@ function boyutla(){
   if(!VIDEO&&!KAPAK){ var zz=Math.max(1,Math.min(2.2,Math.min(gen/1500,yuk/860))); $('ui').style.zoom=zz; document.documentElement.style.setProperty('--z',zz); if(typeof etiketMetin==='function'&&Object.keys(ETL).length) etiketMetin(); }
 }
 window.addEventListener('resize', boyutla);
+/* alttaki kutular: kontrol paneli (alt) kaç satıra sarılırsa sarılsın üstünde dursun */
+function altYerlestir(){ var u=$('ui'), a=u&&u.querySelector('.alt'); if(!a) return;
+  u.style.setProperty('--altU', Math.max(0,u.clientHeight-a.offsetTop)+'px');
+  var sy=$('sayac'), syG=sy.style.display==='block'; u.style.setProperty('--sayH', (syG?sy.offsetHeight:0)+'px');
+  u.classList.toggle('kapali', $('soru').style.display==='block'); u.classList.toggle('sayacta', syG); u.classList.toggle('kartta', $('kart').classList.contains('acik')); }
+window.addEventListener('resize', function(){ altYerlestir(); });
 
 /* ---------------- etiketler ---------------- */
 var _fb=0; addEventListener('resize',function(){ _fb=0; });
@@ -2169,7 +2188,7 @@ function adim(simdi){
     etiketYerlestir(Math.max(0,Math.min(1,(S.acik-0.55)/0.3)));
     $('sayac').style.display = S.acik>0.97 && S.gecis%1===0 ? 'block':'none';
     $('soru').style.display = S.acik<0.03 && S.nesne==='disket' ? 'block':'none';
-    $('ipucu').style.display = $('sayac').style.display==='block' ? 'none':'block';
+    $('ipucu').style.display = $('sayac').style.display==='block' ? 'none':'block'; altYerlestir();
     S.kirli=false;
     if(hareket && !S.hafif && !otoHafifBakildi){ olcum.push(simdi); if(olcum.length>=40){ var ort=(olcum[olcum.length-1]-olcum[0])/(olcum.length-1); otoHafifBakildi=true;
        if(ort>48){ hafifYap(true); $('hafifnot').textContent=T().hafifOto; } } }

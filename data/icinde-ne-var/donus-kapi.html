@@ -1,0 +1,21 @@
+<!-- Siteye dönüş: build.py bu parçayı Disket ve Puff sayfalarının </body> önüne ekler (bolumler.json "ek"). Sayfa dosyasına dokunulmaz.
+     Sol üstteki Herkese Eğitim logosu, başında "←" ile, aynı sekmede İçinde Ne Var? listesine döner. Sayfa dil değiştirip bağlantıyı yeniden yazarsa yeniden ayarlanır.
+     Puff: "Videosu" düğmesi sol alttaki kaydırıcının adını örtmesin diye sahnenin sağ üst köşesine alınır. -->
+<style>a.hm-a .hev-ok{font:700 22px/1 system-ui,sans-serif;margin:-2px 6px 0 0;flex:0 0 auto}a.hm-a{gap:0}</style>
+<script>(function(){
+var L="/icinde-ne-var/";
+function ayarla(){
+ var en=(document.documentElement.lang||"").slice(0,2)==="en",et=en?"Back to Herkese Eğitim: What’s Inside?":"Herkese Eğitim'e dön: İçinde Ne Var?";
+ Array.prototype.forEach.call(document.querySelectorAll("a.hm-a"),function(a){
+  if(a.getAttribute("href")!==L)a.setAttribute("href",L);
+  if(a.hasAttribute("target"))a.removeAttribute("target");
+  if(a.hasAttribute("rel"))a.removeAttribute("rel");
+  if(a.getAttribute("aria-label")!==et)a.setAttribute("aria-label",et);
+  if(!a.querySelector(".hev-ok")){var s=document.createElement("span");s.className="hev-ok";s.setAttribute("aria-hidden","true");s.textContent="←";a.insertBefore(s,a.firstChild);}
+ });
+}
+ayarla();
+var v=document.getElementById("hev-ac"),sol=document.querySelector("main .sol");
+if(v&&sol&&document.getElementById("sahne")&&v.parentNode!==sol){sol.style.position="relative";sol.insertBefore(v,sol.firstChild);v.style.cssText="position:absolute;top:12px;right:12px;left:auto;bottom:auto;z-index:5";}
+if(window.MutationObserver)new MutationObserver(ayarla).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:["href","target","aria-label","lang"]});
+})();</script>

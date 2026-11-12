@@ -589,6 +589,15 @@ body{font-family:"Inter",system-ui,sans-serif}
   .kusb.ad-kucuk.ad-ust .kusad{left:-8px}
   .kusb.ad-yok .kusad{display:none}
 }
+/* v13: kalem cevabının küçük yazısı okunur yerde ve okunur zeminde. Geniş ekran: Bilgi panelinin başında not (sahnede kasete binmesin). Dar ekran: büyük yazının altında koyu şerit. */
+.sarnot{display:none}
+@media (min-width:821px){
+  .world:not(.cekim) .cvp small{display:none}
+  .world.sarildi:not(.is-new):not(.cekim) .sarnot{display:block;margin:0 0 14px;padding:10px 12px;border-radius:8px;background:rgba(10,14,20,.86);color:#f5e6c8;box-shadow:inset 3px 0 0 #e8a35a;font:400 15px/1.45 "Inter",system-ui,sans-serif}
+}
+@media (max-width:820px){
+  .world:not(.cekim) .cvp small{font-size:15px;line-height:1.45;margin-top:8px;padding:7px 10px;border-radius:8px;background:rgba(10,14,20,.8);color:#f5e6c8}
+}
 </style>
 </head>
 <body>
@@ -696,7 +705,7 @@ document.getElementById('root').innerHTML=
    '<div class="ctl"><p class="ipucu"><span class="old-only">Kasete tıklayın, sökülür. Sürükleyin, döner.</span><span class="new-only">Telefona tıklayın, katmanlar ayrılır. Sürükleyin, döner.</span></p><div class="serit" aria-label="Eski ve yeni"><div><s>Bir kasette bir avuç şarkı</s><b>Cepte binlerce şarkı</b></div><div><s>Kalemle geri sar</s><b>Dokun, başa dön</b></div><div><s>Bant karışırdı</s><b>Bağlantı kopar</b></div></div><button class="sarb old-only" data-act="kalem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+IC.kalem+'"/></svg>Kalemle sar</button><div class="hal" role="group" aria-label="İki hâl"><button data-hal="old" class="on" aria-pressed="true">Eski: kasetçalar</button><button data-hal="new" aria-pressed="false">Yeni: telefon ve akış</button></div></div>'+
  '</div></div>'+
  '<aside class="panel" aria-label="Bilgi"><div class="ph"><div class="tabs" role="tablist"><button role="tab" data-tab="etiket" class="on">Etiket</button><button role="tab" data-tab="parca">Parçalar</button><button role="tab" data-tab="nasil">Nasıl çalışır</button><button role="tab" data-tab="eskiyeni">Eski ↔ Yeni</button></div><button class="kapat" data-act="panel" aria-label="Bilgi panelini daralt ya da aç">›</button></div>'+
- '<div class="pb">'+
+ '<div class="pb"><p class="sarnot" aria-hidden="true"></p>'+
   '<div class="tpn" data-t="etiket"><div class="etk old-only"><span class="muhur" aria-hidden="true">03</span><h3>Kompakt kaset</h3><p class="donem">1960\'lardan 2000\'lere</p><p>Sesi manyetik bir bantta sakladı. Müzik dinlemeye, kayıt yapmaya, radyodaki şarkıyı yakalamaya yaradı.</p><p>İki yüzü vardı. Bir yüz bitince çıkarılıp çevrilirdi.</p><dl><dt>Vitrin</dt><dd>03</dd><dt>Malzeme</dt><dd>Plastik gövde, manyetik bant, keçe, vida</dd><dt>Yanında</dt><dd>Bir kalem</dd></dl></div>'+
    '<div class="etk new-only"><span class="muhur" aria-hidden="true">03</span><h3>Telefon, kablosuz kulaklık ve akış</h3><p class="donem">2010\'lardan bugüne</p><p>Ses artık bir nesnenin içinde durmuyor. Şarkı ağdan geliyor, kulaklık onu kablosuz alıyor.</p><p>Çevrilecek yüz yok. Sarılacak bant da yok.</p><dl><dt>Vitrin</dt><dd>03, yeni hâl</dd><dt>Malzeme</dt><dd>Cam, pil, küçük devreler</dd><dt>Yanında</dt><dd>Bir şarj kablosu</dd></dl></div></div>'+
   '<div class="tpn" data-t="parca"><div class="old-only">'+pl('old')+'</div><div class="new-only">'+pl('new')+'</div></div>'+
@@ -776,7 +785,7 @@ function pick(p){$$('.on[data-p],.on[data-pn],.plist .on,.sec').forEach(function
 var bt=null;
 var CVP='Bant gevşeyince kalemle geri sarardık. Pil de harcamazdı.',cv=el.querySelector('.cvp');
 var BILGI='Bandın yüzünde çok küçük mıknatıs tanecikleri var. Kafa sesi bu taneciklerin dizilişine yazar, çalarken aynı dizilişten sesi geri okur.';
-function cevap(v){el.classList.toggle('sarildi',v);cv.innerHTML=v?CVP+'<small>'+BILGI+'</small>':'';}
+function cevap(v){el.classList.toggle('sarildi',v);cv.innerHTML=v?CVP+'<small>'+BILGI+'</small>':'';var sn=el.querySelector('.sarnot');if(sn)sn.textContent=v?BILGI:'';}
 function hal(nw){if(st.nw===nw)return;sarDur();st.nw=nw;st.x=false;pick(null);cevap(false);clearTimeout(bt);el.classList.remove('bitti');
   if(nw)bt=setTimeout(function(){el.classList.add('bitti');},RM?0:2900);sync();}
 function sok(){cevap(false);st.x=!st.x;if(!st.x)pick(null);sync();}
