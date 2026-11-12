@@ -424,19 +424,23 @@ def _inv_video(b):
       '<script>(function(){var d=document.getElementById("hev-d"),v=document.getElementById("hev-v");document.getElementById("hev-ac").onclick=function(){v.innerHTML=\'<iframe src="https://www.youtube-nocookie.com/embed/' + E(b["video"]) + '?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0"></iframe>\';d.showModal()};document.getElementById("hev-k").onclick=function(){d.close()};d.addEventListener("close",function(){v.innerHTML=""})})();</script>')
 def _inv_og(b):  # bağlantı önizlemesi: başlık, açıklama, görsel (bölüm kendi görselini og_gorsel ile verebilir)
     ad = b["ad"][:1].lower() + b["ad"][1:]
-    return f'{b["soru"]} | İçinde Ne Var?', b.get("og_aciklama") or f"Sayfada kendiniz sökün: {ad}, parça parça.", b.get("og_gorsel") or "/img/paylas-icinde-ne-var.png"
+    return b.get("og_baslik") or f'{b["soru"]} | İçinde Ne Var?', b.get("og_aciklama") or f"Sayfada kendiniz sökün: {ad}, parça parça.", b.get("og_gorsel") or "/img/paylas-icinde-ne-var.png"
 def _inv_meta(b):
     t, a, g = _inv_og(b); u = SITE + INV_ADRES + b["slug"] + "/"
     return (f'<meta property="og:type" content="website"><meta property="og:title" content="{E(t)}"><meta property="og:description" content="{E(a)}">'
       f'<meta property="og:url" content="{E(u)}"><meta property="og:image" content="{SITE}{g}"><meta property="og:locale" content="tr_TR">'
       f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{g}">\n')
-_inv_k = []; _inv_son = None
+_inv_k = []; _inv_son = None; _inv_one = ""
 for b in INV:
     assert re.fullmatch(r"[a-z0-9-]{3,60}", b["slug"]), "İçinde Ne Var: kötü slug"
     assert not b.get("video") or re.fullmatch(r"[A-Za-z0-9_-]{11}", b["video"]), "İçinde Ne Var: kötü video kimliği"
     if (b.get("tarih") or "9") > BUGUN.isoformat(): continue
     h = open(os.path.join(KOK, "data", b["sayfa"]), encoding="utf-8").read()
     if b.get("video"): h = h.replace("</body>", _inv_video(b) + "\n</body>", 1)
+    if b.get("ek"): h = h.replace("</body>", open(os.path.join(KOK, "data", b["ek"]), encoding="utf-8").read() + "\n</body>", 1)
+    if b.get("og_kapak"):
+        _ok = Image.open(os.path.join(KOK, "data", b["kapak"])).convert("RGB"); assert _ok.size == (1200, 630), "İçinde Ne Var: og kapak 1200x630 olmalı"
+        _ok.save(os.path.join(OUT, "img", f"paylas-{b['slug']}.jpg"), quality=86, optimize=True, progressive=True); b["og_gorsel"] = f"/img/paylas-{b['slug']}.jpg"
     assert "</head>" in h and 'property="og:' not in h, "İçinde Ne Var: head"
     h = h.replace("</head>", _inv_meta(b) + "</head>", 1); _inv_son = b
     yaz(f"{INV_ADRES}{b['slug']}/", h)
@@ -444,15 +448,21 @@ for b in INV:
         assert re.fullmatch(r"[a-z0-9-]{3,30}", b["kisa_adres"]), "İçinde Ne Var: kötü kısa adres"
         _ky = os.path.join(OUT, b["kisa_adres"], "index.html"); assert not os.path.exists(_ky), "İçinde Ne Var: kısa adres dolu"
         _hd = INV_ADRES + b["slug"] + "/"
+        _en = "" if b.get("tek_dil") else f' · <a href="{_hd}?dil=en" lang="en">Open in English</a>'  # tek_dil: yalnız Türkçe sayfa
         os.makedirs(os.path.dirname(_ky), exist_ok=True)
-        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";location.replace("{_hd}"+q)}})()</script><meta http-equiv="refresh" content="0; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a> · <a href="{_hd}?dil=en" lang="en">Open in English</a></p></body></html>\n')
+        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";location.replace("{_hd}"+q)}})()</script><meta http-equiv="refresh" content="0; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a>{_en}</p></body></html>\n')
     b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
+    if b.get("one_cikan"):  # öne çıkan giriş: liste sayfasında en üstte büyük kart
+        _bw = resim(b.get("kapak"), "inv-" + b["slug"] + "-b", 960)
+        _inv_one = (f'<a class="inv-one" href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{_bw}" alt="" width="960" height="504">' if _bw else "")
+          + f'<span class="inv-one-m"><b>{E(b["ad"])}</b><span class="inv-one-a">{E(b["kisa"])}</span><span class="dugme">{E(b.get("etiket") or "Sayfayı açın")}</span></span></a>')
+        continue
     _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
       + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'
       + (f'<a class="inv-vid" href="https://www.youtube.com/shorts/{b["video"]}" rel="noopener">Videoyu YouTube\'da izleyin</a>' if b.get("video") else "") + '</li>')
 if _inv_k:
     _inv_ac = "Gündelik aletleri 3B olarak açıyoruz. Sayfayı tarayıcıda açın, parçaları ekranda kendiniz ayırın; kurulum yok."
     yaz(INV_ADRES, sayfa("İçinde Ne Var? | Herkese Eğitim", _inv_ac, INV_ADRES,
-      lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k)} bölüm"), ("Konu", "gündelik aletlerin içi")])
-      + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
+      lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k) + bool(_inv_one)} bölüm"), ("Konu", "gündelik aletlerin içi")])
+      + _inv_one + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
       [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og=_inv_og(_inv_son)[2], og_baslik=_inv_og(_inv_son)[0], og_aciklama=_inv_og(_inv_son)[1]))

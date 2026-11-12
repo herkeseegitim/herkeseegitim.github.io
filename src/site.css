@@ -276,6 +276,15 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
 .kart b{font-size:20px}
 .kart span{color:var(--sol);font-size:16px}
 .kart .etk{align-self:flex-start;background:var(--mur);color:var(--krem);border-radius:999px;padding:3px 10px;font-size:14px;font-weight:700}
+/* İçinde Ne Var?: öne çıkan giriş (Kayıp Aletler Müzesi) */
+.inv-one{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;gap:clamp(18px,3vw,40px);margin:0 0 44px;padding:clamp(12px,1.8vw,20px);background:var(--sahne);color:var(--krem);border-radius:20px;text-decoration:none;box-shadow:0 8px 0 var(--tur)}
+.inv-one:hover{box-shadow:0 10px 0 var(--kir)}
+.inv-one img{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;border-radius:12px}
+.inv-one-m{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:4px 8px 4px 0;min-width:0}
+.inv-one-m b{font-size:clamp(28px,3.4vw,46px);line-height:1.05;letter-spacing:-.02em}
+.inv-one-a{font-size:19px;line-height:1.45}
+.inv-one .dugme{background:var(--cet);color:var(--mur);margin-top:4px}
+@media (max-width:760px){.inv-one{grid-template-columns:minmax(0,1fr);gap:16px}.inv-one-m{padding:0 6px 8px}}
 .kart[hidden]{display:none}
 .suzgec{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
 .suzgec button{border:2px solid var(--mur);background:transparent;border-radius:999px;padding:8px 14px;font-weight:600;font-size:16px;min-height:44px}
