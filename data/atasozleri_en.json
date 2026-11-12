@@ -13,5 +13,8 @@
 {"no": 12, "slug": "a-white-coin-is-for-the-black-day", "literal": "A white coin is for the black day.", "meaning": "Money you earn by working saves you from hardship in tight times.", "equivalent": "Save it for a rainy day.", "source": "TDK"},
 {"no": 13, "slug": "the-mountain-gave-birth-to-a-mouse", "literal": "The mountain laboured and laboured and gave birth to a mouse.", "meaning": "Great things were expected, and the result was small.", "equivalent": "The mountain laboured and brought forth a mouse.", "source": "TDK"},
 {"no": 14, "slug": "a-bird-without-wings", "literal": "A bird without wings doesn't fly.", "meaning": "Without preparing and growing stronger, you don't reach the goal.", "equivalent": null, "source": "TDK"},
-{"no": 15, "slug": "every-uphill-has-a-downhill", "literal": "Every uphill has a downhill, every downhill has an uphill.", "meaning": "Hard days and good days follow one another.", "equivalent": null, "source": "TDK"}
+{"no": 15, "slug": "every-uphill-has-a-downhill", "literal": "Every uphill has a downhill, every downhill has an uphill.", "meaning": "Hard days and good days follow one another.", "equivalent": null, "source": "TDK"},
+{"no": 16, "slug": "a-good-field-is-close-to-water", "literal": "A good field is close to water; a better one is close to home.", "meaning": "A field close to home is better: easy to tend, and the harvest is safe.", "equivalent": null, "source": "TDK"},
+{"no": 17, "slug": "the-wind-cant-lift-a-heavy-wood-chip", "literal": "The wind can't lift a heavy wood chip.", "meaning": "Small events can't harm a steady, composed person.", "equivalent": null, "source": "TDK"},
+{"no": 18, "slug": "a-fish-still-in-the-sea", "literal": "You can't bargain over a fish still in the sea.", "meaning": "Don't haggle over something you don't have yet.", "equivalent": "Don't count your chickens before they hatch.", "source": "TDK"}
 ]

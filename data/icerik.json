@@ -726,6 +726,45 @@
    }
   },
   {
+   "id": "DqcWibKT5Ns",
+   "baslik": "Bu el arabası dinlenebilir mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-09",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 16 Tarlanın iyisi suya yakın\\kapak Atasözü 16.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfgjlH5BMdv/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "kimqv1pOpeE",
+   "baslik": "Bu tahta rüzgârdan korkar mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-10",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 17 Ağır yongayı yel kaldırmaz\\kapak Atasözü 17.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "lkA_reRKpnw",
+   "baslik": "Bu balık satılık mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-11",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 18 Denizdeki balığın pazarlığı olmaz\\kapak Atasözü 18.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfnGYsTB383/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
    "id": "a2c8B1KW6a0",
    "baslik": "Wordwall nasıl kullanılır? Ücretsiz hesap ve ilk eşleştirme etkinliği 2026 | Wordwall adım adım",
    "dizi": "tanitim",
@@ -911,6 +950,42 @@
    "video": "DGB0INXXTyg",
    "tarih": "2026-11-08",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 15 Her yokuşun bir inişi\\kapak Atasözü 15.png"
+  },
+  {
+   "no": 16,
+   "soz": "Tarlanın iyisi suya yakın, daha iyisi eve yakın.",
+   "slug": "tarlanin-iyisi-suya-yakin-daha-iyisi-eve-yakin",
+   "soru": "Bu el arabası dinlenebilir mi?",
+   "anlam": "Eve yakın tarla daha iyi: bakım kolay, ürün güvende.",
+   "sozcuk": null,
+   "video": "DqcWibKT5Ns",
+   "tarih": "2026-11-09",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 16 Tarlanın iyisi suya yakın\\kapak Atasözü 16.png"
+  },
+  {
+   "no": 17,
+   "soz": "Ağır yongayı yel kaldırmaz.",
+   "slug": "agir-yongayi-yel-kaldirmaz",
+   "soru": "Bu tahta rüzgârdan korkar mı?",
+   "anlam": "Küçük olaylar ağırbaşlı kişiye zarar veremez.",
+   "sozcuk": {
+    "kelime": "yonga",
+    "anlam": "Yontulan şeyden çıkan parça."
+   },
+   "video": "kimqv1pOpeE",
+   "tarih": "2026-11-10",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 17 Ağır yongayı yel kaldırmaz\\kapak Atasözü 17.png"
+  },
+  {
+   "no": 18,
+   "soz": "Denizdeki balığın pazarlığı olmaz.",
+   "slug": "denizdeki-baligin-pazarligi-olmaz",
+   "soru": "Bu balık satılık mı?",
+   "anlam": "Henüz elde olmayan şeyin alım satımı konuşulmaz.",
+   "sozcuk": null,
+   "video": "lkA_reRKpnw",
+   "tarih": "2026-11-11",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 18 Denizdeki balığın pazarlığı olmaz\\kapak Atasözü 18.png"
   }
  ],
  "takvim": [
