@@ -402,7 +402,7 @@ def yol_band(k):
     ad, ne = YOL[k]
     return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
 _kapilar = [
- ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else [])),
+ ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("Kayıp Aletler Müzesi", "#muze")] if VITRINLER else ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else []))),
  ("ogretmen", [("Padlet ve Padlet Arcade adım adım", "#padlet"), ("Wordwall adım adım", "#wordwall"), ("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
  ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
 ]
@@ -453,6 +453,30 @@ maasim_html = (f'<section class="blm" id="maasim" aria-labelledby="maas-b" style
   + (f'<img src="{MAASIM["kapak_w"]}" alt="" loading="lazy" style="width:min(260px,100%);border-radius:10px">' if MAASIM["kapak_w"] else "")
   + f'<span style="flex:1;min-width:220px"><small>Araç</small><b id="maas-b" style="display:block;font-size:1.35em;margin:4px 0">{E(MAASIM["ad"])}</b><span>{E(MAASIM["kisa"])}</span><br><span style="text-decoration:underline">Hesaplayın</span></span></a></div></section>')
 
+# ---- Kayıp Aletler Müzesi bandı (kurul v1, 13 Kas): İçinde Ne Var? kartının yerinde statik gece şeridi.
+# Vitrin listesine bağlı (son bölüme değil); Puff girmez. JavaScript yok.
+# Gece Kuşu yeniden çizilmez: müze dosyasındaki .kusb SVG'si olduğu gibi alınır, SHA-256 tutmazsa build durur.
+KUS_SHA = "0f67d16575cbfe4e0f99aed809349eb49b101f2834fe7aa7d2458be9c5cc8309"  # Muze v15 .kusb SVG (muze.html = Muze v15.html, c0bf63e4…)
+def _gece_kusu():
+    h = open(os.path.join(KOK, "data", "icinde-ne-var", "muze.html"), encoding="utf-8").read()
+    m = re.search(r'<button type="button" class="kusb"[^>]*>(<svg viewBox="60 120 300 220".*?</svg>)', h)
+    assert m and _h.sha256(m.group(1).encode()).hexdigest() == KUS_SHA, "Gece Kuşu müze kaynağıyla aynı değil: kuş yeniden çizilmez (gece-kusu-my-finch)"
+    return m.group(1).replace('aria-hidden="true"', 'aria-hidden="true" focusable="false"', 1)
+_ORTU = ('<svg class="mb-ortu-s" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><path d="M100 14 C70 18 38 40 22 80 L8 150 H192 L178 80 C162 40 130 18 100 14Z" fill="#4E3C30"/>'
+  '<path d="M100 14 C88 50 74 100 60 150 M100 14 C104 60 104 110 100 150 M100 14 C114 50 128 100 142 150" stroke="#3A2C22" stroke-width="3" fill="none" stroke-linecap="round"/>'
+  '<path d="M100 14 C70 18 38 40 22 80" stroke="#6B5444" stroke-width="2" fill="none"/><circle cx="100" cy="12" r="5" fill="#E8A35A"/></svg>')
+def _mb_vitrin(v):
+    cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="460">' if v.get("kapak_w") else ""
+    return (f'<li><a class="mb-v" href="{vitrin_sayfa(v)}"><span class="mb-cam">{cam}</span>'
+      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["ad"])}</b><span class="mb-s">{E(v["baslik"])}</span></a></li>')
+muze_html = (f'''<section class="muze-bant" id="muze" aria-labelledby="muze-b"><div class="w">
+<div class="mb-bas"><p class="mb-k">İçinde Ne Var?</p><h2 id="muze-b"><a href="{MUZE_ADRES}">Kayıp Aletler Müzesi</a></h2><p class="mb-a">Bir zamanlar her evde olan aletler gece burada bekliyor. Vitrine girin, içini açın, bugünküyle karşılaştırın.</p></div>
+<div class="mb-koridor"><div class="mb-kus"><i class="mb-isik" aria-hidden="true"></i>{_gece_kusu()}<p class="mb-soz"><span class="gizli">Gece Kuşu: </span>Gece açığız. Feneri ben tutarım.</p></div>
+<ol class="mb-vitrinler" aria-label="Vitrinler">{"".join(_mb_vitrin(v) for v in VITRINLER)}
+<li><a class="mb-v mb-ortu" href="{MUZE_ADRES}?defter=1"><span class="mb-cam">{_ORTU}</span><span class="mb-no">Sıradaki vitrin</span><b>Örtünün altında ne var?</b><span class="mb-s">Sizce hangi alet girmeli? Müzenin defterine yazın.</span></a></li></ol></div>
+<p class="mb-alt"><a href="{INV_ADRES}">İçinde Ne Var? bütün bölümler</a></p>
+</div></section>''') if VITRINLER else ""
+
 ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
   ACIKLAMA+" Padlet, Padlet Arcade ve Wordwall adım adım.", "/", sema=sema_ana, alt=DIL_ALT) + f'''
 <header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
@@ -474,7 +498,7 @@ ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
 <section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
 <div class="gs-kutu"><div class="gs-sayac" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="iz"/><circle cx="60" cy="60" r="52" class="dol"/></svg><span>3</span></div><div class="gs-sec" role="group" aria-label="Seçenekler"></div><p class="gs-cevap" role="status" aria-live="polite"></p></div></div></section>
 {soz_html}
-{(lambda b: f'<section class="blm" id="icinde" aria-labelledby="inv-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{INV_ADRES}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy" style="width:min(220px,100%);border-radius:10px">' if b.get("kapak_w") else "") + f'<span style="flex:1;min-width:220px"><small>İçinde Ne Var?</small><b id="inv-b" style="display:block;font-size:1.35em;margin:4px 0">{E(b["soru"])}</b><span>{E(b["kisa"])}</span><br><span style="text-decoration:underline">Bütün bölümler</span></span></a></div></section>')(INV[-1]) if INV else ""}
+{muze_html if VITRINLER else (lambda b: f'<section class="blm" id="icinde" aria-labelledby="inv-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{INV_ADRES}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy" style="width:min(220px,100%);border-radius:10px">' if b.get("kapak_w") else "") + f'<span style="flex:1;min-width:220px"><small>İçinde Ne Var?</small><b id="inv-b" style="display:block;font-size:1.35em;margin:4px 0">{E(b["soru"])}</b><span>{E(b["kisa"])}</span><br><span style="text-decoration:underline">Bütün bölümler</span></span></a></div></section>')(INV[-1]) if INV else ""}
 {yol_band("ogrenci")}
 {ogrenci_html}
 {yol_band("ogretmen")}
@@ -602,6 +626,10 @@ for D in (PADLET, WORDWALL):
     L.append(f"- {D['ad']}: {D['kisa']}" + (f" Liste: {D['liste']}" if D['liste'] else ""))
     for g,l in D["gruplar"]:
         for t,h in l: L.append(f"  - {g}, {t}: {h if h.startswith('http') else SITE+h}")
+if VITRINLER:
+    L.append("\n## Kayıp Aletler Müzesi\n")
+    L.append(f"- [Kayıp Aletler Müzesi]({SITE}{MUZE_ADRES}): eski aletlerin vitrinleri; içini açın, bugünküyle karşılaştırın.")
+    for v in VITRINLER: L.append(f"  - [Vitrin {v['no']:02d}, {v['ad']}]({SITE}{vitrin_sayfa(v)}): {v['baslik']}")
 L.append("\n## Atasözlerimizi Yaşatalım\n")
 for a in atasozleri: L.append(f"- [{a['soz']}]({SITE}{soz_sayfa(a)}): {a.get('anlam') or ''}")
 L.append("\n## Videolar\n")
