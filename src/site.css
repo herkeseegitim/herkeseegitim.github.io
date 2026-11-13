@@ -1087,3 +1087,5 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 @media (max-width:900px){.muze-bant{padding:48px 0 40px}.mb-koridor{grid-template-columns:1fr;gap:14px}.mb-kus{display:flex;align-items:center;gap:14px;padding-top:6px}.mb-kus svg{width:170px;flex:none}.mb-isik{left:-50px;top:-40px;width:220px;height:220px}.mb-soz{margin-top:0}.mb-soz::after{left:-5px;top:calc(50% - 6px)}}
 @media (max-width:520px){.mb-vitrinler{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mb-v{padding:8px 8px 12px}.mb-v b{font-size:18px}.mb-s{font-size:14.5px}.mb-a{font-size:17px}.mb-kus svg{width:168px}.mb-soz{font-size:15px}}
 @media (prefers-reduced-motion:reduce){.mb-isik{animation:none}.mb-v{transition:none}.mb-v:hover{transform:none}}
+
+.sahne+.muze-bant{margin-top:0}
