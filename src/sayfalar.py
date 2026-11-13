@@ -467,3 +467,72 @@ if _inv_k:
       lbas("İçinde Ne Var?", E(_inv_ac), [("Defter", "İçinde Ne Var?"), ("İçinde", f"{len(_inv_k) + bool(_inv_one)} bölüm"), ("Konu", "gündelik aletlerin içi")])
       + _inv_one + f'<ul class="kartlar">{"".join(_inv_k)}</ul>',
       [{"@context":"https://schema.org","@type":"CollectionPage","name":"İçinde Ne Var?","url":SITE+INV_ADRES,"description":_inv_ac}], " / İçinde Ne Var?", og="/img/paylas-icinde-ne-var.png"))  # liste kendi önizlemesini taşır (bölümün başlığı ve görseli değil)
+
+# ---- Kayıp Aletler Müzesi: her vitrinin kendi sayfası (kurul v1, 13 Kas). bolumler.json, müze kaydı, "vitrinler" listesi.
+# /icinde-ne-var/muze/<vitrin>/ kendi kanonik adresi, og'si ve anıyla açılan başlığıyla; metin HTML'de durur (JavaScript'e bağlı değil).
+# "yayinda": false olan vitrin üretilmez. Yerel önizleme: VITRIN_TASLAK=telefon python build.py (Merkez yayına alırken bayrağı true yapar).
+# "sayfa" verilmişse vitrin müzenin kendi dosyasıyla açılır (etkileşim oradan), verilmemişse yalnız metinli etiket sayfası çıkar.
+# "muzede": true olunca etiket sayfasında "Müzeye girin" düğmesi çıkar (vitrin müze dosyasına girmeden kaset vitrinine götürmesin).
+MUZE_ADRES = INV_ADRES + "muze/"
+_VT_TASLAK = set(filter(None, os.environ.get("VITRIN_TASLAK", "").split(",")))
+_muze = next((b for b in INV if b.get("slug") == "muze" and (b.get("tarih") or "9") <= BUGUN.isoformat()), None)
+VITRINLER = []
+for _v in (_muze or {}).get("vitrinler") or []:
+    assert re.fullmatch(r"[a-z0-9-]{3,30}", _v["slug"]), "Müze: kötü vitrin slug"
+    assert not _v.get("video") or re.fullmatch(r"[A-Za-z0-9_-]{11}", _v["video"]), "Müze: kötü video kimliği"
+    if _v.get("yayinda") or _v["slug"] in _VT_TASLAK: VITRINLER.append(_v)
+def vitrin_sayfa(v): return MUZE_ADRES + v["slug"] + "/"
+_VT_CSS = ('<style>.vt-etiket{box-sizing:border-box;max-width:760px;margin:0 auto;padding:40px 16px 56px;color:#f5e6c8;font:18px/1.6 "Inter",system-ui,sans-serif}'
+  '.vt-wrap{background:#10151d;border-top:1px solid rgba(232,163,90,.35)}'
+  '.vt-etiket .vt-k{margin:0 0 10px;font:600 13px/1.4 "Inter",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#e8a35a}'
+  '.vt-etiket h1{margin:0 0 18px;font:600 clamp(28px,5vw,42px)/1.15 "Fraunces",Georgia,serif;color:#fff3d6}'
+  '.vt-etiket p{margin:0 0 14px}.vt-etiket .vt-ani{font-family:"Fraunces",Georgia,serif;font-size:20px;color:#fff3d6}'
+  '.vt-etiket .vt-l{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:22px;font-size:16px}'
+  '.vt-etiket a{color:#ffcb80;text-underline-offset:3px}.vt-etiket a:focus-visible{outline:3px solid #ffcb80;outline-offset:3px;border-radius:6px}'
+  '.vt-etiket .vt-l a{display:inline-flex;align-items:center;min-height:44px}'
+  '.vt-etiket .vt-gir{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:#e8a35a;color:#231b1b;font-weight:650;text-decoration:none}'
+  '</style>')
+def _vt_etiket(v, muzede):
+    k = f'Kayıp Aletler Müzesi · Vitrin {v["no"]:02d} · {v["ad"]}' + (f' · {v["donem"]}' if v.get("donem") else "")
+    l = ([f'<a class="vt-gir" href="{MUZE_ADRES}">Müzeye girin</a>'] if (not muzede and v.get("muzede")) else [])  # vitrin müzeye girmeden düğme çıkmaz
+    if v.get("video"): l.append(f'<a href="https://www.youtube.com/shorts/{v["video"]}" rel="noopener">Kısa videoyu YouTube\'da izleyin</a>')
+    l += [f'<a href="{MUZE_ADRES}">Müzenin girişi</a>' if muzede else "", f'<a href="{INV_ADRES}">İçinde Ne Var? bütün bölümler</a>']
+    return (f'<div class="vt-wrap"><section class="vt-etiket" aria-labelledby="vt-b"><p class="vt-k">{E(k)}</p><h1 id="vt-b">{E(v["baslik"])}</h1>'
+      + "".join(f'<p class="vt-ani">{E(p)}</p>' for p in v.get("ani") or []) + "".join(f'<p>{E(p)}</p>' for p in v.get("metin") or [])
+      + f'<p class="vt-l">{"".join(x for x in l if x)}</p></section></div>')
+for v in VITRINLER:
+    _y = vitrin_sayfa(v); _t = f'{v["baslik"]} | Kayıp Aletler Müzesi · {v["ad"]}'
+    _ok = Image.open(os.path.join(KOK, "data", v["og_kapak"])).convert("RGB"); assert _ok.size == (1200, 630), "Müze: vitrin og kapağı 1200x630 olmalı"
+    _ok.save(os.path.join(OUT, "img", f"paylas-muze-{v['slug']}.jpg"), quality=86, optimize=True, progressive=True)
+    v["og_gorsel"] = f"/img/paylas-muze-{v['slug']}.jpg"
+    v["kapak_w"] = resim(v.get("kapak"), "vitrin-" + v["slug"], 640)
+    _meta = (f'<link rel="canonical" href="{SITE}{_y}">' + _inv_meta(dict(slug="muze/" + v["slug"], ad=v["ad"], soru=v["baslik"], og_baslik=v["og_baslik"], og_aciklama=v["og_aciklama"], og_gorsel=v["og_gorsel"]))
+      + '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"WebPage","name":v["baslik"],"description":v["aciklama"],"url":SITE+_y,"inLanguage":"tr",
+          "isPartOf":{"@type":"CollectionPage","name":"Kayıp Aletler Müzesi","url":SITE+MUZE_ADRES},"publisher":{"@id":SITE+"/#kurum"}}, ensure_ascii=False).replace("</","<\\/") + '</script>' + _VT_CSS)
+    if v.get("sayfa"):  # müzenin kendi dosyası: vitrin sahnesi, kuş, defter aynı; üstüne bu vitrinin başlığı, açıklaması ve düz metni
+        h = open(os.path.join(KOK, "data", v["sayfa"]), encoding="utf-8").read()
+        assert h.count("<title>") == 1 and h.count('<main id="root"></main>') == 1 and h.count('<html lang="tr">') == 1, "Müze: vitrin sayfası beklenen biçimde değil"
+        h = re.sub(r"<title>.*?</title>", f"<title>{E(_t)}</title>", h, count=1)
+        h = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{E(v["aciklama"])}">', h, count=1)
+        h = h.replace('<html lang="tr">', f'<html lang="tr" data-ilk="{v["slug"]}">', 1)
+        h = h.replace('<main id="root"></main>', '<main id="root"></main>' + _vt_etiket(v, True), 1)
+        if v.get("video"): h = h.replace("</body>", _inv_video(v) + "\n</body>", 1)
+        if _muze.get("ek"): h = h.replace("</body>", open(os.path.join(KOK, "data", _muze["ek"]), encoding="utf-8").read() + "\n</body>", 1)
+        assert 'property="og:' not in h.split("</head>")[0], "Müze: head"
+        h = h.replace("</head>", _meta + "</head>", 1)
+    else:  # vitrin dosyası henüz yok: yalnız metinli etiket sayfası
+        h = (f'<!doctype html>\n<html lang="tr" data-ilk="{v["slug"]}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{E(_t)}</title>'
+          f'<meta name="description" content="{E(v["aciklama"])}"><meta name="theme-color" content="#10151d">{_meta}<style>'
+          '@font-face{font-family:BG;src:url(/fonts/bg-ext.woff2) format("woff2");font-weight:200 800;font-display:swap;unicode-range:U+0100-02AF,U+1E00-1EFF}'
+          '@font-face{font-family:BG;src:url(/fonts/bg.woff2) format("woff2");font-weight:200 800;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2190-21FF}'
+          'html,body{margin:0;background:#10151d}.vt-etiket,.vt-etiket .vt-k,.vt-etiket h1,.vt-etiket .vt-ani{font-family:BG,system-ui,sans-serif}.vt-etiket h1{font-weight:800;letter-spacing:-.02em}'
+          '.vt-ust{max-width:760px;margin:0 auto;padding:12px 16px 0}.vt-ust a{display:inline-flex;align-items:center;min-height:44px;color:#f5e6c8;font:600 15px/1 BG,system-ui,sans-serif;text-decoration:none}.vt-ust a:hover{text-decoration:underline}'
+          '.vt-ust a:focus-visible{outline:3px solid #ffcb80;outline-offset:3px;border-radius:6px}</style></head><body>'
+          f'<p class="vt-ust"><a href="{INV_ADRES}">← Herkese Eğitim · İçinde Ne Var?</a></p>'  # görsel yok: vitrin 02'nin kendi karesi gelince eklenir
+          + _vt_etiket(v, False).replace('class="vt-wrap"', 'class="vt-wrap" style="border:0"') + '</body></html>\n')
+    yaz(_y, h)
+    if v.get("kisa_adres"):  # kısa adres: /muze/<kisa>/ -> vitrin sayfası; noindex, site haritasına girmez, sorgu korunur
+        assert re.fullmatch(r"[a-z0-9-]{3,30}", v["kisa_adres"]), "Müze: kötü kısa adres"
+        _ky = os.path.join(OUT, (_muze.get("kisa_adres") or "muze"), v["kisa_adres"], "index.html"); assert not os.path.exists(_ky), "Müze: kısa adres dolu"
+        os.makedirs(os.path.dirname(_ky), exist_ok=True)
+        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(_t)}</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_y}"><script>location.replace("{_y}"+location.search+location.hash)</script><meta http-equiv="refresh" content="0; url={_y}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#10151d;color:#f5e6c8"><p><a style="color:#ffcb80" href="{_y}">{E(v["baslik"])} Vitrini açın</a></p></body></html>\n')

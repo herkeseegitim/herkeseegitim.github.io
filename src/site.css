@@ -1051,3 +1051,39 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 .js .ats-tr:not(.hepsi) .ats-k:not([aria-pressed=true]) .ats-gl{visibility:hidden}
 
 .kart.inv{display:flex;flex-direction:column}.kart.inv>a:first-child{height:auto;flex:1 1 auto}.kart.inv a.inv-vid{display:inline;height:auto;flex:none;align-self:flex-start;background:none;border:0;border-radius:0;padding:0;box-shadow:none;margin:12px 0 0 4px;font-size:15px;font-weight:700;color:var(--mur);text-decoration:underline;text-underline-offset:3px}.kart.inv a.inv-vid:hover{box-shadow:none;color:var(--kir)}
+
+/* Kayıp Aletler Müzesi bandı (ana sayfa): gece şeridi, fenerle Gece Kuşu, vitrin pencereleri, örtülü son vitrin. Renkler müzenin kendi renkleri. */
+.muze-bant{--mg:#10151d;--mg2:#1a2230;--mi:#f5e6c8;--ma:#e8a35a;--ml:#ffcb80;background:radial-gradient(120% 90% at 12% 40%,#1d2533 0,var(--mg) 60%);color:var(--mi);padding:64px 0 52px;margin:24px 0 8px;position:relative;overflow:hidden}
+.muze-bant::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 44px);pointer-events:none}
+.muze-bant .w{position:relative}
+.mb-bas{max-width:720px}
+.mb-k{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ma)}
+.mb-bas h2{font-size:clamp(32px,4.4vw,52px);margin:6px 0 10px;color:#fff3d6}
+.mb-bas h2 a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}.mb-bas h2 a:focus-visible,.mb-alt a:focus-visible{outline:3px solid var(--ml);outline-offset:3px;border-radius:6px}.mb-bas h2 a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+.mb-a{font-size:19px;color:var(--mi);max-width:36em}
+.mb-koridor{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:end;margin-top:30px}
+.mb-kus{position:relative;padding:26px 0 0}
+.mb-kus svg{position:relative;display:block;width:210px;height:auto;overflow:visible;filter:drop-shadow(0 0 3px rgba(232,163,90,.9)) drop-shadow(0 0 14px rgba(255,190,110,.35))}
+.mb-kus .dolan{display:none}
+.mb-isik{position:absolute;left:-60px;top:-10px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,120,.38),rgba(255,180,90,0) 66%);animation:mbFener 3.6s ease-in-out infinite alternate;pointer-events:none}
+@keyframes mbFener{0%{opacity:.75}40%{opacity:1}55%{opacity:.82}100%{opacity:.95}}
+.mb-soz{position:relative;display:inline-block;margin-top:12px;background:var(--mi);color:#231b1b;padding:7px 13px 8px;border-radius:12px;font-weight:650;font-size:16px;line-height:1.3;transform:rotate(-2deg);box-shadow:0 0 0 1.5px #231b1b}
+.mb-soz::after{content:"";position:absolute;left:26px;top:-6px;width:12px;height:12px;background:inherit;transform:rotate(45deg)}
+.mb-vitrinler{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.mb-v{display:flex;flex-direction:column;gap:3px;height:100%;text-decoration:none;color:var(--mi);background:linear-gradient(180deg,rgba(255,215,150,.10),rgba(255,215,150,0) 40%),var(--mg2);border:1.5px solid rgba(232,163,90,.45);border-radius:14px;padding:12px 12px 16px;transition:transform .2s,border-color .2s}
+.mb-v:hover{transform:translateY(-3px);border-color:var(--ma)}
+.mb-v:focus-visible{outline:3px solid var(--ml);outline-offset:3px}
+.mb-cam{position:relative;display:block;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:radial-gradient(80% 70% at 50% 0,rgba(255,215,150,.35),rgba(255,215,150,0) 70%),#0c1017;box-shadow:inset 0 0 0 2px rgba(245,230,200,.12);margin-bottom:9px}
+.mb-cam img{width:100%;height:100%;object-fit:cover}
+.mb-cam::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.10) 0 18%,transparent 18% 100%);pointer-events:none}
+.mb-no{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ma)}
+.mb-v b{font-size:22px;line-height:1.15;color:#fff3d6}
+.mb-s{font-size:16px;line-height:1.4}
+.mb-ortu .mb-cam{background:radial-gradient(70% 60% at 50% 0,rgba(255,215,150,.22),rgba(255,215,150,0) 70%),#0c1017}
+.mb-ortu-s{position:absolute;left:12%;top:10%;width:76%;height:86%}
+.mb-ortu{border-style:dashed}
+.mb-alt{margin-top:24px;font-size:16px}
+.mb-alt a{color:var(--ml);text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+@media (max-width:900px){.muze-bant{padding:48px 0 40px}.mb-koridor{grid-template-columns:1fr;gap:14px}.mb-kus{display:flex;align-items:center;gap:14px;padding-top:6px}.mb-kus svg{width:170px;flex:none}.mb-isik{left:-50px;top:-40px;width:220px;height:220px}.mb-soz{margin-top:0}.mb-soz::after{left:-5px;top:calc(50% - 6px)}}
+@media (max-width:520px){.mb-vitrinler{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mb-v{padding:8px 8px 12px}.mb-v b{font-size:18px}.mb-s{font-size:14.5px}.mb-a{font-size:17px}.mb-kus svg{width:168px}.mb-soz{font-size:15px}}
+@media (prefers-reduced-motion:reduce){.mb-isik{animation:none}.mb-v{transition:none}.mb-v:hover{transform:none}}
