@@ -777,6 +777,47 @@
     "tt": null,
     "x": "https://x.com/cincinosos/status/2119417554645008461"
    }
+  },
+  {
+   "id": "FzktkEY5xQc",
+   "baslik": "Bu kaşığın sapı düz mü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-12",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 19 Herkes kaşık yapar\\kapak Atasözü 19.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfoSB7-v4HE/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "Kddy9tOTlhM",
+   "baslik": "Wordwall ödev bağlantısı: öğrenci hesap açmadan sonuçları görün 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-12",
+   "aciklama": "Wordwall'da ödev bağlantısı verin, öğrenci hesap açmadan oynasın, sonuçları tek sayfada görün.",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Wordwall\\Bolum 2\\kapak A v2.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "Yja11kqDAWQ",
+   "baslik": "Wordwall test nasıl hazırlanır? Çoktan seçmeli soru ve yarışma 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-13",
+   "aciklama": "Wordwall'da çoktan seçmeli bir test hazırlayın, aynı soruları Gameshow testi olarak yarışmaya çevirin, sonuçlarda sınıfın hangi soruda takıldığını görün.",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Wordwall\\Bolum 3\\kapak A v1.png",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -986,6 +1027,17 @@
    "video": "lkA_reRKpnw",
    "tarih": "2026-11-11",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 18 Denizdeki balığın pazarlığı olmaz\\kapak Atasözü 18.png"
+  },
+  {
+   "no": 19,
+   "soz": "Herkes kaşık yapar ama sapını ortaya getiremez.",
+   "slug": "herkes-kasik-yapar-ama-sapini-ortaya-getiremez",
+   "soru": "Bu kaşığın sapı düz mü?",
+   "anlam": "Herkes bir iş yapar ama her iş kusursuz olmaz.",
+   "sozcuk": null,
+   "video": "FzktkEY5xQc",
+   "tarih": "2026-11-12",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 19 Herkes kaşık yapar\\kapak Atasözü 19.png"
   }
  ],
  "takvim": [
