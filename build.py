@@ -465,17 +465,22 @@ def _gece_kusu():
 _ORTU = ('<svg class="mb-ortu-s" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><path d="M100 14 C70 18 38 40 22 80 L8 150 H192 L178 80 C162 40 130 18 100 14Z" fill="#4E3C30"/>'
   '<path d="M100 14 C88 50 74 100 60 150 M100 14 C104 60 104 110 100 150 M100 14 C114 50 128 100 142 150" stroke="#3A2C22" stroke-width="3" fill="none" stroke-linecap="round"/>'
   '<path d="M100 14 C70 18 38 40 22 80" stroke="#6B5444" stroke-width="2" fill="none"/><circle cx="100" cy="12" r="5" fill="#E8A35A"/></svg>')
+def _mb_vid(v):
+    return (f'<a class="mb-vid" href="https://www.youtube.com/shorts/{v["video"]}" aria-label="Vitrin {v["no"]:02d}, {E(v["ad"])}: videosunu YouTube\'da izleyin">'
+      '<i aria-hidden="true">▶</i> Videosu</a>') if v.get("video") else ""
+# Kaset (14 Kas): kart vitrine bağlı kalır; Videosu düğmesi kartın kardeşi (iç içe bağlantı yok), CSS ile kartın altına oturur.
 def _mb_vitrin(v):
     cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="460">' if v.get("kapak_w") else ""
-    return (f'<li><a class="mb-v" href="{vitrin_sayfa(v)}"><span class="mb-cam">{cam}</span>'
-      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["ad"])}</b><span class="mb-s">{E(v["baslik"])}</span></a></li>')
+    vid = _mb_vid(v)
+    li = '<li class="mb-vk">' if vid else '<li>'
+    return (f'{li}<a class="mb-v" href="{vitrin_sayfa(v)}"><span class="mb-cam">{cam}</span>'
+      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["ad"])}</b><span class="mb-s">{E(v["baslik"])}</span></a>{vid}</li>')
 # Hat meşgul (14 Kas): "durum": "mesgul" olan vitrin henüz sayfasız; kart vitrine değil, yalnız videoya bağlanır. Ahize ve meşgul sesinin kesik çizgileri.
 _AHIZE = ('<svg class="mb-ahize" viewBox="0 0 36 27" aria-hidden="true" focusable="false"><g class="mb-dut" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">'
   '<path d="M7 5h5M15.5 5h5M24 5h5"/></g><path d="M3 19.5c0-5 6.5-8 15-8s15 3 15 8l-1.2 3.3h-6.3l-1.3-3.4c-2-.6-4.3-.9-6.2-.9s-4.2.3-6.2.9l-1.3 3.4H4.2z" fill="currentColor"/></svg>')
 def _mb_mesgul(v):
     cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="464">' if v.get("kapak_w") else ""
-    vid = (f'<a class="mb-vid" href="https://www.youtube.com/shorts/{v["video"]}" aria-label="Vitrin {v["no"]:02d}, {E(v["ad"])}: videosunu YouTube\'da izleyin">'
-      '<i aria-hidden="true">▶</i> Videosu</a>') if v.get("video") else ""
+    vid = _mb_vid(v)
     return (f'<li><div class="mb-v mb-mesgul"><span class="mb-cam">{cam}<span class="mb-hat">{_AHIZE}</span></span>'
       f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["mesgul"]["baslik"])}</b><span class="mb-s">{E(v["mesgul"]["alt"])}</span>{vid}</div></li>')
 muze_html = (f'''<section class="muze-bant" id="muze" aria-labelledby="muze-b"><div class="w">
