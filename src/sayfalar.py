@@ -430,6 +430,16 @@ def _inv_meta(b):
     return (f'<meta property="og:type" content="website"><meta property="og:title" content="{E(t)}"><meta property="og:description" content="{E(a)}">'
       f'<meta property="og:url" content="{E(u)}"><meta property="og:image" content="{SITE}{g}"><meta property="og:locale" content="tr_TR">'
       f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{g}">\n')
+# Müze kapısı: "durum": "mesgul" olan (yayında olmayan) vitrin koridora "Hat meşgul" kutusu olarak girer. Kapıdaki yer tutucu buradan dolar.
+# Taslak vitrinin ani/metin alanları sayfaya taşınmaz: yalnız no, mesgul.baslik, mesgul.alt ve video gider.
+def _mesgul_vitrinler(b):
+    return [v for v in (b or {}).get("vitrinler") or [] if v.get("durum") == "mesgul" and not v.get("yayinda") and v.get("mesgul")]
+def _muze_ek(b):
+    h = open(os.path.join(KOK, "data", b["ek"]), encoding="utf-8").read()
+    if "/*hev-mesgul*/" in h:
+        m = [dict(no=v["no"], baslik=v["mesgul"]["baslik"], alt=v["mesgul"]["alt"], video=v.get("video")) for v in _mesgul_vitrinler(b)]
+        h = h.replace("null/*hev-mesgul*/", json.dumps(m, ensure_ascii=False).replace("</", "<\\/") + "/*hev-mesgul*/", 1)
+    return h
 _inv_k = []; _inv_son = None; _inv_one = ""
 for b in INV:
     assert re.fullmatch(r"[a-z0-9-]{3,60}", b["slug"]), "İçinde Ne Var: kötü slug"
@@ -437,7 +447,7 @@ for b in INV:
     if (b.get("tarih") or "9") > BUGUN.isoformat(): continue
     h = open(os.path.join(KOK, "data", b["sayfa"]), encoding="utf-8").read()
     if b.get("video"): h = h.replace("</body>", _inv_video(b) + "\n</body>", 1)
-    if b.get("ek"): h = h.replace("</body>", open(os.path.join(KOK, "data", b["ek"]), encoding="utf-8").read() + "\n</body>", 1)
+    if b.get("ek"): h = h.replace("</body>", _muze_ek(b) + "\n</body>", 1)
     if b.get("og_kapak"):
         _ok = Image.open(os.path.join(KOK, "data", b["kapak"])).convert("RGB"); assert _ok.size == (1200, 630), "İçinde Ne Var: og kapak 1200x630 olmalı"
         _ok.save(os.path.join(OUT, "img", f"paylas-{b['slug']}.jpg"), quality=86, optimize=True, progressive=True); b["og_gorsel"] = f"/img/paylas-{b['slug']}.jpg"
@@ -482,6 +492,8 @@ for _v in (_muze or {}).get("vitrinler") or []:
     assert not _v.get("video") or re.fullmatch(r"[A-Za-z0-9_-]{11}", _v["video"]), "Müze: kötü video kimliği"
     if _v.get("yayinda") or _v["slug"] in _VT_TASLAK: VITRINLER.append(_v)
 def vitrin_sayfa(v): return MUZE_ADRES + v["slug"] + "/"
+MESGUL = [v for v in _mesgul_vitrinler(_muze) if v["slug"] not in _VT_TASLAK]  # vitrin sayfası üretilmez, ana sayfa bandında "Hat meşgul" kartı
+for _v in MESGUL: _v["kapak_w"] = resim(_v.get("kapak"), "vitrin-" + _v["slug"], 640)
 _VT_CSS = ('<style>.vt-etiket{box-sizing:border-box;max-width:760px;margin:0 auto;padding:40px 16px 56px;color:#f5e6c8;font:18px/1.6 "Inter",system-ui,sans-serif}'
   '.vt-wrap{background:#10151d;border-top:1px solid rgba(232,163,90,.35)}'
   '.vt-etiket .vt-k{margin:0 0 10px;font:600 13px/1.4 "Inter",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#e8a35a}'
@@ -517,7 +529,7 @@ for v in VITRINLER:
         h = h.replace('<html lang="tr">', f'<html lang="tr" data-ilk="{v["slug"]}">', 1)
         h = h.replace('<main id="root"></main>', '<main id="root"></main>' + _vt_etiket(v, True), 1)
         if v.get("video"): h = h.replace("</body>", _inv_video(v) + "\n</body>", 1)
-        if _muze.get("ek"): h = h.replace("</body>", open(os.path.join(KOK, "data", _muze["ek"]), encoding="utf-8").read() + "\n</body>", 1)
+        if _muze.get("ek"): h = h.replace("</body>", _muze_ek(_muze) + "\n</body>", 1)
         assert 'property="og:' not in h.split("</head>")[0], "Müze: head"
         h = h.replace("</head>", _meta + "</head>", 1)
     else:  # vitrin dosyası henüz yok: yalnız metinli etiket sayfası

@@ -1089,3 +1089,15 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 @media (prefers-reduced-motion:reduce){.mb-isik{animation:none}.mb-v{transition:none}.mb-v:hover{transform:none}}
 
 .sahne+.muze-bant{margin-top:0}
+/* Müze: Hat meşgul kartı (vitrin henüz açılmadı, yalnız videoya bağlanır) */
+.mb-mesgul:hover{transform:none;border-color:rgba(232,163,90,.45)}
+.mb-vitrinler:has(.mb-mesgul){align-items:start}  /* öbür kartlar kendi boyunda kalır */
+.mb-hat{position:absolute;right:8px;top:8px;z-index:1;display:flex;align-items:center;justify-content:center;width:52px;height:40px;border-radius:10px;background:rgba(12,16,23,.82);color:var(--ma);box-shadow:0 0 0 1.5px rgba(232,163,90,.55)}
+.mb-ahize{width:36px;height:27px;display:block}
+.mb-dut{animation:mbDut 1s steps(1,end) infinite}
+@keyframes mbDut{0%{opacity:1}50%{opacity:.15}}
+.mb-vid{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;min-height:44px;margin-top:8px;padding:0 16px;border-radius:999px;background:var(--ma);color:#231b1b;font-weight:650;font-size:15px;text-decoration:none}
+.mb-vid:hover{text-decoration:underline;text-underline-offset:3px}.mb-vid:focus-visible{outline:3px solid var(--ml);outline-offset:3px}
+.mb-vid i{font-style:normal;font-size:12px}
+@media (max-width:520px){.mb-hat{width:42px;height:32px;right:6px;top:6px}.mb-ahize{width:29px;height:22px}.mb-vid{padding:0 13px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){.mb-dut{animation:none}}
