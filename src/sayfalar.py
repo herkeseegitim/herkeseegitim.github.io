@@ -444,6 +444,11 @@ def _muze_ek(b):
         vt = [dict(no=v["no"], slug=v["slug"], ad=v["ad"], donem=v.get("donem") or "", url=INV_ADRES + "muze/" + v["slug"] + "/") for v in b.get("vitrinler") or [] if v.get("yayinda") or v["slug"] in _t]
         h = h.replace("null/*hev-vitrin*/", json.dumps(vt, ensure_ascii=False).replace("</", "<\\/") + "/*hev-vitrin*/", 1)
     return h
+# Kısa adres sayacı (İdiye 14 Kas: müze GoatCounter'da görünmüyordu). Bölüm ve vitrin dosyalarında sayaç yok (build.py denetimi);
+# yalnız videolarda yazılan kısa adres sayfası, yönlendirmeden önce tek bir GoatCounter pikseli yollar (çerez yok, kimlik yok).
+def _kisa_sayac(yol):
+    return ('(function(){try{var i=new Image();i.src="https://herkeseegitim.goatcounter.com/count?p="+encodeURIComponent("'
+            + yol + '")+"&t="+encodeURIComponent(document.title)+"&r="+encodeURIComponent(document.referrer)+"&rnd="+Math.random().toString(36).slice(2)}catch(e){}})();')
 _inv_k = []; _inv_son = None; _inv_one = ""
 for b in INV:
     assert re.fullmatch(r"[a-z0-9-]{3,60}", b["slug"]), "İçinde Ne Var: kötü slug"
@@ -464,7 +469,7 @@ for b in INV:
         _hd = INV_ADRES + b["slug"] + "/"
         _en = "" if b.get("tek_dil") else f' · <a href="{_hd}?dil=en" lang="en">Open in English</a>'  # tek_dil: yalnız Türkçe sayfa
         os.makedirs(os.path.dirname(_ky), exist_ok=True)
-        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";location.replace("{_hd}"+q)}})()</script><meta http-equiv="refresh" content="0; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a>{_en}</p></body></html>\n')
+        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(b["ad"])} | İçinde Ne Var?</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_hd}"><script>{_kisa_sayac("/" + b["kisa_adres"] + "/")}(function(){{var q=location.search.replace(/([?&])lang=/,"$1dil=");if(!/[?&]dil=/.test(q)&&!/^tr/i.test(navigator.language||""))q=(q?q+"&":"?")+"dil=en";setTimeout(function(){{location.replace("{_hd}"+q)}},150)}})()</script><meta http-equiv="refresh" content="1; url={_hd}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#F7F0E1;color:#2A2420"><p><a href="{_hd}">{E(b["ad"])}: sayfayı açın</a>{_en}</p></body></html>\n')
     b["kapak_w"] = resim(b.get("kapak"), "inv-" + b["slug"], 420)
     if b.get("one_cikan"):  # öne çıkan giriş: liste sayfasında en üstte büyük kart
         _bw = resim(b.get("kapak"), "inv-" + b["slug"] + "-b", 960)
@@ -555,4 +560,4 @@ for v in VITRINLER:
         assert re.fullmatch(r"[a-z0-9-]{3,30}", v["kisa_adres"]), "Müze: kötü kısa adres"
         _ky = os.path.join(OUT, (_muze.get("kisa_adres") or "muze"), v["kisa_adres"], "index.html"); assert not os.path.exists(_ky), "Müze: kısa adres dolu"
         os.makedirs(os.path.dirname(_ky), exist_ok=True)
-        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(_t)}</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_y}"><script>location.replace("{_y}"+location.search+location.hash)</script><meta http-equiv="refresh" content="0; url={_y}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#10151d;color:#f5e6c8"><p><a style="color:#ffcb80" href="{_y}">{E(v["baslik"])} Vitrini açın</a></p></body></html>\n')
+        open(_ky, "w", encoding="utf-8").write(f'<!DOCTYPE html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{E(_t)}</title><meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{_y}"><script>{_kisa_sayac("/" + (_muze.get("kisa_adres") or "muze") + "/" + v["kisa_adres"] + "/")}setTimeout(function(){{location.replace("{_y}"+location.search+location.hash)}},150)</script><meta http-equiv="refresh" content="1; url={_y}"></head><body style="font:18px/1.5 system-ui,sans-serif;padding:24px;background:#10151d;color:#f5e6c8"><p><a style="color:#ffcb80" href="{_y}">{E(v["baslik"])} Vitrini açın</a></p></body></html>\n')
