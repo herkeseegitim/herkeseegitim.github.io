@@ -818,6 +818,19 @@
     "tt": null,
     "x": null
    }
+  },
+  {
+   "id": "zGcF45Mt-Rk",
+   "baslik": "Bu testi sağlam mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-13",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 20 Testi kırılsa da\\kapak Atasözü 20.png",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/Dfq2XxIP9cb/",
+    "tt": null,
+    "x": null
+   }
   }
  ],
  "atasozleri": [
@@ -1038,6 +1051,17 @@
    "video": "FzktkEY5xQc",
    "tarih": "2026-11-12",
    "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 19 Herkes kaşık yapar\\kapak Atasözü 19.png"
+  },
+  {
+   "no": 20,
+   "soz": "Testi kırılsa da kulpu elde kalır.",
+   "slug": "testi-kirilsa-da-kulpu-elde-kalir",
+   "soru": "Bu testi sağlam mı?",
+   "anlam": "Varlıklı kişi zarar etse de her şeyini yitirmez.",
+   "sozcuk": null,
+   "video": "zGcF45Mt-Rk",
+   "tarih": "2026-11-13",
+   "kapak": "C:\\Users\\idiye\\Desktop\\İdiye\\HerkeseEgitim\\Atasozleri\\Video\\Atasözü 20 Testi kırılsa da\\kapak Atasözü 20.png"
   }
  ],
  "takvim": [

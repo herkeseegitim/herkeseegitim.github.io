@@ -17,5 +17,6 @@
 {"no": 16, "slug": "a-good-field-is-close-to-water", "literal": "A good field is close to water; a better one is close to home.", "meaning": "A field close to home is better: easy to tend, and the harvest is safe.", "equivalent": null, "source": "TDK"},
 {"no": 17, "slug": "the-wind-cant-lift-a-heavy-wood-chip", "literal": "The wind can't lift a heavy wood chip.", "meaning": "Small events can't harm a steady, composed person.", "equivalent": null, "source": "TDK"},
 {"no": 18, "slug": "a-fish-still-in-the-sea", "literal": "You can't bargain over a fish still in the sea.", "meaning": "Don't haggle over something you don't have yet.", "equivalent": "Don't count your chickens before they hatch.", "source": "TDK"},
-{"no": 19, "slug": "everyone-makes-a-spoon", "literal": "Everyone makes a spoon, but no one gets the handle centered.", "meaning": "Everyone can do a job, but not every job comes out flawless.", "equivalent": null, "source": "TDK"}
+{"no": 19, "slug": "everyone-makes-a-spoon", "literal": "Everyone makes a spoon, but no one gets the handle centered.", "meaning": "Everyone can do a job, but not every job comes out flawless.", "equivalent": null, "source": "TDK"},
+{"no": 20, "slug": "even-if-the-jug-breaks", "literal": "Even if the jug breaks, its handle stays in your hand.", "meaning": "Someone well-off who suffers a loss does not lose everything.", "equivalent": null, "source": "TDK"}
 ]
