@@ -469,10 +469,19 @@ def _mb_vitrin(v):
     cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="460">' if v.get("kapak_w") else ""
     return (f'<li><a class="mb-v" href="{vitrin_sayfa(v)}"><span class="mb-cam">{cam}</span>'
       f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["ad"])}</b><span class="mb-s">{E(v["baslik"])}</span></a></li>')
+# Hat meşgul (14 Kas): "durum": "mesgul" olan vitrin henüz sayfasız; kart vitrine değil, yalnız videoya bağlanır. Ahize ve meşgul sesinin kesik çizgileri.
+_AHIZE = ('<svg class="mb-ahize" viewBox="0 0 36 27" aria-hidden="true" focusable="false"><g class="mb-dut" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">'
+  '<path d="M7 5h5M15.5 5h5M24 5h5"/></g><path d="M3 19.5c0-5 6.5-8 15-8s15 3 15 8l-1.2 3.3h-6.3l-1.3-3.4c-2-.6-4.3-.9-6.2-.9s-4.2.3-6.2.9l-1.3 3.4H4.2z" fill="currentColor"/></svg>')
+def _mb_mesgul(v):
+    cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="464">' if v.get("kapak_w") else ""
+    vid = (f'<a class="mb-vid" href="https://www.youtube.com/shorts/{v["video"]}" aria-label="Vitrin {v["no"]:02d}, {E(v["ad"])}: videosunu YouTube\'da izleyin">'
+      '<i aria-hidden="true">▶</i> Videosu</a>') if v.get("video") else ""
+    return (f'<li><div class="mb-v mb-mesgul"><span class="mb-cam">{cam}<span class="mb-hat">{_AHIZE}</span></span>'
+      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["mesgul"]["baslik"])}</b><span class="mb-s">{E(v["mesgul"]["alt"])}</span>{vid}</div></li>')
 muze_html = (f'''<section class="muze-bant" id="muze" aria-labelledby="muze-b"><div class="w">
 <div class="mb-bas"><p class="mb-k">İçinde Ne Var?</p><h2 id="muze-b"><a href="{MUZE_ADRES}">Kayıp Aletler Müzesi</a></h2><p class="mb-a">Bir zamanlar her evde olan aletler gece burada bekliyor. Vitrine girin, içini açın, bugünküyle karşılaştırın.</p></div>
 <div class="mb-koridor"><div class="mb-kus"><i class="mb-isik" aria-hidden="true"></i>{_gece_kusu()}<p class="mb-soz"><span class="gizli">Gece Kuşu: </span>Gece açığız. Feneri ben tutarım.</p></div>
-<ol class="mb-vitrinler" aria-label="Vitrinler">{"".join(_mb_vitrin(v) for v in VITRINLER)}
+<ol class="mb-vitrinler" aria-label="Vitrinler">{"".join(_mb_vitrin(v) for v in VITRINLER)}{"".join(_mb_mesgul(v) for v in MESGUL)}
 <li><a class="mb-v mb-ortu" href="{MUZE_ADRES}?defter=1"><span class="mb-cam">{_ORTU}</span><span class="mb-no">Sıradaki vitrin</span><b>Örtünün altında ne var?</b><span class="mb-s">Sizce hangi alet girmeli? Müzenin defterine yazın.</span></a></li></ol></div>
 <p class="mb-alt"><a href="{INV_ADRES}">İçinde Ne Var? bütün bölümler</a></p>
 </div></section>''') if VITRINLER else ""
