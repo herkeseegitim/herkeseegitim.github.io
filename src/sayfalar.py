@@ -466,7 +466,11 @@ for b in INV:
         _bw = resim(b.get("kapak"), "inv-" + b["slug"] + "-b", 960)
         _inv_one = (f'<a class="inv-one" href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{_bw}" alt="" width="960" height="504">' if _bw else "")
           + f'<span class="inv-one-m"><b>{E(b["ad"])}</b><span class="inv-one-a">{E(b["kisa"])}</span><span class="dugme">{E(b.get("etiket") or "Sayfayı açın")}</span></span></a>'
-          + (f'<p class="inv-one-v"><a class="inv-vid" href="https://www.youtube.com/shorts/{b["video"]}" rel="noopener">Videoyu YouTube\'da izleyin</a></p>' if b.get("video") else ""))
+          + (f'<p class="inv-one-v"><a class="inv-vid" href="https://www.youtube.com/shorts/{b["video"]}" rel="noopener">Videoyu YouTube\'da izleyin</a>'
+          # müze: öbür vitrinlerin videoları da yanında (Telefon videosu); ad kısa adresten
+          + "".join(f' · <a class="inv-vid" href="https://www.youtube.com/shorts/{_v["video"]}" rel="noopener">{_v["kisa_adres"][:1].replace("i","İ").upper()+_v["kisa_adres"][1:]} videosu</a>'
+                    for _v in b.get("vitrinler") or [] if _v.get("video") and _v["video"] != b["video"] and _v.get("kisa_adres"))
+          + '</p>' if b.get("video") else ""))
         continue
     _inv_k.append(f'<li class="kart inv"><a href="{INV_ADRES}{b["slug"]}/">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy">' if b.get("kapak_w") else "")
       + f'<b>{b["no"]:02d} · {E(b["ad"])}</b><span>{E(b["kisa"])}</span><span class="etk">{E(b.get("etiket") or "Sayfayı açın, kendiniz sökün")}</span></a>'

@@ -1101,3 +1101,11 @@ nav a.dil{font-weight:700;border:1.5px solid currentColor;border-radius:7px;padd
 .mb-vid i{font-style:normal;font-size:12px}
 @media (max-width:520px){.mb-hat{width:42px;height:32px;right:6px;top:6px}.mb-ahize{width:29px;height:22px}.mb-vid{padding:0 13px;font-size:14px}}
 @media (prefers-reduced-motion:reduce){.mb-dut{animation:none}}
+/* Müze: Kaset kartında Videosu düğmesi. Düğme kart bağlantısının kardeşi, kartın altına oturur; iki kartın düğmesi aynı hizada */
+.mb-vk{position:relative;align-self:stretch}
+.mb-vk .mb-v{padding-bottom:68px}
+.mb-vk .mb-vid{position:absolute;left:13px;bottom:17px;margin:0;transition:transform .2s}
+.mb-vk:hover .mb-v,.mb-vk:hover .mb-vid{transform:translateY(-3px)}.mb-vk:hover .mb-v{border-color:var(--ma)}
+.mb-vitrinler>li:has(.mb-mesgul){align-self:stretch}.mb-mesgul .mb-s{margin-bottom:auto}
+@media (max-width:520px){.mb-vk .mb-v{padding-bottom:64px}.mb-vk .mb-vid{left:9px;bottom:13px}}
+@media (prefers-reduced-motion:reduce){.mb-vk .mb-vid{transition:none}.mb-vk:hover .mb-v,.mb-vk:hover .mb-vid{transform:none}}
