@@ -3,6 +3,7 @@
      Zaman koridoru: Kaset "Buradasınız", Disket sitedeki disket sayfasına gider, "Sıradaki" kutusu defteri açar. Koridor bulunamazsa hiçbir şey yapmaz.
      Defter: adres ?defter=1 ile açılırsa öneri defteri açık başlar (ana sayfadaki müze bandının örtülü vitrini).
      Video: build.py'nin eklediği "Videosu" düğmesi üst çubuğa, ışık düğmesinin soluna alınır (telefonda yalnız simge).
+     Vitrinler: yayındaki vitrinler build.py'nin doldurduğu VITRIN listesinden gelir. Sayfada kutusu olan vitrin (başka vitrinin sayfasındaki "Kaset") bağlantıya döner, olmayan (Kaset sayfasında "Çevirmeli telefon") Disket'in önüne eklenir. Açık vitrinin kutusuna dokunulmaz.
      Hat meşgul: bolumler.json'da "durum": "mesgul" olan vitrin, build.py'nin doldurduğu MESGUL listesinden koridora Disket'in önüne girer; vitrine değil videoya bağlanır. -->
 <style>.top .hev-don{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;min-height:36px;padding:0 12px 0 6px;margin-right:2px;border-radius:8px;color:inherit;text-decoration:none;font:600 13px/1 "Inter",system-ui,sans-serif;white-space:nowrap;box-shadow:inset -1px 0 0 rgba(217,203,176,.35);border-top-right-radius:0;border-bottom-right-radius:0}.top .hev-don:hover span{text-decoration:underline;text-underline-offset:3px}.top .hev-don:focus-visible{outline:2px solid #e8a35a;outline-offset:2px}.top .hev-don i{font:700 19px/1 system-ui,sans-serif;font-style:normal;margin-top:-2px}.top .hev-don svg{width:24px;height:20px;display:block}@media (max-width:820px){.top .hev-don{gap:4px;padding:0 8px 0 2px;min-height:40px}.top .hev-don span{display:none}.top .hev-don svg{width:21px;height:18px}}@media (max-width:480px){.top .hev-don{padding:0 6px 0 0;gap:3px;margin-right:0}.top .brand::before{display:none}}@media (max-width:370px){.top .brand{font-size:14px}.top .prog .pl{display:none}}</style><style>.top #hev-ac{position:static;flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;margin:0;border:1.5px solid rgba(245,230,200,.55);border-radius:17px;background:transparent;color:#f5e6c8;font:600 13.5px/1 "Inter",system-ui,sans-serif;cursor:pointer;white-space:nowrap}.top #hev-ac:hover{background:rgba(245,230,200,.12)}.top #hev-ac:focus-visible{outline:2px solid #e8a35a;outline-offset:2px}.top #hev-ac i{font-style:normal;font-size:11px}@media (max-width:820px){.top #hev-ac{height:30px;padding:0 10px;font-size:12.5px}}@media (max-width:560px){.top #hev-ac{width:40px;height:36px;padding:0;justify-content:center}.top #hev-ac span{display:none}.top #hev-ac i{font-size:13px}.top .prog .pl{display:none}}</style><style>@media (max-width:820px){.top .hev-don{min-height:44px}.top #hev-ac{height:44px}}@media (max-width:560px){.top #hev-ac{width:44px;height:44px}}@media (max-height:520px) and (min-width:560px){.top{gap:8px}.top .hev-don{min-height:44px;padding:0 8px 0 2px;gap:4px}.top .hev-don span{display:none}.top #hev-ac{width:44px;height:44px;padding:0;justify-content:center}.top #hev-ac span{display:none}.top .isikb{flex:none}}</style><style>.koridor a.ki{text-decoration:none;cursor:pointer}.koridor a.ki:hover b,.koridor a.ki:focus-visible b{text-decoration:underline}.koridor a.ki:focus-visible,.koridor button.ki:focus-visible{outline:2px solid #e8a35a;outline-offset:2px}.koridor button.ki{font:inherit;border:0;margin:0;text-align:left;cursor:pointer;color:inherit}.koridor button.ki.bos{text-align:center}</style><style>.koridor .ki.mesgul{width:auto;min-width:216px;color:inherit;box-shadow:inset 0 0 0 1.5px rgba(232,163,90,.6)}.koridor .ki.mesgul svg{color:#e8a35a;stroke:none}.koridor .ki.mesgul .dut{animation:hevDut 1s steps(1,end) infinite}@keyframes hevDut{0%{opacity:1}50%{opacity:.15}}@media (prefers-reduced-motion:reduce){.koridor .ki.mesgul .dut{animation:none}}</style>
 <script>(function(){
@@ -20,6 +21,22 @@ function mesgul(l){
   l.insertBefore(e,ref);
  });
 }
+var VITRIN=null/*hev-vitrin*/;
+var VK={telefon:'<path d="M5 25l3-13h20l3 13z"/><circle cx="18" cy="18.5" r="4.6"/><path d="M4 9c0-6 28-6 28 0v3h-6V9.5c-3-1.6-13-1.6-16 0V12H4z"/>',kaset:'<rect x="2" y="3" width="32" height="21" rx="2"/><circle cx="12" cy="12" r="3.5"/><circle cx="24" cy="12" r="3.5"/><path d="M9 24l2-5h14l2 5"/>'};
+function vitrinler(l){
+ if(!VITRIN||!VITRIN.length)return;
+ var ilk=document.documentElement.getAttribute("data-ilk")||"kaset",ref=null;
+ Array.prototype.forEach.call(l.querySelectorAll(".ki"),function(d){var b=d.querySelector("b");if(!ref&&(d.classList.contains("bos")||(b&&/^Disket/.test(b.textContent.trim()))))ref=d;});
+ VITRIN.forEach(function(v){
+  if(v.slug===ilk)return;
+  var var_=null;Array.prototype.forEach.call(l.querySelectorAll(".ki"),function(d){var b=d.querySelector("b");if(b&&b.textContent.trim()===v.ad)var_=d;});
+  if(var_&&(var_.classList.contains("simdi")||var_.tagName==="A"))return;
+  var a=document.createElement("a");a.className="ki";a.href=v.url;a.setAttribute("aria-label","Vitrin "+("0"+v.no).slice(-2)+", "+v.ad+": vitrini açın");
+  a.innerHTML='<svg viewBox="0 0 36 27" aria-hidden="true" focusable="false" fill="none">'+(VK[v.slug]||'<rect x="4" y="3" width="28" height="21" rx="2"/>')+'</svg><div><b></b><span></span></div>';
+  a.querySelector("b").textContent=v.ad;a.querySelector("span").textContent=v.donem||"";
+  if(var_)var_.parentNode.replaceChild(a,var_);else l.insertBefore(a,ref);
+ });
+}
 function don(){
  var t=document.querySelector(".world .top");if(!t||t.querySelector(".hev-don"))return;
  var a=document.createElement("a");a.className="hev-don";a.href=DON;a.setAttribute("aria-label","Herkese Eğitim'e dön: İçinde Ne Var?");
@@ -34,7 +51,7 @@ function video(){
 function kur(){
  don();video();
  var l=document.querySelector(".koridor .kl");if(!l||l.getAttribute("data-kapi"))return;l.setAttribute("data-kapi","1");
- mesgul(l);
+ mesgul(l);vitrinler(l);
  Array.prototype.forEach.call(l.querySelectorAll(".ki"),function(d){
   var b=d.querySelector("b"),t=b?b.textContent.replace(/[:\s]+$/,"").trim():"";
   if(d.classList.contains("simdi")){
