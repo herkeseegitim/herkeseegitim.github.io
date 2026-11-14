@@ -439,6 +439,10 @@ def _muze_ek(b):
     if "/*hev-mesgul*/" in h:
         m = [dict(no=v["no"], baslik=v["mesgul"]["baslik"], alt=v["mesgul"]["alt"], video=v.get("video")) for v in _mesgul_vitrinler(b)]
         h = h.replace("null/*hev-mesgul*/", json.dumps(m, ensure_ascii=False).replace("</", "<\\/") + "/*hev-mesgul*/", 1)
+    if "/*hev-vitrin*/" in h:  # yayındaki vitrinler: kapı, koridor kutularını bunlara bağlar (Kaset sayfasında telefon, telefon sayfasında Kaset)
+        _t = set(filter(None, os.environ.get("VITRIN_TASLAK", "").split(",")))
+        vt = [dict(no=v["no"], slug=v["slug"], ad=v["ad"], donem=v.get("donem") or "", url=INV_ADRES + "muze/" + v["slug"] + "/") for v in b.get("vitrinler") or [] if v.get("yayinda") or v["slug"] in _t]
+        h = h.replace("null/*hev-vitrin*/", json.dumps(vt, ensure_ascii=False).replace("</", "<\\/") + "/*hev-vitrin*/", 1)
     return h
 _inv_k = []; _inv_son = None; _inv_one = ""
 for b in INV:
