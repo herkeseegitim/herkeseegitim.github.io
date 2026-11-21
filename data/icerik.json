@@ -1,0 +1,1509 @@
+{
+ "urunler": [
+  {
+   "id": "ciztahta",
+   "ad": "ÇizTahta",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": "2026-10-16",
+   "kisa": "Kurulum yok, kayıt yok. Aç ve anlat.",
+   "ne": "Tarayıcıda açılan tek dosyalık tahta. Kalem, perde, spot, süre, rastgele öğrenci ve gruplar tek yerde; PDF açıp üstüne yazarsınız. İnternet istemez, hesap yok.",
+   "sinif": [
+    "hepsi"
+   ],
+   "brans": [
+    "hepsi"
+   ],
+   "kazanim": [],
+   "url": "https://herkeseegitim.com/ciztahta/",
+   "video": "mY8zhg8sXM8"
+  },
+  {
+   "id": "ciztahta-eklenti",
+   "ad": "ÇizTahta eklentisi",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": "2026-10-24",
+   "kisa": "Açtığınız her sayfa tahtanız olsun.",
+   "ne": "Chrome eklentisi. Açık web sayfasının üstüne kalemle yazarsınız; kâğıt, tablo, etiket eklersiniz. Kura, süre, perde ve spot çubukta.",
+   "sinif": [
+    "hepsi"
+   ],
+   "brans": [
+    "hepsi"
+   ],
+   "kazanim": [],
+   "url": "https://chromewebstore.google.com/detail/hhiahdcgklpocanikedojaflhagegakf",
+   "kurulum": "https://herkeseegitim.com/ciztahta/eklenti/",
+   "video": "2qJOXs_TSh8",
+   "canta": null
+  },
+  {
+   "id": "yaztahta",
+   "ad": "YazTahta",
+   "tur": "arac",
+   "durum": "yayinda",
+   "lansman": null,
+   "kisa": "Her tuşun bir işi var.",
+   "ne": "İlkokulda çocuklar klavyedeki tuşların yerini ve ne yaptığını görerek, deneyerek öğrenir. Her öğrenci kendi klavyesiyle, tahtada sınıfça çalışılır. Harf sırası ilk okuma yazma ses sırasını izler.",
+   "sinif": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "brans": [
+    "sinif",
+    "bilisim"
+   ],
+   "kazanim": [],
+   "url": "https://herkeseegitim.com/yaztahta/",
+   "video": "3dFYUrfl44E"
+  },
+  {
+   "id": "basit-makineler",
+   "ad": "Basit Makineler Atölyesi",
+   "tur": "atolye",
+   "durum": "yayinda",
+   "lansman": "2026-10-24",
+   "kisa": "Kuvvetten kazanırsan yoldan kaybedersin: tahtada deneyin.",
+   "ne": "8. sınıf basit makineler için tahtada dokunarak çalışılan atölye. Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar ve ipi parmağıyla çeker. Sürtünmesiz düzenekte iş çubuklarının eşit kaldığını görür.",
+   "sinif": [
+    "8"
+   ],
+   "brans": [
+    "fen"
+   ],
+   "kazanim": [
+    "F.8.5.1.1",
+    "F.8.5.1.2"
+   ],
+   "url": "https://herkeseegitim.com/atolye/fen-8-f-8-5/",
+   "video": "aaafnoukZoo"
+  },
+  {
+   "id": "bilgisayarin-ici",
+   "ad": "Bilgisayarın İçi Atölyesi",
+   "tur": "atolye",
+   "durum": "yayinda",
+   "lansman": "2026-10-25",
+   "kisa": "Kaydetmeden kapattınız. Yazınız nereye gitti?",
+   "ne": "5. sınıf için 3B simülasyon. Öğrenci bir cümle yazar, harflerin bit olarak RAM'e gittiğini, fiş çekilince RAM'in boşaldığını, Kaydet'e basınca bitlerin depolama birimine yazıldığını görür.",
+   "sinif": [
+    "5"
+   ],
+   "brans": [
+    "bilisim"
+   ],
+   "kazanim": [
+    "BTY.5.1.5"
+   ],
+   "url": "https://herkeseegitim.com/atolye/bty-5-1-5/",
+   "video": "4UMHg4ggUS4"
+  },
+  {
+   "id": "yuzdeler",
+   "ad": "Yüzdeler Atölyesi",
+   "tur": "atolye",
+   "durum": "yakinda",
+   "lansman": "2026-10-30",
+   "kisa": "%20 indirimin üstüne %20 daha: %40 mı?",
+   "ne": "7. sınıf yüzdeler için şeritle çalışılan atölye. Yüzdesini bulur, tamamını bulur, yüzde olarak yazar, artırır ve azaltırsınız. Takılınca ipucu var; sonunda sınava hazırlık soruları.",
+   "sinif": [
+    "7"
+   ],
+   "brans": [
+    "matematik"
+   ],
+   "kazanim": [
+    "MAT.7.1.7"
+   ],
+   "url": "https://herkeseegitim.com/atolye/mat-7-1-7/",
+   "video": "nyNESfB6x8M"
+  },
+  {
+   "id": "yanki",
+   "ad": "Yankı",
+   "tur": "oyun",
+   "durum": "yakinda",
+   "lansman": "2026-11-06",
+   "kisa": "Yer altı şehrinde yapay zekâ okuryazarlığı ve dijital vatandaşlık.",
+   "ne": "5 ve 6. sınıf için oyun: dijital ayak izi, bilişim etiği, gizlilik ve yapay zekâ girdileri katlarda oynanarak işlenir.",
+   "sinif": [
+    "5",
+    "6"
+   ],
+   "brans": [
+    "bilisim"
+   ],
+   "kazanim": [
+    "BTY.5.1.3",
+    "BTY.5.1.4",
+    "BTY.5.4.1",
+    "BTY.5.4.2",
+    "BTY.5.5.1",
+    "BTY.5.5.2",
+    "BTY.6.4.1",
+    "BTY.6.4.3",
+    "BTY.6.5.1",
+    "BTY.6.5.2"
+   ],
+   "url": null,
+   "video": null,
+   "kapak": null,
+   "canta": null
+  },
+  {
+   "id": "atasozu-oyunu",
+   "ad": "Atasözü Tahta Oyunu",
+   "tur": "oyun",
+   "durum": "yayinda",
+   "lansman": null,
+   "kisa": "Eksik sözcüğü bulun, sözü tamamlayın, gizli resim açılsın.",
+   "ne": "Her atasözünde bir sözcük eksik. Doğru cevap sözü tamamlar ve gizli resimden bir kare açar. İster bireysel ister grupla oynanır.",
+   "sinif": [
+    "hepsi"
+   ],
+   "brans": [
+    "hepsi"
+   ],
+   "kazanim": [],
+   "url": null,
+   "video": null,
+   "kapak": "kapak/atasozu-oyunu.png",
+   "canta": "canta/Atasozu Tahta Oyunu.html",
+   "surum_notu": "Sürüm 0.5.2b."
+  }
+ ],
+ "videolar": [
+  {
+   "id": "mY8zhg8sXM8",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta",
+   "tarih": "2026-10-18",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DeoJjepO6pr/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2111727184515682591"
+   }
+  },
+  {
+   "id": "ydp5nstgcnI",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta",
+   "tarih": "2026-10-18",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "2qJOXs_TSh8",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "ciztahta-eklenti",
+   "tarih": "2026-10-24",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De4W1xXOkGf/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2114000796828446738"
+   }
+  },
+  {
+   "id": "3dFYUrfl44E",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "yaztahta",
+   "tarih": "2026-10-22",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "aaafnoukZoo",
+   "baslik": "Basit makineler tahtada: kuvvetten kazanırsan yoldan kaybedersin | 8. sınıf fen atölyesi",
+   "dizi": "tanitim",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-24",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2113758897555333609"
+   }
+  },
+  {
+   "id": "4UMHg4ggUS4",
+   "baslik": null,
+   "dizi": "tanitim",
+   "urun": "bilgisayarin-ici",
+   "tarih": "2026-10-25",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De7XPB5M4mt/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2114423360956313947"
+   }
+  },
+  {
+   "id": "FfwNwkKYmhg",
+   "baslik": "Makara ekledikçe kuvvet hep azalır mı? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-26",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De8-Vqyh64v/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "pqS-Vj6D82A",
+   "baslik": "Kuvvet yarıya inince iş de yarıya iner mi? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-26",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De9baNRhg4s/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "rH82cHDcSWk",
+   "baslik": "Ş harfi bilgisayarda A harfinden daha çok yer kaplar mı? | Bilgisayarın İçi",
+   "dizi": "bilgisayarin-icinde",
+   "urun": "bilgisayarin-ici",
+   "tarih": "2026-10-26",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De91uWQBlDZ/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "wnPAGstIWMA",
+   "baslik": "Bu sahneye hangi atasözü uyar? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-26",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De8gb4pO0g2/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "gtBbZv2P-C8",
+   "baslik": "Bu ağaç neden başını eğdi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-27",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De--8RuM6ti/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "WFbrAVtNjf8",
+   "baslik": "Merdiven hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De_jNBKhotc/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "6LucFCXd25s",
+   "baslik": "Kilide taktığınız anahtar hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfATAhJhPIb/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "BIUCZnTQ5eA",
+   "baslik": "30 kiloluk bir çocuk 90 kiloluk bir yetişkini tahterevallide kaldırabilir mi? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-27",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfAabKiPO34/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "x9iiduv616M",
+   "baslik": "Dağ, gönül, yol: hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-28",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfBf1eigQ-G/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "zL2-T0FTODA",
+   "baslik": "Harman ne demek? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfEV3CNOEhL/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "02qhrvYhoG4",
+   "baslik": "103 ışık. Sonuncusu yanınca ne oluyor?",
+   "dizi": "ozel-gun",
+   "urun": null,
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfEXLb-BgKE/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2115703414558794024"
+   }
+  },
+  {
+   "id": "HPQevHZoUBU",
+   "baslik": "29 Ekim 1923 belgesinde hangi yıl yazıyordu? | 3 saniyede tahmin et",
+   "dizi": "ozel-gun",
+   "urun": null,
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfEfM50sDDK/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2115710075624898815"
+   }
+  },
+  {
+   "id": "y0sC2KuEsHI",
+   "baslik": "Fermuar hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfE0QoSPzmQ/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "F3VTSDNv0d8",
+   "baslik": "Kalın kartonu makasın ucuyla mı, dibiyle mi daha kolay kesersiniz? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfFR-2dPAhY/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "q5LUUoRvFZE",
+   "baslik": "Kamyonların direksiyonu neden otomobilinkinden büyük? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-29",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "HDQyMl-DdDc",
+   "baslik": "Çıkrığın kolu uzarsa kaç tur çevirirsiniz? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-25",
+   "kapak": null,
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De67zJuP33H/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ohAm9yw5x80",
+   "baslik": "Kayayı en az kuvvetle kaldırmak için destek nereye? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-25",
+   "kapak": null,
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De68qaXt4Es/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "1nTIyG2Es-g",
+   "baslik": "Uzun rampa yapılan işi azaltır mı? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-25",
+   "kapak": null,
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/De687nNtBfc/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "xvpLaY3ABHM",
+   "baslik": "Bu sahneye hangi atasözü uyar? Apartman grubunda çatı akıyor | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-30",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfGq-8YBQ_t/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "nyNESfB6x8M",
+   "baslik": "%20 indirimin üstüne %20 daha: toplam indirim yüzde kaç? | Yüzdeler Atölyesi",
+   "dizi": "tanitim",
+   "urun": "yuzdeler",
+   "tarih": "2026-10-31",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfKlqVesWNc/",
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116572203844321491"
+   }
+  },
+  {
+   "id": "ey_cJAeje-c",
+   "baslik": "Dağ yolları neden dümdüz değil de kıvrıla kıvrıla çıkar? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfH_FgjhIO4/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ikSxIcJC9JM",
+   "baslik": "Tek kişi, 1 tonluk arabayı krikoyla nasıl kaldırır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIKpEGNqT3/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "g4_yLZ2wOkY",
+   "baslik": "Bisikletin pedalı hangi basit makine? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-10-30",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIWwk9u15P/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "i782m2_LpRU",
+   "baslik": "Bu yorganın altında hangi atasözü var? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-30",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfIXrXIA2Tm/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ep_bqO1SywQ",
+   "baslik": "Portakallar yere saçıldı, herkes akıl veriyor. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-10-31",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfKdElKPYUS/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "4n4I3yFfRPg",
+   "baslik": "Bu siteyi her sabah Claude güncelliyor | Herkese Eğitim",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116638297816781231"
+   }
+  },
+  {
+   "id": "zeDfP75mf7o",
+   "baslik": "Claude updates this site every morning | Herkese Eğitim",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2116638888186048876"
+   }
+  },
+  {
+   "id": "aZ1N4FNi5uI",
+   "baslik": "Bu kargaya ne oldu? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-01",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfL87A5heqy/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "5A0T85Gc4mE",
+   "baslik": "Asansörde motor, kabini tek başına mı kaldırır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-11-01",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfMinWFBT81/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ADxUI_1bVdo",
+   "baslik": "Ovanın en yükseği arkasına bakınca ne gördü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-02",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfOhXCytBxe/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "8dmjVcjYHks",
+   "baslik": "Pedallı çöp kovasında ayağınızla birkaç cm basınca kapak neden bu kadar açılır? | Basit Makineler",
+   "dizi": "tahmin",
+   "urun": "basit-makineler",
+   "tarih": "2026-11-02",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfPeMOcv-Et/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "KmsXKZVsJK4",
+   "baslik": "Tek kova bu çarka yeter mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-03",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfRGRYXOkFi/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "9Ba8ix179WI",
+   "baslik": "Her anlatışta biraz daha uzuyor. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-04",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfTrNW_hKG_/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "s_WpifNXDxI",
+   "baslik": "Bu kumbara cimri mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-05",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfWQC2ZuAIq/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "5B63ebGzx2k",
+   "baslik": "Altı ay uğraştı, örtü kalktı. Hangi atasözü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-06",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfY8uFfBPsZ/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "RDK5oWjSyII",
+   "baslik": "Bu iki tüy yeter mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-07",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/Dfb25LCOPwA/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "DGB0INXXTyg",
+   "baslik": "Bu top pes eder mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-08",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfeOkQJMjGn/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "DqcWibKT5Ns",
+   "baslik": "Bu el arabası dinlenebilir mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-09",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfgjlH5BMdv/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "kimqv1pOpeE",
+   "baslik": "Bu tahta rüzgârdan korkar mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-10",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "lkA_reRKpnw",
+   "baslik": "Bu balık satılık mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-11",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfnGYsTB383/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "a2c8B1KW6a0",
+   "baslik": "Wordwall nasıl kullanılır? Ücretsiz hesap ve ilk eşleştirme etkinliği 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-08",
+   "aciklama": "Wordwall'da ücretsiz hesap açıp ilk eşleştirme etkinliğini adım adım hazırlıyoruz: içeriğinizi bir dakikada oyuna çevirin, derste oyun, sonunda ölçme.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2119417554645008461"
+   }
+  },
+  {
+   "id": "FzktkEY5xQc",
+   "baslik": "Bu kaşığın sapı düz mü? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-12",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfoSB7-v4HE/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "Kddy9tOTlhM",
+   "baslik": "Wordwall ödev bağlantısı: öğrenci hesap açmadan sonuçları görün 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-12",
+   "aciklama": "Wordwall'da ödev bağlantısı verin, öğrenci hesap açmadan oynasın, sonuçları tek sayfada görün.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "Yja11kqDAWQ",
+   "baslik": "Wordwall test nasıl hazırlanır? Çoktan seçmeli soru ve yarışma 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-13",
+   "aciklama": "Wordwall'da çoktan seçmeli bir test hazırlayın, aynı soruları Gameshow testi olarak yarışmaya çevirin, sonuçlarda sınıfın hangi soruda takıldığını görün.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "zGcF45Mt-Rk",
+   "baslik": "Bu testi sağlam mı? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-13",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/Dfq2XxIP9cb/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "t1Zxlfq6f7c",
+   "baslik": "Bu tane kışa yeter mi? | Atasözlerimizi Yaşatalım",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DftraEJB_0H/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "XsdTS_OicEE",
+   "baslik": "Wordwall akıllı tahtada nasıl kullanılır? Çarkıfelek ve Kutuyu aç 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "aciklama": "Wordwall'da Çarkıfelek'i akıllı tahtada bütün sınıfla oynatın: öğrenci tahtaya gelip çarkı çevirir, cevaplanan soru Ortadan kaldır ile çarktan çıkar, aynı soru iki kez gelmez.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "HS7yYaq3F_w",
+   "baslik": "Wordwall hazır etkinlikler nasıl bulunur? Kopyalamadan oynatma 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "aciklama": "Wordwall'da başka bir öğretmenin hazırladığı etkinliği kopyalamadan başka bir oyuna çevirip sınıfta oynatabilirsiniz.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2121550614916161760"
+   }
+  },
+  {
+   "id": "deDaLxmgKcM",
+   "baslik": "Wordwall ile aynı etkinlik üç düzey: farklılaştırma 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "aciklama": "Wordwall'da tek bir etkinlikten üç ayrı ödev bağlantısı çıkarabilirsiniz; Etkinliklerim'de yine tek etkinlik durur.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2121563730408251863"
+   }
+  },
+  {
+   "id": "LemZuvUsDbI",
+   "baslik": "Wordwall etkinliği nasıl paylaşılır? Bağlantı, QR kodu, Padlet ve site 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "aciklama": "Bir Wordwall etkinliğini öğrenciye dört yolla ulaştırabilirsiniz: bağlantı, QR kodu, Padlet ve kendi siteniz.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2121576747221098995"
+   }
+  },
+  {
+   "id": "JgttMbQtWbI",
+   "baslik": "Wordwall ücretsiz hesapta üç hak dolunca ne olur? 2026 | Wordwall adım adım",
+   "dizi": "tanitim",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "aciklama": "Wordwall'un ücretsiz Temel hesabında üç etkinlik hakkı var.",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": "https://x.com/cincinosos/status/2121585025195864491"
+   }
+  },
+  {
+   "id": "aRjrioGNHy4",
+   "baslik": "Bu atasözünün devamını kaç kişi biliyor? Elden gelen öğün olmaz… | Atasözlerimizi Yaşatalım No. 22",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-15",
+   "platformlar": {
+    "ig": "https://www.instagram.com/egitimtek/reel/DfwN6XMNpmK/",
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "-Ntg-P3t4rM",
+   "baslik": "Bu atasözünün devamını kaç kişi biliyor? Ağustosta beyni kaynayanın… | Atasözlerimizi Yaşatalım No. 23",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-16",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "7sUhFhoB_vI",
+   "baslik": "Bu bavul neden dağı seçti? | Atasözlerimizi Yaşatalım No. 24",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-17",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "EHIw4LDIYBQ",
+   "baslik": "Bu erik neden bekliyor? | Atasözlerimizi Yaşatalım No. 25",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-18",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "Sy0q4mmv0wg",
+   "baslik": "Bu masayı kim yaptı? | Atasözlerimizi Yaşatalım No. 26",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-19",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "mnmMBpeooEU",
+   "baslik": "Bu tekerlek neden kırıldı? | Atasözlerimizi Yaşatalım No. 27",
+   "dizi": "atasozu",
+   "urun": null,
+   "tarih": "2026-11-20",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "pZih9SkGZm8",
+   "baslik": "Bulutlar su buharı değil mi? | Didi Soruyor No. 1",
+   "dizi": "didi",
+   "urun": null,
+   "tarih": "2026-11-17",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "I_hfnQQh7Gw",
+   "baslik": "Japon balığının hafızası 3 saniye mi? | Didi Soruyor No. 2",
+   "dizi": "didi",
+   "urun": null,
+   "tarih": "2026-11-18",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "0BVnfSRG6os",
+   "baslik": "Ahtapotun üç kalbi var mı? | Didi Soruyor No. 3",
+   "dizi": "didi",
+   "urun": null,
+   "tarih": "2026-11-19",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "sj2BMC4sbfM",
+   "baslik": "Yarasalar kör mü? | Didi Soruyor No. 4",
+   "dizi": "didi",
+   "urun": null,
+   "tarih": "2026-11-20",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "p5AF9Zlsnkc",
+   "baslik": "Eve telefon bağlatmak eskiden kaç yıl sürerdi? | Bekleyiş No. 1",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "L-XhoY3MoEU",
+   "baslik": "Bir şarkı indirmek eskiden kaç dakika sürerdi? | Bekleyiş No. 2",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-15",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "4JMRacCwMJg",
+   "baslik": "Başka şehri aramak eskiden kaç saat sürerdi? | Bekleyiş No. 3",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-16",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "jtRr5Z8SpRw",
+   "baslik": "Bir kaseti doldurmak eskiden kaç dakika sürerdi? | Bekleyiş No. 4",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-17",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "RzAEDDnU624",
+   "baslik": "Telefonda çevir sesini eskiden kaç dakika beklerdiniz? | Bekleyiş No. 5",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-18",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "6xAZ1TTKIzs",
+   "baslik": "Çektiğiniz fotoğrafları eskiden kaç gün beklerdiniz? | Bekleyiş No. 6",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-19",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "rIHzum97OX4",
+   "baslik": "CD yazdırırken eskiden kaç dakika beklerdiniz? | Bekleyiş No. 7",
+   "dizi": "bekleyis",
+   "urun": null,
+   "tarih": "2026-11-20",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ClAZvVzsNaY",
+   "baslik": "Testi ne demek? | Unutulmaya yüz tutmuş sözcükler No. 1",
+   "dizi": "unutulmaya",
+   "urun": null,
+   "tarih": "2026-11-13",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ngdBZNMQV3E",
+   "baslik": "Yel ne demek? | Unutulmaya yüz tutmuş sözcükler No. 2",
+   "dizi": "unutulmaya",
+   "urun": null,
+   "tarih": "2026-11-14",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "ujNAEOFcEzw",
+   "baslik": "Akçenin gerçek anlamı ne? | Unutulmaya yüz tutmuş sözcükler No. 3",
+   "dizi": "unutulmaya",
+   "urun": null,
+   "tarih": "2026-11-16",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "D2ZAWUei7N0",
+   "baslik": "Harman ne demek? | Unutulmaya yüz tutmuş sözcükler No. 4",
+   "dizi": "unutulmaya",
+   "urun": null,
+   "tarih": "2026-11-18",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "K2OomrrfVug",
+   "baslik": "Yonga ne demek? | Unutulmaya yüz tutmuş sözcükler No. 5",
+   "dizi": "unutulmaya",
+   "urun": null,
+   "tarih": "2026-11-20",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "K3mGyltIyPM",
+   "baslik": "İzlerimiz bizi eksik mi yapar? | Nesnelerin Masalları 1",
+   "dizi": "nesnelerin-masallari",
+   "urun": null,
+   "tarih": "2026-11-19",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  },
+  {
+   "id": "C2DznbcP2W0",
+   "baslik": "Oyun oynamak bir haktır | Dünya Çocuk Hakları Günü",
+   "dizi": "ozel-gun",
+   "urun": null,
+   "tarih": "2026-11-20",
+   "platformlar": {
+    "ig": null,
+    "tt": null,
+    "x": null
+   }
+  }
+ ],
+ "atasozleri": [
+  {
+   "no": 1,
+   "soz": "Horozu çok olan köyde sabah geç olur.",
+   "slug": "horozu-cok-olan-koyde-sabah-gec-olur",
+   "soru": "Bu sahneye hangi atasözü uyar?",
+   "anlam": "Karışanı çok olan işten sonuç güç alınır.",
+   "sozcuk": null,
+   "video": "wnPAGstIWMA",
+   "tarih": "2026-10-26"
+  },
+  {
+   "no": 2,
+   "soz": "Ağaç meyvesi olunca başını aşağı salar.",
+   "slug": "agac-meyvesi-olunca-basini-asagi-salar",
+   "soru": "Bu ağaç neden başını eğdi?",
+   "anlam": "Yararlı işler yapan, bilgili insan alçak gönüllü olur.",
+   "sozcuk": null,
+   "video": "gtBbZv2P-C8",
+   "tarih": "2026-10-27"
+  },
+  {
+   "no": 3,
+   "soz": "Dağlar araya girse de, gönül gönüle yol bulur.",
+   "slug": "daglar-araya-girse-de-gonul-gonule-yol-bulur",
+   "soru": "Dağ, gönül, yol. Bu üç kelime hangi atasözünde?",
+   "anlam": "Uzaklık ve engeller birbirini sevenleri ayıramaz.",
+   "sozcuk": null,
+   "video": "x9iiduv616M",
+   "tarih": "2026-10-28"
+  },
+  {
+   "no": 4,
+   "soz": "Tarlada izi olmayanın harmanda sözü olmaz.",
+   "slug": "tarlada-izi-olmayanin-harmanda-sozu-olmaz",
+   "soru": "Harman ne demek?",
+   "anlam": "Kendini işe vermeyenden, iş üretmeyenden hayır gelmez.",
+   "sozcuk": {
+    "kelime": "harman",
+    "anlam": "Ekinin dövülüp tanesinin ayrıldığı yer."
+   },
+   "video": "zL2-T0FTODA",
+   "tarih": "2026-10-29"
+  },
+  {
+   "no": 5,
+   "soz": "Lafla peynir gemisi yürümez.",
+   "slug": "lafla-peynir-gemisi-yurumez",
+   "soru": "Bu sahneye hangi atasözü uyar?",
+   "anlam": "Şöyle yaparım, böyle yaparım demekle yapılması gereken iş yapılmaz.",
+   "sozcuk": null,
+   "video": "xvpLaY3ABHM",
+   "tarih": "2026-10-30"
+  },
+  {
+   "no": 6,
+   "soz": "Ayağını yorganına göre uzat.",
+   "slug": "ayagini-yorganina-gore-uzat",
+   "soru": "Bu yorganın altında hangi atasözü var?",
+   "anlam": "Giderini mutlaka gelirine uydurmalısın.",
+   "sozcuk": null,
+   "video": "i782m2_LpRU",
+   "tarih": "2026-10-30"
+  },
+  {
+   "no": 7,
+   "soz": "Araba devrilince yol gösteren çok olur.",
+   "slug": "araba-devrilince-yol-gosteren-cok-olur",
+   "soru": "Portakallar yere saçıldı, herkes akıl veriyor. Hangi atasözü?",
+   "anlam": "İş işten geçtikten sonra verilen öğüdün değeri yoktur.",
+   "sozcuk": null,
+   "video": "ep_bqO1SywQ",
+   "tarih": "2026-10-31"
+  },
+  {
+   "no": 8,
+   "soz": "Karga kekliği taklit edeyim derken kendi yürüyüşünü şaşırmış.",
+   "slug": "karga-kekligi-taklit-edeyim-derken-kendi-yuruyusunu-sasirmis",
+   "soru": "Bu kargaya ne oldu?",
+   "anlam": "Görgüsüz kişi, görgülü kişinin yaptığını yapmaya kalkışırsa beceremez, kendisinin doğal davranışını da yitirir, gülünç duruma düşer.",
+   "sozcuk": null,
+   "video": "aZ1N4FNi5uI",
+   "tarih": "2026-11-01"
+  },
+  {
+   "no": 9,
+   "soz": "Alçak yerde tepecik kendisini dağ sanır.",
+   "slug": "alcak-yerde-tepecik-kendisini-dag-sanir",
+   "soru": "Ovanın en yükseği arkasına bakınca ne gördü?",
+   "anlam": "Bilgili kimselerin bulunmadığı yerde cahil kişi bilgiçlik taslar.",
+   "sozcuk": null,
+   "video": "ADxUI_1bVdo",
+   "tarih": "2026-11-02"
+  },
+  {
+   "no": 10,
+   "soz": "Dökme su ile değirmen dönmez.",
+   "slug": "dokme-su-ile-degirmen-donmez",
+   "soru": "Tek kova bu çarka yeter mi?",
+   "anlam": "İşi yapacak olanda yeteri kadar güç bulunmadıkça başkalarının küçük katkılarıyla sürekli ve büyük bir iş yürütülemez.",
+   "sozcuk": null,
+   "video": "KmsXKZVsJK4",
+   "tarih": "2026-11-03"
+  },
+  {
+   "no": 11,
+   "soz": "Kaçan balık büyük olur.",
+   "slug": "kacan-balik-buyuk-olur",
+   "soru": "Her anlatışta biraz daha uzuyor. Hangi atasözü?",
+   "anlam": "Elden kaçırılan fırsat gözde büyütülür.",
+   "sozcuk": null,
+   "video": "9Ba8ix179WI",
+   "tarih": "2026-11-04"
+  },
+  {
+   "no": 12,
+   "soz": "Ak akçe kara gün içindir.",
+   "slug": "ak-akce-kara-gun-icindir",
+   "soru": "Bu kumbara cimri mi?",
+   "anlam": "Çalışarak kazanılan para dar zamanda sıkıntıdan kurtarır.",
+   "sozcuk": {
+    "kelime": "akçe",
+    "anlam": "Küçük gümüş para."
+   },
+   "video": "s_WpifNXDxI",
+   "tarih": "2026-11-05"
+  },
+  {
+   "no": 13,
+   "soz": "Dağ doğura doğura bir fare doğurmuş.",
+   "slug": "dag-dogura-dogura-bir-fare-dogurmus",
+   "soru": "Altı ay uğraştı, örtü kalktı. Hangi atasözü?",
+   "anlam": "Büyük şeyler beklenen işten küçük sonuç çıkınca söylenir.",
+   "sozcuk": null,
+   "video": "5B63ebGzx2k",
+   "tarih": "2026-11-06"
+  },
+  {
+   "no": 14,
+   "soz": "Kanatsız kuş uçmaz.",
+   "slug": "kanatsiz-kus-ucmaz",
+   "soru": "Bu iki tüy yeter mi?",
+   "anlam": "Hazırlanıp güçlenmeden amaca ulaşılmaz.",
+   "sozcuk": null,
+   "video": "RDK5oWjSyII",
+   "tarih": "2026-11-07"
+  },
+  {
+   "no": 15,
+   "soz": "Her yokuşun bir inişi, her inişin bir yokuşu vardır.",
+   "slug": "her-yokusun-bir-inisi-her-inisin-bir-yokusu-vardir",
+   "soru": "Bu top pes eder mi?",
+   "anlam": "Zor günler, iyi günler birbirini izler.",
+   "sozcuk": null,
+   "video": "DGB0INXXTyg",
+   "tarih": "2026-11-08"
+  },
+  {
+   "no": 16,
+   "soz": "Tarlanın iyisi suya yakın, daha iyisi eve yakın.",
+   "slug": "tarlanin-iyisi-suya-yakin-daha-iyisi-eve-yakin",
+   "soru": "Bu el arabası dinlenebilir mi?",
+   "anlam": "Eve yakın tarla daha iyi: bakım kolay, ürün güvende.",
+   "sozcuk": null,
+   "video": "DqcWibKT5Ns",
+   "tarih": "2026-11-09"
+  },
+  {
+   "no": 17,
+   "soz": "Ağır yongayı yel kaldırmaz.",
+   "slug": "agir-yongayi-yel-kaldirmaz",
+   "soru": "Bu tahta rüzgârdan korkar mı?",
+   "anlam": "Küçük olaylar ağırbaşlı kişiye zarar veremez.",
+   "sozcuk": {
+    "kelime": "yonga",
+    "anlam": "Yontulan şeyden çıkan parça."
+   },
+   "video": "kimqv1pOpeE",
+   "tarih": "2026-11-10"
+  },
+  {
+   "no": 18,
+   "soz": "Denizdeki balığın pazarlığı olmaz.",
+   "slug": "denizdeki-baligin-pazarligi-olmaz",
+   "soru": "Bu balık satılık mı?",
+   "anlam": "Henüz elde olmayan şeyin alım satımı konuşulmaz.",
+   "sozcuk": null,
+   "video": "lkA_reRKpnw",
+   "tarih": "2026-11-11"
+  },
+  {
+   "no": 19,
+   "soz": "Herkes kaşık yapar ama sapını ortaya getiremez.",
+   "slug": "herkes-kasik-yapar-ama-sapini-ortaya-getiremez",
+   "soru": "Bu kaşığın sapı düz mü?",
+   "anlam": "Herkes bir iş yapar ama her iş kusursuz olmaz.",
+   "sozcuk": null,
+   "video": "FzktkEY5xQc",
+   "tarih": "2026-11-12"
+  },
+  {
+   "no": 20,
+   "soz": "Testi kırılsa da kulpu elde kalır.",
+   "slug": "testi-kirilsa-da-kulpu-elde-kalir",
+   "soru": "Bu testi sağlam mı?",
+   "anlam": "Varlıklı kişi zarar etse de her şeyini yitirmez.",
+   "sozcuk": null,
+   "video": "zGcF45Mt-Rk",
+   "tarih": "2026-11-13"
+  },
+  {
+   "no": 21,
+   "soz": "Ek tohumun hasını, çekme yiyecek yasını.",
+   "slug": "ek-tohumun-hasini-cekme-yiyecek-yasini",
+   "soru": "Bu tane kışa yeter mi?",
+   "anlam": "İyi sonuç isteyen işin temelini sağlam kurmalı.",
+   "sozcuk": {
+    "kelime": "has",
+    "anlam": "İyi nitelikli."
+   },
+   "video": "t1Zxlfq6f7c",
+   "tarih": "2026-11-14"
+  },
+  {
+   "no": 22,
+   "soz": "Elden gelen öğün olmaz, o da vaktinde bulunmaz.",
+   "slug": "elden-gelen-ogun-olmaz-o-da-vaktinde-bulunmaz",
+   "soru": "Bu bir öğün mü?",
+   "anlam": "Kişi yalnızca kendi kazancına güvenmeli, başkasının yardımını beklememeli.",
+   "sozcuk": null,
+   "video": "aRjrioGNHy4",
+   "tarih": "2026-11-15"
+  },
+  {
+   "no": 23,
+   "soz": "Ağustosta beyni kaynayanın zemheride kazanı kaynar.",
+   "slug": "agustosta-beyni-kaynayanin-zemheride-kazani-kaynar",
+   "soru": "Bu kazan kışın boş mu kalır?",
+   "anlam": "Yazın çalışan kışın rahat eder.",
+   "sozcuk": null,
+   "video": "-Ntg-P3t4rM",
+   "tarih": "2026-11-16"
+  },
+  {
+   "no": 24,
+   "soz": "Danışan dağı aşmış, danışmayan düz yolda şaşmış.",
+   "slug": "danisan-dagi-asmis-danismayan-duz-yolda-sasmis",
+   "soru": "Bu bavul neden dağı seçti?",
+   "anlam": "Bilene soran zoru bile başarır, sormayan zorda kalır.",
+   "sozcuk": null,
+   "video": "7sUhFhoB_vI",
+   "tarih": "2026-11-17"
+  },
+  {
+   "no": 25,
+   "soz": "Sabır acıdır, meyvesi tatlıdır.",
+   "slug": "sabir-acidir-meyvesi-tatlidir",
+   "soru": "Bu erik neden bekliyor?",
+   "anlam": "Sabır zor bir iştir ancak güzel sonuçları vardır.",
+   "sozcuk": null,
+   "video": "EHIw4LDIYBQ",
+   "tarih": "2026-11-18"
+  },
+  {
+   "no": 26,
+   "soz": "Alet işler, el övünür.",
+   "slug": "alet-isler-el-ovunur",
+   "soru": "Bu masayı kim yaptı?",
+   "anlam": "Bir kimse ne kadar usta olursa olsun gerekli araçları olmadan kusursuz iş yapamaz.",
+   "sozcuk": null,
+   "video": "Sy0q4mmv0wg",
+   "tarih": "2026-11-19"
+  },
+  {
+   "no": 27,
+   "soz": "Acele ile menzil alınmaz.",
+   "slug": "acele-ile-menzil-alinmaz",
+   "soru": "Bu tekerlek neden kırıldı?",
+   "anlam": "Acele etmekle daha çabuk sonuç alınır sanılmamalıdır.",
+   "sozcuk": null,
+   "video": "mnmMBpeooEU",
+   "tarih": "2026-11-20"
+  }
+ ],
+ "takvim": [
+  {
+   "tarih": "2026-10-16",
+   "baslik": "ÇizTahta",
+   "tur": "atolye",
+   "not": "İlk ürün, lansman videosu ve X zinciri."
+  },
+  {
+   "tarih": "2026-10-24",
+   "baslik": "Basit Makineler Atölyesi",
+   "tur": "atolye",
+   "not": "8. sınıf fen, F.8.5.1.1 ve F.8.5.1.2. Cumartesi."
+  },
+  {
+   "tarih": "2026-10-25",
+   "baslik": "Bilgisayarın İçi Atölyesi",
+   "tur": "atolye",
+   "not": "5. sınıf bilişim, BTY.5.1.5. Pazar; tarih yayın paketinden."
+  },
+  {
+   "tarih": "2026-10-26",
+   "baslik": "Atasözlerimizi Yaşatalım",
+   "tur": "dizi",
+   "not": "No. 1 Horozu çok olan köyde."
+  },
+  {
+   "tarih": "2026-10-26",
+   "baslik": "3 saniyede tahmin et: Basit Makineler",
+   "tur": "dizi",
+   "not": "Günde 3 kısa video, 12:30, 16:30, 20:30."
+  },
+  {
+   "tarih": "2026-10-29",
+   "baslik": "29 Ekim Cumhuriyet Bayramı",
+   "tur": "ozel-gun",
+   "not": "103 ışık ve Belgede 1923 yazmıyor, sabah yayın."
+  },
+  {
+   "tarih": "2026-10-30",
+   "baslik": "Yüzdeler Atölyesi",
+   "tur": "atolye",
+   "not": "7. sınıf matematik, MAT.7.1.7. Cuma lansmanı."
+  },
+  {
+   "tarih": "2026-10-31",
+   "baslik": "3 saniyede tahmin et: Yüzdeler",
+   "tur": "dizi",
+   "not": "31 Ekim–4 Kasım, 15 soru, günde 3"
+  },
+  {
+   "tarih": "2026-11-06",
+   "baslik": "Yankı",
+   "tur": "atolye",
+   "not": "5–6. sınıf bilişim oyunu. Cuma lansmanı."
+  },
+  {
+   "tarih": "2026-11-10",
+   "baslik": "10 Kasım",
+   "tur": "ozel-gun",
+   "not": null
+  }
+ ]
+}
