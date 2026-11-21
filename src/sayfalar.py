@@ -133,7 +133,7 @@ for u in urunler:
             shutil.copyfile(u["canta"], os.path.join(OUT,"oyna",u["id"],"index.html"))
 cantalar = []
 indirilen = [u for u in urunler if u.get("indir")]
-cv = [{"id":u["id"],"ad":u["ad"],"sinif":u["sinif"],"s":u["siniflar"],"b":u["branslar"],"tur":u["tur"],"dosya":os.path.basename(u["canta"]),"mb":round(os.path.getsize(u["canta"])/1048576,1),"ogr":u["tur"]=="atolye" or u["id"]=="yaztahta"} for u in indirilen]
+cv = [{"id":u["id"],"ad":u["ad"],"sinif":u["sinif"],"s":u["siniflar"],"b":u["branslar"],"tur":u["tur"],"dosya":u["dosya_ad"],"mb":round(os.path.getsize(u["canta"])/1048576,1),"ogr":u["tur"]=="atolye" or u["id"]=="yaztahta"} for u in indirilen]
 shutil.copy(os.path.join(KOK,"src","fflate.min.js"), os.path.join(OUT,"fflate.min.js"))
 def _cboy(u):
     p_ = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"]); return os.path.getsize(p_)
