@@ -128,6 +128,9 @@ os.makedirs(os.path.join(OUT,"indir"), exist_ok=True)
 for u in urunler:
     if u.get("canta") and u["durum"]=="yayinda":
         shutil.copy(u["canta"], os.path.join(OUT,"indir",u["id"]+".html")); u["indir"] = "/indir/"+u["id"]+".html"
+        if u.get("oyna"):  # g113: sitede doğrudan oynama adresi (build.py OYNA), dosya değişmeden
+            os.makedirs(os.path.join(OUT,"oyna",u["id"]), exist_ok=True)
+            shutil.copyfile(u["canta"], os.path.join(OUT,"oyna",u["id"],"index.html"))
 cantalar = []
 indirilen = [u for u in urunler if u.get("indir")]
 cv = [{"id":u["id"],"ad":u["ad"],"sinif":u["sinif"],"s":u["siniflar"],"b":u["branslar"],"tur":u["tur"],"dosya":os.path.basename(u["canta"]),"mb":round(os.path.getsize(u["canta"])/1048576,1),"ogr":u["tur"]=="atolye" or u["id"]=="yaztahta"} for u in indirilen]
