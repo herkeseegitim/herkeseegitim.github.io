@@ -56,7 +56,7 @@ URUN = {
  "yuzdeler": dict(ad="Yüzdeler Atölyesi", tur="atolye", kisa="%20 indirimin üstüne %20 daha: %40 mı?",
    sinif="7. sınıf matematik", kademe="ortaokul", ihtiyac="atolye kendim giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
    ne="Yüzdeyi günlük hayattaki sorularla çalışır: indirim, artış, bütünün değişmesi. Önce \"%100 hangisi?\" sorulur, sonra tahmin. Kendim çalışıyorum bölümünde adım adım yol, takıldığında ipucu ve sınava hazırlık var."),
- "atasozu-oyunu": dict(ad="Atasözü Tahta Oyunu", tur="oyun", kisa="Eksik sözcüğü bulun, sözü tamamlayın, gizli resim açılsın.",
+ "atasozu-oyunu": dict(ad="Atasözlerimizi Yaşatalım Oyunu", tur="oyun", kisa="Eksik sözcüğü bulun, sözü tamamlayın, gizli resim açılsın.",
    sinif="Her yaştan oyuncu, sınıfta gruplarla", kademe="hepsi", ihtiyac="tahta", kim="ogretmen ogrenci veli", etiket="İndir",
    ne="Her atasözünde bir sözcük eksik. Doğru cevap sözü tamamlar ve gizli resimden bir kare açar. İster bireysel ister grupla oynanır; öğretmen sınıfta gruplarla oynatabilir. Ücretsiz, hesap yok. Sitede tarayıcıda açılır; isterseniz tek dosya olarak indirin, internetsiz çalışır."),
  "yanki": dict(ad="Yankı: Yer Altı Şehri", tur="oyun", kisa="Yer altı şehrinde Yankı adlı bir ışık yalnız oyuncudan gördüğünü öğrenir.",
@@ -67,6 +67,7 @@ SIRA = ["ciztahta","yaztahta","eklenti","basit-makineler","bilgisayarin-ici","yu
 EŞ_ = EŞ = {"ciztahta-eklentisi":"eklenti","ciztahta-eklenti":"eklenti","yuzdeler-atolyesi":"yuzdeler","matematik-yuzde":"yuzdeler","basit-makineler-atolyesi":"basit-makineler","bilgisayarin-ici-atolyesi":"bilgisayarin-ici"}
 vu = {u.get("id"): u for u in veri.get("urunler", [])}
 CANTA = {"ciztahta":"ÇizTahta.html","yaztahta":"YazTahta.html","basit-makineler":"Basit Makineler Atölyesi.html","bilgisayarin-ici":"Bilgisayarın İçi Atölyesi.html","yuzdeler":"Yüzdeler Atölyesi.html","atasozu-oyunu":"Atasozu Tahta Oyunu.html"}
+INDIR_AD = {"atasozu-oyunu":"Atasozlerimizi Yasatalim Oyunu.html"}  # indirilen dosyanın adı; kaynak data/canta/ adı iç addır, değişmez (g114)
 INDIR = {"atasozu-oyunu"}  # adresi olmayan, yalnız indirilen tek dosya ürün (g111)
 OYNA = {"atasozu-oyunu"}  # sitenin içinde /oyna/<id>/ adresinde de açılır; dosya data/canta/ dosyasının bayt bayt kopyası, sayaçsız (g113)
 BASLIK = {"mY8zhg8sXM8":"Akıllı tahtada bir ders baştan sona: kurulum yok, hesap yok","ydp5nstgcnI":"Bir ders baştan sona (İngilizce)","2qJOXs_TSh8":"Her sayfa tahtanız olsun: ÇizTahta Chrome eklentisi","3dFYUrfl44E":"YazTahta: ilkokulda klavye","4UMHg4ggUS4":"Kaydetmeden kapattınız. Yazınız nereye gitti? | Bilgisayarın İçi"}
@@ -86,6 +87,7 @@ for i,k in enumerate(SIRA, 1):
              kazanim=d.get("kazanim") or [], kapak=kp(d.get("id") or k), canta=(os.path.join(KOK,"data","canta",CANTA[k]) if k in CANTA else None))
     u["durum"] = "yayinda" if (u["url"] or k in INDIR) and not (u["lansman"] and datetime.date.fromisoformat(u["lansman"]) > BUGUN) else "yakinda"
     u["bugun"] = False
+    u["dosya_ad"] = INDIR_AD.get(k) or (os.path.basename(u["canta"]) if u["canta"] else None)
     if k in OYNA and u["canta"] and u["durum"]=="yayinda": u["oyna"] = f"/oyna/{k}/"  # dosyayı src/sayfalar.py kopyalar
     if u["durum"]=="yayinda" and u.get("lansman")==BUGUN.isoformat() and os.environ.get("ADRES_DENE"):
         # lansman günü: atölye adresi henüz açılmadıysa "bugün açılıyor" kalır
@@ -228,7 +230,7 @@ def urun_video(u):
     return None
 def ac_dugme(u, sinif="dugme", etiket=None):
     if u["durum"] != "yayinda": return ""
-    if not u["url"]: return f'<a class="{sinif}" href="/indir/{u["id"]}.html" download="{E(os.path.basename(u["canta"]))}">{E(etiket or u["etiket"])}</a>'
+    if not u["url"]: return f'<a class="{sinif}" href="/indir/{u["id"]}.html" download="{E(u["dosya_ad"])}">{E(etiket or u["etiket"])}</a>'
     return f'<a class="{sinif}" href="{E(u["url"])}" data-kare="{u["id"]}" aria-haspopup="dialog" data-ad="{E(u["ad"])}" data-url="{E(u["url"])}" data-kisa="{E(kisa_adres(u["url"]))}" data-etiket="Bu cihazda aç">{E(etiket or u["etiket"])}</a>'
 def oyna_dugme(u, sinif="dugme kir"):
     return f'<a class="{sinif}" href="{u["oyna"]}">Tarayıcıda oynayın</a>' if u.get("oyna") and u["durum"]=="yayinda" else ""
@@ -383,8 +385,8 @@ if canta_dosyalar:
     with zipfile.ZipFile(os.path.join(OUT,"canta",canta_ad),"w",zipfile.ZIP_DEFLATED) as z:
         for u in canta_dosyalar:
             p = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"])
-            z.write(p, os.path.basename(p))
-        z.writestr("OKU.txt", "Herkese Eğitim çantası\n\nHer dosya tek başına açılır: çift tıklayın, tarayıcıda açılır. İnternet gerekmez.\nTahtaya USB bellekle taşıyabilirsiniz.\n\nGüncel sürümler: "+SITE+"/\nSorun ve öneri: herkeseegitimtek@gmail.com\n\n"+"\n".join(f"{os.path.basename(u['canta'] if os.path.isabs(u['canta']) else os.path.join(KOK,'data',u['canta']))}: {u['ad']}, {u['sinif']}" for u in canta_dosyalar)+"\n\nTarih: "+BUGUN.isoformat()+"\n")
+            z.write(p, u["dosya_ad"])
+        z.writestr("OKU.txt", "Herkese Eğitim çantası\n\nHer dosya tek başına açılır: çift tıklayın, tarayıcıda açılır. İnternet gerekmez.\nTahtaya USB bellekle taşıyabilirsiniz.\n\nGüncel sürümler: "+SITE+"/\nSorun ve öneri: herkeseegitimtek@gmail.com\n\n"+"\n".join(f"{u['dosya_ad']}: {u['ad']}, {u['sinif']}" for u in canta_dosyalar)+"\n\nTarih: "+BUGUN.isoformat()+"\n")
     canta_boy = os.path.getsize(os.path.join(OUT,"canta",canta_ad))/1048576
 def boy(u):
     p = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"]); return f"{os.path.getsize(p)/1048576:.1f} MB".replace(".",",")
@@ -645,7 +647,7 @@ for u in urunler:
 <div class="paylas"><button class="dugme acik" type="button" data-paylas="{SITE}{urun_sayfa(u)}" data-baslik="{E(u["ad"])}">Zümreye gönderin</button><a class="dugme acik" href="https://wa.me/?text={E(urllib.parse.quote(u["ad"]+": "+SITE+urun_sayfa(u)))}" rel="noopener">WhatsApp</a></div>
 {f'<div class="kutu"><h2>Bu sürümde</h2><p>{E(u["surum_notu"])}</p></div>' if u.get("surum_notu") else ""}
 {f'<p style="margin-top:14px"><a class="dugme acik" href="{E(u["kilavuz"])}">Öğretmen kılavuzu</a></p>' if u.get("kilavuz") else ""}
-{f'<p style="margin-top:14px"><a class="dugme acik" href="{u["indir"]}" download="{E(os.path.basename(u["canta"]))}">Tek dosya olarak indir</a></p>' if (u.get("indir") and u["url"]) else ""}
+{f'<p style="margin-top:14px"><a class="dugme acik" href="{u["indir"]}" download="{E(u["dosya_ad"])}">Tek dosya olarak indir</a></p>' if (u.get("indir") and u["url"]) else ""}
 {f'<p style="margin-top:14px;font-size:16px"><a href="https://github.com/herkeseegitim/herkeseegitim.github.io/issues/new" rel="noopener">Hata bildir</a></p>' if u["id"] in INDIR else ""}
 <p style="margin-top:14px;font-size:16px">{" ".join(f'<a href="/sinif/{x}/">{x}. sınıf</a>' for x in u["siniflar"] if x!="hepsi")} {" ".join(f'<a href="/brans/{b}/">{E(BRANS_AD.get(b,b))}</a>' for b in u["branslar"] if b!="hepsi")}</p>
 {f'<p style="margin-top:18px;font-size:16px">Adres: <a href="{E(u["url"])}">{E(kisa_adres(u["url"]))}</a></p>' if u["durum"]=="yayinda" and u["url"] else ""}
