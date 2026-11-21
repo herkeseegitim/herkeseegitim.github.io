@@ -1,0 +1,789 @@
+#!/usr/bin/env python3
+"""Herkese Eğitim sitesi: data/icerik.json + src/ -> out/"""
+import json, os, re, shutil, html, zipfile, datetime, sys, urllib.parse
+import segno
+from PIL import Image
+
+KOK = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(KOK, "out")
+SITE = os.environ.get("SITE", "https://herkeseegitim.com").rstrip("/")
+BUGUN = datetime.date.fromisoformat(os.environ.get("BUGUN", datetime.date.today().isoformat()))
+E = lambda s: html.escape(str(s or ""), quote=True)
+AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
+def tarih_tr(t):
+    d = datetime.date.fromisoformat(t); return f"{d.day} {AYLAR[d.month-1]}"
+def slug(s):
+    s = str(s).replace("I","ı").replace("İ","i").lower()
+    for a,b in zip("çğıöşüâî","cgiosuai"): s = s.replace(a,b)
+    return re.sub(r"[^a-z0-9]+","-",s).strip("-")
+
+veri = json.load(open(os.path.join(KOK,"data","icerik.json"), encoding="utf-8"))
+def _dogrula(v):
+    for u in v.get("urunler", []):
+        assert re.fullmatch(r"[a-z0-9-]+", u["id"]), u["id"]
+        for f in ("url","kilavuz"):
+            if u.get(f): assert u[f].startswith("https://"), (u["id"], f)
+        if u.get("video"): assert re.fullmatch(r"[\w-]{6,20}", u["video"]), u["video"]
+        for x in u.get("sinif") or []: assert x=="hepsi" or re.fullmatch(r"\d{1,2}", x), x
+        for x in u.get("brans") or []: assert re.fullmatch(r"[a-z]+", x), x
+    for x in v.get("videolar", []):
+        assert re.fullmatch(r"[\w-]{6,20}", x["id"]), x["id"]
+        if x.get("urun"): assert re.fullmatch(r"[a-z0-9-]+", x["urun"]), x["urun"]
+        for p_, a_ in (x.get("platformlar") or {}).items():
+            if a_: assert a_.startswith("https://"), a_
+    for x in v.get("atasozleri", []):
+        if x.get("slug"): assert re.fullmatch(r"[a-z0-9-]+", x["slug"]), x["slug"]
+        if x.get("video"): assert re.fullmatch(r"[\w-]{6,20}", x["video"]), x["video"]
+_dogrula(veri)
+
+# ---- ürünler: anlatım ve kapı eşlemesi burada; adres, video, tarih veriden gelir
+URUN = {
+ "ciztahta": dict(ad="ÇizTahta", tur="arac", kisa="Tarayıcıda açılan ücretsiz tahta. PDF üstüne yazın, perde, spot, kura.",
+   sinif="Her branş, her sınıf", kademe="hepsi", ihtiyac="tahta", kim="ogretmen", etiket="Tahtada aç",
+   ne="Akıllı tahtada ya da projeksiyonda tarayıcıda açılır. PDF ve çalışma kâğıdı üstüne yazarsınız; cevabı perdeyle kapatıp sırayla açarsınız, spotla tek bir yere dikkat çekersiniz, kura ile söz hakkını herkese dağıtırsınız. Hesap açmadan kullanılır. Ücretsiz akıllı tahta yazılımı ve ekran kalemi; kurulum gerekmez."),
+ "eklenti": dict(ad="ÇizTahta eklentisi", tur="arac", kisa="Açtığınız her sayfa tahtanız olsun. Derste de, toplantıda da.",
+   sinif="Chrome ve Edge", kademe="hepsi", ihtiyac="tahta", kim="ogretmen meraklı", etiket="Mağazada aç",
+   ne="Chrome'a bir kez eklenir. Derste hangi sayfa açıksa, web sayfası, PDF, sunum ya da video, Ç'ye basıp üstüne yazarsınız. Online toplantıda sunum yaparken de kullanılır. Ekrana çizim ve web sayfasına not almak için ücretsiz Chrome eklentisi."),
+ "yaztahta": dict(ad="YazTahta", tur="arac", kisa="İlkokulda klavye: her tuşun yeri ve işi ekranda.",
+   sinif="1–4. sınıf", kademe="ilkokul", ihtiyac="tahta atolye", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
+   ne="Harf Treni, Tuşun yolculuğu, Klavye yapbozu, Sınıfın treni. Her öğrenci kendi klavyesiyle, akıllı tahtada bütün sınıf birlikte çalışır. Bir tuşa ilk dokunuşta sınıf önce tahmin eder, sonra görür. Klavyeyi tanıma ve ilk klavye dersi için ücretsiz etkinlik."),
+ "basit-makineler": dict(ad="Basit Makineler Atölyesi", tur="atolye", kisa="Tahmin edin, deneyin, açıklayın: makara, kaldıraç, eğik düzlem, çıkrık, dişli.",
+   sinif="8. sınıf fen bilimleri", kademe="ortaokul", ihtiyac="atolye giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
+   ne="Öğrenci önce tahmin eder, sonra makarayı, kaldıracı, çıkrığı kendi kurar, ipi parmağıyla çeker. Kuvvetten kazanınca yoldan kaybettiğini kendi görür. Öğretmen sekmesinde ders akışı var. Makara, kaldıraç, eğik düzlem ve dişli konuları için ücretsiz etkileşimli simülasyon."),
+ "bilgisayarin-ici": dict(ad="Bilgisayarın İçi Atölyesi", tur="atolye", kisa="Kasa açılır: yazdığın cümle RAM'de mi, fişi çekince nereye gider?",
+   sinif="5. sınıf bilişim teknolojileri ve yazılım", kademe="ortaokul", ihtiyac="atolye giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
+   ne="Öğrenci bir cümle yazar, 3B kasayı açar, harflerin RAM'de bit olarak durduğunu görür. Fişi çekince bitler söner; Kaydet'e basınca işletim sistemi bitleri depolama birimine yazar. Rehberli ders, deney masası, beş görev. RAM ile depolama biriminin farkını göstermek için ücretsiz 3B simülasyon."),
+ "yuzdeler": dict(ad="Yüzdeler Atölyesi", tur="atolye", kisa="%20 indirimin üstüne %20 daha: %40 mı?",
+   sinif="7. sınıf matematik", kademe="ortaokul", ihtiyac="atolye kendim giris", kim="ogretmen ogrenci veli", etiket="Tahtada aç",
+   ne="Yüzdeyi günlük hayattaki sorularla çalışır: indirim, artış, bütünün değişmesi. Önce \"%100 hangisi?\" sorulur, sonra tahmin. Kendim çalışıyorum bölümünde adım adım yol, takıldığında ipucu ve sınava hazırlık var."),
+ "atasozu-oyunu": dict(ad="Atasözü Tahta Oyunu", tur="oyun", kisa="Eksik sözcüğü bulun, sözü tamamlayın, gizli resim açılsın.",
+   sinif="Her yaştan oyuncu, sınıfta gruplarla", kademe="hepsi", ihtiyac="tahta", kim="ogretmen ogrenci veli", etiket="İndir",
+   ne="Her atasözünde bir sözcük eksik. Doğru cevap sözü tamamlar ve gizli resimden bir kare açar. İster bireysel ister grupla oynanır; öğretmen sınıfta gruplarla oynatabilir. Ücretsiz, hesap yok. Tek dosya olarak iner, tarayıcıda açılır, internet istemez."),
+ "yanki": dict(ad="Yankı: Yer Altı Şehri", tur="oyun", kisa="Yer altı şehrinde Yankı adlı bir ışık yalnız oyuncudan gördüğünü öğrenir.",
+   sinif="5–6. sınıf bilişim", kademe="ortaokul", ihtiyac="atolye", kim="ogretmen veli", etiket="Aç",
+   ne="Dijital vatandaşlık oyunu."),
+}
+SIRA = ["ciztahta","yaztahta","eklenti","basit-makineler","bilgisayarin-ici","yuzdeler","atasozu-oyunu"]  # yanki: yayında değil, sitede gizli (İdiye 6 Kas 23:54); URUN kaydı yerinde
+EŞ_ = EŞ = {"ciztahta-eklentisi":"eklenti","ciztahta-eklenti":"eklenti","yuzdeler-atolyesi":"yuzdeler","matematik-yuzde":"yuzdeler","basit-makineler-atolyesi":"basit-makineler","bilgisayarin-ici-atolyesi":"bilgisayarin-ici"}
+vu = {u.get("id"): u for u in veri.get("urunler", [])}
+CANTA = {"ciztahta":"ÇizTahta.html","yaztahta":"YazTahta.html","basit-makineler":"Basit Makineler Atölyesi.html","bilgisayarin-ici":"Bilgisayarın İçi Atölyesi.html","yuzdeler":"Yüzdeler Atölyesi.html","atasozu-oyunu":"Atasozu Tahta Oyunu.html"}
+INDIR = {"atasozu-oyunu"}  # adresi olmayan, yalnız indirilen tek dosya ürün (g111)
+BASLIK = {"mY8zhg8sXM8":"Akıllı tahtada bir ders baştan sona: kurulum yok, hesap yok","ydp5nstgcnI":"Bir ders baştan sona (İngilizce)","2qJOXs_TSh8":"Her sayfa tahtanız olsun: ÇizTahta Chrome eklentisi","3dFYUrfl44E":"YazTahta: ilkokulda klavye","4UMHg4ggUS4":"Kaydetmeden kapattınız. Yazınız nereye gitti? | Bilgisayarın İçi"}
+def kp(i):
+    p = os.path.join(KOK,"data","kapak",i+".png"); return p if os.path.exists(p) else None
+for v in veri.get("videolar", []):
+    v["kapak_dosya"] = kp(v["id"]); v["urun"] = EŞ_.get(v.get("urun"), v.get("urun"))
+    if not v.get("baslik"): v["baslik"] = BASLIK.get(v["id"], "")
+for a in veri.get("atasozleri", []): a["kapak_dosya"] = kp(a.get("video") or "")
+for k,v in list(vu.items()):
+    if k in EŞ: vu[EŞ[k]] = v
+urunler = []
+for i,k in enumerate(SIRA, 1):
+    u = dict(URUN[k]); d = vu.get(k, {})
+    u.update(siniflar=d.get("sinif") or ["hepsi"], branslar=d.get("brans") or ["hepsi"], surum_notu=d.get("surum_notu"), kilavuz=d.get("kilavuz"))
+    u.update(id=k, no=f"{i:02d}", url=d.get("url"), video=d.get("video"), lansman=d.get("lansman"),
+             kazanim=d.get("kazanim") or [], kapak=kp(d.get("id") or k), canta=(os.path.join(KOK,"data","canta",CANTA[k]) if k in CANTA else None))
+    u["durum"] = "yayinda" if (u["url"] or k in INDIR) and not (u["lansman"] and datetime.date.fromisoformat(u["lansman"]) > BUGUN) else "yakinda"
+    u["bugun"] = False
+    if u["durum"]=="yayinda" and u.get("lansman")==BUGUN.isoformat() and os.environ.get("ADRES_DENE"):
+        # lansman günü: atölye adresi henüz açılmadıysa "bugün açılıyor" kalır
+        try:
+            import urllib.request
+            urllib.request.urlopen(urllib.request.Request(u["url"], method="HEAD"), timeout=10)
+        except Exception:
+            u["durum"] = "yakinda"; u["bugun"] = True
+    urunler.append(u)
+UR = {u["id"]: u for u in urunler}
+
+videolar = sorted(veri.get("videolar", []), key=lambda v: v.get("tarih") or "", reverse=True)
+atasozleri = sorted(veri.get("atasozleri", []), key=lambda a: int(a.get("no") or 0))
+for a in atasozleri: a["slug"] = a.get("slug") or slug(a["soz"])
+# İngilizce katman (Turkish proverbs): data/atasozleri_en.json, no ile eşlenir; yalnız Türkçe kaydı olan ve yayındaki söz İngilizce sayfa alır
+_en_yol = os.path.join(KOK,"data","atasozleri_en.json")
+SOZ_EN = json.load(open(_en_yol, encoding="utf-8")) if os.path.exists(_en_yol) else []
+_en_no, _en_sl = set(), set()
+for x in SOZ_EN:
+    assert isinstance(x.get("no"), int) and x["no"] not in _en_no, ("atasozleri_en no", x.get("no"))
+    assert re.fullmatch(r"[a-z0-9-]{3,80}", x.get("slug") or ""), ("atasozleri_en slug", x.get("slug"))
+    assert x["slug"] not in _en_sl, ("atasozleri_en slug tekrar", x["slug"])
+    for f in ("literal","meaning"): assert isinstance(x.get(f), str) and x[f].strip(), ("atasozleri_en", x["no"], f)
+    assert x.get("equivalent") is None or isinstance(x["equivalent"], str), ("atasozleri_en equivalent", x["no"])
+    _en_no.add(x["no"]); _en_sl.add(x["slug"])
+_en_by = {x["no"]: x for x in SOZ_EN}
+for a in atasozleri:
+    e = _en_by.get(int(a.get("no") or 0))
+    a["en"] = e if (e and (a.get("tarih") or "") <= BUGUN.isoformat()) else None
+takvim = [
+ {"tarih":"2026-10-16","baslik":"ÇizTahta","tur":"arac","not":"Tarayıcıda açılan tahta"},
+ {"tarih":"2026-10-24","baslik":"Basit Makineler","tur":"atolye","not":"8. sınıf fen","urun":"basit-makineler"},
+ {"tarih":"2026-10-25","baslik":"Bilgisayarın İçi","tur":"atolye","not":"5. sınıf bilişim","urun":"bilgisayarin-ici"},
+ {"tarih":"2026-10-30","baslik":"Yüzdeler","tur":"atolye","not":"7. sınıf matematik","urun":"yuzdeler"},
+ # {"tarih":"2026-11-06","baslik":"Yankı",...} yayında değil, gizli (6 Kas)
+]
+
+# ---- çıktı klasörü
+if os.path.exists(OUT): shutil.rmtree(OUT)
+for d in ["fonts","img","urun","atasozleri","hakkinda","canta"]: os.makedirs(os.path.join(OUT,d), exist_ok=True)
+for f in ["bg.woff2","bg-ext.woff2"]: shutil.copy(os.path.join(KOK,"fonts",f), os.path.join(OUT,"fonts",f))
+os.makedirs(os.path.join(OUT,"assets"), exist_ok=True); shutil.copy(os.path.join(KOK,"src","count.js"), os.path.join(OUT,"assets","count.js"))  # GoatCounter v2.7.0, yalnız site sayfalarında
+css = open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()
+js = open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()
+open(os.path.join(OUT,"site.css"),"w",encoding="utf-8").write(css)
+open(os.path.join(OUT,"site.js"),"w",encoding="utf-8").write(js)
+
+def resim(kaynak, ad, en, oran=None):
+    """data/kapak altındaki png'yi webp'ye çevirir; yoksa None"""
+    if not kaynak: return None
+    p = kaynak if os.path.isabs(kaynak) else os.path.join(KOK,"data",kaynak)
+    if not os.path.exists(p): return None
+    im = Image.open(p).convert("RGB"); im.thumbnail((en, en*2))
+    hedef = f"img/{ad}.webp"; im.save(os.path.join(OUT,hedef), quality=78, method=6)
+    return "/"+hedef
+for f,ad in [("marka/imza-acik.png","imza-acik"),("marka/imza.png","imza"),("marka/avatar.png","avatar"),("marka/logo.png","logo"),("marka/my-finch.png","my-finch")]:
+    p = os.path.join(KOK,"data",f)
+    if os.path.exists(p):
+        im = Image.open(p); im.thumbnail((600,600)); im.save(os.path.join(OUT,"img",ad+".png"), optimize=True)
+for _p in ["paylas.png","paylas-2026.png","paylas-2026-en.png","paylas-icinde-ne-var.png"]:  # eski gönderiler için paylas.png yerinde kalır
+    shutil.copy(os.path.join(KOK,"data","marka",_p), os.path.join(OUT,"img",_p))
+LOGO_ACIK, LOGO, AVATAR = "/img/imza-acik.png", "/img/imza.png", "/img/avatar.png"
+
+for u in urunler: u["kapak_w"] = resim(u["kapak"], "urun-"+u["id"], 960)
+for v in videolar:
+    dik = True
+    if v.get("kapak_dosya"):
+        w,h = Image.open(v["kapak_dosya"]).size; dik = h > w
+    v["kapak_w"] = resim(v.get("kapak_dosya"), "v-"+v["id"], 420 if dik else 960); v["dik"] = dik
+    v["kisa_ad"] = re.split(r"\s+\|\s+", v.get("baslik") or "")[0]
+    if not v["kisa_ad"]:
+        _u = UR.get(v.get("urun") or "")
+        v["kisa_ad"] = (_u["ad"]+" tanıtımı") if _u else "Herkese Eğitim videosu"
+for a in atasozleri:
+    eş = next((v for v in videolar if v["id"] == a.get("video")), None)
+    a["kapak_w"] = eş["kapak_w"] if eş else resim(a.get("kapak_dosya"), "a-"+a["slug"], 420)
+
+def qr_svg(url):
+    q = segno.make(url, error="m", micro=False)
+    import io; b = io.BytesIO(); q.save(b, kind="svg", xmldecl=False, svgns=True, nl=False, border=2, dark="#2A1C10")
+    s = b.getvalue().decode(); return re.sub(r'(width|height)="\d+"', "", s, count=2).replace("<svg ", '<svg viewBox="0 0 %d %d" role="img" aria-label="Karekod" ' % ((q.symbol_size(border=2)[0],)*2), 1)
+
+def kisa_adres(url):
+    return re.sub(r"^https?://(www\.)?","",url or "").rstrip("/")
+
+# ---- ortak parçalar
+DIL_ALT = [("tr","/"),("en","/en/"),("x-default","/")]
+import hashlib as _h
+SURUM = _h.sha1((open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()+open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()).encode()).hexdigest()[:8]
+OG_BOYLU = {"/img/paylas-2026.png","/img/paylas-2026-en.png"}  # varsayılan paylaşım görselleri 1200x630; sayfaya özgü görselin ölçüsü yazılmaz
+OG_BOY = '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=None, og_baslik=None, og_aciklama=None):
+    can = SITE + yol
+    og = og or ("/img/paylas-2026-en.png" if dil=="en" else "/img/paylas-2026.png")
+    hl = "".join(f'<link rel="alternate" hreflang="{d}" href="{SITE}{y}">' for d,y in (alt or []))
+    s = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False).replace("</","<\\/")}</script>' for x in (sema or []) if x)
+    return f"""<!doctype html><html lang="{dil}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{E(baslik)}</title><meta name="description" content="{E(aciklama)}"><meta name="google-site-verification" content="fcOAHCubWEotluY-oCTJJcsWL2wB_IRUHvd5slJz56A" /><link rel="canonical" href="{E(can)}">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://herkeseegitim.goatcounter.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-pfgOMgfVZwm2ODyms34QYW9h8EwicylhV77q5LHK8c0='; object-src 'none'; frame-src https://www.youtube-nocookie.com; font-src 'self'; connect-src 'self' https://herkeseegitim.goatcounter.com; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#2A2420">
+<meta property="og:type" content="website"><meta property="og:title" content="{E(og_baslik or baslik)}"><meta property="og:description" content="{E(og_aciklama or aciklama)}"><meta property="og:url" content="{E(can)}"><meta property="og:image" content="{SITE}{og}"><meta property="og:image:alt" content="{E(og_baslik or baslik)}">{OG_BOY if og in OG_BOYLU else ""}<meta property="og:site_name" content="Herkese Eğitim"><meta property="og:locale" content="{"en_US" if dil=="en" else "tr_TR"}">{hl}
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{E(og_baslik or baslik)}"><meta name="twitter:description" content="{E(og_aciklama or aciklama)}"><meta name="twitter:image" content="{SITE}{og}"><link rel="icon" href="/img/logo.png">
+<script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
+
+NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
+def ust_koyu():
+    return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
+ALT = f"""<footer class="cikis"><div class="w">
+<div class="cikis-ust"><div class="zil-blok"><svg class="zil-b" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-18 8-18 20v12l-6 8h48l-6-8V26C50 14 43 6 32 6z"/><circle cx="32" cy="52" r="5"/><rect x="29" y="1" width="6" height="7" rx="2"/></svg><p class="cikis-b">Zil çaldı</p><p class="cikis-a">Yarın yine buradayız. Çıkmadan bir ödev:</p></div>
+__ODEV__
+<div class="mik-kol"><div class="miknatis" role="list" aria-label="Sosyal medya">
+<a role="listitem" class="m m-yt" href="https://www.youtube.com/@egitimtek"><b>YT</b><span>YouTube</span></a>
+<a role="listitem" class="m m-ig" href="https://www.instagram.com/egitimtek/"><b>IG</b><span>Instagram</span></a>
+<a role="listitem" class="m m-fb" href="https://www.facebook.com/profile.php?id=100071231929402"><b>FB</b><span>Facebook</span></a>
+<a role="listitem" class="m m-tt" href="https://www.tiktok.com/@egitimtek"><b>TT</b><span>TikTok</span></a>
+<a role="listitem" class="m m-x" href="https://x.com/cincinosos"><b>X</b><span>X</span></a>
+<a role="listitem" class="m m-in" href="https://www.linkedin.com/in/idiye/"><b>in</b><span>LinkedIn</span></a>
+<a role="listitem" class="m m-wp" href="https://egitimteknoloji.wordpress.com/"><b>W</b><span>Blog</span></a>
+<a role="listitem" class="m m-gh" href="https://github.com/herkeseegitim"><b>GH</b><span>GitHub</span></a>
+</div>
+<p class="miknatis-not" aria-hidden="true">Mıknatısları tahtada gezdirebilirsiniz.</p></div></div>
+
+<div class="cikis-alt"><img class="imza" src="{LOGO_ACIK}" alt="Herkese Eğitim" width="200" height="46">
+<ul><li><a href="mailto:herkeseegitimtek@gmail.com">herkeseegitimtek@gmail.com</a></li><li><a href="/konu/">Konu önerin</a></li><li><a href="/hakkinda/">Hakkında</a></li><li><a href="/gizlilik/">Gizlilik</a></li></ul></div>
+<p class="kucuk finch-not"><span style="display:inline-flex;gap:8px;align-items:center"><img src="/img/my-finch.png" alt="" width="24" height="24" style="border-radius:50%">Claude ile birlikte hazırlandı</span></p>
+<p class="kucuk">Bu site çerez kullanmaz; ziyaretler kişisel veri toplanmadan sayılır. YouTube videoları siz dokunana kadar yüklenmez. © 2026 Herkese Eğitim</p></div></footer>
+<dialog class="kare" id="kare" aria-labelledby="kare-b"><div class="ic"><h2 id="kare-b">Tahtada aç</h2><div class="qr"></div><p class="adres"></p><p>Adresi tahtadaki tarayıcıya yazın. Öğrenciler karekodu kendi cihazıyla okutabilir.</p><div class="eyl"><a class="dugme kir ac" href="#">Bu cihazda aç</a><button class="dugme acik kapat" type="button">Kapat</button></div></div></dialog>
+<script data-goatcounter="https://herkeseegitim.goatcounter.com/count" async src="/assets/count.js"></script><script src="/site.js?v={SURUM}"></script></body></html>"""
+
+def vid_btn(v, ad=None):
+    if not v: return ""
+    ad = ad or v.get("baslik","")
+    img = f'<img src="{v["kapak_w"]}" alt="" loading="lazy">' if v.get("kapak_w") else f'<span class="vid-bos" aria-hidden="true">{E(v.get("kisa_ad") or ad)}</span>'
+    return f'<button class="vid{" dik" if v.get("dik") else ""}" type="button" data-id="{E(v["id"])}" aria-label="Videoyu oynat: {E(ad)}">{img}<span class="oynat" aria-hidden="true"></span></button>'
+VBY = {v["id"]: v for v in videolar}
+def urun_video(u):
+    v = VBY.get(u.get("video"))
+    if v: return v
+    if u.get("video"): return {"id":u["video"],"baslik":u["ad"],"kapak_w":u.get("kapak_w"),"dik":False,"tarih":u.get("lansman")}
+    return None
+def ac_dugme(u, sinif="dugme", etiket=None):
+    if u["durum"] != "yayinda": return ""
+    if not u["url"]: return f'<a class="{sinif}" href="/indir/{u["id"]}.html" download="{E(os.path.basename(u["canta"]))}">{E(etiket or u["etiket"])}</a>'
+    return f'<a class="{sinif}" href="{E(u["url"])}" data-kare="{u["id"]}" aria-haspopup="dialog" data-ad="{E(u["ad"])}" data-url="{E(u["url"])}" data-kisa="{E(kisa_adres(u["url"]))}" data-etiket="Bu cihazda aç">{E(etiket or u["etiket"])}</a>'
+def sayfa_etiket(u):
+    # ürün sayfasındaki ana düğme: atölyede "Simülasyonu deneyin", araçta "Aracı açın" (mağaza bağlantısı kendi etiketini korur; 5 Kas)
+    if u["tur"] == "atolye": return "Simülasyonu deneyin"
+    if u["tur"] == "arac" and "chromewebstore" not in (u.get("url") or ""): return "Aracı açın"
+    return None
+def qr_gizli():
+    return "".join(f'<template id="qr-{u["id"]}">{qr_svg(u["url"])}</template>' for u in urunler if u["durum"]=="yayinda" and u["url"])
+
+# ---- schema.org
+KISI = {"@type":"Person","@id":SITE+"/hakkinda/#idiye","name":"İdiye Ökten","url":SITE+"/hakkinda/","sameAs":["https://www.linkedin.com/in/idiye/"]}
+SLOGAN = "Eskinin bilgeliği, yeninin teknolojisi"
+MISYON = "Herkese Eğitim, eğitimden yola çıkarak teknolojinin doğru, etik ve yerinde kullanımını yaygınlaştırır. Amacı insanların işini kolaylaştırmak, daha üretken olmalarına ve daha anlamlı bir hayat kurmalarına yardım etmek."
+ACIKLAMA = "Eskinin bilgeliği, yeninin teknolojisi. Teknolojiyi doğru, etik ve yerinde kullanmak için ücretsiz araçlar, atölyeler, tahmin soruları ve her gün bir atasözü."
+KURUM = {"@type":"Organization","@id":SITE+"/#kurum","name":"Herkese Eğitim","url":SITE+"/","logo":SITE+"/img/logo.png","slogan":SLOGAN,"description":MISYON,"founder":{"@id":KISI["@id"]},"email":"herkeseegitimtek@gmail.com",
+  "sameAs":["https://www.youtube.com/@egitimtek","https://x.com/cincinosos","https://www.instagram.com/egitimtek/","https://www.facebook.com/profile.php?id=100071231929402","https://www.threads.com/@egitimtek","https://www.tiktok.com/@egitimtek","https://github.com/herkeseegitim"]}
+def sema_urun(u):
+    if u["tur"] == "atolye":
+        s = {"@context":"https://schema.org","@type":"LearningResource","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr","isAccessibleForFree":True,
+             "learningResourceType":"Etkileşimli simülasyon","educationalLevel":u["sinif"],"audience":{"@type":"EducationalAudience","educationalRole":"teacher"},
+             "provider":{"@id":KURUM["@id"]},"author":{"@id":KISI["@id"]}}
+        if u["kazanim"]: s["teaches"] = u["kazanim"]; s["educationalAlignment"] = [{"@type":"AlignmentObject","alignmentType":"teaches","educationalFramework":"MEB öğretim programı","targetName":k} for k in u["kazanim"]]
+    else:
+        s = {"@context":"https://schema.org","@type":"SoftwareApplication" if u["tur"]=="arac" else "VideoGame","name":u["ad"],"description":u["ne"],"url":u["url"],"inLanguage":"tr",
+             "applicationCategory":"EducationalApplication","operatingSystem":"Tarayıcı","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"author":{"@id":KISI["@id"]},"publisher":{"@id":KURUM["@id"]}}
+    if u["durum"] != "yayinda" or not u["url"]: s.pop("url", None)
+    elif u.get("lansman"): s["datePublished"] = u["lansman"]
+    return s
+def sema_video(v, sayfa):
+    s = {"@context":"https://schema.org","@type":"VideoObject","name":v.get("baslik"),"description":v.get("aciklama") or v.get("baslik"),
+         "embedUrl":"https://www.youtube-nocookie.com/embed/"+v["id"],"contentUrl":"https://www.youtube.com/watch?v="+v["id"],"inLanguage":"tr","publisher":{"@id":KURUM["@id"]}}
+    if v.get("kapak_w"): s["thumbnailUrl"] = SITE + v["kapak_w"]
+    t = tarih_iso(v.get("tarih"))
+    if t: s["uploadDate"] = t
+    eksik = [k for k in ("name","thumbnailUrl","uploadDate") if not s.get(k)]
+    if eksik:  # Google VideoObject: name, thumbnailUrl, uploadDate zorunlu; eksik öğe yayınlanmaz
+        print(f"UYARI: {v['id']} videosunun şeması yazılmadı, eksik: {', '.join(eksik)} (tarih={v.get('tarih')!r})", file=sys.stderr)
+        return None
+    return s
+def tarih_iso(t):
+    """uploadDate: ISO 8601, saat ve saat dilimiyle. Yalnız gün verilirse 09:00 İstanbul; geçersizse None."""
+    if not t: return None
+    t = str(t).strip().replace(" ", "T")
+    try:
+        d = datetime.datetime.fromisoformat(t[:-1] + "+00:00" if t.endswith("Z") else t)
+    except ValueError:
+        return None
+    if len(t) == 10: d = d.replace(hour=9)
+    if d.tzinfo is None: d = d.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=3)))
+    return d.isoformat(timespec="seconds")
+
+# ---- sayfa adresleri
+def urun_sayfa(u): return f"/urun/{u['id']}/"
+def soz_sayfa(a): return f"/atasozleri/{a['slug']}/"
+def en_soz(e): return f"/en/proverbs/{e['slug']}/"
+def video_sayfa(v):
+    a = next((a for a in atasozleri if a.get("video")==v["id"]), None)
+    if a: return soz_sayfa(a)
+    return "/video/"+v["id"]+"/"
+_odev = [v for v in videolar if (v.get("kisa_ad") or "").strip().endswith("?")]
+if _odev:
+    _o = _odev[BUGUN.toordinal() % len(_odev)]
+    _oh = f'<a class="odev" href="{video_sayfa(_o)}"><span class="odev-e">Bugünün ödevi</span><b>{E(_o["kisa_ad"])}</b><span class="odev-n">Önce tahmin edin, sonra izleyin.</span></a>'
+else: _oh = ""
+ALT = ALT.replace("__ODEV__", _oh)
+def lbas(h1, p, satirlar):
+    et = "".join(f'<div><dt>{E(a)}</dt><dd>{b}</dd></div>' for a,b in satirlar)
+    return f'<div class="liste-bas"><div class="makale"><h1>{h1}</h1><p>{p}</p></div><dl class="defter-etiket" aria-label="Bu sayfada">{et}</dl></div>'
+DIZI = {"tahmin":("3 saniyede tahmin et","Günlük hayattan bir soru, 3 saniye düşün, cevap sonda. Derse giriş için."),
+        "atasozu":("Atasözlerimizi Yaşatalım","Az bilinen atasözleri ve unutulan sözcükler. Her birinin anlamı kendi sayfasında."),
+        "ozel-gun":("Özel Günler","Belirli günler için kısa videolar."),
+        "bilgisayarin-icinde":("Bilgisayarın içinde ne oluyor","Bilgisayarın içinde gerçekte ne olduğunu kısa sorularla."),
+        "tanitim":("Tanıtımlar","Araçların ve atölyelerin nasıl kullanıldığı."),
+        "didi":("Didi Soruyor","Doğru sanılan bir bilgi soruluyor. Cevap videoda."),
+        "bekleyis":("Bekleyiş","Eskiden neyi ne kadar beklerdik? Önce tahmin edin."),
+        "unutulmaya":("Unutulmaya yüz tutmuş sözcükler","Her bölümde az kullanılan bir sözcüğün anlamı var."),
+        "nesnelerin-masallari":("Nesnelerin Masalları","Her bölümde bir nesne kendi hikâyesini anlatır.")}
+# yeni dizi anahtarı üç yere birden girer: DIZI (burada), VRENK ve VSIRA (src/sayfalar.py); eksikse sayfalar.py'deki denetim build'i durdurur
+
+# ---- arama dizini
+ara = []
+for u in urunler:
+    ara.append(dict(t="atolye" if u["tur"]=="atolye" else "arac", tl={"atolye":"Atölye","arac":"Araç","oyun":"Oyun"}[u["tur"]], b=u["ad"], a=u["sinif"]+(" · yakında" if u["durum"]!="yayinda" else ""), k=("atölye " if u["tur"]=="atolye" else "araç ")+u["kisa"]+" "+u["ne"]+" "+" ".join(u["kazanim"]), u=urun_sayfa(u)))
+for a in atasozleri:
+    ara.append(dict(t="atasozu", tl="Atasözü", b=a["soz"], a=(a.get("anlam") or "")[:90], k="atasözü atasozu "+" ".join(filter(None,[a.get("soru"),(a.get("sozcuk") or {}).get("kelime")])), u=soz_sayfa(a)))
+for v in videolar:
+    if v.get("dizi")=="atasozu": continue
+    ara.append(dict(t="video", tl="Video", b=v.get("kisa_ad"), a=DIZI.get(v.get("dizi"),("Video",))[0], k=v.get("aciklama") or "", u=video_sayfa(v)))
+
+# ---- son videolar (biyografi bağlantısı için)
+def son_kaydi(v):
+    a = next((a for a in atasozleri if a.get("video")==v["id"]), None)
+    ileri = "Atasözünün anlamı ve videosu burada." if a else ("Video ve ilgili atölye burada." if v.get("urun") else "Video ve benzerleri burada.")
+    return dict(id=v["id"], baslik=v.get("kisa_ad"), kapak=v.get("kapak_w") or AVATAR, sayfa=video_sayfa(v), ileri=ileri)
+son = {"yt":[son_kaydi(v) for v in sorted(videolar, key=lambda v: v.get("tarih") or "", reverse=True)[:3]], "hepsi":[son_kaydi(v) for v in videolar]}
+for p in ["ig","tt","x","li"]:
+    l = sorted([v for v in videolar if (v.get("platformlar") or {}).get(p)], key=lambda v: v.get("tarih") or "", reverse=True)
+    if l: son[p] = [son_kaydi(v) for v in l[:3]]
+
+# ---- ana sayfa
+atl = [t for t in takvim if t.get("tur")=="atolye" and t.get("urun") in UR]
+gelen = [t for t in atl if datetime.date.fromisoformat(t["tarih"]) > BUGUN]
+gecen = [t for t in atl if datetime.date.fromisoformat(t["tarih"]) <= BUGUN]
+if gelen and (datetime.date.fromisoformat(gelen[0]["tarih"]) - BUGUN).days <= 1: cuma = gelen[0]; siradaki = gelen[1] if len(gelen)>1 else None
+else: cuma = gecen[-1] if gecen else gelen[0]; siradaki = gelen[0] if gelen else None
+hafta_u = UR[cuma["urun"]]
+_cg = (BUGUN - datetime.date.fromisoformat(cuma["tarih"])).days
+ETIKET = ("Cuma, "+tarih_tr(cuma["tarih"])) if _cg < 0 else ("Haftanın atölyesi" if _cg <= 7 else "Son atölye, "+tarih_tr(cuma["tarih"]))
+SIRADAKI = f'Sıradaki Cuma: {siradaki["baslik"]}, {tarih_tr(siradaki["tarih"])}' if siradaki else ""
+duvar_v = [v for v in videolar if v.get("kapak_w")][:14]
+duvar = []
+for i in range(16):
+    if i % 4 == 2: k = [u for u in urunler if u.get("kapak_w")];
+    else: k = None
+    if k: duvar.append(f'<img class="yat" src="{k[i % len(k)]["kapak_w"]}" alt="" loading="lazy">')
+    elif duvar_v: v = duvar_v[i % len(duvar_v)]; duvar.append(f'<img class="{"dik" if v["dik"] else "yat"}" src="{v["kapak_w"]}" alt="" loading="{"eager" if i<6 else "lazy"}">')
+
+satirlar = []
+for u in urunler:
+    cls = "sat" + (" cuma" if u is hafta_u else "") + (" yakinda" if u["durum"]!="yayinda" and u is not hafta_u else "")
+    zaman = ""
+    if u["durum"] != "yayinda":
+        zaman = f'<span class="dugme acik" aria-disabled="true">{"Bugün açılıyor" if u.get("bugun") else tarih_tr(u["lansman"])}</span>' if u.get("lansman") else '<span class="dugme acik" aria-disabled="true">Yakında</span>'
+    satirlar.append(f'''<div class="{cls}" id="u-{u["id"]}" data-tarih="{u.get("lansman") or ""}" data-durum="{u["durum"]}" data-kademe="{u["kademe"]}" data-ihtiyac="{u["ihtiyac"]}" data-kim="{u["kim"]}"><span class="rozet" hidden>Size uygun</span><span class="no" aria-hidden="true">{u["no"]}</span>
+<h3><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></h3><p class="ne">{E(u["kisa"])}</p><p class="sin">{E(u["sinif"])}{"<br><b>"+E(ETIKET)+"</b>" if u is hafta_u else ""}</p><div class="eyl">{ac_dugme(u) or zaman}</div></div>''')
+
+def son_videolar(n=10):
+    l = sorted([v for v in videolar if v.get("tarih")], key=lambda v: v["tarih"], reverse=True)[:n]
+    kartlar = "".join(f'<figure id="v-{E(v["id"])}" data-tarih="{E(v.get("tarih") or "")}">{vid_btn(v)}<figcaption><span class="vd-dz">{E(DIZI.get(v.get("dizi"),("Video",))[0])}</span><a href="{video_sayfa(v)}">{E(v.get("kisa_ad"))}</a></figcaption></figure>' for v in l)
+    sayi = {d: sum(1 for v in videolar if v.get("dizi")==d) for d in DIZI}
+    cip = "".join(f'<a class="vd-cip" href="/videolar/#dizi={d}">{E(DIZI[d][0])} <i>{n_}</i></a>' for d,n_ in sayi.items() if n_)
+    return f'<div class="dizi"><h3>Son videolar</h3><div class="raf">{kartlar}</div><div class="vd-alt">{cip}<a class="dugme kir" href="/videolar/">Bütün videolar ({len(videolar)})</a></div></div>'
+def raf(dizi, sinir=8):
+    l = [v for v in videolar if v.get("dizi")==dizi]
+    if not l: return ""
+    ad, ac = DIZI[dizi]
+    kartlar = "".join(f'<figure id="v-{E(v["id"])}" data-tarih="{E(v.get("tarih") or "")}">{vid_btn(v)}<figcaption><a href="{video_sayfa(v)}">{E(v.get("kisa_ad"))}</a></figcaption></figure>' for v in l[:sinir])
+    hepsi = f'<p class="hepsi"><a href="/videolar/#d-{dizi}">Bütün {E(ad)} videoları ({len(l)})</a></p>' if len(l) > sinir else ""
+    return f'<div class="dizi{" gen" if dizi=="tanitim" else ""}" id="d-{dizi}"><h3>{E(ad)}</h3><p>{E(ac)} {len(l)} video.</p><div class="raf">{kartlar}</div>{hepsi}</div>'
+
+cumalar = "".join(
+    f'<li class="{"simdi" if t is cuma else ("gelecek" if datetime.date.fromisoformat(t["tarih"])>BUGUN else "")}"><time datetime="{t["tarih"]}">{tarih_tr(t["tarih"])}</time><b>{E(t["baslik"])}</b><span>{E(t.get("not") or "")}</span></li>'
+    for t in takvim)
+
+exec(open(os.path.join(KOK,"src","sayfalar.py"),encoding="utf-8").read())
+canta_dosyalar = [u for u in urunler if u.get("canta") and u["durum"]=="yayinda"]
+canta_ad = "Herkese Egitim cantasi.zip"
+if canta_dosyalar:
+    with zipfile.ZipFile(os.path.join(OUT,"canta",canta_ad),"w",zipfile.ZIP_DEFLATED) as z:
+        for u in canta_dosyalar:
+            p = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"])
+            z.write(p, os.path.basename(p))
+        z.writestr("OKU.txt", "Herkese Eğitim çantası\n\nHer dosya tek başına açılır: çift tıklayın, tarayıcıda açılır. İnternet gerekmez.\nTahtaya USB bellekle taşıyabilirsiniz.\n\nGüncel sürümler: "+SITE+"/\nSorun ve öneri: herkeseegitimtek@gmail.com\n\n"+"\n".join(f"{os.path.basename(u['canta'] if os.path.isabs(u['canta']) else os.path.join(KOK,'data',u['canta']))}: {u['ad']}, {u['sinif']}" for u in canta_dosyalar)+"\n\nTarih: "+BUGUN.isoformat()+"\n")
+    canta_boy = os.path.getsize(os.path.join(OUT,"canta",canta_ad))/1048576
+def boy(u):
+    p = u["canta"] if os.path.isabs(u["canta"]) else os.path.join(KOK,"data",u["canta"]); return f"{os.path.getsize(p)/1048576:.1f} MB".replace(".",",")
+canta_html = f'''<section class="blm canta" id="canta"><div class="w ic"><div><h2>Çanta</h2><p>Atölye ve araçları tek zip dosyasında indirin. Her dosya çift tıklayınca tarayıcıda açılır, internet istemez.</p></div>
+<div class="canta-sec"><a class="dugme" href="/canta/#ogretmen">Öğretmen çantası</a><a class="dugme" href="/canta/#ogrenci">Öğrenci çantası</a><a class="dugme" href="/canta/#herkes">Herkes için</a><p>Öğretmende kademe ve branş, öğrencide sınıf seçilir.</p></div></div></section>'''
+hv = urun_video(hafta_u)
+hafta_html = f'''<section class="blm hafta" id="hafta" aria-labelledby="hafta-b"><div class="w"><div class="ic"><div>
+<small>{ETIKET}</small><h2 id="hafta-b">{E(hafta_u["ad"])}</h2><p class="ne">{E(hafta_u["kisa"])}</p><p style="margin-top:8px;font-weight:600">{E(hafta_u["sinif"])}{". "+E(SIRADAKI)+"." if SIRADAKI else ""}</p>
+<div class="eyl">{ac_dugme(hafta_u,"dugme kir") or ('<span class="dugme kir" aria-disabled="true">'+(tarih_tr(hafta_u["lansman"]) if hafta_u.get("lansman") else "Cuma")+'\'de açılıyor</span>')}<a class="dugme acik" href="{urun_sayfa(hafta_u)}">Atölyeyi incele</a></div></div>
+<div>{vid_btn(hv, hafta_u["ad"]) if hv else (f'<img src="{hafta_u["kapak_w"]}" alt="" style="border-radius:12px">' if hafta_u.get("kapak_w") else "")}</div></div>
+<h3 class="gizli">Takvim</h3><ol class="cumalar" aria-label="Takvim">{cumalar}</ol></div></section>'''
+
+kapi_html = '''<section class="kapi" id="kapi" aria-labelledby="kapi-b"><div class="w"><div><h2 id="kapi-b">Üç soru</h2><p class="ac">Seçtiklerinize uyanları listenin başına alırım. Seçiminiz yalnız bu cihazda kalır; sitede çerez ve takip yok.</p></div><div>
+<fieldset class="soru"><legend>Kimsiniz?</legend>''' + '<div class="sec">' + "".join(f'<label><input type="radio" name="kim" value="{v}"><span>{t}</span></label>' for v,t in [("ogretmen","Öğretmenim"),("veli","Veliyim"),("ogrenci","Öğrenciyim"),("meraklı","Merak ettim")]) + '''</div></fieldset>
+<fieldset class="soru"><legend>Hangi sınıf?</legend><div class="sec">''' + "".join(f'<label><input type="radio" name="kademe" value="{v}"><span>{t}</span></label>' for v,t in [("ilkokul","İlkokul"),("ortaokul","Ortaokul"),("lise","Lise")]) + '''</div></fieldset>
+<fieldset class="soru"><legend>Ne lazım?</legend><div class="sec">''' + "".join(f'<label><input type="radio" name="ihtiyac" value="{v}"><span>{t}</span></label>' for v,t in [("tahta","Tahtada araç"),("giris","Derse giriş sorusu"),("atolye","Konuyu keşfettiren atölye"),("kendim","Evde kendi çalışma")]) + '''</div></fieldset>
+<p class="kapi-sonuc" id="kapi-sonuc" role="status" aria-live="polite"></p><button class="temizle" type="button">Seçimleri temizle</button></div></div></section>'''
+
+sema_ana = [{"@context":"https://schema.org","@graph":[KURUM,KISI,{"@type":"WebSite","@id":SITE+"/#site","url":SITE+"/","name":"Herkese Eğitim","description":ACIKLAMA,"inLanguage":"tr","publisher":{"@id":KURUM["@id"]}},
+   {"@type":"ItemList","name":"Herkese Eğitim kitaplığı","itemListElement":[{"@type":"ListItem","position":i+1,"url":SITE+urun_sayfa(u),"name":u["ad"]} for i,u in enumerate(urunler)]}]}]
+open(os.path.join(OUT,"ara.json"),"w",encoding="utf-8").write(json.dumps(ara, ensure_ascii=False))
+gs = [dict(q, u=video_sayfa(VBY[q["v"]]), t=VBY[q["v"]].get("tarih")) for q in json.load(open(os.path.join(KOK,"data","sorular.json"),encoding="utf-8")) if q["v"] in VBY and (VBY[q["v"]].get("tarih") or "9") <= BUGUN.isoformat()]
+ana_veri = json.dumps({"son":son,"gs":gs,"soz":[{"s":a["soz"],"u":soz_sayfa(a),"n":a.get("no")} for a in atasozleri]}, ensure_ascii=False).replace("</","<\\/")
+# ---- üç yol (Yönetim Kararları 18)
+_bs = [a for a in atasozleri if (a.get("tarih") or "") <= BUGUN.isoformat()]
+bugun_soz = max(_bs, key=lambda a: ((a.get("tarih") or ""), a.get("no") or 0)) if _bs else None
+_atolyeler = [u for u in urunler if u["tur"]=="atolye" and u["durum"]=="yayinda"]
+YOL = {
+ "merak": ("Merak edenler", "Her gün bir atasözü, 3 saniyelik tahmin soruları."),
+ "ogretmen": ("Öğretmenler", "Derste kullanım: tahtada açılan araçlar, öğrenme çıktısına bağlı atölyeler, çevrimdışı çanta."),
+ "ogrenci": ("Öğrenciler", "Atölyelerde kendi hızında çalışma: öğrenci tahmin eder, dener, sonucu görür."),
+}
+def yol_band(k):
+    ad, ne = YOL[k]
+    return f'<div class="yol-band yb-{k}" id="{k}"><div class="w"><h2>{ad}</h2><p>{ne}</p></div></div>'
+_kapilar = [
+ ("merak", [("Bugünün atasözü", soz_sayfa(bugun_soz) if bugun_soz else "/atasozleri/"), ("Günün sorusu", "#gunun")] + ([("Kayıp Aletler Müzesi", "#muze")] if VITRINLER else ([("İçinde Ne Var?", INV_ADRES)] if globals().get("_inv_k") else []))),
+ ("ogretmen", [("NotebookLM adım adım", "#notebooklm"), ("Padlet ve Padlet Arcade adım adım", "#padlet"), ("Wordwall adım adım", "#wordwall"), ("Kitaplık", "#kitaplik"), ("Size uygun olanı seçin", "#kapi")]),
+ ("ogrenci", [("Atölyeler", "#atolyeler"), ("Velilere not", "#ogr-not")]),
+]
+yollar_html = '<nav class="yollar" aria-label="Kimin için"><div class="w">' + "".join(
+  f'<div class="yk yk-{k}"><h3><a href="#{k}">{YOL[k][0]}</a></h3><p>{YOL[k][1]}</p><p class="yk-b">' + "".join(f'<a href="{h}">{E(t)}</a>' for t,h in l) + '</p></div>'
+  for k,l in _kapilar) + '</div></nav>'
+soz_html = (f'<section class="blm bsoz" aria-labelledby="bsoz-b"><div class="w"><p class="bsoz-k">Bugünün atasözü</p><h2 id="bsoz-b"><a href="{soz_sayfa(bugun_soz)}">{E(bugun_soz["soz"])}</a></h2>'
+  + (f'<p class="bsoz-a">{E(bugun_soz["anlam"])}</p>' if bugun_soz.get("anlam") else "")
+  + '<p class="bsoz-b"><a class="dugme acik" href="' + soz_sayfa(bugun_soz) + '">Anlamı ve videosu</a><a class="dugme acik" href="/atasozleri/">Bütün atasözleri</a></p></div></section>') if bugun_soz else ""
+ogrenci_html = ('<section class="blm ogr" aria-label="Atölyeler"><div class="w"><ul class="ogr-l" id="atolyeler">' + "".join(
+  f'<li><b><a href="{urun_sayfa(u)}">{E(u["ad"])}</a></b><span class="ogr-s">{E(u["sinif"])}</span><span class="ogr-n">{E(u["kisa"])}</span><span class="ogr-e"><a href="{urun_sayfa(u)}">Ayrıntı ve adres</a></span></li>' for u in _atolyeler)
+  + '</ul><p class="ogr-not" id="ogr-not">Veliler için: öğrenci atölyeyi öğretmeninin ya da sizin verdiğiniz adresten açar; hesap gerekmez.</p></div></section>') if _atolyeler else ""
+# ---- Padlet adım adım (YouTube dizisi; İdiye 6 Kas 23:54: Yankı'nın yerinde öne çıkar). Kartta video gömülmez, yalnız bağlantı (g79 dersi).
+WW_LISTE = "https://www.youtube.com/playlist?list=PLCLImbNsy-XM"  # "Wordwall adım adım 2026", oEmbed 200 (11 Kas)
+PADLET = dict(ad="Padlet ve Padlet Arcade adım adım", kisa="Padlet nasıl kullanılır, Padlet Arcade ile oyun nasıl hazırlanır: 2026 arayüzüyle adım adım.",
+  liste="https://www.youtube.com/playlist?list=PLDpeHNCZjwRQ",
+  gruplar=[("Padlet",[("Bölüm 2: Panoyu silme ve geri getirme","https://youtu.be/4U6bd_w3HwI"),("Bölüm 3: Padlet nedir?","https://youtu.be/VzeyrKse8s4"),
+      ("Bölüm 4: Padlet ücretsiz mi? 3 padlet sınırı","https://youtu.be/aXeTKLLkUY8"),("Bölüm 5: Pano oluşturma, 5 biçim","https://youtu.be/G1gU77a27K8")]),
+    ("Padlet Arcade",[("Bölüm 1: Padlet Arcade nedir? Adım adım oyun hazırlama","https://youtu.be/--uVzkVHRbw"),("Wildcard: istediğiniz oyunu tarif edin","https://youtu.be/WdHTZjyXwhY")])],
+  kapak_w=resim("kapak/padlet-adim-adim.png","padlet-adim-adim",640))
+PADLET["bolumler"] = [x for _g,l in PADLET["gruplar"] for x in l]
+# ---- Wordwall adım adım (İdiye 8 Kas 16:19): Padlet kartının yanında, aynı düzen; video gömülmez, bağlantı verilir
+WORDWALL = dict(ad="Wordwall adım adım", kisa="İçeriğinizi oyuna çevirin: derste oyun, sonunda ölçme. Ücretsiz hesapla baştan anlatım.",
+  liste=WW_LISTE,
+  gruplar=[("Wordwall",[("Bölüm 1: Wordwall nasıl kullanılır? Ücretsiz hesap ve ilk eşleştirme etkinliği","/video/a2c8B1KW6a0/")])],
+  kapak_w=resim("kapak/a2c8B1KW6a0.png","wordwall-adim-adim",640))
+# ---- NotebookLM adım adım (g112): bölümler data/araclar.json'dan; Padlet ve Wordwall kartıyla aynı düzen, video gömülmez
+_nlm = next(A for A in json.load(open(os.path.join(KOK,"data","araclar.json"),encoding="utf-8"))["araclar"] if A["k"]=="notebooklm")
+_nlm_b = sorted([b for b in _nlm["bolumler"] if b.get("id")], key=lambda b: b["no"])
+NOTEBOOKLM = dict(ad="NotebookLM adım adım", kisa="NotebookLM ile sunum, kaynak ekleme ve infografik: 2026 arayüzüyle adım adım.",
+  liste=_nlm["liste"], gruplar=[("NotebookLM",[(f'Bölüm {b["no"]}: {b["baslik"]}', f'https://youtu.be/{b["id"]}') for b in _nlm_b])],
+  kapak_w=resim(_nlm["bolumler"][0].get("kapak"),"notebooklm-adim-adim",640))
+NOTEBOOKLM["bolumler"] = [x for _g,l in NOTEBOOKLM["gruplar"] for x in l]
+def _dizi_kart(D, k):
+    ilk = D["liste"] or D["gruplar"][0][1][0][1]
+    return (f'<div class="inv-ana" id="{k}" style="display:flex;flex-direction:column;gap:12px;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
+      + (f'<a href="{ilk}"><img src="{D["kapak_w"]}" alt="" loading="lazy" style="width:100%;border-radius:10px;display:block"></a>' if D["kapak_w"] else "")
+      + f'<div><small>YouTube dizisi</small><h2 id="{k}-b" style="margin:4px 0;font-size:1.35em">{E(D["ad"])}</h2><p style="margin:0 0 8px">{E(D["kisa"])}</p>'
+      + "".join((f'<h3 style="margin:10px 0 4px;font-size:1em">{E(g)}</h3>' if len(D["gruplar"])>1 else "") + '<ul style="margin:0 0 10px;padding-left:18px">' + "".join(f'<li><a href="{h}">{E(t)}</a></li>' for t,h in l) + '</ul>' for g,l in D["gruplar"])
+      + (f'<a class="dugme acik" href="{D["liste"]}">Bütün bölümler</a>' if D["liste"] else "") + '</div></div>')
+padlet_html = ('<section class="blm" aria-label="YouTube dizileri" style="padding-top:0"><div class="w"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px;align-items:start">'
+  + _dizi_kart(NOTEBOOKLM, "notebooklm") + _dizi_kart(PADLET, "padlet") + _dizi_kart(WORDWALL, "wordwall") + '</div></div></section>')
+sema_ana[0]["@graph"].extend({"@type":"CreativeWorkSeries","name":D["ad"],"alternateName":alt,"description":D["kisa"],"url":D["liste"] or (SITE+D["gruplar"][0][1][0][1]),"inLanguage":"tr","isAccessibleForFree":True,"publisher":{"@id":KURUM["@id"]},"author":{"@id":KISI["@id"]}}
+  for D,alt in [(NOTEBOOKLM,["Gemini Notebook adım adım","NotebookLM nasıl kullanılır"]),(PADLET,["Padlet adım adım","Padlet Arcade adım adım"]),(WORDWALL,["Wordwall nasıl kullanılır"])])
+# ---- Maaşım Ne Olacak? (tek dosyalık araç, data/maasim/; İdiye 7 Kas 18:23 "siteye yükle"). İndirme bağlantısı yok (İdiye kararı); sayaçsız.
+os.makedirs(os.path.join(OUT,"maasim"), exist_ok=True)
+for _k,_f in [("maasim-onizleme-memur.png","onizleme-memur.png"),("maasim-onizleme-memur.png","onizleme.png")]: shutil.copy(os.path.join(KOK,"data",_k), os.path.join(OUT,"maasim",_f))
+# İdiye 11 Kas: önizleme "SSK, Bağ-Kur ve memur emeklileri için"; yeni adla (paylaşım önbelleği eskiyi tutmasın), eski adres de yeni resmi verir
+_mh = open(os.path.join(KOK,"data","maasim.html"),encoding="utf-8").read()
+assert _mh.count("https://herkeseegitim.com/maasim/onizleme.png") == 1
+open(os.path.join(OUT,"maasim","index.html"),"w",encoding="utf-8").write(_mh.replace("https://herkeseegitim.com/maasim/onizleme.png","https://herkeseegitim.com/maasim/onizleme-memur.png"))
+EK_YOLLAR.append("/maasim/")
+# Ana sayfa kartı ve menü bağlantısı kalktı (g112, İdiye); sayfa /maasim/ ve sitemap kaydı yerinde. maasim_html ana sayfaya girmez.
+MAASIM = dict(ad="Maaşım ne olacak?", kisa="SSK, Bağ-Kur ve memur emeklileri için: maaşınızın ocakta ne olacağını hesaplayın.", adres="/maasim/", kapak_w=resim("maasim-onizleme-memur.png","maasim-memur",640))
+maasim_html = (f'<section class="blm" id="maasim" aria-labelledby="maas-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{MAASIM["adres"]}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">'
+  + (f'<img src="{MAASIM["kapak_w"]}" alt="" loading="lazy" style="width:min(260px,100%);border-radius:10px">' if MAASIM["kapak_w"] else "")
+  + f'<span style="flex:1;min-width:220px"><small>Araç</small><b id="maas-b" style="display:block;font-size:1.35em;margin:4px 0">{E(MAASIM["ad"])}</b><span>{E(MAASIM["kisa"])}</span><br><span style="text-decoration:underline">Hesaplayın</span></span></a></div></section>')
+
+# ---- Kayıp Aletler Müzesi bandı (kurul v1, 13 Kas): İçinde Ne Var? kartının yerinde statik gece şeridi.
+# Vitrin listesine bağlı (son bölüme değil); Puff girmez. JavaScript yok.
+# Gece Kuşu yeniden çizilmez: müze dosyasındaki .kusb SVG'si olduğu gibi alınır, SHA-256 tutmazsa build durur.
+KUS_SHA = "0f67d16575cbfe4e0f99aed809349eb49b101f2834fe7aa7d2458be9c5cc8309"  # Muze v15 .kusb SVG (muze.html = Muze v15.html, c0bf63e4…)
+def _gece_kusu():
+    h = open(os.path.join(KOK, "data", "icinde-ne-var", "muze.html"), encoding="utf-8").read()
+    m = re.search(r'<button type="button" class="kusb"[^>]*>(<svg viewBox="60 120 300 220".*?</svg>)', h)
+    assert m and _h.sha256(m.group(1).encode()).hexdigest() == KUS_SHA, "Gece Kuşu müze kaynağıyla aynı değil: kuş yeniden çizilmez (gece-kusu-my-finch)"
+    return m.group(1).replace('aria-hidden="true"', 'aria-hidden="true" focusable="false"', 1)
+_ORTU = ('<svg class="mb-ortu-s" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><path d="M100 14 C70 18 38 40 22 80 L8 150 H192 L178 80 C162 40 130 18 100 14Z" fill="#4E3C30"/>'
+  '<path d="M100 14 C88 50 74 100 60 150 M100 14 C104 60 104 110 100 150 M100 14 C114 50 128 100 142 150" stroke="#3A2C22" stroke-width="3" fill="none" stroke-linecap="round"/>'
+  '<path d="M100 14 C70 18 38 40 22 80" stroke="#6B5444" stroke-width="2" fill="none"/><circle cx="100" cy="12" r="5" fill="#E8A35A"/></svg>')
+def _mb_vid(v):
+    return (f'<a class="mb-vid" href="https://www.youtube.com/shorts/{v["video"]}" aria-label="Vitrin {v["no"]:02d}, {E(v["ad"])}: videosunu YouTube\'da izleyin">'
+      '<i aria-hidden="true">▶</i> Videosu</a>') if v.get("video") else ""
+# Kaset (14 Kas): kart vitrine bağlı kalır; Videosu düğmesi kartın kardeşi (iç içe bağlantı yok), CSS ile kartın altına oturur.
+def _mb_vitrin(v):
+    cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="460">' if v.get("kapak_w") else ""
+    vid = _mb_vid(v)
+    li = '<li class="mb-vk">' if vid else '<li>'
+    return (f'{li}<a class="mb-v" href="{vitrin_sayfa(v)}"><span class="mb-cam">{cam}</span>'
+      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["ad"])}</b><span class="mb-s">{E(v["baslik"])}</span></a>{vid}</li>')
+# Hat meşgul (14 Kas): "durum": "mesgul" olan vitrin henüz sayfasız; kart vitrine değil, yalnız videoya bağlanır. Ahize ve meşgul sesinin kesik çizgileri.
+_AHIZE = ('<svg class="mb-ahize" viewBox="0 0 36 27" aria-hidden="true" focusable="false"><g class="mb-dut" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">'
+  '<path d="M7 5h5M15.5 5h5M24 5h5"/></g><path d="M3 19.5c0-5 6.5-8 15-8s15 3 15 8l-1.2 3.3h-6.3l-1.3-3.4c-2-.6-4.3-.9-6.2-.9s-4.2.3-6.2.9l-1.3 3.4H4.2z" fill="currentColor"/></svg>')
+def _mb_mesgul(v):
+    cam = f'<img src="{v["kapak_w"]}" alt="" loading="lazy" width="640" height="464">' if v.get("kapak_w") else ""
+    vid = _mb_vid(v)
+    return (f'<li><div class="mb-v mb-mesgul"><span class="mb-cam">{cam}<span class="mb-hat">{_AHIZE}</span></span>'
+      f'<span class="mb-no">Vitrin {v["no"]:02d}</span><b>{E(v["mesgul"]["baslik"])}</b><span class="mb-s">{E(v["mesgul"]["alt"])}</span>{vid}</div></li>')
+muze_html = (f'''<section class="muze-bant" id="muze" aria-labelledby="muze-b"><div class="w">
+<div class="mb-bas"><p class="mb-k">İçinde Ne Var?</p><h2 id="muze-b"><a href="{MUZE_ADRES}">Kayıp Aletler Müzesi</a></h2><p class="mb-a">Bir zamanlar her evde olan aletler gece burada bekliyor. Vitrine girin, içini açın, bugünküyle karşılaştırın.</p></div>
+<div class="mb-koridor"><div class="mb-kus"><i class="mb-isik" aria-hidden="true"></i>{_gece_kusu()}<p class="mb-soz"><span class="gizli">Gece Kuşu: </span>Gece açığız. Feneri ben tutarım.</p></div>
+<ol class="mb-vitrinler" aria-label="Vitrinler">{"".join(_mb_vitrin(v) for v in VITRINLER)}{"".join(_mb_mesgul(v) for v in MESGUL)}
+<li><a class="mb-v mb-ortu" href="{MUZE_ADRES}?defter=1"><span class="mb-cam">{_ORTU}</span><span class="mb-no">Sıradaki vitrin</span><b>Örtünün altında ne var?</b><span class="mb-s">Sizce hangi alet girmeli? Müzenin defterine yazın.</span></a></li></ol></div>
+<p class="mb-alt"><a href="{INV_ADRES}">İçinde Ne Var? bütün bölümler</a></p>
+</div></section>''') if VITRINLER else ""
+
+# ---- Araç şeridi (16 Kas, İdiye 15:32–15:33: "hiç halka olmasın, bu akşam yanında finch"; Merkez tasarımı onayladı, tur 4 halkasız).
+# Başlığın altında üç disk (Cancan stili nesneler, src/nesne.js), halka yok. Yayın günü olan diskte küçük Gece Kuşu (data/arac/finch.svg,
+# My Finch avatar v3, yeniden çizilmez: md5 aşağıda) ve "Bu akşam 19.00'da". Saat, "yeni" ve "izlediniz" durumu site.js'te (İstanbul saati).
+# Veri data/araclar.json; icerik.json'da olan bölüm /video/<id>/ sayfasına, olmayan YouTube'a bağlanır.
+FINCH_MD5 = "939fd3ff5f7a2611f6d46554848023a5"
+_fb = open(os.path.join(KOK, "data", "arac", "finch.svg"), "rb").read()
+assert _h.md5(_fb).hexdigest() == FINCH_MD5, "Gece Kuşu (finch.svg) değişmiş: kuş yeniden çizilmez (gece-kusu-my-finch)"
+shutil.copy(os.path.join(KOK, "data", "arac", "finch.svg"), os.path.join(OUT, "img", "arac-finch.svg"))
+_nj = open(os.path.join(KOK, "src", "nesne.js"), encoding="utf-8").read()
+NESNE_SURUM = _h.sha1(_nj.encode()).hexdigest()[:8]
+open(os.path.join(OUT, "nesne.js"), "w", encoding="utf-8").write(_nj)
+ARACLAR = json.load(open(os.path.join(KOK, "data", "araclar.json"), encoding="utf-8"))["araclar"]
+_YT = re.compile(r"[A-Za-z0-9_-]{11}")
+def _arac_bag(b, kisa=False):
+    if not b.get("id"): return None
+    if not kisa and b["id"] in VBY: return video_sayfa(VBY[b["id"]])
+    return f"https://www.youtube.com/shorts/{b['id']}" if kisa else f"https://youtu.be/{b['id']}"
+def _bolum_ad(b):
+    return (b.get("ad_on") + (" " if b.get("no") else ", ") if b.get("ad_on") else "") + ("Bölüm " + str(b["no"]) if b.get("no") else "ek bölüm")
+_arac_v = []; _diskler = []; _kartlar = []
+for _i, A in enumerate(ARACLAR):
+    assert re.fullmatch(r"[a-z]{3,20}", A["k"]) and A["nesne"] in ("notebook", "wordwall", "padlet"), "araç şeridi: kötü anahtar"
+    assert A["bolumler"], "araç şeridi: bölümsüz araç"
+    for b in A["bolumler"] + A["kisalar"]:
+        assert not b.get("id") or _YT.fullmatch(b["id"]), "araç şeridi: kötü video kimliği"
+        if b.get("id") in VBY and VBY[b["id"]].get("tarih") and not b.get("yayin"): b["yayin"] = VBY[b["id"]]["tarih"]
+        assert not b.get("yayin") or re.fullmatch(r"\d{4}-\d\d-\d\d(T\d\d:\d\d)?", b["yayin"]), "araç şeridi: kötü tarih"
+    for b in A["bolumler"]:
+        if b.get("id") in VBY and VBY[b["id"]].get("kapak_w"): b["kapak_w"] = VBY[b["id"]]["kapak_w"]
+        elif b.get("kapak"): b["kapak_w"] = resim(b["kapak"], f"arac-{A['k']}-{b['id']}", 960)
+    for b in A["kisalar"]:
+        b["kapak_w"] = resim(b.get("kapak"), f"arac-{A['k']}-k-{_h.md5(b['baslik'].encode()).hexdigest()[:8]}", 420)
+    son = A["bolumler"][0]
+    if not son.get("kapak_w"): son["kapak_w"] = next((x["kapak_w"] for x in A["bolumler"] if x.get("kapak_w")), None)
+    n = len(A["bolumler"])
+    _arac_v.append({"k": A["k"], "n": n, "b": [[b.get("id") or "", b.get("yayin") or ""] for b in A["bolumler"]],
+                    "s": [[b.get("id") or "", b.get("yayin") or ""] for b in A["kisalar"]]})
+    _diskler.append(f'<li><button type="button" class="as-d" id="as-d-{A["k"]}" data-k="{A["k"]}" aria-controls="as-k-{A["k"]}" aria-expanded="{"true" if _i == 0 else "false"}">'
+      f'<span class="as-yuz"><canvas class="ns" data-nesne="{A["nesne"]}" width="400" height="400" aria-hidden="true"></canvas>'
+      f'<span class="as-kus" hidden><img src="/img/arac-finch.svg" alt="" width="60" height="60"></span><i class="as-nokta" hidden></i></span>'
+      f'<b>{E(A["ad"])}</b><small class="as-alt">{n} bölüm</small></button></li>')
+    sl = _arac_bag(son)
+    uz_ic = (f'<span class="as-res">' + (f'<img src="{son["kapak_w"]}" alt="" width="960" height="540" loading="lazy">' if son.get("kapak_w") else "") + '</span>'
+      f'<span class="as-m"><em class="as-bu" hidden>Bu akşam 19.00\'da</em><span>{E(_bolum_ad(son))}</span></span><b class="as-ub">{E(son["baslik"])}</b>')
+    _simdi = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M")  # Actions TZ=Europe/Istanbul
+    _cikti = not son.get("yayin") or (son["yayin"] if len(son["yayin"]) > 10 else son["yayin"] + "T00:00") <= _simdi
+    # yayın saati gelmemiş bölüm bağlantısız çıkar; site.js saati gelince bağlantıya çevirir (data-href)
+    uzun = (f'<a class="as-uzun" href="{E(sl)}">{uz_ic}</a>' if sl and _cikti else f'<div class="as-uzun"{f" data-href={chr(34)}{E(sl)}{chr(34)}" if sl else ""}>{uz_ic}</div>')
+    if A["kisalar"]:
+        hepsi_bu = all(k.get("bolum") == son.get("no") for k in A["kisalar"][:2])
+        li = ""
+        for k in A["kisalar"][:2]:
+            ic = (f'<span class="as-kr">' + (f'<img src="{k["kapak_w"]}" alt="" width="360" height="640" loading="lazy">' if k.get("kapak_w") else "") + f'</span><span class="as-kt">{E(k["baslik"])}</span>')
+            kb = _arac_bag(k, kisa=True)
+            li += (f'<li><a class="as-ks" href="{E(kb)}">{ic}</a></li>' if kb else f'<li><div class="as-ks" data-yayin="{E(k.get("yayin") or "")}">{ic}<small class="as-kn" hidden>Bu akşam</small></div></li>')
+        yan = f'<div class="as-kisalar"><h4>{"Bu bölümden kısalar" if hepsi_bu else "Dizinin kısaları"}</h4><ul>{li}</ul></div>'
+    else:
+        li = "".join(f'<li><a href="{E(_arac_bag(b))}"><span>{E(_bolum_ad(b))}</span> {E(b["baslik"])}</a></li>' for b in A["bolumler"][1:5] if _arac_bag(b))
+        yan = f'<div class="as-kisalar as-obur"><h4>Öbür bölümler</h4><ul>{li}</ul></div>'
+    _kartlar.append(f'<div class="as-kart" id="as-k-{A["k"]}" role="region" aria-labelledby="as-h-{A["k"]}"{"" if _i == 0 else " data-gizle"}>'
+      f'<div class="as-bas"><h3 id="as-h-{A["k"]}">{E(A["dizi"])}</h3><span>En yeni bölüm önde</span>'
+      f'<a class="as-hep" href="{E(A["liste"])}">Bütün bölümler</a></div><div class="as-akis">{uzun}{yan}</div></div>')
+arac_veri = json.dumps(_arac_v, ensure_ascii=False).replace("</", "<\\/")
+arac_html = (f'<section class="arac-serit" id="araclar-serit" aria-labelledby="as-b"><div class="w">'
+  f'<h2 id="as-b" class="gizli">Adım adım araç dizileri</h2><ul class="as-diskler">{"".join(_diskler)}</ul>'
+  f'<div class="as-kartlar">{"".join(_kartlar)}</div></div>'
+  f'<script type="application/json" id="arac-veri">{arac_veri}</script></section>')
+ana = bas("Herkese Eğitim: eskinin bilgeliği, yeninin teknolojisi",
+  ACIKLAMA+" NotebookLM, Padlet, Padlet Arcade ve Wordwall adım adım.", "/", sema=sema_ana, alt=DIL_ALT) + f'''
+<header class="ust"><div class="w"><a class="logo" href="/"><img src="{LOGO_ACIK}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>
+<main id="ana">
+<section class="sahne" aria-labelledby="h1"><div class="arka" aria-hidden="true"><div class="duvar gece">{"".join(duvar)}</div><div class="gunkat"><div class="duvar gun">{"".join(duvar).replace(' loading="lazy"',"")}</div></div><div class="ortu"></div></div>
+<canvas class="tahta" id="tahta" aria-hidden="true"></canvas>
+<div class="w"><div class="yazi">
+<h1 id="h1" class="gir" style="--d:150ms">Eskinin bilgeliği, yeninin teknolojisi</h1>
+<p class="alt alt-sl gir" style="--d:300ms">Teknolojiyi doğru, etik ve yerinde kullanmak için</p>
+<a class="ben gir" style="--d:420ms" href="/hakkinda/"><img src="{AVATAR}" alt="" width="58" height="58"><span><b style="color:var(--krem);font-weight:650">İdiye Ökten</b><br><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
+<div class="ara gir" style="--d:700ms" role="search"><label for="ara">Ara: araç, atölye, atasözü, video</label><input id="ara" type="search" autocomplete="off" placeholder="yüzde, klavye, harman, makara" role="combobox" aria-expanded="false" aria-controls="ara-sonuc" aria-autocomplete="list"><ul class="sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları" hidden></ul><p id="ara-durum" class="gizli" role="status"></p></div>
+<a class="izledin" id="izledin" href="#" hidden><img src="{AVATAR}" alt=""><div><small class="iz-k"></small><b class="iz-b"></b><span class="iz-i"></span></div></a>
+</div></div>
+<div class="cuma-grup">
+<a class="cuma-not" href="#padlet">{f'<img src="{PADLET["kapak_w"]}" alt="">' if PADLET.get("kapak_w") else ""}<small>YouTube dizisi</small><b>{E(PADLET["ad"])}</b><span>{len(PADLET["bolumler"])} bölüm, 2026 arayüzü</span><span class="bul">Buldunuz. Aşağıda sizi bekliyor.</span></a>
+<a class="cuma-not" href="#notebooklm">{f'<img src="{NOTEBOOKLM["kapak_w"]}" alt="">' if NOTEBOOKLM.get("kapak_w") else ""}<small>YouTube dizisi</small><b>{E(NOTEBOOKLM["ad"])}</b><span>{len(NOTEBOOKLM["bolumler"])} bölüm, 2026 arayüzü</span></a>
+<a class="cuma-not" href="{urun_sayfa(UR["atasozu-oyunu"])}">{f'<img src="{UR["atasozu-oyunu"]["kapak_w"]}" alt="">' if UR["atasozu-oyunu"].get("kapak_w") else ""}<small>Oyun</small><b>{E(UR["atasozu-oyunu"]["ad"])}</b><span>{E(UR["atasozu-oyunu"]["kisa"])}</span></a>
+</div>
+<div class="cetvel" role="toolbar" aria-label="Tahta"><button type="button" id="t-kalem" aria-pressed="false">Kalem</button><button type="button" id="t-temizle">Temizle</button><button type="button" id="t-ses" aria-pressed="false">Ses</button><span class="ipucu" id="t-ipucu">Bu sayfa da bir tahta. Kalemi alın, yazın.</span></div>
+</section>
+{arac_html}
+{muze_html if VITRINLER else (lambda b: f'<section class="blm" id="icinde" aria-labelledby="inv-b" style="padding-top:0"><div class="w"><a class="inv-ana" href="{INV_ADRES}" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px">' + (f'<img src="{b["kapak_w"]}" alt="" loading="lazy" style="width:min(220px,100%);border-radius:10px">' if b.get("kapak_w") else "") + f'<span style="flex:1;min-width:220px"><small>İçinde Ne Var?</small><b id="inv-b" style="display:block;font-size:1.35em;margin:4px 0">{E(b["soru"])}</b><span>{E(b["kisa"])}</span><br><span style="text-decoration:underline">Bütün bölümler</span></span></a></div></section>')(INV[-1]) if INV else ""}
+{yollar_html}
+{yol_band("merak")}
+<section class="blm gunun" id="gunun" aria-labelledby="gs-b"><div class="w ic"><div><small>Günün sorusu</small><h2 id="gs-b" class="gs-soru">3 saniye düşünün</h2><p class="gs-alt">Her gün bir soru. Cevabı videosunda.</p></div>
+<div class="gs-kutu"><div class="gs-sayac" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="iz"/><circle cx="60" cy="60" r="52" class="dol"/></svg><span>3</span></div><div class="gs-sec" role="group" aria-label="Seçenekler"></div><p class="gs-cevap" role="status" aria-live="polite"></p></div></div></section>
+{soz_html}
+{yol_band("ogrenci")}
+{ogrenci_html}
+{yol_band("ogretmen")}
+{padlet_html}
+{kapi_html}
+{hafta_html}
+<section class="blm" id="kitaplik" aria-labelledby="kit-b"><div class="w"><div class="bas"><h2 id="kit-b">Kitaplık</h2><p>Tahtada açmak için düğmeye dokunun: karekod ve kısa adres çıkar.</p></div>
+<div class="katalog">{"".join(satirlar)}</div></div></section>
+<section class="blm" id="biz" aria-labelledby="biz-b"><div class="w"><div class="bas"><h2 id="biz-b">Biz</h2></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px">
+<a href="/hakkinda/" style="display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="{AVATAR}" alt="İdiye Ökten" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">İdiye Ökten</b><i class="soz">Öğrenme ve öğretme aşkıyla.</i></span></a>
+<div style="display:flex;gap:16px;align-items:center;border:2px solid currentColor;border-radius:16px;padding:16px 18px"><img src="/img/my-finch.png" alt="My Finch: kâğıttan katlanmış ispinoz" width="96" height="96" loading="lazy" style="border-radius:50%;flex:none"><span><b style="display:block;font-size:1.2em">My Finch</b><span>Kelimelerden hayat bulan bir ekip arkadaşı.</span></span></div>
+</div></div></section>
+<section class="blm" id="videolar" aria-labelledby="vid-b" style="padding-top:0"><div class="w"><div class="bas"><h2 id="vid-b">Videolar</h2><p>YouTube kanalı: @egitimtek. Video dokununca oynar.</p></div>
+<div class="diziler">{son_videolar()}</div></div></section>
+{canta_html}
+</main>
+<script type="application/json" id="veri">{ana_veri}</script><script src="/nesne.js?v={NESNE_SURUM}"></script>{qr_gizli()}{ALT}'''
+open(os.path.join(OUT,"index.html"),"w",encoding="utf-8").write(ana)
+
+# ---- ürün sayfaları
+for u in urunler:
+    v = urun_video(u)
+    sema = [sema_urun(u)] + ([sema_video(v, urun_sayfa(u))] if v else [])
+    sayfa = bas(f"{u['ad']}: {u['sinif']} | Herkese Eğitim", u["kisa"]+" "+u["ne"][:120], urun_sayfa(u), sema=sema, og=u.get("kapak_w")) + ust_koyu() + f'''
+<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/#kitaplik">Kitaplık</a></p>
+<div class="soz-sayfa"><article class="makale"><h1>{E(u["ad"])}</h1><p style="font-size:22px;color:var(--mur)">{E(u["kisa"])}</p><p>{E(u["ne"])}</p>
+<div class="kutu"><h2>Kimin için</h2><p>{E(u["sinif"])}{"<br>Öğrenme çıktısı: "+E(", ".join(u["kazanim"])) if u["kazanim"] else ""}</p></div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">{ac_dugme(u,"dugme kir",sayfa_etiket(u)) or ('<span class="dugme acik" aria-disabled="true">'+(tarih_tr(u["lansman"]) if u.get("lansman") else "Yakında")+'</span>')}</div>
+{'<div class="kutu"><h2>Veliler için</h2><p>Ücretsiz. Hesap açılmaz, kişisel bilgi istenmez.'+(' Öğrenci tarayıcıda tahmin eder, dener, sonucu kendi görür.' if u["tur"]=="atolye" else '')+'</p></div>' if u["tur"]!="oyun" else ''}
+<div class="paylas"><button class="dugme acik" type="button" data-paylas="{SITE}{urun_sayfa(u)}" data-baslik="{E(u["ad"])}">Zümreye gönderin</button><a class="dugme acik" href="https://wa.me/?text={E(urllib.parse.quote(u["ad"]+": "+SITE+urun_sayfa(u)))}" rel="noopener">WhatsApp</a></div>
+{f'<div class="kutu"><h2>Bu sürümde</h2><p>{E(u["surum_notu"])}</p></div>' if u.get("surum_notu") else ""}
+{f'<p style="margin-top:14px"><a class="dugme acik" href="{E(u["kilavuz"])}">Öğretmen kılavuzu</a></p>' if u.get("kilavuz") else ""}
+{f'<p style="margin-top:14px"><a class="dugme acik" href="{u["indir"]}" download="{E(os.path.basename(u["canta"]))}">Tek dosya olarak indir</a></p>' if (u.get("indir") and u["url"]) else ""}
+{f'<p style="margin-top:14px;font-size:16px"><a href="https://github.com/herkeseegitim/herkeseegitim.github.io/issues/new" rel="noopener">Hata bildir</a></p>' if u["id"] in INDIR else ""}
+<p style="margin-top:14px;font-size:16px">{" ".join(f'<a href="/sinif/{x}/">{x}. sınıf</a>' for x in u["siniflar"] if x!="hepsi")} {" ".join(f'<a href="/brans/{b}/">{E(BRANS_AD.get(b,b))}</a>' for b in u["branslar"] if b!="hepsi")}</p>
+{f'<p style="margin-top:18px;font-size:16px">Adres: <a href="{E(u["url"])}">{E(kisa_adres(u["url"]))}</a></p>' if u["durum"]=="yayinda" and u["url"] else ""}
+</article><aside>{vid_btn(v, u["ad"]) if v else ""}{f'<div class="kutu urun-qr" style="text-align:center"><div style="background:#fff;padding:10px;border-radius:10px">{qr_svg(u["url"])}</div><p style="font-size:16px;margin-top:10px">Öğrenciler kendi cihazıyla okutabilir.</p></div>' if u["durum"]=="yayinda" and u["url"] else ""}</aside></div></div></main>{qr_gizli()}{ALT}'''
+    os.makedirs(os.path.join(OUT,"urun",u["id"]), exist_ok=True)
+    open(os.path.join(OUT,"urun",u["id"],"index.html"),"w",encoding="utf-8").write(sayfa)
+
+# ---- atasözü sayfaları
+for i,a in enumerate(atasozleri):
+    v = VBY.get(a.get("video")) or ({"id":a["video"],"baslik":a["soz"],"kapak_w":a.get("kapak_w"),"dik":True,"tarih":a.get("tarih")} if a.get("video") else None)
+    sz = a.get("sozcuk") or {}
+    sema = [{"@context":"https://schema.org","@type":"DefinedTerm","name":a["soz"],"description":a.get("anlam"),"inDefinedTermSet":{"@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/"},"url":SITE+soz_sayfa(a)}]
+    if v: sema.append(sema_video(v, soz_sayfa(a)))
+    onc = atasozleri[i-1] if i>0 else None; snr = atasozleri[i+1] if i+1<len(atasozleri) else None
+    gez = '<p style="margin-top:36px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">' + (f'<a href="{soz_sayfa(onc)}">Önceki: {E(onc["soz"])}</a>' if onc else "<span></span>") + (f'<a href="{soz_sayfa(snr)}">Sonraki: {E(snr["soz"])}</a>' if snr else "") + "</p>"
+    _alt = [("tr",soz_sayfa(a)),("en",en_soz(a["en"]))] if a.get("en") else None
+    sayfa = bas(f"{a['soz']}: anlamı | Atasözlerimizi Yaşatalım", f"{a['soz']} atasözünün anlamı. "+(a.get("anlam") or "")[:110], soz_sayfa(a), sema=sema, og=a.get("kapak_w"), alt=_alt) + ust_koyu() + f'''
+<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / <a href="/atasozleri/">Atasözleri</a> / No. {E(a.get("no"))}</p>
+<div class="soz-sayfa"><article class="makale"><h1 class="soz">{E(a["soz"])}</h1>
+<div class="kutu"><h2>Anlamı</h2><p>{E(a.get("anlam"))}</p></div>
+{f'<div class="kutu"><h2>{E((sz.get("kelime") or "")[:1].replace("i","İ").upper()+(sz.get("kelime") or "")[1:])} ne demek?</h2><p>{E(sz.get("anlam"))}</p></div>' if sz.get("kelime") and sz.get("anlam") else ""}
+{f'<p style="margin-top:22px">Videodaki soru: {E(a.get("soru"))}</p>' if a.get("soru") else ""}{f'<p style="margin-top:14px;font-size:16px"><a href="{en_soz(a["en"])}" hreflang="en" lang="en">In English: {E(a["en"]["literal"])}</a></p>' if a.get("en") else ""}{gez}</article>
+<aside>{vid_btn(v, a["soz"]) if v else ""}</aside></div></div></main>{ALT}'''
+    os.makedirs(os.path.join(OUT,"atasozleri",a["slug"]), exist_ok=True)
+    open(os.path.join(OUT,"atasozleri",a["slug"],"index.html"),"w",encoding="utf-8").write(sayfa)
+def _soz_html(a):
+    k = (a.get("sozcuk") or {}).get("kelime")
+    out = []
+    for w in a["soz"].split():
+        cls = "k u" if k and k in w.lower() else "k"
+        out.append(f'<span class="{cls}">{E(w)}</span>')
+    return " ".join(out)
+def _soz_li(a):
+    sk = a.get("sozcuk") or {}
+    not_ = f'<p class="sz-not"><b>{E(sk.get("kelime"))}:</b> {E(sk.get("anlam"))}</p>' if sk.get("kelime") else ""
+    return (f'<li class="sz"><span class="sz-no" aria-hidden="true">{E(a.get("no"))}</span><div class="sz-g">'
+            f'<p class="sz-s"><a href="{soz_sayfa(a)}">{_soz_html(a)}</a></p><p class="sz-a">{E(a.get("anlam") or "")}</p>{not_}</div></li>')
+_ALF = "abcçdefgğhıijklmnoöprsştuüvyz"
+def _tr_key(t):
+    t = t.replace("I","ı").replace("İ","i").lower()
+    return [(_ALF.index(c) if c in _ALF else 99) for c in t if c.isalpha()]
+def _bas_harf(t):
+    c = t.strip()[0]
+    return {"i":"İ","ı":"I"}.get(c, c.upper()) if c not in "Iİ" else c
+_one = atasozleri[-1] if atasozleri else None
+_gr = {}
+for a in sorted(atasozleri, key=lambda a: _tr_key(a["soz"])):
+    _gr.setdefault(_bas_harf(a["soz"]), []).append(a)
+def _ind_li(a):
+    sk = (a.get("sozcuk") or {}).get("kelime") or ""
+    ara = " ".join([a["soz"], a.get("anlam") or "", sk])
+    sozh = " ".join((f'<mark>{E(w)}</mark>' if sk and sk in w.lower() else E(w)) for w in a["soz"].split())
+    return f'<li data-ara="{E(ara)}"><a href="{soz_sayfa(a)}"><b>{sozh}</b><span>{E(a.get("anlam") or "")}</span></a><small>No. {E(a.get("no"))}</small></li>'
+_harfler = "".join((f'<a href="#h-{E(h)}">{E(h)}</a>' if h in _gr else f'<span aria-hidden="true">{E(h)}</span>') for h in "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")
+_indeks = "".join(f'<section class="sz-grup" id="h-{E(h)}"><h2>{E(h)}</h2><ul>{"".join(_ind_li(a) for a in l)}</ul></section>' for h,l in _gr.items())
+_sozcukler = "".join(f'<a href="{soz_sayfa(a)}" title="{E(a["sozcuk"].get("anlam") or "")}">{E(a["sozcuk"]["kelime"])}</a>' for a in atasozleri if (a.get("sozcuk") or {}).get("kelime"))
+soz_liste = (f'<p class="sz-etiket">En yeni söz</p><ol class="sz-liste">{_soz_li(_one)}</ol><p class="sz-soyle-k"><button type="button" class="dugme kir sz-soyle" data-soz="{E(_one["soz"])}">Tahtada büyüt, sınıfça söyleyin</button></p>' if _one else "") + f'''
+<section class="sz-defter" aria-labelledby="sz-d-b"><div class="sz-defter-bas"><div><h2 id="sz-d-b">Bütün atasözleri</h2><p class="sz-adet">{len(atasozleri)} söz</p></div>
+<div class="sz-ara"><label for="sz-q" class="gizli">Atasözlerinde ara</label><input id="sz-q" type="search" placeholder="Söz, anlam ya da kelime: harman, gönül, ağaç" autocomplete="off"><p class="sz-say" role="status" aria-live="polite"></p></div></div>
+<nav class="sz-harf" aria-label="Harfe git">{_harfler}</nav>
+{f'<div class="sz-bant"><p>Unutulmak üzere olan sözcükler. Dokunun, yeniden yazılsın.</p><div class="sz-bant-k">{_sozcukler}</div></div>' if _sozcukler else ""}
+<div class="sz-indeks">{_indeks}</div><p class="sz-yok" hidden>Bu aramayla atasözü çıkmadı. Başka bir kelime deneyin.</p></section>'''
+
+open(os.path.join(OUT,"atasozleri","index.html"),"w",encoding="utf-8").write(
+  bas("Atasözlerimizi Yaşatalım | Herkese Eğitim","Az bilinen atasözleri, anlamları ve unutulan sözcükleri. Her atasözünün kendi sayfası ve kısa videosu var.","/atasozleri/",
+      sema=[{"@context":"https://schema.org","@type":"DefinedTermSet","name":"Atasözlerimizi Yaşatalım","url":SITE+"/atasozleri/","hasDefinedTerm":[{"@type":"DefinedTerm","name":a["soz"],"url":SITE+soz_sayfa(a)} for a in atasozleri]}])
+  + ust_koyu() + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Atasözleri</p><section class="sz-bas"><p class="sz-ad">Atasözlerimizi Yaşatalım</p><h1>Unutulan sözler,<br>söylendikçe yaşar</h1><p>Az bilinen atasözleri ve içlerinde unutulan sözcükler. Okudukça soluk sözler yeniden mürekkep tutar. Birini seçin, anlamını ve kısa videosunu açın, sonra sınıfta bir kez söyleyin.</p></section>{soz_liste}</div></main>{ALT}')
+
+# ---- hakkında
+hk = open(os.path.join(KOK,"src","hakkinda.html"),encoding="utf-8").read()
+open(os.path.join(OUT,"hakkinda","index.html"),"w",encoding="utf-8").write(
+  bas("Hakkında: İdiye Ökten | Herkese Eğitim","İdiye Ökten ve Herkese Eğitim. Eskinin bilgeliği, yeninin teknolojisi: teknolojinin doğru, etik ve yerinde kullanımı için ücretsiz araçlar, atölyeler ve videolar.","/hakkinda/",
+      sema=[{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":KISI,"url":SITE+"/hakkinda/"}], alt=[("tr","/hakkinda/"),("en","/en/about/")]) + ust_koyu()
+  + f'<main id="ana" class="sayfa"><div class="w"><p class="yol"><a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> / Hakkında</p><article class="hk">{hk.replace("{SLOGAN}",E(SLOGAN)).replace("{MISYON}",E(MISYON)).replace("{AVATAR}",AVATAR)}</article></div></main>{ALT}')
+
+# ---- 404, robots, sitemap, llms.txt
+open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | Herkese Eğitim","Bu sayfa teneffüse çıktı.","/404.html")+ust_koyu()+'''<main id="ana" class="teneffus"><div class="w">
+<div class="tahta-404"><p class="tebesir">Bu sayfa teneffüse çıktı.</p><p class="tebesir kucuk">Zil çalınca döner. Bir atölye yeni açılıyorsa birkaç dakika sonra yeniden deneyin.</p>
+<svg class="zil" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 18c-18 0-30 14-30 32v22l-10 14h80L90 72V50c0-18-12-32-30-32z" fill="none" stroke="#FFF4DE" stroke-width="5" stroke-linejoin="round"/><circle cx="60" cy="96" r="8" fill="#FFC21A"/><path d="M60 8v10" stroke="#FFF4DE" stroke-width="5" stroke-linecap="round"/></svg>
+<p class="silgi" aria-hidden="true"></p></div>
+<p class="git">Bu arada: <a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
+</div></main>'''+ALT)
+open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
+yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
+_lm = {urun_sayfa(u): u.get("lansman") for u in urunler}
+_lm.update({soz_sayfa(a): a.get("tarih") for a in atasozleri})
+_lm.update({video_sayfa(v): v.get("tarih") for v in videolar if not video_sayfa(v).startswith("/atasozleri/")})
+_lm = {k: v[:10] for k, v in _lm.items() if v and re.fullmatch(r"\d{4}-\d\d-\d\d.*", v) and v[:10] <= BUGUN.isoformat()}
+open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}{y}</loc>" + (f"<lastmod>{_lm[y]}</lastmod>" if y in _lm else "") + "</url>" for y in yollar)+"</urlset>\n")
+L = [f"# Herkese Eğitim\n\n> {ACIKLAMA}\n\n{MISYON}\n\nİdiye Ökten'in ücretsiz paylaşımları: tahtada açılan araçlar, MEB öğrenme çıktılarına bağlı atölyeler, tahmin soruları, atasözleri ve özel gün videoları. Site: {SITE}/\n\nİdiye Ökten eğitim teknolojileri alanında çalışır. İletişim: herkeseegitimtek@gmail.com. YouTube: @egitimtek.\n\n## Araçlar, atölyeler, oyunlar\n"]
+for u in urunler:
+    L.append(f"- [{u['ad']}]({SITE}{urun_sayfa(u)}): {u['kisa']} Kimin için: {u['sinif']}." + (f" Öğrenme çıktısı: {', '.join(u['kazanim'])}." if u['kazanim'] else "") + (f" Adres: {u['url']}" if u['durum']=='yayinda' and u['url'] else ("" if u['durum']=='yayinda' else f" Yayın: {u['lansman']}." if u.get('lansman') else " Yakında.")))
+L.append("\n## YouTube dizileri\n")
+for D in (NOTEBOOKLM, PADLET, WORDWALL):
+    L.append(f"- {D['ad']}: {D['kisa']}" + (f" Liste: {D['liste']}" if D['liste'] else ""))
+    for g,l in D["gruplar"]:
+        for t,h in l: L.append(f"  - {g}, {t}: {h if h.startswith('http') else SITE+h}")
+if VITRINLER:
+    L.append("\n## Kayıp Aletler Müzesi\n")
+    L.append(f"- [Kayıp Aletler Müzesi]({SITE}{MUZE_ADRES}): eski aletlerin vitrinleri; içini açın, bugünküyle karşılaştırın.")
+    for v in VITRINLER: L.append(f"  - [Vitrin {v['no']:02d}, {v['ad']}]({SITE}{vitrin_sayfa(v)}): {v['baslik']}")
+L.append("\n## Atasözlerimizi Yaşatalım\n")
+for a in atasozleri: L.append(f"- [{a['soz']}]({SITE}{soz_sayfa(a)}): {a.get('anlam') or ''}")
+L.append("\n## Videolar\n")
+for v in videolar: L.append(f"- {v.get('baslik')} ({DIZI.get(v.get('dizi'),('Video',))[0]}): https://www.youtube.com/watch?v={v['id']}")
+L.append("\n## Takvim\n")
+for t in takvim: L.append(f"- {t['tarih']}: {t['baslik']}" + (f" ({t['not']})" if t.get('not') else ""))
+open(os.path.join(OUT,"llms.txt"),"w",encoding="utf-8").write("\n".join(L)+"\n")
+def _yol_cevir(m):
+    parca = m.group(1).split(" / ")
+    ic = []
+    for i,x in enumerate(parca):
+        if i: ic.append('<i class="ayak" aria-hidden="true"></i>')
+        ic.append(x if (x.startswith("<a") or i < len(parca)-1) else f'<span class="tabela" aria-current="page">{x}</span>')
+    return '<nav class="yol" aria-label="Bulunduğunuz yer">' + "".join(ic) + '</nav>'
+def _dis_sekme(m):
+    ic = m.group(1)
+    if "target=" in ic: return m.group(0)
+    h = re.search(r'href="([^"]*)"', ic)
+    if (h and re.match(r'https?://', h.group(1)) and not re.match(r'https?://(www\.)?herkeseegitim\.com(/|$)', h.group(1))) or 'class="dugme kir ac"' in ic:
+        return '<a ' + ic + ' target="_blank" rel="noopener">'
+    return m.group(0)
+for _k,_d,_ds in os.walk(OUT):
+    for _f in _ds:
+        if _f.endswith(".html"):
+            _p = os.path.join(_k,_f); _h = open(_p,encoding="utf-8").read()
+            _y = re.sub(r'<p class="yol">(.*?)</p>', _yol_cevir, _h)
+            _y = re.sub(r'<a ([^>]*?)>', _dis_sekme, _y)
+            if _y != _h: open(_p,"w",encoding="utf-8").write(_y)
+open(os.path.join(OUT,".nojekyll"),"w").write("")
+if os.environ.get("CNAME"): open(os.path.join(OUT,"CNAME"),"w").write(os.environ["CNAME"]+"\n")
+print("tamam:", len(urunler),"ürün,",len(videolar),"video,",len(atasozleri),"atasözü, çanta:",len(canta_dosyalar))
+
+# ---- sayaç denetimi: araç, atölye, çanta zip'i ve İçinde Ne Var? bölüm dosyalarında GoatCounter olmamalı
+def _gc_yok(ad, b):
+    assert b"goatcounter" not in b.lower(), ("sayaç araç dosyasına girdi", ad)
+for _k, _d, _fs in os.walk(OUT):
+    _r = os.path.relpath(_k, OUT).replace(os.sep, "/")
+    _arac = _r.split("/")[0] in ("indir", "atolye", "maasim") or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
+    for _f in _fs:
+        _y = os.path.join(_k, _f)
+        if _f.endswith(".zip"):
+            with zipfile.ZipFile(_y) as _z:
+                for _n in _z.namelist(): _gc_yok(_r + "/" + _f + ":" + _n, _z.read(_n))
+        elif _arac and _f.endswith((".html", ".js")):
+            _gc_yok(_r + "/" + _f, open(_y, "rb").read())

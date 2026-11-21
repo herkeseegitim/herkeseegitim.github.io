@@ -1,0 +1,376 @@
+(function(){
+"use strict";
+var VERI={};try{var v=document.getElementById("veri");if(v)VERI=JSON.parse(v.textContent);}catch(e){}
+var azHareket=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function sakla(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}}
+function oku(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
+function trKucuk(s){return String(s||"").replace(/I/g,"ı").replace(/İ/g,"i").toLowerCase();}
+function sade(s){return trKucuk(s).replace(/[çğıöşü]/g,function(c){return {"ç":"c","ğ":"g","ı":"i","ö":"o","ş":"s","ü":"u"}[c];}).replace(/[^a-z0-9% ]/g," ");}
+
+/* video: dokununca yüklenir */
+document.addEventListener("click",function(e){
+ var b=e.target.closest&&e.target.closest("button.vid");if(!b||b.dataset.yuklendi)return;
+ var id=b.dataset.id;if(!/^[\w-]{6,20}$/.test(id))return;
+ var f=document.createElement("iframe");
+ f.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"+(b.dataset.cc==="en"?"&hl=en&cc_load_policy=1&cc_lang_pref=en":"");
+ f.title=b.getAttribute("aria-label")||"YouTube videosu";
+ f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";f.allowFullscreen=true;
+ var d=document.createElement("div");d.className=b.className;d.appendChild(f);b.replaceWith(d);f.focus();
+});
+
+/* karekod penceresi */
+var kare=document.getElementById("kare");
+document.addEventListener("click",function(e){
+ var t=e.target.closest&&e.target.closest("[data-kare]");if(!t||!kare||!kare.showModal)return;
+ e.preventDefault();
+ var s=document.getElementById("qr-"+t.dataset.kare);if(!s)return;
+ kare.querySelector(".qr").innerHTML=s.innerHTML;
+ kare.querySelector("h2").textContent=t.dataset.ad;
+ kare.querySelector(".adres").textContent=t.dataset.kisa;
+ var a=kare.querySelector("a.ac");a.href=t.dataset.url;a.textContent=t.dataset.etiket||"Bu cihazda aç";
+ kare.showModal();kare.querySelector("button.kapat").focus();
+});
+if(kare){kare.addEventListener("click",function(e){if(e.target===kare||e.target.closest("button.kapat"))kare.close();});}
+
+/* spot */
+var sahne=document.querySelector(".sahne"),perde=sahne,hedef=document.querySelector(".cuma-grup")||document.querySelector(".cuma-not");
+if(sahne&&document.querySelector(".duvar.gun")){
+ var x=0,y=0,tx=0,ty=0,raf=0,dokundu=false;
+ function konum(){var r=sahne.getBoundingClientRect();if(hedef){var h=hedef.getBoundingClientRect();return [h.left+h.width/2-r.left,h.top+h.height/2-r.top];}return [r.width*.5,r.height*.9];}
+ var donus=0;function sonra(){clearTimeout(donus);donus=setTimeout(function(){var k=konum();git(k[0],k[1]);},4000);}
+ function ciz(){x+=(tx-x)*.1;y+=(ty-y)*.1;perde.style.setProperty("--x",x+"px");perde.style.setProperty("--y",y+"px");if(Math.abs(tx-x)+Math.abs(ty-y)>.5)raf=requestAnimationFrame(ciz);else raf=0;}
+ function git(px,py){tx=px;ty=py;if(azHareket){x=tx;y=ty;perde.style.setProperty("--x",x+"px");perde.style.setProperty("--y",y+"px");return;}if(!raf)raf=requestAnimationFrame(ciz);}
+ var k=konum();x=azHareket?k[0]:sahne.clientWidth*.15;y=azHareket?k[1]:sahne.clientHeight*.1;git(k[0],k[1]);
+ sahne.addEventListener("pointermove",function(e){if(e.pointerType==="mouse"||dokundu){var r=sahne.getBoundingClientRect();git(e.clientX-r.left,e.clientY-r.top);}});
+ sahne.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse"){dokundu=true;var r=sahne.getBoundingClientRect();git(e.clientX-r.left,e.clientY-r.top);sonra();}});
+ sahne.addEventListener("pointerleave",function(e){if(e.pointerType==="mouse"){var k=konum();git(k[0],k[1]);}});
+ window.addEventListener("resize",function(){var k=konum();git(k[0],k[1]);});
+}
+
+/* az önce izlediğin video */
+var izl=document.getElementById("izledin");
+if(izl&&VERI.son){
+ var q=location.search.replace(/^\?/,"").split("&"),plat=null,vid=null;
+ q.forEach(function(p){var kv=p.split("=");if(["ig","tt","yt","x","li"].indexOf(kv[0])>-1)plat=kv[0];if(kv[0]==="v"&&/^[\w-]{6,20}$/.test(kv[1]||""))vid=kv[1];});
+ if(plat||vid){
+  var adlar={ig:"Instagram",tt:"TikTok",yt:"YouTube",x:"X",li:"LinkedIn"};
+  var gercek=!!VERI.son[plat],liste=(VERI.son[plat]||VERI.son.yt||[]),s=null;
+  if(vid){(VERI.son.hepsi||[]).forEach(function(o){if(o.id===vid)s=o;});}
+  else s=liste[0];
+  if(s){
+   izl.href=s.sayfa;izl.querySelector("img").src=s.kapak;izl.querySelector("img").alt="";
+   izl.querySelector(".iz-k").textContent=vid?"Az önce izlediğiniz video":!gercek?"Son videomuz":(adlar[plat]+"'daki son videomuz").replace("X'daki","X'teki").replace("TikTok'daki","TikTok'taki").replace("LinkedIn'daki","LinkedIn'deki");
+   izl.querySelector(".iz-b").textContent=s.baslik;izl.querySelector(".iz-i").textContent=s.ileri;
+   izl.hidden=false;
+  }
+ }
+}
+
+/* arama */
+var girdi=document.getElementById("ara"),kutu=document.getElementById("ara-sonuc");
+if(girdi&&kutu){
+ var dizin=[],yuklendi=false;
+ function dizinAl(){if(yuklendi)return;yuklendi=true;fetch("/ara.json").then(function(r){return r.json();}).then(function(l){dizin=l.map(function(o){o._s=sade(o.b+" "+o.a+" "+(o.k||""));return o;});if(girdi.value)bul();}).catch(function(){yuklendi=false;});}
+ girdi.addEventListener("focus",dizinAl);girdi.addEventListener("pointerenter",dizinAl);
+ var secili=-1;
+ function bul(){
+  var q=sade(girdi.value).trim();kutu.innerHTML="";secili=-1;
+  girdi.removeAttribute("aria-activedescendant");if(q.length<2){kutu.hidden=true;girdi.setAttribute("aria-expanded","false");return;}
+  var parca=q.split(/\s+/),sn=dizin.map(function(o){var p=0;parca.forEach(function(w){var i=o._s.indexOf(w);if(i<0)p-=100;else p+=(i===0||o._s.charAt(i-1)===" ")?3:1;});if(sade(o.b).indexOf(q)>-1)p+=5;return [p,o];}).filter(function(a){return a[0]>0;}).sort(function(a,b){return b[0]-a[0];}).slice(0,8);
+  if(!sn.length){var li=document.createElement("li");li.className="bos";li.textContent="Bulamadım. Başka bir sözcük deneyin: konu, sınıf ya da ürün adı.";kutu.appendChild(li);}
+  sn.forEach(function(a,i){var o=a[1],li=document.createElement("li");li.setAttribute("role","none");var l=document.createElement("a");l.href=o.u;l.id="s"+i;l.setAttribute("role","option");
+   l.innerHTML='<span class="tur t-'+o.t+'"></span><b></b><span></span>';l.children[0].textContent=o.tl;l.children[1].textContent=o.b;l.children[2].textContent=o.a;li.appendChild(l);kutu.appendChild(li);});
+  kutu.hidden=false;girdi.setAttribute("aria-expanded","true");var du=document.getElementById("ara-durum");if(du)du.textContent=sn.length?sn.length+" sonuç":"Sonuç yok";
+ }
+ girdi.addEventListener("input",bul);
+ girdi.addEventListener("keydown",function(e){var l=kutu.querySelectorAll("a");if(!l.length)return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();secili=(secili+(e.key==="ArrowDown"?1:-1)+l.length)%l.length;l.forEach(function(a,i){a.setAttribute("aria-selected",i===secili);});girdi.setAttribute("aria-activedescendant",l[secili].id);}
+  else if(e.key==="Enter"){var a=l[Math.max(secili,0)];if(a){e.preventDefault();location.href=a.href;}}
+  else if(e.key==="Escape"){kutu.hidden=true;girdi.removeAttribute("aria-activedescendant");girdi.setAttribute("aria-expanded","false");}});
+ girdi.addEventListener("blur",function(){setTimeout(function(){if(!kutu.contains(document.activeElement)){kutu.hidden=true;girdi.setAttribute("aria-expanded","false");}},150);});
+ document.addEventListener("click",function(e){if(!e.target.closest(".ara"))kutu.hidden=true;});
+}
+
+/* kapı: üç soru */
+var kapi=document.getElementById("kapi");
+if(kapi){
+ var sat=[].slice.call(document.querySelectorAll(".katalog .sat")),kat=document.querySelector(".katalog"),cikti=document.getElementById("kapi-sonuc");
+ var sira=sat.slice();
+ function seçim(){var d={};["kim","kademe","ihtiyac"].forEach(function(n){var i=kapi.querySelector('input[name="'+n+'"]:checked');d[n]=i?i.value:"";});return d;}
+ function uygula(kaydet){
+  var d=seçim(),n=0;if(kaydet)sakla("he-kapi",d);
+  var bos=!d.kim&&!d.kademe&&!d.ihtiyac;
+  var puan=sira.map(function(s,i){var p=0;
+   if(d.kademe){var k=(s.dataset.kademe||"").split(" ");if(k.indexOf(d.kademe)>-1||k.indexOf("hepsi")>-1)p+=2;else p-=3;}
+   if(d.ihtiyac&&(s.dataset.ihtiyac||"").split(" ").indexOf(d.ihtiyac)>-1)p+=2;
+   if(d.kim&&(s.dataset.kim||"").split(" ").indexOf(d.kim)>-1)p+=2;
+   if(s.dataset.durum!=="yayinda")p-=3;
+   return [p,i,s];});
+  if(!bos)puan.sort(function(a,b){return b[0]-a[0]||a[1]-b[1];});else puan.sort(function(a,b){return a[1]-b[1];});
+  puan.forEach(function(a){var s=a[2],uy=!bos&&a[0]>=2;s.classList.toggle("uygun",uy);if(s.dataset.durum!=="yayinda")uy=false;var r=s.querySelector(".rozet");if(r)r.hidden=!uy;if(uy)n++;kat.appendChild(s);});
+  if(cikti)cikti.textContent=bos?"":(n?n+" ürünü listenin başına aldım."+(d.kademe==="lise"?" Lise için iki araç var: ÇizTahta ve eklentisi.":""):"Bu seçime uyan ürün henüz yok.");
+ }
+ kapi.addEventListener("change",function(){uygula(true);});
+ var tem=kapi.querySelector(".temizle");if(tem)tem.addEventListener("click",function(){kapi.querySelectorAll("input").forEach(function(i){i.checked=false;});uygula(true);});
+ var es=oku("he-kapi");if(es){Object.keys(es).forEach(function(n){var i=kapi.querySelector('input[name="'+n+'"][value="'+es[n]+'"]');if(i)i.checked=true;});uygula(false);}
+}
+})();
+
+(function(){function h(){document.documentElement.classList.add("yazi-hazir");}if(document.fonts&&document.fonts.ready)document.fonts.ready.then(h);setTimeout(h,1200);})();
+
+/* sayfa tahta: kalem, temizle, ses, gizli sürpriz */
+(function(){
+"use strict";
+var sahne=document.querySelector(".sahne"),cv=document.getElementById("tahta");
+if(!sahne||!cv||!cv.getContext)return;
+var VERI={};try{VERI=JSON.parse(document.getElementById("veri").textContent);}catch(e){}
+var azH=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var cx=cv.getContext("2d"),oran=1,cizgiler=[],simdiki=null;
+var bKalem=document.getElementById("t-kalem"),bTem=document.getElementById("t-temizle"),bSes=document.getElementById("t-ses"),ipucu=document.getElementById("t-ipucu");
+function boyut(){var r=sahne.getBoundingClientRect();oran=Math.min(window.devicePixelRatio||1,2);cv.width=r.width*oran;cv.height=r.height*oran;yenidenCiz();}
+function yol(c){if(c.p.length<2)return;cx.strokeStyle=c.renk;cx.lineWidth=c.k*oran;cx.lineCap="round";cx.lineJoin="round";cx.shadowColor="rgba(217,50,43,.35)";cx.shadowBlur=6*oran;cx.beginPath();cx.moveTo(c.p[0][0]*oran,c.p[0][1]*oran);
+ for(var i=1;i<c.p.length-1;i++){var mx=(c.p[i][0]+c.p[i+1][0])/2,my=(c.p[i][1]+c.p[i+1][1])/2;cx.quadraticCurveTo(c.p[i][0]*oran,c.p[i][1]*oran,mx*oran,my*oran);}
+ var s=c.p[c.p.length-1];cx.lineTo(s[0]*oran,s[1]*oran);cx.stroke();}
+function yenidenCiz(){cx.clearRect(0,0,cv.width,cv.height);cizgiler.forEach(yol);if(simdiki)yol(simdiki);}
+window.addEventListener("resize",boyut);if(window.ResizeObserver)new ResizeObserver(boyut).observe(sahne);boyut();
+
+/* ses: kapalı başlar, Web Audio ile üretilir, dosya yok */
+var ses=false,ac=null,gurultu=null,kazima=null;
+function sesHazir(){if(ac)return;try{ac=new (window.AudioContext||window.webkitAudioContext)();var n=ac.createBuffer(1,ac.sampleRate,ac.sampleRate),d=n.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;gurultu=n;}catch(e){ac=null;}}
+function tik(f){if(!ses||!ac)return;var o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f||660;o.type="triangle";g.gain.setValueAtTime(.08,ac.currentTime);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.12);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+.13);}
+function tebesirBasla(){if(!ses||!ac||kazima)return;var s=ac.createBufferSource();s.buffer=gurultu;s.loop=true;var f=ac.createBiquadFilter();f.type="bandpass";f.frequency.value=2600;f.Q.value=1.4;var g=ac.createGain();g.gain.value=0;s.connect(f).connect(g).connect(ac.destination);s.start();kazima={s:s,g:g};}
+function tebesirHiz(v){if(kazima)kazima.g.gain.setTargetAtTime(Math.min(.09,v*.004),ac.currentTime,.03);}
+function tebesirBitir(){if(kazima){var k=kazima;kazima=null;k.g.gain.setTargetAtTime(0,ac.currentTime,.04);setTimeout(function(){try{k.s.stop();}catch(e){}},200);}}
+function zil(){if(!ses||!ac)return;[523,659,784,1047].forEach(function(f,i){setTimeout(function(){tik(f);},i*90);});}
+bSes.addEventListener("click",function(){ses=!ses;bSes.setAttribute("aria-pressed",ses);if(ses){sesHazir();if(ac&&ac.resume)ac.resume();tik(880);}});
+
+/* kalem */
+function kalemAc(ac_){sahne.classList.toggle("yaziyor",ac_);bKalem.setAttribute("aria-pressed",ac_);if(ac_){ipucu.textContent=ipucu.dataset.yaz||"Yazın, çizin. Haftanın atölyesini kalemle çember içine alın.";}tik(ac_?740:520);}
+bKalem.addEventListener("click",function(){kalemAc(!sahne.classList.contains("yaziyor"));});
+bTem.addEventListener("click",function(){cizgiler=[];simdiki=null;yenidenCiz();var a=sahne.querySelector(".soz-an");if(a)a.remove();sahne.classList.remove("soz-acik");tik(420);});
+function nokta(e){var r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
+var son=null;
+cv.addEventListener("pointerdown",function(e){if(!sahne.classList.contains("yaziyor"))return;cv.setPointerCapture(e.pointerId);simdiki={renk:"#E0362C",k:e.pointerType==="pen"?4+4*(e.pressure||.5):5,p:[nokta(e)]};son=simdiki.p[0];tebesirBasla();});
+cv.addEventListener("pointermove",function(e){if(!simdiki)return;var p=nokta(e),v=Math.hypot(p[0]-son[0],p[1]-son[1]);if(v<1.5)return;simdiki.p.push(p);son=p;tebesirHiz(v);yenidenCiz();});
+function bitir(){if(!simdiki)return;var c=simdiki;simdiki=null;cizgiler.push(c);tebesirBitir();yenidenCiz();halkaMi(c);}
+cv.addEventListener("pointerup",bitir);cv.addEventListener("pointercancel",bitir);
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&sahne.classList.contains("yaziyor"))kalemAc(false);});
+
+/* şaşırtma: haftanın atölyesini çember içine alan bulur */
+function icinde(pt,p){var c=false;for(var i=0,j=p.length-1;i<p.length;j=i++){if(((p[i][1]>pt[1])!==(p[j][1]>pt[1]))&&(pt[0]<(p[j][0]-p[i][0])*(pt[1]-p[i][1])/(p[j][1]-p[i][1])+p[i][0]))c=!c;}return c;}
+function halkaMi(c){var n=document.querySelector('.cuma-not[href="#padlet"]')||document.querySelector(".cuma-not");if(!n||c.p.length<12)return;var a=c.p[0],b=c.p[c.p.length-1];var uz=0;for(var i=1;i<c.p.length;i++)uz+=Math.hypot(c.p[i][0]-c.p[i-1][0],c.p[i][1]-c.p[i-1][1]);
+ if(Math.hypot(a[0]-b[0],a[1]-b[1])>Math.max(90,uz*.25)||uz<250)return;
+ var r=n.getBoundingClientRect(),s=cv.getBoundingClientRect(),m=[r.left+r.width/2-s.left,r.top+r.height/2-s.top];
+ if(!icinde(m,c.p))return;
+ n.classList.remove("buldu");void n.offsetWidth;n.classList.add("buldu");zil();}
+
+/* gizli sürpriz: T tuşu ya da logoya üç dokunuş, tahtaya bir atasözü yazılır */
+var sozler=VERI.soz||[],sira=0;
+function sozYaz(){if(!sozler.length)return;var o=sozler[sira++%sozler.length];var eski=sahne.querySelector(".soz-an");if(eski)eski.remove();
+ var d=document.createElement("div");d.className="soz-an";var p=document.createElement("p");d.appendChild(p);
+ o.s.split("").forEach(function(ch){var sp=document.createElement("span");sp.className="harf";sp.textContent=ch;p.appendChild(sp);});
+ sahne.classList.add("soz-acik");var a=document.createElement("a");a.href=o.u;a.textContent=(sahne.dataset.sozEt||"Atasözlerimizi Yaşatalım No. ")+o.n+(sahne.dataset.sozSon||": anlamı");a.style.opacity="0";d.appendChild(a);sahne.appendChild(d);
+ var h=p.querySelectorAll(".harf"),i=0;
+ if(azH){h.forEach(function(x){x.classList.add("on");});a.style.opacity="1";return;}
+ tebesirBasla();tebesirHiz(18);
+ (function adim(){if(i<h.length){h[i++].classList.add("on");setTimeout(adim,45);}else{tebesirBitir();a.style.transition="opacity .4s";a.style.opacity="1";}})();}
+document.addEventListener("keydown",function(e){var t=e.target;if(t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA"||t.isContentEditable))return;if((e.key==="t"||e.key==="T")&&!e.ctrlKey&&!e.metaKey&&!e.altKey){var r=sahne.getBoundingClientRect();if(r.bottom>0)sozYaz();}});
+var logo=document.querySelector(".ust .logo"),dok=0,zaman=0;
+if(logo)logo.addEventListener("click",function(e){var t=Date.now();dok=(t-zaman<600)?dok+1:1;zaman=t;if(dok>=3){e.preventDefault();dok=0;sozYaz();}else if(location.pathname==="/"||location.pathname==="/en/"){e.preventDefault();}});
+})();
+
+/* süzgeç */
+(function(){var g=document.querySelector(".suzgec");if(!g)return;g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;g.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b);});var s=b.dataset.s.split(":");document.querySelectorAll(".kartlar .kart").forEach(function(k){if(!s[0]){k.hidden=false;return;}var l=(k.dataset[s[0]]||"").split(" ");k.hidden=!(l.indexOf(s[1])>-1||l.indexOf("hepsi")>-1);});});})();
+
+/* çanta kurucu */
+(function(){var k=document.getElementById("canta-kur");if(!k)return;var V=[];try{V=JSON.parse(document.getElementById("canta-veri").textContent);}catch(e){}
+ var KD={ilkokul:["1","2","3","4"],ortaokul:["5","6","7","8"],lise:["9","10","11","12"]},liste=document.getElementById("ck-liste"),durum=document.getElementById("ck-durum");
+ function sec(n){var i=k.querySelector('input[name="'+n+'"]:checked');return i?i.value:"";}
+ function ciz(){var kim=sec("ck"),kd=sec("kd"),br=sec("br");document.getElementById("ck-kademe").hidden=kim==="herkes";document.getElementById("ck-brans").hidden=kim!=="ogretmen";document.getElementById("ck-not").hidden=kim!=="ogrenci";
+  liste.innerHTML="";V.forEach(function(u){if(kim==="ogrenci"&&!u.ogr)return;if(kim!=="herkes"&&kd&&!(u.s.indexOf("hepsi")>-1||u.s.some(function(x){return KD[kd].indexOf(x)>-1;})))return;if(kim==="ogretmen"&&br&&!(u.b.indexOf("hepsi")>-1||u.b.indexOf(br)>-1))return;
+   var li=document.createElement("li"),l=document.createElement("label"),c=document.createElement("input");c.type="checkbox";c.checked=true;c.value=u.id;l.appendChild(c);var b=document.createElement("b");b.textContent=u.ad;l.appendChild(b);var s=document.createElement("small");s.textContent=u.sinif+", "+String(u.mb).replace(".",",")+" MB";l.appendChild(s);li.appendChild(l);liste.appendChild(li);});
+  if(!liste.children.length){var li=document.createElement("li");li.textContent="Bu seçime uyan dosya henüz yok.";liste.appendChild(li);}}
+ k.addEventListener("change",ciz);
+ var h=location.hash.replace("#","");var r=k.querySelector('input[name="ck"][value="'+h+'"]');if(r)r.checked=true;ciz();
+ document.getElementById("ck-indir").addEventListener("click",function(){var s=[].slice.call(liste.querySelectorAll("input:checked")).map(function(c){return V.filter(function(u){return u.id===c.value;})[0];});if(!s.length){durum.textContent="Önce en az bir dosya seçin.";return;}
+  if(!window.fflate){location.href="/canta/Herkese%20Egitim%20cantasi.zip";return;}
+  durum.textContent="Hazırlanıyor…";var dosyalar={},enc=new TextEncoder();
+  Promise.all(s.map(function(u){return fetch("/indir/"+u.id+".html").then(function(r){return r.arrayBuffer();}).then(function(b){dosyalar[u.dosya]=new Uint8Array(b);});})).then(function(){
+   dosyalar["OKU.txt"]=enc.encode("Herkese Eğitim çantası\n\nHer dosya çift tıklayınca tarayıcıda açılır, internet gerekmez.\nGüncel sürümler: "+location.origin+"/\n");
+   var z=fflate.zipSync(dosyalar,{level:6}),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([z],{type:"application/zip"}));a.download="Herkese Egitim cantasi.zip";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},2000);durum.textContent="İndirildi: "+s.length+" dosya.";
+  }).catch(function(){durum.textContent="İndirilemedi. Hepsini tek seferde indirme bağlantısını deneyin.";});});
+})();
+
+/* günün sorusu: tarihe göre her gün başka soru */
+(function(){var b=document.getElementById("gunun");if(!b)return;var V={};try{V=JSON.parse(document.getElementById("veri").textContent);}catch(e){}var L=V.gs||[];if(!L.length){b.hidden=true;return;}
+ var gun=Math.floor((Date.now()+3*3600e3)/864e5),q=L[gun%L.length],baslik=b.querySelector(".gs-soru"),sec=b.querySelector(".gs-sec"),cev=b.querySelector(".gs-cevap"),say=b.querySelector(".gs-sayac"),sn=say.querySelector("span");
+ baslik.textContent=q.s;var bitti=false;
+ q.se.forEach(function(t,i){var d=document.createElement("button");d.type="button";d.disabled=true;d.textContent=String.fromCharCode(65+i)+") "+t;d.addEventListener("click",function(){if(bitti)return;bitti=true;d.classList.add("secti");goster(i);});sec.appendChild(d);});
+ function goster(i){var bs=sec.querySelectorAll("button");bs.forEach(function(x){x.disabled=true;});bs[q.c].classList.add("dogru");cev.textContent="";var p=document.createElement("span");p.textContent=(i===q.c?"Doğru. ":i===undefined?"":"Cevap "+String.fromCharCode(65+q.c)+". ")+q.a+" ";var a=document.createElement("a");a.href=q.u;a.textContent="Videosu";cev.appendChild(p);cev.appendChild(a);}
+ var azH2=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;function n0(){basladi=true;sn.textContent="?";sec.querySelectorAll("button").forEach(function(x){x.disabled=false;});}
+ var basladi=false;function basla(){if(basladi)return;basladi=true;say.classList.add("akiyor");var n=3;var t=setInterval(function(){n--;sn.textContent=n>0?n:"?";if(n<=0){clearInterval(t);if(!bitti)sec.querySelectorAll("button").forEach(function(x){x.disabled=false;});}},1000);}
+ if(azH2)n0();else if("IntersectionObserver" in window){new IntersectionObserver(function(e,o){if(e[0].isIntersecting){basla();o.disconnect();}},{threshold:.6}).observe(b);}else basla();
+})();
+/* son ziyaretten beri yeni: yalnız bu tarayıcıda */
+(function(){var once=null;try{once=localStorage.getItem("he-son");localStorage.setItem("he-son",new Date().toISOString().slice(0,10));}catch(e){}if(!once)return;
+ document.querySelectorAll("[data-tarih]").forEach(function(el){var t=el.dataset.tarih;if(t&&t>once&&t<=new Date().toISOString().slice(0,10)){var s=document.createElement("span");s.className="yeni-etk";s.textContent="Yeni";var h=el.querySelector("h3,figcaption");if(h)h.appendChild(s);}});})();
+/* zümrene gönder */
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-paylas]");if(!b)return;var u=b.dataset.paylas,t=b.dataset.baslik;
+ if(navigator.share){navigator.share({title:t,url:u}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){b.textContent="Adres kopyalandı";setTimeout(function(){b.textContent="Zümreye gönderin";},2500);});}});
+(function(){var ul=document.querySelector("ul.vg");if(!ul)return;
+var kart=[].slice.call(ul.querySelectorAll(".vg-k")),ay=[].slice.call(ul.querySelectorAll(".vg-ay")),q=document.getElementById("vg-q"),say=document.querySelector(".vg-say"),yok=document.querySelector(".vg-yok"),daha=document.querySelector(".vg-daha"),SAY=24,sayfa=1,d={dizi:"",brans:"",q:""};
+function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[^\wçğıöşü ]+/g," ");}
+var bugun=Date.now();kart.forEach(function(k,i){var t=k.dataset.tarih;if(i<3&&t&&bugun-new Date(t+"T00:00:00").getTime()<7*864e5)k.classList.add("yeni");k._a=n(k.dataset.ara);});
+function hashOku(){var h=location.hash.replace(/^#/,"");var m=h.match(/^d-([\w-]+)$/);if(m){d.dizi=m[1];return;}h.split("&").forEach(function(p){var kv=p.split("=");if(kv[0]==="dizi"||kv[0]==="brans")d[kv[0]]=decodeURIComponent(kv[1]||"");});}
+function hashYaz(){var p=[];if(d.dizi)p.push("dizi="+d.dizi);if(d.brans)p.push("brans="+d.brans);history.replaceState(null,"",p.length?"#"+p.join("&"):location.pathname);}
+var sil=document.querySelector(".vg-sil");
+function dugmeler(){document.querySelectorAll(".vg-cip button").forEach(function(b){var on=d[b.dataset.k]===b.dataset.d;b.setAttribute("aria-pressed",String(on));if(on){var bl=b.closest(".vg-bl");if(bl){var sl=bl.querySelector(".vg-sl");sl.firstChild.textContent=b.dataset.l;sl.classList.toggle("dolu",!!b.dataset.d);}}});if(sil)sil.hidden=!(d.dizi||d.brans||d.q);}
+function kapa(x){document.querySelectorAll(".vg-bl").forEach(function(bl){if(bl===x)return;bl.querySelector(".vg-sk").hidden=true;bl.querySelector(".vg-sl").setAttribute("aria-expanded","false");});}
+document.querySelectorAll(".vg-bl").forEach(function(bl){var sl=bl.querySelector(".vg-sl"),sk=bl.querySelector(".vg-sk");sl.addEventListener("click",function(){var ac=sk.hidden;kapa(bl);sk.hidden=!ac;sl.setAttribute("aria-expanded",String(ac));if(ac){var p=sk.querySelector("[aria-pressed=true]")||sk.querySelector("button");p.focus();}});
+ bl.addEventListener("keydown",function(e){if(e.key==="Escape"&&!sk.hidden){sk.hidden=true;sl.setAttribute("aria-expanded","false");sl.focus();}
+  if((e.key==="ArrowDown"||e.key==="ArrowUp")&&!sk.hidden){var bs=[].slice.call(sk.querySelectorAll("button")),i=bs.indexOf(document.activeElement);i=(i+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length;bs[i].focus();e.preventDefault();}});});
+document.addEventListener("click",function(e){if(!e.target.closest(".vg-bl"))kapa(null);});
+function uygula(){var sz=n(d.q).trim().split(/\s+/).filter(Boolean),uy=[];
+ kart.forEach(function(k){var ok=(!d.dizi||k.dataset.dizi===d.dizi)&&(!d.brans||(" "+k.dataset.brans+" ").indexOf(" "+d.brans+" ")>-1)&&sz.every(function(s){return k._a.indexOf(s)>-1;});k._u=ok;if(ok)uy.push(k);});
+ var sinir=sayfa*SAY;kart.forEach(function(k){k.hidden=!k._u;});uy.forEach(function(k,i){if(i>=sinir)k.hidden=true;});
+ ay.forEach(function(a){var x=a.nextElementSibling,var_=false;while(x&&!x.classList.contains("vg-ay")){if(!x.hidden){var_=true;break;}x=x.nextElementSibling;}a.hidden=!var_;});
+ var gos=Math.min(uy.length,sinir);say.textContent=uy.length+" video";
+ yok.hidden=uy.length>0;daha.hidden=uy.length<=sinir;if(!daha.hidden)daha.textContent="Daha fazla göster ("+(uy.length-gos)+")";dugmeler();}
+document.querySelectorAll(".vg-cip").forEach(function(g){g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;d[b.dataset.k]=b.dataset.d;sayfa=1;hashYaz();uygula();var bl=b.closest(".vg-bl");if(bl){kapa(null);var sl=bl.querySelector(".vg-sl");sl.focus();sl.classList.remove("yaz");void sl.offsetWidth;sl.classList.add("yaz");}});});
+if(sil)sil.addEventListener("click",function(){d={dizi:"",brans:"",q:""};q.value="";sayfa=1;hashYaz();uygula();});
+var zt;q.addEventListener("input",function(){clearTimeout(zt);zt=setTimeout(function(){d.q=q.value;sayfa=1;uygula();},120);});
+daha.addEventListener("click",function(){var ilk=kart.filter(function(k){return k._u&&k.hidden;})[0];sayfa++;uygula();if(ilk){var a=ilk.querySelector("a");if(a)a.focus({preventScroll:true});}});
+document.querySelector(".vg-sifir").addEventListener("click",function(){d={dizi:"",brans:"",q:""};q.value="";sayfa=1;hashYaz();uygula();q.focus();});
+hashOku();uygula();
+/* üç saniye */
+var veri=[];try{veri=JSON.parse(document.getElementById("vg-veri").textContent);}catch(e){}
+var ac=document.querySelector(".vg-ac"),dl=document.querySelector(".vg-sah");if(!veri.length||!dl||!dl.showModal)return;ac.hidden=false;
+var sD=dl.querySelector(".vg-sah-d"),sS=dl.querySelector(".vg-sah-s"),saat=dl.querySelector(".vg-saat"),sN=saat.querySelector("span"),cev=dl.querySelector(".vg-cev"),izle=dl.querySelector(".vg-izle"),git=dl.querySelector(".vg-git"),son=-1,tm=[],sec;
+function temiz(){tm.forEach(clearTimeout);tm=[];cev.innerHTML="";cev.hidden=true;}
+var sNt=dl.querySelector(".vg-sah-n"),seriP=dl.querySelector(".vg-seri"),seri=0;
+function tik(v){sN.textContent=v;sN.classList.remove("tik");void sN.offsetWidth;sN.classList.add("tik");saat.dataset.s=v;}
+function yeni(){temiz();var i;do{i=Math.floor(Math.random()*veri.length);}while(veri.length>1&&i===son);son=i;sec=veri[i];
+ sD.textContent=sec.d;sS.textContent=sec.s;git.href=sec.u;izle.hidden=true;saat.hidden=false;sNt.hidden=false;sNt.textContent="Düşün…";saat.classList.remove("kos","bitti");tik("3");void saat.offsetWidth;saat.classList.add("kos");
+ [2,1].forEach(function(s,j){tm.push(setTimeout(function(){tik(s);},(j+1)*1000));});
+ tm.push(setTimeout(function(){tik("?");saat.classList.add("bitti");sNt.textContent="Süre doldu. Cevabın hazır mı?";izle.hidden=false;izle.focus();},3000));}
+izle.addEventListener("click",function(){saat.hidden=true;izle.hidden=true;sNt.hidden=true;seri++;seriP.textContent="Bu oturumda "+seri+" soru düşündünüz.";cev.className="vg-cev"+(sec.dik?"":" yat");cev.style.backgroundImage=sec.k?"url("+sec.k+")":"";var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(sec.id)+"?autoplay=1&rel=0&playsinline=1";f.title=sec.s;f.allow="autoplay; encrypted-media; picture-in-picture";f.allowFullscreen=true;cev.appendChild(f);cev.hidden=false;});
+dl.querySelector(".vg-baska").addEventListener("click",yeni);
+dl.querySelector(".vg-kapat").addEventListener("click",function(){dl.close();});
+dl.addEventListener("close",temiz);dl.addEventListener("click",function(e){if(e.target===dl)dl.close();});
+var torba=document.querySelector(".vg-torba"),oyna=document.querySelector(".vg-oyna");
+function cek(){var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(az||!oyna){dl.showModal();yeni();return;}oyna.classList.remove("cekti");void oyna.offsetWidth;oyna.classList.add("cekti");setTimeout(function(){dl.showModal();yeni();oyna.classList.remove("cekti");},380);}
+ac.addEventListener("click",cek);if(torba){torba.style.cursor="pointer";torba.addEventListener("click",cek);}
+})();
+(function(){var z=document.querySelector(".cetvel-z");if(!z)return;
+var g=document.querySelector(".hk-suz"),yil=[].slice.call(z.querySelectorAll(".yil"));
+g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;g.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});var t=b.dataset.t;
+ yil.forEach(function(y){var var_=false;y.querySelectorAll(":scope>ul>li").forEach(function(li){var ok=!t||li.classList.contains("t-"+t);li.hidden=!ok;if(ok)var_=true;});y.hidden=!var_;});cizIp();});
+var ilk=z.querySelector(".yil.ilk"),ip=document.createElement("span");ip.className="ip";ip.setAttribute("aria-hidden","true");z.appendChild(ip);
+var az=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function cizIp(){if(!ilk||ilk.hidden){ip.style.display="none";return;}ip.style.display="";var zt=z.getBoundingClientRect(),it=ilk.getBoundingClientRect();var bas=it.top-zt.top+14,boy=zt.height-bas;ip.style.top=bas+"px";ip.style.height=boy+"px";
+ if(az){ip.style.setProperty("--ip",1);return;}var g2=(innerHeight*.75-(zt.top+bas))/boy;ip.style.setProperty("--ip",Math.max(0,Math.min(1,g2)).toFixed(3));}
+addEventListener("scroll",cizIp,{passive:true});addEventListener("resize",cizIp);cizIp();})();
+(function(){var p=document.querySelector(".hk-pano");if(!p)return;
+var yil=[].slice.call(document.querySelectorAll(".hk-zaman .yil")),od=p.querySelector(".od"),alt=p.querySelector(".od-alt"),mini=p.querySelector(".mini"),Y0=1995,Y1=2026,simdi=null;
+var basamak=[];for(var i=0;i<4;i++){var h=document.createElement("span");h.className="h";var s=document.createElement("span");s.className="s";for(var d=0;d<10;d++){var x=document.createElement("span");x.textContent=d;s.appendChild(x);}h.appendChild(s);od.appendChild(h);basamak.push(s);}
+var varY={};yil.forEach(function(y){varY[y.dataset.y]=y;});
+for(var k=Y0;k<=Y1;k++){var b=document.createElement("button");b.type="button";b.tabIndex=-1;if(varY[k]){b.className="var";b.setAttribute("aria-label",(k==Y1?"Bugün":k)+" yılına git");}b.style.left=((k-Y0+.5)/(Y1-Y0+1)*100)+"%";b.dataset.y=k;b.innerHTML="<i></i>";mini.appendChild(b);
+ if((k%5==0&&k>Y0&&k<Y1-2)||k==Y1){var t=document.createElement("span");t.className="yaz"+(k==Y1?" son":"");t.style.left=b.style.left;t.textContent=k==Y1?"bugün":k;mini.appendChild(t);}}
+var kalem=document.createElement("span");kalem.className="kalem";mini.appendChild(kalem);
+mini.addEventListener("click",function(e){var b=e.target.closest("button.var");if(!b)return;var y=varY[b.dataset.y];if(y)y.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});});
+function goster(y){if(y===simdi)return;simdi=y;var n=+y.dataset.y,str=String(n);for(var i=0;i<4;i++)basamak[i].style.transform="translateY(-"+(+str[i])+"em)";od.classList.toggle("bugun",y.classList.contains("simdi"));
+ var lis=[].slice.call(y.querySelectorAll(":scope>ul>li")).filter(function(l){return !l.hidden;});var AD={paylasim:"Sosyal sorumluluk",odul:"Ödül",ulus:"Uluslararası",deger:"Değerlendiricilik",egitim:"Eğitim"},gor={};alt.innerHTML="";lis.forEach(function(l){var t=(l.className.match(/t-(\w+)/)||[])[1];if(t&&!gor[t]){gor[t]=1;var e=document.createElement("span");e.className="od-t t-"+t;e.textContent=AD[t];alt.appendChild(e);}});
+ kalem.style.left=((n-Y0+.5)/(Y1-Y0+1)*100)+"%";yil.forEach(function(x){x.classList.toggle("su",x===y);});}
+function bak(){var orta=innerHeight*.45,en=null,ed=1e9;yil.forEach(function(y){if(y.hidden)return;var r=y.getBoundingClientRect();var d=Math.abs(r.top+Math.min(r.height,120)/2-orta);if(d<ed){ed=d;en=y;}});if(en)goster(en);}
+addEventListener("scroll",bak,{passive:true});addEventListener("resize",bak);document.querySelector(".hk-suz").addEventListener("click",function(){simdi=null;setTimeout(bak,0);});bak();})();
+(function(){var f=document.querySelector("footer.cikis");if(!f)return;
+if("IntersectionObserver" in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){f.classList.add("gor");io.disconnect();}},{threshold:.35});io.observe(f);}
+f.querySelectorAll(".m").forEach(function(m){var bx,by,dx=0,dy=0,ox=0,oy=0,tut=false,kaydi=false;
+ m.addEventListener("pointerdown",function(e){if(e.button)return;tut=true;kaydi=false;bx=e.clientX;by=e.clientY;ox=dx;oy=dy;m.setPointerCapture(e.pointerId);});
+ m.addEventListener("pointermove",function(e){if(!tut)return;var x=e.clientX-bx,y=e.clientY-by;if(!kaydi&&Math.hypot(x,y)<6)return;kaydi=true;m.classList.add("surukle");dx=ox+x;dy=oy+y;m.style.transform="translate("+dx+"px,"+dy+"px)";});
+ function bit(){if(!tut)return;tut=false;m.classList.remove("surukle");}
+ m.addEventListener("pointerup",bit);m.addEventListener("pointercancel",bit);
+ m.addEventListener("click",function(e){if(kaydi){e.preventDefault();kaydi=false;}});
+ m.addEventListener("dragstart",function(e){e.preventDefault();});});})();
+(function(){var c=document.querySelector(".cizik");if(c){if("IntersectionObserver" in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){c.classList.add("gor");io.disconnect();}},{threshold:.4});io.observe(c);}else c.classList.add("gor");}
+var k=document.querySelector(".kalan");if(!k)return;var d=document.querySelector(".sil-durum");
+function goster(){k.querySelectorAll("li").forEach(function(li){var v=null;try{v=localStorage.getItem(li.dataset.k);}catch(e){}li.querySelector("span").textContent=v?(li.dataset.k=="he-son"?v:"kayıtlı"):"yok";});}
+goster();document.querySelector(".sil-not").addEventListener("click",function(){try{localStorage.removeItem("he-kapi");localStorage.removeItem("he-son");localStorage.removeItem("he-arac");}catch(e){}goster();d.textContent="Silindi. Bu tarayıcıda bizden not kalmadı.";});})();
+(function(){var l=[].slice.call(document.querySelectorAll(".sz"));if(!l.length)return;
+l.forEach(function(s){[].slice.call(s.querySelectorAll(".k")).forEach(function(k,i){k.style.transitionDelay=(i*90)+"ms";});});
+if(!("IntersectionObserver" in window)){l.forEach(function(s){s.classList.add("canli");});return;}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("canli");io.unobserve(e.target);}});},{threshold:.45,rootMargin:"0px 0px -10% 0px"});
+l.forEach(function(s){io.observe(s);});})();
+(function(){var q=document.getElementById("sz-q");if(!q)return;var gr=[].slice.call(document.querySelectorAll(".sz-grup")),say=document.querySelector(".sz-say"),yok=document.querySelector(".sz-yok");
+function n(s){return (s||"").toLocaleLowerCase("tr").replace(/[çğıöşüâî]/g,function(c){return "cgiosuai"["çğıöşüâî".indexOf(c)];});}
+var harf=[].slice.call(document.querySelectorAll(".sz-harf a"));
+gr.forEach(function(g){[].slice.call(g.querySelectorAll("li")).forEach(function(li){li._a=n(li.dataset.ara);});});
+var t;q.addEventListener("input",function(){clearTimeout(t);t=setTimeout(function(){var v=n(q.value).trim().split(/\s+/).filter(Boolean),top=0;
+ gr.forEach(function(g){var c=0;g.querySelectorAll("li").forEach(function(li){var ok=v.every(function(w){return li._a.indexOf(w)>-1;});li.hidden=!ok;if(ok)c++;});g.hidden=!c;top+=c;});
+ say.textContent=(v.length&&top)?(top+" atasözü bulundu."):"";yok.hidden=top>0;
+ harf.forEach(function(a){var g=document.getElementById(decodeURIComponent(a.hash.slice(1)));a.classList.toggle("bos",!!(g&&g.hidden));});},120);});})();
+(function(){var b=document.querySelector(".sz-soyle");if(!b)return;b.addEventListener("click",function(){var d=document.createElement("div");d.className="sz-tam";d.setAttribute("role","dialog");d.setAttribute("aria-label","Atasözü tahtada");
+ var p=document.createElement("p");p.textContent=b.dataset.soz;var k=document.createElement("button");k.type="button";k.className="sz-tam-k";k.textContent="Kapat";d.appendChild(p);d.appendChild(k);document.body.appendChild(d);
+ function kapat(){if(document.fullscreenElement)document.exitFullscreen().catch(function(){});d.remove();document.removeEventListener("keydown",esc);b.focus();}
+ function esc(e){if(e.key==="Escape")kapat();}
+ k.addEventListener("click",kapat);document.addEventListener("keydown",esc);k.focus();if(d.requestFullscreen)d.requestFullscreen().catch(function(){});});})();
+(function(){document.querySelectorAll(".sz-bant-k a").forEach(function(a){a.addEventListener("click",function(e){if(!a.classList.contains("yazildi")){e.preventDefault();a.classList.add("yazildi");}});});})();
+(function(){var bar=document.querySelector(".sz-harf");if(!bar)return;
+bar.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)return;var g=document.getElementById(decodeURIComponent(a.hash.slice(1)));if(!g)return;e.preventDefault();
+ var h=bar.getBoundingClientRect().height,y=g.getBoundingClientRect().top+window.pageYOffset-h-14;
+ var az=window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:y,behavior:az?"auto":"smooth"});
+ history.replaceState(null,"",a.hash);g.classList.remove("parla");void g.offsetWidth;g.classList.add("parla");
+ var l=g.querySelector("a");if(l)l.focus({preventScroll:true});});})();
+/* İngilizce atasözü: açılışta sözcükler sırayla gösterilir, sonunda hepsinin karşılığı açık kalır; dokununca o sözcüğün karşılığı parlar; Reveal meaning */
+(function(){var at=document.querySelector(".ats");if(!at)return;var tr=at.querySelector(".ats-tr");
+ var ks=[].slice.call(at.querySelectorAll(".ats-k")),dur=false,zaman=null;
+ ks.forEach(function(k){k.setAttribute("aria-pressed","false");});
+ function sec(k){ks.forEach(function(x){if(x!==k)x.setAttribute("aria-pressed","false");});
+  [].forEach.call(at.querySelectorAll(".ats-p.yan"),function(p){p.classList.remove("yan");});
+  if(!k)return;var acik=k.getAttribute("aria-pressed")!=="true";k.setAttribute("aria-pressed",acik?"true":"false");
+  if(acik)[].forEach.call(at.querySelectorAll('.ats-p[data-w~="'+k.dataset.w+'"]'),function(p){p.classList.add("yan");});}
+ function hepsi(){dur=true;clearTimeout(zaman);sec(null);if(tr)tr.classList.add("hepsi");}
+ at.addEventListener("click",function(e){var k=e.target.closest(".ats-k");if(k){dur=true;clearTimeout(zaman);sec(k);return;}
+  var b=e.target.closest(".ats-ac");if(b){var c=document.getElementById(b.getAttribute("aria-controls"));if(!c)return;c.classList.add("acik");b.setAttribute("aria-expanded","true");
+  b.parentNode.hidden=true;c.setAttribute("tabindex","-1");c.focus({preventScroll:true});}});
+ if(!ks.length)return;
+ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){hepsi();return;}
+ var i=0;function adim(){if(dur)return;if(i>=ks.length){hepsi();return;}sec(ks[i]);i++;zaman=setTimeout(adim,1200);}
+ zaman=setTimeout(adim,900);})();
+/* araç şeridi: İstanbul saatiyle "Bu akşam 19.00'da", yeni bölüm noktası, dönen ziyaretçide izlenen araç silik (he-arac) */
+(function(){var vk=document.getElementById("arac-veri");if(!vk)return;function oku(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}function sakla(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}}var V;try{V=JSON.parse(vk.textContent);}catch(e){return;}
+var once=oku("he-arac");if(!once||typeof once!=="object")once=null;var kayit=once?JSON.parse(JSON.stringify(once)):{};
+var su=new Date(Date.now()+3*3600000),bugun=su.toISOString().slice(0,10),saat=su.toISOString().slice(11,16);
+function ek(k){var s=k%10,o=k%100;if(o==0||k%100==0)return k==0?"'ı":"'ü";return ["","'i","'si","'ü","'ü","'i","'sı","'si","'i","'u"][s]||(o==10?"'u":o==20?"'si":o==30?"'u":o==40?"'ı":o==50?"'si":o==60?"'ı":o==70?"'i":o==80?"'i":"'ı");}
+function zaman(t){return t?(t.length>10?t:t+"T00:00"):"";}
+function cikti(t){return !t||zaman(t)<=bugun+"T"+saat;}
+function gun(t){var a=new Date(t.slice(0,10)+"T00:00:00Z"),b=new Date(bugun+"T00:00:00Z");return Math.round((b-a)/864e5);}
+if(window.nesneCiz)[].slice.call(document.querySelectorAll(".arac-serit canvas.ns")).forEach(function(c){try{nesneCiz(c);}catch(e){}});
+var ilk=null;
+V.forEach(function(a){var d=document.getElementById("as-d-"+a.k),kart=document.getElementById("as-k-"+a.k);if(!d||!kart)return;
+ var cik=a.b.filter(function(b){return cikti(b[1]);}),n=cik.length,son=a.b[0];
+ var bugunku=a.b.filter(function(b){return b[1]&&b[1].slice(0,10)==bugun&&b[1].length>10;})[0];
+ var bekliyor=bugunku&&!cikti(bugunku[1]);
+ var ky=cik.filter(function(b){return b[1]&&gun(b[1])>=0&&gun(b[1])<7;}).length,yeni=ky>0;
+ var izl=!!(once&&cik.length&&once[a.k]&&once[a.k]==cik[0][0]);
+ var alt=d.querySelector(".as-alt");
+ d.querySelector(".as-kus").hidden=!bugunku;
+ if(bekliyor){alt.textContent="Bu akşam "+bugunku[1].slice(11,13)+"."+bugunku[1].slice(14,16)+"'da";alt.className="as-alt as-ak";}
+ else if(izl){alt.textContent=n+" bölüm\u00a0· izlediniz";alt.className="as-alt";d.classList.add("as-izl");}
+ else if(yeni){alt.textContent=n==1?"1 bölüm, yeni":ky==1?n+" bölüm, biri yeni":ky==n?n+" bölüm, hepsi yeni":n+" bölüm, "+ky+ek(ky)+" yeni";alt.className="as-alt as-yeni";d.querySelector(".as-nokta").hidden=false;}
+ else{alt.textContent=n+" bölüm";alt.className="as-alt";}
+ var em=kart.querySelector(".as-bu"),u=kart.querySelector(".as-uzun");
+ if(bekliyor&&son==bugunku){if(em){em.textContent="Bu akşam "+son[1].slice(11,13)+"."+son[1].slice(14,16)+"'da";em.hidden=false;}
+  if(u&&u.tagName=="A"){var dv=document.createElement("div");dv.className=u.className;dv.innerHTML=u.innerHTML;u.parentNode.replaceChild(dv,u);u=dv;}}
+ else if(u&&u.tagName!="A"&&u.getAttribute("data-href")){var aa=document.createElement("a");aa.className=u.className;aa.href=u.getAttribute("data-href");aa.innerHTML=u.innerHTML;u.parentNode.replaceChild(aa,u);u=aa;}
+ [].slice.call(kart.querySelectorAll(".as-ks[data-yayin]")).forEach(function(k){var t=k.getAttribute("data-yayin");var s=k.querySelector(".as-kn");if(s&&t&&!cikti(t)&&t.slice(0,10)==bugun){s.textContent="Bu akşam";s.hidden=false;}});
+ if(u&&u.tagName=="A")u.addEventListener("click",function(){if(!cik.length)return;kayit[a.k]=cik[0][0];sakla("he-arac",kayit);});
+ if(!ilk&&bugunku)ilk=a.k;
+});
+if(!ilk){var en=null;V.forEach(function(a){var c=a.b.filter(function(b){return cikti(b[1])&&b[1];})[0];if(c&&(!en||zaman(c[1])>en[1]))en=[a.k,zaman(c[1])];});ilk=en?en[0]:V[0].k;}
+var dl=[].slice.call(document.querySelectorAll(".as-d"));
+function sec(k,odak){dl.forEach(function(d){var on=d.getAttribute("data-k")==k;d.setAttribute("aria-expanded",on?"true":"false");var kt=document.getElementById("as-k-"+d.getAttribute("data-k"));if(kt){if(on)kt.removeAttribute("data-gizle");else kt.setAttribute("data-gizle","");}
+ if(on){var y=d.querySelector(".as-yuz"),kk=kt&&kt.getBoundingClientRect(),yr=y.getBoundingClientRect();if(kt)kt.style.setProperty("--ok",Math.max(16,Math.round(yr.left+yr.width/2-kk.left-12))+"px");}});}
+dl.forEach(function(d){d.addEventListener("click",function(){sec(d.getAttribute("data-k"));});});
+sec(ilk);window.addEventListener("resize",function(){var a=document.querySelector('.as-d[aria-expanded="true"]');if(a)sec(a.getAttribute("data-k"));});
+})();
