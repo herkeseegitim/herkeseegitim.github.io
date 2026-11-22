@@ -130,6 +130,10 @@ if os.path.exists(OUT): shutil.rmtree(OUT)
 for d in ["fonts","img","urun","atasozleri","hakkinda","canta"]: os.makedirs(os.path.join(OUT,d), exist_ok=True)
 for f in ["bg.woff2","bg-ext.woff2"]: shutil.copy(os.path.join(KOK,"fonts",f), os.path.join(OUT,"fonts",f))
 os.makedirs(os.path.join(OUT,"assets"), exist_ok=True); shutil.copy(os.path.join(KOK,"src","count.js"), os.path.join(OUT,"assets","count.js"))  # GoatCounter v2.7.0, yalnız site sayfalarında
+# ---- özel gün kartları (Öğretmenim, 22 Kas): kökteki klasör bayt bayt kopyalanır; CSP hash'li tek dosya, sayaçsız, dokunulmaz
+KARTLAR = ["ogretmenim"]
+for _kt in KARTLAR:
+    os.makedirs(os.path.join(OUT,_kt), exist_ok=True); shutil.copy(os.path.join(KOK,_kt,"index.html"), os.path.join(OUT,_kt,"index.html"))
 css = open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()
 js = open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()
 open(os.path.join(OUT,"site.css"),"w",encoding="utf-8").write(css)
@@ -771,7 +775,7 @@ def _dis_sekme(m):
         return '<a ' + ic + ' target="_blank" rel="noopener">'
     return m.group(0)
 for _k,_d,_ds in os.walk(OUT):
-    if os.path.relpath(_k, OUT).replace(os.sep, "/").split("/")[0] == "oyna": continue  # oyun dosyası bayt bayt kaynakla aynı kalır (g113)
+    if os.path.relpath(_k, OUT).replace(os.sep, "/").split("/")[0] in ["oyna"] + KARTLAR: continue  # oyun dosyası bayt bayt kaynakla aynı kalır (g113)
     for _f in _ds:
         if _f.endswith(".html"):
             _p = os.path.join(_k,_f); _h = open(_p,encoding="utf-8").read()
@@ -787,7 +791,7 @@ def _gc_yok(ad, b):
     assert b"goatcounter" not in b.lower(), ("sayaç araç dosyasına girdi", ad)
 for _k, _d, _fs in os.walk(OUT):
     _r = os.path.relpath(_k, OUT).replace(os.sep, "/")
-    _arac = _r.split("/")[0] in ("indir", "oyna", "atolye", "maasim") or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
+    _arac = _r.split("/")[0] in ("indir", "oyna", "atolye", "maasim", *KARTLAR) or (_r.startswith("icinde-ne-var/") and _r != "icinde-ne-var")
     for _f in _fs:
         _y = os.path.join(_k, _f)
         if _f.endswith(".zip"):
@@ -799,3 +803,6 @@ for _k, _d, _fs in os.walk(OUT):
 for _u in urunler:
     if _u.get("oyna"):
         assert open(os.path.join(OUT, _u["oyna"].strip("/"), "index.html"), "rb").read() == open(_u["canta"], "rb").read(), ("oyun dosyası kaynaktan farklı", _u["id"])
+# ---- kart dosyası denetimi: kaynakla bayt bayt aynı (CSP hash bozulmasın)
+for _kt in KARTLAR:
+    assert open(os.path.join(OUT,_kt,"index.html"),"rb").read() == open(os.path.join(KOK,_kt,"index.html"),"rb").read(), ("kart dosyası kaynaktan farklı", _kt)
