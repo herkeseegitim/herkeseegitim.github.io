@@ -735,8 +735,9 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 <p class="git">Bu arada: <a class="eve" href="/" title="Ana sayfa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>Ana sayfa</a> · <a href="/atolyeler/">Atölyeler</a> · <a href="/videolar/">Videolar</a> · <a href="/canta/">Çanta</a></p>
 </div></main>'''+ALT)
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
-yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR
+yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR+[f"/{_kt}/" for _kt in KARTLAR]
 _lm = {urun_sayfa(u): u.get("lansman") for u in urunler}
+_lm.update({"/ogretmenim/": "2026-11-22"})
 _lm.update({soz_sayfa(a): a.get("tarih") for a in atasozleri})
 _lm.update({video_sayfa(v): v.get("tarih") for v in videolar if not video_sayfa(v).startswith("/atasozleri/")})
 _lm = {k: v[:10] for k, v in _lm.items() if v and re.fullmatch(r"\d{4}-\d\d-\d\d.*", v) and v[:10] <= BUGUN.isoformat()}
