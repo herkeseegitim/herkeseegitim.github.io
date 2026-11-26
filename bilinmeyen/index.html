@@ -1,0 +1,3561 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fvtO5yNk4pMFqCQQYPHW8pH9KLKNIFHC+nCR4s2q23g='; style-src 'sha256-hVaF7g0tL+fLouKCMb6LXGzD9dVVU69dIZf4U5hVQDY='; img-src data: blob:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="canonical" href="https://herkeseegitim.com/bilinmeyen/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://herkeseegitim.com/bilinmeyen/">
+<meta property="og:title" content="Bilinmeyenin Kutusu">
+<meta property="og:description" content="Bir konu yaz. Bu kutu sana o konuda insanlığın hâlâ bilmediği şeyi söyler.">
+<meta property="og:image" content="https://herkeseegitim.com/bilinmeyen/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<title>Bilinmeyenin Kutusu · Herkese Eğitim</title>
+<meta name="description" content="Bir konu yaz. Bu kutu sana o konuda insanlığın hâlâ bilmediği şeyi söyler.">
+<style>
+:root{
+--kara:#f2f5df;--kara-cizgi:#d2d9b3;--murekkep:#0b2126;
+--sig:#0f424a;--deniz:#082229;--dip:#04131a;
+--isik:#ffe066;--yazi:#eaf2ec;--soluk:#93aeab;--cizgi:rgba(234,242,236,.2);
+--kutu:62px;
+--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Noto Serif","DejaVu Serif",serif;
+--duz:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--dip);color:var(--yazi);font-family:var(--duz);min-height:100vh;overflow-x:hidden;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+a{color:inherit}
+
+/* kara: bilinen */
+#kara{position:relative;background:var(--kara);color:var(--murekkep);text-align:center;padding:22px 20px calc(var(--kutu)/2 + 4px);min-height:38vh;display:flex;flex-direction:column;overflow:hidden;transition:min-height .6s cubic-bezier(.2,.7,.2,1)}
+#es{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#es path{fill:none;stroke:var(--kara-cizgi);stroke-width:1.2}
+h1{position:relative;margin:0;font-size:clamp(16px,1.5vw,21px);font-weight:650;letter-spacing:.01em}
+h1 a{display:inline-flex;align-items:center;gap:9px;text-decoration:none;padding:6px 8px;border-radius:8px}
+h1 svg{width:22px;height:22px;flex:none}
+.soz{font-family:var(--serif);font-weight:400;font-size:clamp(27px,4.3vw,62px);line-height:1.12;letter-spacing:-.012em;margin:0;text-wrap:balance;overflow:hidden;max-height:4em;transition:max-height .5s,opacity .35s,margin .5s,padding .5s}
+#soz1{position:relative;margin-top:auto;padding:18px 0 22px}
+#soz2{padding:26px 20px 0;color:var(--yazi);text-align:center}
+
+/* kıyı */
+#kiyi{position:relative;height:0;z-index:1}
+#kiyi div{position:absolute;left:0;right:0;top:-1px;height:74px;overflow:hidden;pointer-events:none}
+#kiyi svg{position:absolute;top:0;left:50%;height:74px}
+#kenar{width:2400px;margin-left:-1200px}
+#kenar path{fill:var(--kara)}
+.kopuk{width:3600px;margin-left:-1800px}
+.kopuk path{fill:none;stroke:var(--kara);stroke-width:1.4}
+#k1{top:9px;opacity:.42;animation:akis 46s linear infinite}
+#k2{top:22px;opacity:.2;animation:akis 71s linear infinite reverse}
+#k3{top:38px;opacity:.09;animation:akis 97s linear infinite}
+@keyframes akis{to{transform:translateX(-1200px)}}
+
+/* deniz: bilinmeyen */
+#deniz{position:relative;background:linear-gradient(var(--sig) 0,var(--deniz) 300px,var(--dip) 900px);padding:0 20px 30px;min-height:62vh;display:flow-root}
+#deniz:before{content:"";position:absolute;left:0;right:0;top:0;height:420px;background:radial-gradient(ellipse min(560px,75vw) 100% at 50% 0,rgba(255,224,102,.2),rgba(255,224,102,0) 70%);pointer-events:none}
+.sutun{position:relative;max-width:860px;margin:0 auto}
+#f{position:relative;z-index:3;display:flex;max-width:680px;height:var(--kutu);margin:calc(13px - var(--kutu)/2) auto 0;background:#fff;border:2.5px solid var(--murekkep);border-radius:13px;padding:5px;box-shadow:0 22px 60px -12px rgba(255,224,102,.42),0 5px 0 rgba(4,19,26,.55)}
+#f:focus-within{box-shadow:0 0 0 3px var(--isik),0 22px 60px -12px rgba(255,224,102,.55),0 5px 0 rgba(4,19,26,.55)}
+#q{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--murekkep);font:inherit;font-size:clamp(18px,1.6vw,22px);padding:0 14px;-webkit-appearance:none;appearance:none}
+#q::placeholder{color:#5a6e6b;opacity:1;text-overflow:ellipsis}
+#q{text-overflow:ellipsis}
+#q::-webkit-search-cancel-button{-webkit-appearance:none}
+#sor{background:var(--murekkep);color:var(--kara);border:0;border-radius:8px;font-weight:650;font-size:17px;padding:0 24px}
+#sor:hover{background:#17393f}
+.oneri{margin:20px auto 0;color:var(--soluk);font-size:14.5px;text-align:center;overflow:hidden;max-height:200px;transition:max-height .5s,opacity .35s,margin .5s}
+.oneri button,.yakin button{background:transparent;color:var(--yazi);border:1px solid var(--cizgi);border-radius:8px;padding:8px 13px;margin:4px 3px;font-size:14.5px}
+.oneri button:hover,.yakin button:hover{border-color:var(--isik)}
+
+body.sonuclu #kara{min-height:0}
+body.sonuclu .soz{max-height:0;opacity:0;padding-top:0;padding-bottom:0}
+body.sonuclu #soz1{padding-bottom:10px}
+body.sonuclu #oneri{max-height:0;opacity:0;margin-top:0;visibility:hidden}
+
+/* bulgu */
+#sonuc{margin:0 auto;max-width:680px}
+.bulgu{--renk:var(--isik);position:relative;padding:44px 0 10px;text-align:left}
+.bulgu.cozuk{--renk:var(--kara)}
+.yol{position:relative;padding-bottom:4px}
+.bas{position:relative;padding:4px 0 6px 34px}
+.isin{position:absolute;left:12px;top:-70px;bottom:0;width:3px;border-radius:3px;background:linear-gradient(var(--isik) 0,var(--renk) 110px,var(--renk) calc(100% - 90px),transparent);transform-origin:top;animation:in .9s cubic-bezier(.3,.7,.2,1) both;box-shadow:0 0 18px var(--renk)}
+.bos .isin{background:repeating-linear-gradient(var(--soluk) 0 6px,transparent 6px 14px);box-shadow:none;opacity:.6}
+@keyframes in{from{transform:scaleY(0)}}
+.etiket{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0 0 14px;font-size:15px;color:var(--soluk)}
+.etiket b{color:var(--renk);font-weight:650}
+.etiket svg{width:18px;height:18px;color:var(--renk);flex:none}
+.isr{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.cumle{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.9vw,56px);line-height:1.16;letter-spacing:-.012em;margin:0;color:#fbfdf6}
+.cumle i{font-style:normal;display:inline-block;white-space:pre;opacity:0;filter:blur(9px);transform:translateY(8px);transition:opacity .7s,filter .7s,transform .7s}
+.cumle i.g{opacity:1;filter:none;transform:none}
+.az .cumle i{filter:none;transform:none;transition:opacity .4s}
+.govde{padding-left:34px}
+.blok{padding:22px 0 0}
+.blok h3{font-size:15px;color:var(--soluk);margin:0 0 7px;font-weight:650}
+.blok.soru h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.2vw,28px);color:var(--yazi);margin-bottom:12px}
+.blok p{margin:0;line-height:1.6;font-size:clamp(16.5px,1.35vw,20px)}
+.blok h3:focus{outline:0}
+textarea{display:block;width:100%;min-height:76px;background:rgba(4,19,26,.55);color:var(--yazi);border:1px solid var(--cizgi);border-radius:10px;padding:12px 14px;font:inherit;font-size:16px;line-height:1.5;resize:vertical}
+textarea::placeholder{color:#7f9b98;opacity:1}
+.dgm{height:46px;padding:0 18px;border-radius:10px;border:1.5px solid rgba(234,242,236,.38);background:transparent;color:var(--yazi);font-size:16px}
+.dgm:hover{border-color:var(--yazi)}
+.dgm.ana{background:var(--isik);border-color:var(--isik);color:var(--murekkep);font-weight:650}
+.dgm.ana:hover{background:#ffeb99}
+.ac{margin-top:12px}
+.acik{animation:ac .45s both}
+@keyframes ac{from{opacity:0;transform:translateY(10px)}}
+.gizli{display:none}
+.bilinen{position:relative;margin:36px -14px 0;background:var(--kara);color:var(--murekkep);padding:12px 14px 18px;border-radius:0 0 6px 6px}
+.bilinen svg{position:absolute;left:0;bottom:calc(100% - 1px);width:100%;height:12px}
+.bilinen svg path{fill:var(--kara)}
+.bilinen h3{color:#3d5653}
+.blok.kay{padding-top:30px}
+.kay ul{list-style:none;padding:0;margin:0}
+.kay li{margin:0 0 8px;line-height:1.45}
+.kay a{color:#bfe3f2;font-size:15px;text-underline-offset:3px}
+.tarih{color:var(--soluk);font-size:13.5px;margin-top:10px}
+.dugmeler{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.sosyal{margin-top:16px;font-size:15px;color:var(--soluk);display:flex;flex-wrap:wrap;align-items:center;gap:0 22px}
+.sosyal a,.sosyal button{color:var(--yazi);background:transparent;border:0;padding:10px 0;font-size:15px;text-align:left;text-decoration:underline;text-decoration-color:rgba(234,242,236,.35);text-underline-offset:4px;border-radius:6px}
+.sosyal a:hover,.sosyal button:hover{text-decoration-color:var(--isik)}
+.sosyal .ipucu{flex-basis:100%;font-size:13.5px;line-height:1.5;margin-top:4px}
+.yeni,.cozuldu{display:inline-block;font-style:normal;font-size:11.5px;font-weight:700;line-height:1;padding:4px 7px;border-radius:5px;background:var(--isik);color:var(--murekkep)}
+.cozuldu{background:var(--kara)}
+.isik .yeni{position:absolute;left:calc(50% + 8px);top:calc(50% - 22px);font-size:10.5px;padding:3px 5px;pointer-events:none}
+.gunluk{text-align:center;color:var(--soluk);font-size:15px;line-height:1.5;margin:16px 0 0;overflow:hidden;max-height:120px;transition:max-height .5s,opacity .35s,margin .5s}
+.gunluk button{background:transparent;border:0;color:var(--yazi);padding:8px 2px;font-size:15px;text-decoration:underline;text-decoration-color:var(--isik);text-underline-offset:4px;border-radius:6px}
+body.sonuclu .gunluk{max-height:0;opacity:0;margin-top:0;visibility:hidden}
+#cozulen{position:absolute;left:10px;top:12px;display:flex;z-index:2}
+.coz{position:relative;width:36px;height:36px;background:transparent;border:0;padding:0;border-radius:50%}
+.coz u{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px;border-radius:50%;background:var(--murekkep);transition:transform .2s}
+.coz u svg{display:block;width:18px;height:18px}
+.coz span{position:absolute;top:calc(100% - 2px);left:0;width:max-content;max-width:190px;text-align:left;background:var(--murekkep);color:var(--kara);font-size:13.5px;line-height:1.25;padding:6px 9px;border-radius:6px;opacity:0;pointer-events:none;z-index:5}
+.coz:hover span,.coz:focus-visible span,.coz.secili span{opacity:1}
+.coz:hover u,.coz:focus-visible u,.coz.secili u{transform:scale(1.25)}
+.coz.secili span{pointer-events:auto}
+.bos .cumle{font-size:clamp(26px,3.2vw,44px)}
+.mu{color:var(--soluk);font-size:16px;line-height:1.55;margin:14px 0 0;max-width:60ch}
+.yakin{margin:8px 0 0 -3px}
+a.dgm{display:inline-flex;align-items:center;text-decoration:none;margin-top:16px}
+
+/* harita */
+#takim{position:relative;margin:26px -20px 0;padding:0 20px;overflow:hidden}
+#hbas{text-align:center;color:var(--soluk);font-size:14.5px;margin:0 0 6px}
+#harita{position:relative;margin:0 -20px}
+#harita svg.ada{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.adi{position:absolute;transform:translate(-50%,-50%);width:84px;text-align:center;font-size:12.5px;line-height:1.2;font-weight:600;pointer-events:none}
+.adi svg{display:block;width:18px;height:18px;margin:0 auto 4px}
+.isik{position:absolute;width:36px;height:36px;margin:-18px 0 0 -18px;background:transparent;border:0;padding:0;border-radius:50%;color:var(--renk)}
+.isik u{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(4,19,26,.9),0 0 16px 3px currentColor;animation:dog .7s both,nefes 5s ease-in-out infinite;transition:transform .2s}
+.isik:hover u,.isik:focus-visible u{transform:scale(1.5)}
+.isik.bakildi u{box-shadow:0 0 0 4px rgba(4,19,26,.9),0 0 0 5.5px currentColor}
+.isik.simdi u{background:var(--isik);box-shadow:0 0 0 4px rgba(4,19,26,.9),0 0 0 6px var(--isik),0 0 22px 6px var(--isik);animation:none}
+.isik span{position:absolute;bottom:calc(100% - 4px);left:50%;transform:translateX(-50%);width:max-content;max-width:190px;background:var(--kara);color:var(--murekkep);font-size:13.5px;line-height:1.25;padding:6px 9px;border-radius:6px;opacity:0;pointer-events:none;z-index:5}
+.isik.sol span{left:0;transform:none}
+.isik.sag span{left:auto;right:0;transform:none}
+.isik:hover span,.isik:focus-visible span,.isik.secili span{opacity:1}
+.isik:hover,.isik:focus-visible,.isik.secili{z-index:6}
+.isik.secili span{pointer-events:auto;box-shadow:0 0 0 2px var(--isik)}
+.isik.secili u{transform:scale(1.5)}
+@keyframes dog{from{opacity:0;transform:scale(.2)}}
+@keyframes nefes{50%{opacity:.5}}
+.az .isik u,.isik.dur u{animation:dog .7s both}
+.az .kopuk{animation:none}
+
+:focus-visible{outline:3px solid var(--isik);outline-offset:2px}
+#kara :focus-visible,.bilinen :focus-visible{outline-color:var(--murekkep)}
+#q:focus-visible{outline:0}
+
+footer{background:var(--dip);color:#86a19e;font-size:13px;text-align:center;padding:26px 18px 34px;line-height:1.65}
+footer a{color:#a9c2bf}
+
+@media (max-width:679px){
+#kara{min-height:31vh}
+#soz2{padding-top:22px}
+.oneri{margin-top:8px}
+.gunluk{margin-top:12px}
+.dugmeler .dgm{flex:1 1 auto;padding:0 12px}
+.dugmeler .dgm.ana{flex:1 0 100%}
+.sosyal{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
+.sosyal>span{grid-column:1/-1}
+.sosyal>span:first-child{padding-top:4px}
+.sosyal a,.sosyal button{justify-self:start}
+.sosyal button:last-of-type{grid-column:span 2}
+}
+@media (min-width:900px){
+:root{--kutu:74px}
+#kara{min-height:39vh;padding-top:26px}
+#f{max-width:820px;border-radius:15px;padding:7px}
+#sonuc{max-width:820px}
+#sor{font-size:19px;padding:0 32px;border-radius:9px}
+.bulgu{padding-top:56px}
+.bas,.govde{padding-left:64px}
+.isin{left:26px;top:-90px;width:4px}
+.dgm{height:50px;font-size:17px;padding:0 22px}
+.bilinen{margin-left:-22px;margin-right:-22px;padding:14px 22px 22px}
+#takim{margin-top:44px}
+}
+@media (prefers-reduced-motion:reduce){
+*,*:before,*:after{animation:none!important;transition:none!important}
+.cumle i{opacity:1;filter:none;transform:none}
+}
+.siteye{position:absolute;top:12px;left:14px;z-index:20;font:600 14px/1.2 system-ui,sans-serif;color:#0b2126;opacity:.75;text-decoration:none;padding:8px 6px}.siteye:hover,.siteye:focus{opacity:1;text-decoration:underline}@media (max-width:700px){.siteye{position:static;display:block;padding:10px 14px 0;font-size:13px;background:#f2f5df}}</style>
+</head>
+<body>
+<a class="siteye" href="/">← Herkese Eğitim</a>
+<header id="kara">
+<svg id="es" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+<div id="cozulen"></div>
+<h1><a href="#" id="ev"><svg viewBox="0 0 22 22" aria-hidden="true"><rect x="1.5" y="1.5" width="19" height="19" rx="4" fill="#fff" stroke="#0b2126" stroke-width="2"/><path d="M1.5 11c2.4-2.2 4.6-2.2 7 0s4.6 2.2 7 0 3.4-1.6 5-.6V17a3.5 3.5 0 0 1-3.5 3.5H5A3.5 3.5 0 0 1 1.5 17z" fill="#0b2126"/><circle cx="11" cy="15.6" r="1.6" fill="#ffe066"/></svg>Bilinmeyenin Kutusu</a></h1>
+<p class="soz" id="soz1">Her arama kutusu bileneni verir.</p>
+</header>
+<div id="kiyi" aria-hidden="true"><div>
+<svg id="kenar" viewBox="0 0 2400 74"><path/></svg>
+<svg class="kopuk" id="k1" viewBox="0 0 3600 74"><path/></svg>
+<svg class="kopuk" id="k2" viewBox="0 0 3600 74"><path/></svg>
+<svg class="kopuk" id="k3" viewBox="0 0 3600 74"><path/></svg>
+</div></div>
+<main id="deniz">
+<form id="f" role="search" autocomplete="off">
+<input id="q" type="search" aria-label="Bir konu yaz" placeholder="Bir konu yaz: rüya, yıldırım, kedi…" maxlength="60">
+<button id="sor" type="submit">Sor</button>
+</form>
+<p class="soz" id="soz2">Bu kutu, insanlığın hâlâ bilmediğini.</p>
+<p class="gunluk" id="gunluk">Her gün bir yeni bilinmeyen ekliyoruz.</p>
+<div class="oneri" id="oneri"></div>
+<section id="sonuc" aria-live="polite"></section>
+<section id="takim" aria-label="Bütün bilinmeyenler">
+<p id="hbas"></p>
+<div id="harita"></div>
+</section>
+</main>
+<footer>
+Her kart kaynaklıdır ve elle doğrulanmıştır. Bilinmeyenler zamanla çözülür; her kartta son kontrol tarihi var.<br>
+Bu sayfa internete bağlanmaz; yazdığın hiçbir şey cihazından çıkmaz.<br>
+Metinler <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" rel="noopener">CC BY-SA 4.0</a> · <a href="https://herkeseegitim.com/" rel="noopener">Herkese Eğitim</a> · YouTube <a href="https://www.youtube.com/@egitimtek" rel="noopener">@egitimtek</a> · <span id="sayi"></span>
+</footer>
+<script id="havuz" type="application/json">[
+ {
+  "id": "karanlik-madde-01",
+  "alan": "Evren",
+  "konu": "Karanlık madde",
+  "arama": [
+   "karanlık madde",
+   "kayıp kütle",
+   "galaksi",
+   "kütleçekimi",
+   "görünmeyen madde"
+  ],
+  "bilinmeyen": "Evrendeki maddenin büyük bölümünü oluşturan karanlık maddenin ne olduğunu bilmiyoruz.",
+  "neden": "Bugüne kadar hiçbir dedektör onu doğrudan yakalayamadı. 2026'da LZ deneyi ilginç bir sinyal gördü ama bu, keşif için gereken istatistik eşiğe ulaşmadı.",
+  "bildigimiz": "Hesaplara göre evrendeki maddenin yaklaşık yüzde 83'ü karanlık madde. Proton ve nötron gibi sıradan parçacıklar maddenin yalnızca yaklaşık yüzde 17'sini oluşturuyor.",
+  "kaynaklar": [
+   {
+    "ad": "ABD Enerji Bakanlığı: LZ Sees Surprising Result in Search for Dark Matter (Eylül 2026)",
+    "url": "https://www.energy.gov/science/articles/lz-sees-surprising-result-search-dark-matter",
+    "tur": "birincil"
+   },
+   {
+    "ad": "MIT Technology Review: The search for dark matter has been blown wide open (Haziran 2026)",
+    "url": "https://www.technologyreview.com/2026/06/18/1138755/search-for-dark-matter-blown-wide-open/amp/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "karanlik-enerji-01",
+  "alan": "Evren",
+  "konu": "Karanlık enerji",
+  "arama": [
+   "karanlık enerji",
+   "evrenin genişlemesi",
+   "hızlanan evren",
+   "kozmoloji",
+   "boşluk enerjisi"
+  ],
+  "bilinmeyen": "Evrenin genişlemesini hızlandıran karanlık enerjinin ne olduğunu bilmiyoruz.",
+  "neden": "Doğrudan ölçülemiyor, etkisi evrenin genişleme geçmişinden çıkarılıyor. DESI verileri zamanla zayıflıyor olabileceğini düşündürüyor ama bu henüz keşif eşiğine ulaşmadı.",
+  "bildigimiz": "Genişlemenin hızlandığı gözlemlerle biliniyor. En basit modelde karanlık enerji değişmeyen bir sabit sayılıyor; Ocak 2026'daki DES sonuçları da bu modelle uyumlu çıktı.",
+  "kaynaklar": [
+   {
+    "ad": "Fermilab (Berkeley Lab basın bülteni): New DESI results strengthen hints that dark energy may evolve (Mart 2025)",
+    "url": "https://news.fnal.gov/2025/03/new-desi-results-strengthen-hints-that-dark-energy-may-evolve/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "UCL: Dark Energy Survey scientists release new analysis of how the universe expands (Ocak 2026)",
+    "url": "https://www.ucl.ac.uk/news/2026/jan/dark-energy-survey-scientists-release-new-analysis-how-universe-expands",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: Latest Dark Energy Study Suggests the Universe Is Even Weirder Than We Imagined",
+    "url": "https://www.scientificamerican.com/article/why-evolving-dark-energy-worries-some-physicists",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "madde-antimadde-01",
+  "alan": "Evren",
+  "konu": "Madde ve antimadde dengesizliği",
+  "arama": [
+   "antimadde",
+   "madde",
+   "büyük patlama",
+   "neden varız",
+   "simetri"
+  ],
+  "bilinmeyen": "Büyük Patlama'dan sonra neden antimaddeden çok maddenin kaldığını bilmiyoruz.",
+  "neden": "Kozmolojik modellere göre Büyük Patlama'da madde ve antimadde eşit miktarda oluştu. Bilinen fizik bu farkın çok küçük bir kısmını açıklayabiliyor.",
+  "bildigimiz": "Madde ile antimadde karşılaşınca birbirini yok ediyor ve bugünkü evren neredeyse yalnızca maddeden oluşuyor. 2025'te LHCb, baryonlarda madde ile antimadde arasındaki davranış farkını ilk kez gözlemledi.",
+  "kaynaklar": [
+   {
+    "ad": "CERN: A new piece in the matter–antimatter puzzle (Mart 2025)",
+    "url": "https://home.cern/news/news/physics/new-piece-matter-antimatter-puzzle",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Nature (2025): Observation of charge–parity symmetry breaking in baryon decays (LHCb)",
+    "url": "https://www.nature.com/articles/s41586-025-09119-3",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "hubble-gerilimi-01",
+  "alan": "Evren",
+  "konu": "Evrenin genişleme hızı (Hubble gerilimi)",
+  "arama": [
+   "hubble",
+   "genişleme hızı",
+   "evren ne kadar hızlı genişliyor",
+   "kozmoloji",
+   "webb teleskobu"
+  ],
+  "bilinmeyen": "Evrenin genişleme hızı iki farklı yöntemle ölçüldüğünde neden farklı çıkıyor, bilmiyoruz.",
+  "neden": "Yakın evrendeki ölçümler yaklaşık 73, erken evrenden çıkarılan değer yaklaşık 67 veriyor. Bazı ekipler farkı gerçek sayıyor, bazıları ölçüm belirsizliğine bağlıyor.",
+  "bildigimiz": "Hubble ve Webb teleskoplarının ölçümleri birbiriyle uyumlu çıktı. Yakın evren ölçümlerinde bir tek teleskobun hatası bu farkı açıklamıyor görünüyor.",
+  "kaynaklar": [
+   {
+    "ad": "NASA: Webb, Hubble Telescopes Affirm Universe's Expansion Rate, Puzzle Persists",
+    "url": "https://science.nasa.gov/missions/webb/nasas-webb-hubble-telescopes-affirm-universes-expansion-rate-puzzle-persists/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Physics World: Cosmic conflict continues: new data fuel the Hubble tension debate (Haziran 2025)",
+    "url": "https://physicsworld.com/a/cosmic-conflict-continues-new-data-fuel-the-hubble-tension-debate/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "arXiv (2026): The Hubble tension: A decade review",
+    "url": "https://arxiv.org/html/2606.20434",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "kozmik-isin-01",
+  "alan": "Evren",
+  "konu": "En yüksek enerjili kozmik ışınlar",
+  "arama": [
+   "kozmik ışın",
+   "uzaydan gelen parçacık",
+   "amaterasu",
+   "en güçlü parçacık",
+   "enerjik parçacık"
+  ],
+  "bilinmeyen": "Evrendeki en yüksek enerjili kozmik ışınların nereden geldiğini bilmiyoruz.",
+  "neden": "Bu parçacıklar yeryüzüne çok nadir ulaşıyor. 2021'de kaydedilen Amaterasu parçacığının yönü, bilinen güçlü bir kaynağı göstermedi.",
+  "bildigimiz": "Bu parçacıklar atmosfere çarpıp parçacık yağmuru oluşturuyor ve yer dedektörleriyle ölçülüyor. Enerjileri insan yapımı hızlandırıcılarınkinden on milyonlarca kat yüksek.",
+  "kaynaklar": [
+   {
+    "ad": "Utah Üniversitesi (EurekAlert): Telescope Array detects second highest-energy cosmic ray ever (Kasım 2023)",
+    "url": "https://www.eurekalert.org/news-releases/1008840",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Physics World: Mysterious ultrahigh-energy cosmic ray puzzles astronomers (Kasım 2023)",
+    "url": "https://physicsworld.com/a/mysterious-ultrahigh-energy-cosmic-ray-puzzles-astronomers/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Penn State: Ultrahigh-energy cosmic messengers may carry ultraheavy secrets (Mayıs 2026)",
+    "url": "https://science.psu.edu/news/ultrahigh-energy-cosmic-messengers-may-carry-ultraheavy-secrets",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "plasebo-01",
+  "alan": "Beden",
+  "konu": "Plasebo etkisi",
+  "arama": [
+   "plasebo",
+   "şeker hap",
+   "beklenti",
+   "inanç",
+   "sahte ilaç"
+  ],
+  "bilinmeyen": "Plasebo etkisinin bedende ve beyinde nasıl işlediği hâlâ tam açıklanamadı.",
+  "neden": "Etki beklenti, öğrenme ve bağlam gibi birçok etkenin karışımı. Duruma göre farklı mekanizmalar devreye giriyor görünüyor.",
+  "bildigimiz": "Plasebo yanıtına vücudun kendi opioidleri ve dopamin gibi birçok beyin sistemi katılıyor. Etki yalnızca hayal değil, beyinde ve bedende ölçülebilir değişiklikler içeriyor.",
+  "kaynaklar": [
+   {
+    "ad": "Nature Reviews Neuroscience (2015): The neuroscience of placebo effects: connecting context, learning and health",
+    "url": "https://link.springer.com/article/10.1038/nrn3976",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Annual Review of Psychology (2008): A comprehensive review of the placebo effect: recent advances and current thought",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/17550344/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Medicines (2025): Justice for Placebo: Placebo Effect in Clinical Trials and Everyday Practice",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11944128/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "esneme-01",
+  "alan": "Beden",
+  "konu": "Esneme",
+  "arama": [
+   "esneme",
+   "esnemek",
+   "uykusuzluk",
+   "bulaşıcı esneme",
+   "can sıkıntısı"
+  ],
+  "bilinmeyen": "Esnemenin ne işe yaradığını hâlâ bilmiyoruz.",
+  "neden": "Solunum, uyanıklık ve beyni soğutma gibi fizyolojik açıklamalar için kanıt yetersiz. Uykululuk ya da sıkıntı gibi durumları başkalarına iletme işlevi giderek destek görüyor ama kesinleşmedi.",
+  "bildigimiz": "Esneme omurgalıların çoğunda görülüyor ve anne karnında başlıyor. En çok uyanıklıktan uykuya geçerken ve başkasının esnediğini görünce ortaya çıkıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Neuroscience & Biobehavioral Reviews (2010): Why do we yawn?",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/20382180/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Sleep and Breathing (2022): Yawning and airway physiology: a scoping review and novel hypothesis",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9663362/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "kan-gruplari-01",
+  "alan": "Beden",
+  "konu": "Kan grupları",
+  "arama": [
+   "kan grubu",
+   "a b ab 0",
+   "abo",
+   "kan uyumu",
+   "antijen"
+  ],
+  "bilinmeyen": "A, B, AB ve 0 kan gruplarının neden var olduğunu, hangi avantajla korunduklarını tam bilmiyoruz.",
+  "neden": "Bu antijenler yalnızca kırmızı kan hücrelerinde değil birçok dokuda bulunuyor. Çeşitliliğin enfeksiyonlarla ilgili olabileceği öne sürülüyor ama kanıtlar kesin değil.",
+  "bildigimiz": "ABO kan grubu çeşitliliği insanlarda ve diğer primatlarda en az 20 milyon yıldır korunuyor. Kan nakli uyumu için önemli olduğu çok iyi biliniyor.",
+  "kaynaklar": [
+   {
+    "ad": "BioEssays (2013): Ancestry runs deeper than blood: The evolutionary history of ABO points to cryptic variation of functional importance",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4034584/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: Why do people have different blood types?",
+    "url": "https://www.scientificamerican.com/article/why-do-people-have-differ/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Smithsonian: The Mystery of Human Blood Types",
+    "url": "https://www.smithsonianmag.com/science-nature/the-mystery-of-human-blood-types-86993838/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "hickirik-01",
+  "alan": "Beden",
+  "konu": "Hıçkırık",
+  "arama": [
+   "hıçkırık",
+   "hıçkırmak",
+   "diyafram",
+   "refleks",
+   "sıçrama"
+  ],
+  "bilinmeyen": "Hıçkırığın vücut için bir yararı olup olmadığını bilmiyoruz.",
+  "neden": "Öksürük ve hapşırıktan farklı olarak hıçkırığın kesinleşmiş bir yararı yok. Anne karnında ve bebeklikte çok sık görülmesi, gelişimle ya da evrimsel geçmişle ilgili bir işlev olabileceğini düşündürüyor.",
+  "bildigimiz": "Hıçkırıkta ani bir nefes alma hareketini gırtlağın kapanması izliyor. Bu devrenin beyin sapında olduğu düşünülüyor. Memelilerde çok yaygın.",
+  "kaynaklar": [
+   {
+    "ad": "BioEssays (2003): A phylogenetic hypothesis for the origin of hiccough",
+    "url": "https://core.ac.uk/download/357378668.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "National Geographic: Why do we hiccup—and is there a better way to get rid of them? (Nisan 2023)",
+    "url": "https://nationalgeographic.com/science/article/hiccups-why-how-to-get-rid-of-them-fish-ancestors",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "ruya-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Rüyalar",
+  "arama": [
+   "rüya",
+   "rüya görmek",
+   "rem uykusu",
+   "kabus",
+   "uyku"
+  ],
+  "bilinmeyen": "Rüya görmenin ne işe yaradığını hâlâ bilmiyoruz.",
+  "neden": "Rüyalar yalnızca uyanınca anlatılanlar üzerinden incelenebiliyor, bu yüzden deney kurmak zor. Bellek pekiştirme, duygu düzenleme, tehdit provası gibi rakip kuramlar var ve hiçbiri kesinleşmedi.",
+  "bildigimiz": "Rüyalar en yoğun REM uykusunda görülüyor. İnsanlar ortalama gecede yaklaşık iki saat rüya görüyor.",
+  "kaynaklar": [
+   {
+    "ad": "PLOS Biology (2024): The new science of sleep: From cells to large-scale societies",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11230563/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Sleep Foundation: Dreams: Why They Happen & What They Mean",
+    "url": "https://www.sleepfoundation.org/science-of-sleep/dreams",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Popular Science: What's the purpose of dreaming? (Haziran 2025)",
+    "url": "https://www.popsci.com/science/what-is-the-purpose-of-dreaming/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "uyku-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Uykunun temel işlevi",
+  "arama": [
+   "uyku",
+   "neden uyuruz",
+   "uykusuzluk",
+   "uyku ihtiyacı",
+   "dinlenme"
+  ],
+  "bilinmeyen": "Neden uyuduğumuzu, yani uykunun temel işlevini tam olarak bilmiyoruz.",
+  "neden": "Uykunun bağışıklık, bellek ve hücre onarımı gibi birçok işlevi gösterildi. Ama bunların hepsini açıklayan tek bir temel işlev ortaya konamadı.",
+  "bildigimiz": "Uyku hayvanlar âleminde evrensel bir durum gibi görünüyor. Uykusuzluğun öğrenmeyi, bağışıklığı ve sağlığı bozduğu iyi biliniyor.",
+  "kaynaklar": [
+   {
+    "ad": "PLOS Biology (2024): The new science of sleep: From cells to large-scale societies",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11230563/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Nature Reviews Neuroscience (2019): Exploring phylogeny to find the function of sleep",
+    "url": "https://www.nature.com/articles/s41583-018-0098-9.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Harvard Tıp Fakültesi Uyku Bölümü: Why Do We Sleep Anyway?",
+    "url": "https://sleep.hms.harvard.edu/education-training/public-education/sleep-and-health-education-program/sleep-health-education-41",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "bilinc-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Bilinç",
+  "arama": [
+   "bilinç",
+   "farkındalık",
+   "öznel deneyim",
+   "zihin",
+   "beyin"
+  ],
+  "bilinmeyen": "Beynin bilinci, yani bir şey hissetme deneyimini nasıl oluşturduğunu bilmiyoruz.",
+  "neden": "Bilinci açıklayan kuramlar birbiriyle çelişiyor. 2025'te iki önde gelen kuramı karşılaştıran büyük bir deney, ikisinin de temel iddialarını zorladı, hiçbirini doğrulamadı.",
+  "bildigimiz": "Bilinçli algıyla ilişkili beyin etkinliği ölçülebiliyor. Hangi etkinliğin deneyimin kendisini yarattığı bilinmiyor.",
+  "kaynaklar": [
+   {
+    "ad": "Nature (2025): Adversarial testing of global neuronal workspace and integrated information theories of consciousness",
+    "url": "https://eprints.ncl.ac.uk/306545",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Allen Enstitüsü (EurekAlert): Landmark experiment sheds new light on the origins of consciousness (Nisan 2025)",
+    "url": "https://www.eurekalert.org/news-releases/1082009",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: Where does consciousness come from? Two neuroscience theories go head-to-head",
+    "url": "https://www.scientificamerican.com/article/where-does-consciousness-come-from-two-neuroscience-theories-go-head-to-head/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "anestezi-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Genel anestezi",
+  "arama": [
+   "anestezi",
+   "narkoz",
+   "bayılmak",
+   "bilinç kaybı",
+   "uyuşturucu ilaç"
+  ],
+  "bilinmeyen": "Genel anestezinin bilinci nasıl kapattığını tam olarak bilmiyoruz.",
+  "neden": "İlaçların beyindeki moleküler hedefleri büyük ölçüde biliniyor. Bu etkilerin bilinç kaybına nasıl dönüştüğü ise hâlâ açık değil.",
+  "bildigimiz": "Genel anestezinin ilk açık gösterimi 1846'da eterle yapıldı. Anestezi ilaçlarının beyin bölgeleri arasındaki olağan iletişimi bozduğu görülüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Nature Reviews Neuroscience (2008): General anaesthesia: from molecular targets to neuronal pathways of sleep and arousal",
+    "url": "https://www.nature.com/articles/nrn2372",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Harvard Medicine Magazine: What Happens to the Brain Under Anesthesia (2026)",
+    "url": "https://magazine.hms.harvard.edu/articles/what-happens-brain-under-anesthesia",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "deja-vu-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Déjà vu",
+  "arama": [
+   "déjà vu",
+   "daha önce yaşadım hissi",
+   "tanıdık gelmek",
+   "hafıza",
+   "dejavu"
+  ],
+  "bilinmeyen": "Déjà vu'nun neden yaşandığını bilmiyoruz.",
+  "neden": "Önceden haber vermeden ortaya çıktığı için laboratuvarda oluşturmak ve incelemek çok zor. Bellek ve nörolojik açıklamalar var ama hiçbiri kesinleşmedi.",
+  "bildigimiz": "Çoğu insan hayatında en az bir kez yaşıyor. Gençlerde yaşlılara göre daha sık görülüyor.",
+  "kaynaklar": [
+   {
+    "ad": "O'Connor ve Moulin: Recognition Without Identification, Erroneous Familiarity, and Déjà Vu",
+    "url": "https://core.ac.uk/download/9821305.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: What Causes Déjà Vu?",
+    "url": "https://www.scientificamerican.com/article/what-causes-the-feeling-of-deja-vu/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "ScienceDaily (Texas A&M, 2016): What causes déjà vu?",
+    "url": "https://sciencedaily.com/releases/2016/04/160413113530.htm",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "mirlama-01",
+  "alan": "Hayvanlar",
+  "konu": "Kedi mırlaması",
+  "arama": [
+   "kedi",
+   "mırlama",
+   "kedi mırıltısı",
+   "kedi sesi",
+   "evcil hayvan"
+  ],
+  "bilinmeyen": "Kedilerin mırlamayı nasıl ürettiği ve tam olarak ne işe yaradığı hâlâ kesinleşmedi.",
+  "neden": "Uzun süre beyinden gelen düzenli sinyallerin gırtlak kaslarını kastığı düşünüldü. 2023'te kedi gırtlaklarının sinir girdisi olmadan mırlama frekansında ses çıkarabildiği gösterildi, bu da açıklamayı yeniden tartışmaya açtı.",
+  "bildigimiz": "Mırlama gırtlakta oluşan, hem nefes alırken hem verirken çıkan bir ses. Yavru kediler birkaç günlükken mırlamaya başlıyor; bunun anneyle bağ kurmayla ilgili olduğu düşünülüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Current Biology (2023): Domestic cat larynges can produce purring frequencies without neural input",
+    "url": "https://phaidra.vetmeduni.ac.at/o:3419",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Language Log: How cats purr (Ekim 2023)",
+    "url": "https://languagelog.ldc.upenn.edu/nll/?p=60886",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "ABD Kongre Kütüphanesi: Why and how do cats purr?",
+    "url": "https://www.loc.gov/everyday-mysteries/zoology/item/why-and-how-do-cats-purr/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "kus-gocu-01",
+  "alan": "Hayvanlar",
+  "konu": "Kuşların manyetik pusulası",
+  "arama": [
+   "kuş göçü",
+   "göçmen kuş",
+   "yön bulma",
+   "manyetik alan",
+   "pusula",
+   "güvercin"
+  ],
+  "bilinmeyen": "Kuşların Dünya'nın manyetik alanını hangi algılayıcıyla, nasıl algıladığı hâlâ kesinleşmedi.",
+  "neden": "Algılayıcının ne olduğu belirsiz. 2026'da iki adayı birleştiren melez bir model ve güvercinlerin karaciğerindeki demirli hücrelere dayanan yeni bir öneri yayımlandı; ikisi de henüz kesinleşmedi.",
+  "bildigimiz": "Kuşların yön bulurken manyetik alandan yararlandığı biliniyor. İki önde gelen aday var: gözdeki kriptokrom proteinleri ve demir içeren manyetit kristalleri.",
+  "kaynaklar": [
+   {
+    "ad": "PNAS (Şubat 2026): A hybrid compass mechanism combining radical pairs and magnetite crystals",
+    "url": "https://ora.ox.ac.uk/objects/uuid:fb50ba12-a45f-41db-954c-d349f819a7c7",
+    "tur": "birincil"
+   },
+   {
+    "ad": "National Geographic (Mayıs 2026): How do pigeons sense Earth's magnetic field? Scientists say they've solved the mystery.",
+    "url": "https://www.nationalgeographic.com/animals/article/pigeons-magnetic-field",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yilan-baligi-01",
+  "alan": "Hayvanlar",
+  "konu": "Avrupa yılan balığının üremesi",
+  "arama": [
+   "yılan balığı",
+   "yılanbalığı",
+   "balık göçü",
+   "sargasso denizi",
+   "yumurtlama"
+  ],
+  "bilinmeyen": "Avrupa yılan balıklarının okyanusta yumurtlaması hiç gözlenmedi; yumurtaları da bulunamadı.",
+  "neden": "Yetişkinler 10 bin kilometreye varan bir yolculukla okyanusun ortasına gidiyor. Yumurtlama alanında yapılan aramalarda bugüne kadar ne yumurta ne de yumurtlayan yetişkin bulunabildi.",
+  "bildigimiz": "Yumurtlama alanı olarak Sargasso Denizi gösteriliyor, çünkü en küçük larvalar orada bulunuyor. 2022'de uydu etiketli yetişkinlerin bu bölgeye ulaştığı ilk kez doğrudan gösterildi.",
+  "kaynaklar": [
+   {
+    "ad": "Scientific Reports (2022): First direct evidence of adult European eels migrating to their breeding place in the Sargasso Sea",
+    "url": "https://www.nature.com/articles/s41598-022-19248-8",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Bermuda Hükümeti: German-led research expedition returns to the Sargasso Sea to study eel larvae and ocean ecosystems (Nisan 2026)",
+    "url": "https://www.gov.bm/news/german-led-research-expedition-returns-sargasso-sea-study-eel-larvae-and-ocean-ecosystems",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Birleşik Krallık Hükümeti: Ancient mystery of European eel migration unravelled to help combat decline of critically endangered species (Ekim 2022)",
+    "url": "https://www.gov.uk/government/news/ancient-mystery-of-european-eel-migration-unravelled-to-help-combat-decline-of-critically-endangered-species",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "hayvan-oyunu-01",
+  "alan": "Hayvanlar",
+  "konu": "Hayvanların oyun oynaması",
+  "arama": [
+   "hayvan oyunu",
+   "yavru hayvan",
+   "oyun oynamak",
+   "köpek",
+   "kedi",
+   "evrim"
+  ],
+  "bilinmeyen": "Hayvanların neden oyun oynadığını, yani oyunun asıl işlevini tam olarak bilmiyoruz.",
+  "neden": "Oyun enerji harcatıyor ama kazancını ölçmek zor. Beceri alıştırması, toplumsal bağ gibi birçok hipotez var ve hiçbiri kesinleşmedi.",
+  "bildigimiz": "Oyun birçok hayvan grubunda görülüyor, en iyi incelenen örnekler memelilerde. Memelilerde en çok genç hayvanlar oynuyor.",
+  "kaynaklar": [
+   {
+    "ad": "Ecology and Evolution (2023): The practicality of practice: A model of the function of play behaviour",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10507573/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Neuroscience & Biobehavioral Reviews (2024): Animal play and evolution: Seven timely research issues about enigmatic phenomena",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/38458553/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yildirim-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Yıldırımın başlaması",
+  "arama": [
+   "yıldırım",
+   "şimşek",
+   "fırtına",
+   "gök gürültüsü",
+   "bulut"
+  ],
+  "bilinmeyen": "Yıldırımın bulutun içinde nasıl başladığını tam olarak bilmiyoruz.",
+  "neden": "Fırtına bulutlarında ölçülen elektrik alanları, havada kıvılcım oluşması için gereken değerin çok altında kalıyor. Yüksek enerjili elektronlar ve kozmik ışınlar gibi açıklamalar öneriliyor, hiçbiri kesinleşmedi.",
+  "bildigimiz": "Fırtına bulutlarında buz parçacıkları çarpışırken yük alışverişi yapıyor ve bulutta yükler ayrışıyor. Yıldırımın bu yük farkından doğduğu biliniyor.",
+  "kaynaklar": [
+   {
+    "ad": "Physics Reports (2014): The physics of lightning",
+    "url": "https://ui.adsabs.harvard.edu/abs/2014PhR...534..147D/abstract",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Quanta Magazine (Mayıs 2026): What Causes Lightning? The Answer Keeps Getting More Interesting.",
+    "url": "https://www.quantamagazine.org/what-causes-lightning-the-answer-keeps-getting-more-interesting-20260506/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "PBS NOVA: How Lightning Works",
+    "url": "https://www.pbs.org/wgbh/nova/article/how-lightning-works/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "buz-cagi-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Buz çağı döngülerinin uzaması",
+  "arama": [
+   "buz çağı",
+   "buzul çağı",
+   "iklim döngüsü",
+   "milankovitch",
+   "buzul"
+  ],
+  "bilinmeyen": "Buz çağı döngülerinin yaklaşık bir milyon yıl önce neden 41 bin yıldan 100 bin yıla uzadığını bilmiyoruz.",
+  "neden": "Geçişin ani mi yoksa yavaş mı olduğu bile tartışmalı. Atmosferdeki karbondioksidin azalması gibi birçok olası açıklama var; hangisinin ne kadar etkili olduğu bilinmiyor.",
+  "bildigimiz": "Yaklaşık 1,2 milyon yıl öncesine kadar buzul döngüleri yaklaşık 41 bin yıl sürdü. 1,2 ile 0,8 milyon yıl önce arasında yaklaşık 100 bin yıllık döngülere geçildi.",
+  "kaynaklar": [
+   {
+    "ad": "Communications Earth & Environment (2023): A gradual change is more likely to have caused the Mid-Pleistocene Transition than an abrupt event",
+    "url": "https://www.nature.com/articles/s43247-023-00754-0",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Eos (2021): Exploring the Dramatic Shift in Ice Age Duration",
+    "url": "https://eos.org/editors-vox/exploring-the-dramatic-shift-in-ice-age-duration",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "manyetik-alan-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Manyetik kutupların yer değiştirmesi",
+  "arama": [
+   "manyetik alan",
+   "kutup değişimi",
+   "pusula",
+   "kuzey güney",
+   "dünyanın çekirdeği"
+  ],
+  "bilinmeyen": "Dünya'nın manyetik alanının neden ara sıra tersine döndüğünü tam olarak bilmiyoruz.",
+  "neden": "Tersine dönmeleri tetikleyen süreçler hâlâ canlı biçimde tartışılıyor. Araştırmacılar bunu kayalardaki kayıtlar ve bilgisayar benzetimleriyle anlamaya çalışıyor.",
+  "bildigimiz": "Alanın geçmişte birçok kez yön değiştirdiği kayalardan biliniyor. Son tersine dönme yaklaşık 780 bin yıl önceydi.",
+  "kaynaklar": [
+   {
+    "ad": "Eos: The Quest to Understand Reversals in Earth's Magnetic Field",
+    "url": "https://eos.org/research-spotlights/the-quest-to-understand-reversals-in-earths-magnetic-field",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Scientific American: Why does the Earth's magnetic field flip over the course of history?",
+    "url": "https://www.scientificamerican.com/article/why-does-the-earths-magne/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "dunya-suyu-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Dünya'daki suyun kaynağı",
+  "arama": [
+   "okyanus",
+   "su nereden geldi",
+   "dünyanın suyu",
+   "asteroit",
+   "kuyruklu yıldız"
+  ],
+  "bilinmeyen": "Dünya'daki suyun ne kadarının göktaşlarından, ne kadarının Dünya'nın kendisinden geldiğini bilmiyoruz.",
+  "neden": "Suyun izotop oranı asteroitlere yakın. Ama laboratuvar deneyleri, erken Dünya'nın kendi hidrojeninden de su oluşabileceğini gösterdi.",
+  "bildigimiz": "Araştırmacılar bugün kuyruklu yıldızlardan çok asteroitleri olası kaynak görüyor. İki kaynağın birlikte rol oynamış olması da mümkün.",
+  "kaynaklar": [
+   {
+    "ad": "Carnegie Bilim Enstitüsü: Where did Earth get its water? (Nisan 2026)",
+    "url": "https://carnegiescience.edu/node/19889/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Quanta Magazine (Haziran 2026): Where Did Earth Get Its Oceans? Maybe It Made Them Itself.",
+    "url": "https://www.quantamagazine.org/where-did-earth-get-its-oceans-maybe-it-made-them-itself-20260612/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Scientific American: Did Earth's Water Come from Meteorites?",
+    "url": "https://www.scientificamerican.com/article/did-earths-water-come-from-meteorites/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "levha-tektonigi-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Levha tektoniğinin başlangıcı",
+  "arama": [
+   "levha tektoniği",
+   "kıtalar",
+   "deprem",
+   "yer kabuğu",
+   "kıta kayması"
+  ],
+  "bilinmeyen": "Levha tektoniğinin Dünya'da ne zaman başladığını bilmiyoruz; tahminler 700 milyon ile 4 milyar yılı aşkın arasında.",
+  "neden": "Eski kayaçlar zamanla yok olmuş olabilir, geriye az kayıt kalıyor. Hangi özelliklerin levha tektoniği sayılacağı konusunda bile tam bir anlaşma yok.",
+  "bildigimiz": "Dünya, yüzeyi hareketli levhalara bölünmüş olduğu bilinen tek gezegen. Başlangıç tarihi, kanıtların ve tanımın nasıl yorumlandığına göre değişiyor.",
+  "kaynaklar": [
+   {
+    "ad": "Eos (2019): Tinkering with Tectonics",
+    "url": "https://eos.org/?p=131815",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Live Science: When did plate tectonics begin?",
+    "url": "https://livescience.com/planet-earth/geology/when-did-plate-tectonics-begin",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "collatz-01",
+  "alan": "Matematik",
+  "konu": "Collatz sanısı",
+  "arama": [
+   "collatz",
+   "3n+1",
+   "3x+1",
+   "sayı dizisi",
+   "matematik sanısı"
+  ],
+  "bilinmeyen": "Sayıyı çiftse ikiye bölüp tekse üçle çarpıp 1 ekleyince hep 1'e ulaşılacağı hâlâ kanıtlanmadı.",
+  "neden": "Kural çok basit ama dizilerin davranışı düzensiz ve elimizde genel bir kanıt yöntemi yok. Bilgisayarlar çok büyük sayılara kadar denedi ve karşı örnek bulmadı, ama bu kanıt sayılmıyor.",
+  "bildigimiz": "Denenen her başlangıç sayısı sonunda 1'e ulaştı. Temmuz 2026'da yapay zekâ yardımıyla üretilip Lean'de kabul edilen bir çürütme, Lean çekirdeğindeki bir hatadan yararlandığı için geçersiz çıktı.",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: The Simplest Math Problem Could Be Unsolvable",
+    "url": "https://www.scientificamerican.com/article/the-simplest-math-problem-could-be-unsolvable/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "arXiv (Şubat 2026): An improved algorithm for checking the Collatz conjecture for all n < 2^N",
+    "url": "https://arxiv.org/abs/2602.10466",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Leonardo de Moura (Lean): Postmortem for Kernel Soundness Bug #14576 (Ağustos 2026)",
+    "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Gigazine (Ağustos 2026): An AI-assisted 'falsification of the Collatz conjecture' was found to be invalid, having exploited a kernel bug in Lean",
+    "url": "https://gigazine.net/gsc_news/en/20260803-collatz-lean-kernel-bug",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "ikiz-asal-01",
+  "alan": "Matematik",
+  "konu": "İkiz asal sanısı",
+  "arama": [
+   "ikiz asal",
+   "asal sayılar",
+   "asal çifti",
+   "11 ve 13",
+   "sonsuz"
+  ],
+  "bilinmeyen": "Farkı 2 olan (11 ile 13 gibi) asal çiftlerinin sonsuz olup olmadığını bilmiyoruz.",
+  "neden": "Asalların dağılımında net bir düzen yok ve bilinen eleme yöntemleri farkı tam olarak 2'ye indirmeye yetmiyor. Kanıtlanan, farkı belli bir sayıyı aşmayan sonsuz sayıda asal çifti olduğu.",
+  "bildigimiz": "Farkı belli bir sınırı aşmayan sonsuz sayıda asal çifti olduğu kanıtlandı. Bu sınır yıllar içinde küçüldü, 2026'da yapay zekâ da rekor kırdı, ama 2'ye inmedi.",
+  "kaynaklar": [
+   {
+    "ad": "Japanese Journal of Mathematics (2019): The twin prime conjecture (J. Maynard)",
+    "url": "https://www.maths.ox.ac.uk/node/32540",
+    "tur": "birincil"
+   },
+   {
+    "ad": "arXiv: The \"bounded gaps between primes\" Polymath project - a retrospective",
+    "url": "https://arxiv.org/pdf/1409.8361",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Science News (Eylül 2026): A human set a new mathematical record. Then AI came for it",
+    "url": "https://www.sciencenews.org/article/human-math-record-twin-primes-openai",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "goldbach-01",
+  "alan": "Matematik",
+  "konu": "Goldbach sanısı",
+  "arama": [
+   "goldbach",
+   "çift sayı",
+   "iki asalın toplamı",
+   "asal toplamı",
+   "matematik sanısı"
+  ],
+  "bilinmeyen": "2'den büyük her çift sayının iki asalın toplamı olduğu hâlâ kanıtlanmadı.",
+  "neden": "Çok büyük sayılara kadar denendi ama denemek kanıt sayılmıyor. Üç asallı 'zayıf' hâli kanıtlandı, iki asallı asıl hâli kanıtlanmadı.",
+  "bildigimiz": "4×10^18'e kadar bütün çift sayılar bilgisayarla denendi ve karşı örnek çıkmadı. 5'ten büyük her tek sayının üç asalın toplamı olduğu 2013'te kanıtlandı, bu kanıt Kasım 2026'da bilgisayarla biçimsel olarak doğrulandı.",
+  "kaynaklar": [
+   {
+    "ad": "Quanta Magazine, Transformation bülteni (Kasım 2026): AI's ability to 'autoformalize' proofs is changing math",
+    "url": "https://www.quantamagazine.org/update/169054/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "arXiv (Mart 2026): GoldbachGPU: An Open Source GPU-Accelerated Framework for Verification of Goldbach's Conjecture",
+    "url": "https://arxiv.org/html/2603.02621v1",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "tek-mukemmel-sayi-01",
+  "alan": "Matematik",
+  "konu": "Tek mükemmel sayı",
+  "arama": [
+   "mükemmel sayı",
+   "tek sayı",
+   "bölenler",
+   "6 ve 28",
+   "asal"
+  ],
+  "bilinmeyen": "Bölenlerinin toplamı kendisine eşit olan (6 ve 28 gibi) bir tek sayı var mı, bilmiyoruz.",
+  "neden": "Bilinen bütün mükemmel sayılar çift. Tek bir örnek bulunamadı, var olmadığı da kanıtlanamadı.",
+  "bildigimiz": "Tek mükemmel sayı varsa en az 1500 basamaklı olması gerektiği bilgisayar aramalarıyla gösterildi. Böyle bir sayının sağlaması gereken birçok sıkı koşul da kanıtlandı.",
+  "kaynaklar": [
+   {
+    "ad": "Plus Magazine (Cambridge Üniversitesi, 2020): Perfectly odd",
+    "url": "https://plus.maths.org/content/perfectly-odd",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "AMS Matematik Lisansüstü Blogu (2013): Odd Perfect Numbers: Do They Exist?",
+    "url": "https://blogs.ams.org/mathgradblog/2013/07/25/odd-perfect-numbers-exist/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Number Theory In Context and Interactive (Gordon College): 19.5 Odd Perfect Numbers",
+    "url": "https://math-cs.gordon.edu/ntic/ntic2017/section-oddly-perfect.html",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "cam-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Cam",
+  "arama": [
+   "cam",
+   "pencere camı",
+   "camsı geçiş",
+   "sıvı mı katı mı",
+   "bardak"
+  ],
+  "bilinmeyen": "Camın atomları sıvı gibi dağınık olduğu hâlde neden katı gibi davrandığını tam bilmiyoruz.",
+  "neden": "Sıvı soğurken atomların hareketi tek bir keskin sıcaklıkta donmuyor, giderek yavaşlıyor. Bu geçişi açıklayan kuramlar arasında anlaşma yok.",
+  "bildigimiz": "Camın atom dizilişi sıvınınkine benziyor, yine de katı gibi kırılıyor. Cam ile sıvıyı ayıran şey dizilişten çok atomların ne kadar hareket edebildiği.",
+  "kaynaklar": [
+   {
+    "ad": "Physics Today (2016): Facets of glass physics",
+    "url": "https://physicstoday.aip.org/features/facets-of-glass-physics",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Tarjus (arXiv): An overview of the theories of the glass transition",
+    "url": "https://arxiv.org/pdf/1010.2938",
+    "tur": "birincil"
+   },
+   {
+    "ad": "IISc Connect (Aralık 2025): Becoming Glass",
+    "url": "https://connect.iisc.ac.in/2025/12/becoming-glass/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "turbulans-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Türbülans",
+  "arama": [
+   "türbülans",
+   "çalkantı",
+   "girdap",
+   "akış",
+   "uçak sarsıntısı",
+   "kahve karıştırmak"
+  ],
+  "bilinmeyen": "Suyun ve havanın çalkantılı (türbülanslı) akışını hâlâ tam anlayamıyoruz; klasik fiziğin açık sorunlarından biri.",
+  "neden": "Akışı yöneten denklemler biliniyor. Ama akış hızlandıkça hareket çok farklı boyuttaki girdaplara yayılıyor ve bunları gözlemek, hesaplamak, açıklamak zorlaşıyor.",
+  "bildigimiz": "Türbülansın bazı yönlerinde ilerleme var, deneyler ve bilgisayar benzetimleriyle inceleniyor. Sorun tek bir soru değil, birbirine bağlı birçok sorudan oluşuyor.",
+  "kaynaklar": [
+   {
+    "ad": "Procaccia ve Sreenivasan: The State of the Art in Hydrodynamic Turbulence: Past Successes and Future Challenges",
+    "url": "https://ar5iv.arxiv.org/html/0710.5446",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Amerikan Fizik Derneği Akışkanlar Dinamiği Bölümü (2018): Turbulence (B. McKeon)",
+    "url": "https://meetings-archive.aps.org/dfd/2018/l24/6",
+    "tur": "birincil"
+   },
+   {
+    "ad": "UC Santa Barbara KITP (2020): Turbulence Mixes Up Particles and Physicists",
+    "url": "https://www.kitp.ucsb.edu/news/turbulence-mixes-particles-and-physicists",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "statik-elektrik-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Statik elektrik",
+  "arama": [
+   "statik elektrik",
+   "balon",
+   "sürtünme",
+   "elektriklenme",
+   "saç",
+   "kıvılcım"
+  ],
+  "bilinmeyen": "Balonu saça sürtünce oluşan statik yükün tam olarak nasıl oluştuğunu bilmiyoruz.",
+  "neden": "Yük aktarımının elektronlarla mı, iyonlarla mı, yoksa malzeme parçacıklarıyla mı olduğu net değil. Araştırmacılar bu konuda farklı görüşleri savunuyor.",
+  "bildigimiz": "Statik elektrik, bilimin en eski konularından biri. İki malzeme birbirine değip ayrılınca yüklenebiliyor.",
+  "kaynaklar": [
+   {
+    "ad": "Nature Reviews Chemistry (2019): Long-standing and unresolved issues in triboelectric charging",
+    "url": "https://www.nature.com/articles/s41570-019-0115-1.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Royal Society of Chemistry (2024): A comprehensive review on the mechanism of contact electrification",
+    "url": "https://pubs.rsc.org/en/content/articlehtml/2025/ta/d4ta07756c",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "buz-cekirdeklenmesi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Suyun donmaya başlaması",
+  "arama": [
+   "buz",
+   "donma",
+   "su donarken",
+   "kırağı",
+   "aşırı soğumuş su",
+   "bulut"
+  ],
+  "bilinmeyen": "Suyun donmaya nasıl başladığını, yani buz çekirdeğinin molekül düzeyinde nasıl oluştuğunu tam açıklayamıyoruz.",
+  "neden": "Süreci deney verilerinden kesin biçimde çıkarmak zor. Klasik çekirdeklenme kuramının geçerliliği defalarca sorgulandı; benzetimlerle deneylerin verdiği donma hızları arasında büyük farklar var.",
+  "bildigimiz": "Saf suyu dondurmak şaşırtıcı derecede zor; buzun oluşmasına çoğu zaman yabancı parçacıklar yardım ediyor. Bulutlardaki buz oluşumu yağışı ve iklimi etkiliyor.",
+  "kaynaklar": [
+   {
+    "ad": "Nature Reviews Physics (2023): Atmospheric ice nucleation",
+    "url": "https://www.nature.com/articles/s42254-023-00570-7.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Crystal Nucleation in Liquids: Open Questions and Future Challenges in Molecular Dynamics Simulations (arXiv)",
+    "url": "https://arxiv.org/pdf/1611.06456",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yz-ic-isleyis-01",
+  "alan": "Yapay zekâ",
+  "konu": "Büyük dil modellerinin iç işleyişi",
+  "arama": [
+   "yapay zekâ",
+   "dil modeli",
+   "chatgpt",
+   "claude",
+   "kara kutu",
+   "yorumlanabilirlik"
+  ],
+  "bilinmeyen": "Büyük dil modellerinin cevap üretirken içeride ne yaptığını büyük ölçüde bilmiyoruz.",
+  "neden": "Modeller satır satır programlanmıyor, veriden eğitiliyor. Öğrendikleri stratejiler geliştiricileri için bile büyük ölçüde okunaksız.",
+  "bildigimiz": "Araştırmacılar bazı kısa görevlerde modelin adımlarını kısmen izleyebiliyor. Kısa bir soruyu çözümlemek bile saatler sürüyor ve yöntemler hesabın yalnızca bir kısmını yakalıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Anthropic: Tracing the thoughts of a large language model (Mart 2025)",
+    "url": "https://www.anthropic.com/research/tracing-thoughts-language-model",
+    "tur": "birincil"
+   },
+   {
+    "ad": "MIT Technology Review: Anthropic can now track the bizarre inner workings of a large language model (Mart 2025)",
+    "url": "https://www.technologyreview.com/2025/03/27/1113916/anthropic-can-now-track-the-bizarre-inner-workings-of-a-large-language-model/amp/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "MIT Technology Review: Mechanistic interpretability: 10 Breakthrough Technologies 2026 (Ocak 2026)",
+    "url": "https://www.technologyreview.com/2026/01/12/1130003/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Findings of ACL 2026: Locate, Steer, and Improve: A Practical Survey of Actionable Mechanistic Interpretability in Large Language Models",
+    "url": "https://aclanthology.org/2026.findings-acl.502.pdf",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "yz-genelleme-01",
+  "alan": "Yapay zekâ",
+  "konu": "Derin ağların genelleme gücü",
+  "arama": [
+   "yapay zekâ",
+   "derin öğrenme",
+   "sinir ağı",
+   "ezber",
+   "genelleme"
+  ],
+  "bilinmeyen": "Çok parametreli yapay zekâ ağlarının, ezberleyebilecekken neden yeni örneklerde de iyi çalıştığını tam açıklayamıyoruz.",
+  "neden": "Yerleşik görüşe göre örnek sayısından çok daha fazla parametresi olan modellerin yeni örneklerde kötü çalışması beklenir. Gerçekte iyi çalışıyorlar ve bunu açıklayan kabul görmüş bir kuram yok.",
+  "bildigimiz": "Aynı ağlar rastgele etiketlenmiş veriyi de kolayca ezberleyebiliyor. Bu yüzden iyi genellemeyi yalnızca modelin kapasitesiyle açıklamak mümkün görünmüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Chatterjee ve Zielinski (arXiv): On the Generalization Mystery in Deep Learning",
+    "url": "https://arxiv.org/pdf/2203.10036",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Nagarajan (Carnegie Mellon, 2021): Explaining generalization in deep learning: progress and fundamental limits",
+    "url": "https://arxiv.org/pdf/2110.08922",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yz-baglam-ici-ogrenme-01",
+  "alan": "Yapay zekâ",
+  "konu": "Bağlam içi öğrenme",
+  "arama": [
+   "yapay zekâ",
+   "dil modeli",
+   "istem",
+   "prompt",
+   "örnekle öğrenme",
+   "few-shot"
+  ],
+  "bilinmeyen": "Dil modellerinin sorudaki birkaç örnekten, yeniden eğitilmeden nasıl öğrenebildiği tam açıklanamadı.",
+  "neden": "Model yalnızca birkaç örneğe bakıyor, ağırlıkları değişmiyor. Bunu gizli bir öğrenme adımı ya da olasılıkla çıkarım olarak açıklayan görüşler birbiriyle çelişiyor.",
+  "bildigimiz": "Modeller verilen örneklerden görevin ne olduğunu çıkarıp yeni sorulara uygulayabiliyor. Bunun içeride nasıl yapıldığına dair rakip hipotezler inceleniyor.",
+  "kaynaklar": [
+   {
+    "ad": "arXiv (2025 sürümü): A Survey to Recent Progress Towards Understanding In-Context Learning",
+    "url": "https://arxiv.org/abs/2402.02212v3",
+    "tur": "birincil"
+   },
+   {
+    "ad": "EMNLP 2024: The Mystery of In-Context Learning: A Comprehensive Survey on Interpretation and Analysis",
+    "url": "https://aclanthology.org/2024.emnlp-main.795.pdf",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "yz-adversarial-01",
+  "alan": "Yapay zekâ",
+  "konu": "Yapay zekâyı yanıltan görünmez değişiklikler",
+  "arama": [
+   "yapay zekâ",
+   "görüntü tanıma",
+   "yanıltma",
+   "adversarial",
+   "gürültü",
+   "panda"
+  ],
+  "bilinmeyen": "Yapay zekâ görüntü modellerinin gözle görülmeyen küçük değişikliklerle neden yanıldığı konusunda ortak bir açıklama yok.",
+  "neden": "Bir resme eklenen fark edilmez gürültü, modelin sınıflandırmasını tamamen değiştirebiliyor. Modelin fazla doğrusal davranması, sağlam olmayan özelliklere dayanması gibi rakip açıklamalar var.",
+  "bildigimiz": "Bu zayıflığın varlığı ve nasıl üretileceği iyi biliniyor. Neden ortaya çıktığı konusunda araştırmacılar hâlâ ayrışıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Akhtar ve ark. (arXiv): Advances in adversarial attacks and defenses in computer vision: A survey",
+    "url": "https://arxiv.org/pdf/2108.00401",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Bai ve ark. (arXiv): Recent Advances in Understanding Adversarial Robustness of Deep Neural Networks",
+    "url": "https://arxiv.org/pdf/2011.01539",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yz-olcekleme-01",
+  "alan": "Yapay zekâ",
+  "konu": "Ölçekleme yasalarının nedeni",
+  "arama": [
+   "yapay zekâ",
+   "ölçekleme",
+   "büyük model",
+   "daha fazla veri",
+   "güç yasası"
+  ],
+  "bilinmeyen": "Modeller büyüdükçe hatanın neden bu kadar düzenli biçimde azaldığı tam açıklanamadı.",
+  "neden": "Hata, model ve veri büyüdükçe öngörülebilir bir güç yasasıyla düşüyor ve bu deneysel bir gözlem. Bazı kısmi kuramlar önerildi ama neden böyle olduğu tartışılıyor.",
+  "bildigimiz": "Bu düzenlilik birçok mimari ve veri kümesinde gözlendi. Kuramsal çalışmalar bazı rejimleri açıklıyor.",
+  "kaynaklar": [
+   {
+    "ad": "PNAS (2024): Explaining neural scaling laws",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11228526/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "arXiv (2024): Neural Scaling Laws Rooted in the Data Distribution",
+    "url": "https://arxiv.org/html/2412.07942v1",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "balina-dili-01",
+  "alan": "Hayvanlar",
+  "konu": "Balinaların dili",
+  "arama": [
+   "balina",
+   "ispermeçet",
+   "balina şarkısı",
+   "hayvan dili",
+   "tıklama",
+   "iletişim",
+   "ses"
+  ],
+  "bilinmeyen": "İspermeçet balinalarının tıklama dizilerinin ne anlama geldiğini bilmiyoruz.",
+  "neden": "Seslerin yapısı çözülmeye başlandı, anlamı ise çözülmedi. Araştırmacılara göre sıradaki adım bu seslerin ne anlattığını bulmak.",
+  "bildigimiz": "Doğu Karayipler'deki ispermeçet ailelerinden toplanan yaklaşık 9.000 koda incelendi. Ritim, tempo, ritim kayması ve süs tıklamaları birleşerek çok sayıda farklı koda oluşturuyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "MIT News: Exploring the mysterious alphabet of sperm whales (7 Mayıs 2024)",
+    "url": "https://news.mit.edu/2024/csail-ceti-explores-sperm-whale-alphabet-0507",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "kopek-evcillesme-01",
+  "alan": "Hayvanlar",
+  "konu": "Köpeğin evcilleşmesi",
+  "arama": [
+   "köpek",
+   "kurt",
+   "evcilleşme",
+   "köpeğin kökeni",
+   "ilk köpek",
+   "evcil hayvan"
+  ],
+  "bilinmeyen": "Kurtların köpeğe ne zaman ve nerede dönüştüğünü bilmiyoruz.",
+  "neden": "Önceki tahminler çok geniş bir aralığa yayılıyordu. Mart 2026'daki iki çalışma başlangıç tarihini geriye çekti ama soruyu kapatmadı.",
+  "bildigimiz": "Önceki tahminler 135.000 ile 15.000 yıl öncesi arasında değişiyordu. Yeni çalışmalardan biri 200'den fazla köpek ve kurdun eski DNA'sına bakıyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Nature (2026): Dogs were widely distributed across western Eurasia during the Palaeolithic",
+    "url": "https://eprints.whiterose.ac.uk/id/eprint/239626/1/s41586-026-10170-x.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Boston Globe: New studies of old dogs help scientists understand where they came from (25 Mart 2026)",
+    "url": "https://www.bostonglobe.com/2026/03/25/nation/new-studies-old-dogs-help-scientists-understand-where-they-came/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "zurafa-boyun-01",
+  "alan": "Hayvanlar",
+  "konu": "Zürafanın uzun boynu",
+  "arama": [
+   "zürafa",
+   "boyun",
+   "uzun boyun",
+   "evrim",
+   "darwin",
+   "tür"
+  ],
+  "bilinmeyen": "Zürafanın boynunun neden uzadığını, yiyecek rekabeti mi erkek çekişmesi mi, bilmiyoruz.",
+  "neden": "Biyologlar 150 yıldır tartışıyor ve iki etkenden hangisinin daha önemli olduğunda hâlâ anlaşamıyor.",
+  "bildigimiz": "Birinci açıklamaya göre uzun boyun yüksekteki yapraklara ulaşmayı sağladı. 2024'teki bir çalışma dişilerin boynunun oransal olarak daha uzun olduğunu buldu ve yiyecek açıklamasını destekledi.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "National Geographic: Giraffes – Necks for food or necks for sex? (28 Eylül 2010)",
+    "url": "https://www.nationalgeographic.com/science/article/giraffes-necks-for-food-or-necks-for-sex",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "The Conversation: Female giraffes drove the evolution of long giraffe necks in order to feed on the most nutritious leaves, new research suggests",
+    "url": "https://theconversation.com/female-giraffes-drove-the-evolution-of-long-giraffe-necks-in-order-to-feed-on-the-most-nutritious-leaves-new-research-suggests-227029",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "yarasa-virus-01",
+  "alan": "Hayvanlar",
+  "konu": "Yarasaların virüs toleransı",
+  "arama": [
+   "yarasa",
+   "virüs",
+   "bağışıklık",
+   "hastalık",
+   "salgın",
+   "tolerans"
+  ],
+  "bilinmeyen": "Yarasaların pek çok virüsü hasta olmadan taşımasının mekanizmasını tam bilmiyoruz.",
+  "neden": "Bağışıklık özellikleri yarasa türleri arasında değişiyor; bir türde olan ötekinde olmayabiliyor. Uçuşla birlikte iltihap tepkisinin azalması öne çıkan bir açıklama, ama ayrıntılar araştırılıyor.",
+  "bildigimiz": "Yarasalar bazı virüsleri belirgin hastalık yaşamadan taşıyabiliyor. Nature'daki bir derleme bunu yaklaşık 64 milyon yıllık evrimde savunma ile toleransın dengelenmesine bağlıyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Burnet Institute: Why don't most viruses make bats sick? (21 Mart 2023)",
+    "url": "https://www.burnet.edu.au/news/why-don-t-most-viruses-make-bats-sick/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Nature (2021): Lessons from the host defences of bats, a unique viral reservoir",
+    "url": "https://link.springer.com/10.1038/s41586-020-03128-0",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "buyuk-hayvan-kanser-01",
+  "alan": "Hayvanlar",
+  "konu": "Büyük hayvanlar ve kanser",
+  "arama": [
+   "kanser",
+   "fil",
+   "balina",
+   "peto",
+   "beden büyüklüğü",
+   "tümör",
+   "hayvan"
+  ],
+  "bilinmeyen": "Büyük hayvanların hücre sayısına göre beklenenden az kansere yakalanmasının nedenini tam bilmiyoruz.",
+  "neden": "Fil, yunus ve çıplak köstebek faresi gibi türlerdeki düşük oran tümör baskılayıcı genlerle ilişkilendiriliyor ama mekanizma belirsiz. Hayvanat bahçesi verileri doğadaki durumu yansıtmayabilir.",
+  "bildigimiz": "Yaklaşık 292 omurgalı türünü kapsayan bir çalışmada kanser oranı beden büyüdükçe artıyor, ama beklenenden az artıyor. Filler için 2015'te TP53 geninin 19 ek kopyası bulundu.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Johns Hopkins Magazine: A paradox no more? Researchers poke holes in cancer prevalence puzzle",
+    "url": "https://hub.jhu.edu/magazine/2025/fall/petos-paradox-animals-size-cancer",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "AACR: Why Elephants Don't Get Cancer but Ferrets Do (6 Kasım 2024)",
+    "url": "https://www.aacr.org/blog/2024/11/06/why-elephants-dont-get-cancer-but-ferrets-do-cancer-prevalence-across-vertebrate-animals/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "ahtapot-kollari-01",
+  "alan": "Hayvanlar",
+  "konu": "Ahtapotun sekiz kolu",
+  "arama": [
+   "ahtapot",
+   "kol",
+   "sinir sistemi",
+   "beyin",
+   "vantuz",
+   "zekâ"
+  ],
+  "bilinmeyen": "Ahtapotun beyninin sekiz kolunu nasıl yönettiğini tam bilmiyoruz.",
+  "neden": "Sinir hücrelerinin üçte ikisinden fazlası beyinde değil, kollarda ve gövdede. Kollar tamamen bağımsız da çalışmıyor; ne ölçüde bağımsız oldukları araştırılıyor.",
+  "bildigimiz": "Köpek gibi omurgalılarda nöronların çoğu beyindedir. Ahtapotta bu oran tersine dönmüş durumda.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "OIST: Do octopuses' arms have a mind of their own? (29 Ekim 2020)",
+    "url": "https://oist.jp/node/35601",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "uzuv-yenilenmesi-01",
+  "alan": "Hayvanlar",
+  "konu": "Uzuv yenilenmesi",
+  "arama": [
+   "aksolot",
+   "yenilenme",
+   "uzuv",
+   "kol",
+   "semender",
+   "parmak ucu",
+   "yeniden büyüme"
+  ],
+  "bilinmeyen": "Aksolotun yaralı hücrelerinin yeni bir uzuv kurmaya başlamaları gerektiğini nasıl bildiğini tam bilmiyoruz.",
+  "neden": "Hücrelerin önce eski görevini bırakıp yeniden programlanması gerekebiliyor. İnsanda yenilenme parmak ucunda var, tüm parmakta yok.",
+  "bildigimiz": "Aksolot kopan uzvunu yeniden büyütebiliyor. İnsanda kesilen parmak uçları çok az iz bırakarak yenilenebiliyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Harvard Magazine: Regenerative Biology's Baby Steps (10 Aralık 2025)",
+    "url": "https://www.harvardmagazine.com/research/harvard-axolotl-limb-regeneration",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "kambriyen-patlamasi-01",
+  "alan": "Hayvanlar",
+  "konu": "Kambriyen patlaması",
+  "arama": [
+   "kambriyen",
+   "hayvanların ortaya çıkışı",
+   "fosil",
+   "evrim",
+   "oksijen",
+   "tür çeşitliliği"
+  ],
+  "bilinmeyen": "Karmaşık hayvanların Kambriyen'in başında neden bu kadar hızlı çeşitlendiğini bilmiyoruz.",
+  "neden": "O dönemin fiziksel ve kimyasal ortamı hakkında çok az şey biliniyor. Tek bir neden bulunması da beklenmiyor.",
+  "bildigimiz": "Oksijen artışı ve avcıların ortaya çıkışı gibi açıklamalar öneriliyor. Oksijen fikri ise yeni bulgularla sorgulanıyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Nature (2016): What sparked the Cambrian explosion?",
+    "url": "https://www.nature.com/articles/530268a",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "PalZ (2021): Current understanding on the Cambrian Explosion: questions and answers",
+    "url": "https://link.springer.com/article/10.1007/s12542-021-00568-5",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "hafiza-saklama-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Anıların beyinde saklanması",
+  "arama": [
+   "hafıza",
+   "anı",
+   "engram",
+   "beyin",
+   "sinaps",
+   "hatırlama",
+   "bellek"
+  ],
+  "bilinmeyen": "Bir anının beyinde fiziksel olarak tam nasıl ve nerede saklandığını bilmiyoruz.",
+  "neden": "Anıyı taşıyan kalıcı izin, yani engramın, doğası hâlâ bir bilmece. Bilginin hücre topluluklarında mı sinapslarda mı tutulduğu uzun süredir tartışılıyor.",
+  "bildigimiz": "Anıların hücrelerde fiziksel bir iz bıraktığı kabul ediliyor. Bu izlere engram deniyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Science News: Somewhere in the brain is a storage device for memories (24 Ocak 2018)",
+    "url": "https://www.sciencenews.org/article/memory-brain-engram-neuroscience",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "The Transmitter: What makes memories last—dynamic ensembles or static synapses? (14 Ekim 2024)",
+    "url": "https://www.thetransmitter.org/the-big-picture/what-makes-memories-last-dynamic-ensembles-or-static-synapses/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "cocukluk-amnezisi-01",
+  "alan": "Beyin ve uyku",
+  "konu": "İlk çocukluk anıları",
+  "arama": [
+   "çocukluk",
+   "bebeklik",
+   "unutma",
+   "ilk anı",
+   "hatırlamama",
+   "amnezi",
+   "hafıza"
+  ],
+  "bilinmeyen": "İlk yaşlarımıza ait anıları, hiç oluşmadıkları için mi ulaşamadığımız için mi hatırlamadığımızı bilmiyoruz.",
+  "neden": "Bunun nedeni hâlâ net değil; farklı öneriler var. Biri, dil gelişmeden bebeklerin yaşadıklarını bir hikâyeye dökememesi.",
+  "bildigimiz": "Çoğu insan hayatının ilk birkaç yılındaki olayları hatırlamıyor. Erken çocukluk anıları çocukluk sırasında bile azalıyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: Why You Can't Remember Being Born: A Look at 'Infantile Amnesia'",
+    "url": "https://www.scientificamerican.com/article/why-you-cant-remember-being-born-a-look-at-infantile-amnesia/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Topics in Cognitive Science (2024): Early Childhood Memories Are not Repressed: Either They Were Never Formed or Were Quickly Forgotten",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/36458626/",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "dil-koken-01",
+  "alan": "Beyin ve uyku",
+  "konu": "İnsan dilinin kökeni",
+  "arama": [
+   "dil",
+   "konuşma",
+   "dilin kökeni",
+   "dil evrimi",
+   "iletişim",
+   "insan"
+  ],
+  "bilinmeyen": "İnsan dilinin nasıl ve neden evrildiğini bilmiyoruz.",
+  "neden": "Fosiller ve arkeolojik kalıntılar dilin evrimine ışık tutmuyor.",
+  "bildigimiz": "Sekiz araştırmacı 2014'te en temel soruların hâlâ gizemini koruduğunu yazdı. Dilin kökeni üzerine araştırma 1866'da Paris Dilbilim Derneği tarafından yasaklanmıştı.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Frontiers in Psychology (2014): The mystery of language evolution",
+    "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00401/full",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "solaklik-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Solaklık",
+  "arama": [
+   "solak",
+   "sağlak",
+   "el tercihi",
+   "beyin yarım küre",
+   "genetik",
+   "sol el"
+  ],
+  "bilinmeyen": "İnsanların yaklaşık yüzde 10'unun neden solak olduğunu bilmiyoruz.",
+  "neden": "Tek bir solaklık geni yok; yaklaşık 40 gen varyantı ihtimali biraz artırıyor. Gelişim sırasındaki rastlantı da rol oynuyor gibi görünüyor.",
+  "bildigimiz": "İki solak ebeveynin çocuğu yalnızca yüzde 25-30 olasılıkla solak oluyor. El tercihi doğumdan önce, ceninin kol hareketleri tek yana kayarken belirleniyor gibi görünüyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Quanta Magazine: Why Am I Left-Handed? (13 Temmuz 2026)",
+    "url": "https://www.quantamagazine.org/why-am-i-left-handed-20260713/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "muzik-koken-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Müziğin kökeni",
+  "arama": [
+   "müzik",
+   "şarkı",
+   "ritim",
+   "müziğin kökeni",
+   "evrim",
+   "dans"
+  ],
+  "bilinmeyen": "İnsanların neden müzik yaptığını ve müziğin evrimsel amacını bilmiyoruz.",
+  "neden": "Müzik de beyin de fosilleşmiyor. Sağlam kanıt az olduğu için bilim insanları müziğin evrimsel işlevini hâlâ tartışıyor.",
+  "bildigimiz": "Bilinen en eski çalgılar Almanya'daki mağaralarda bulunan yaklaşık 42.000 yıllık kemik flütler. Sesle yapılan müziğin bunlardan eski olduğu düşünülüyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Discover Magazine: Where Did Music Come From? Here Are the Leading Theories (29 Ocak 2021)",
+    "url": "https://www.discovermagazine.com/where-did-music-come-from-here-are-the-leading-theories-42195",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "ic-cekirdek-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Dünya'nın iç çekirdeği",
+  "arama": [
+   "iç çekirdek",
+   "çekirdek",
+   "dünyanın merkezi",
+   "demir",
+   "katılaşma",
+   "manyetik alan"
+  ],
+  "bilinmeyen": "Dünya'nın katı iç çekirdeğinin ne zaman ve nasıl oluşmaya başladığını kesin bilmiyoruz.",
+  "neden": "Kuram, katılaşmanın başlaması için çekirdeğin erime noktasının birkaç yüz derece altına soğuması gerektiğini söylüyor. Bu, çekirdeğin bugünkü sıcaklık tahminleriyle uyuşmuyor; buna iç çekirdek çekirdeklenme paradoksu deniyor.",
+  "bildigimiz": "Geleneksel modeller iç çekirdeğin yaşını 500 ile 1.100 milyon yıl arasında buluyordu. Aşırı soğumayı hesaba katan modeller 800 milyon yıldan genç buluyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Earth and Planetary Science Letters (2023): Can homogeneous nucleation resolve the inner core nucleation paradox?",
+    "url": "https://eprints.whiterose.ac.uk/199980/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Nature Reviews Earth & Environment (2025): The formation and evolution of Earth's inner core",
+    "url": "https://eprints.whiterose.ac.uk/223214/1/Accepted_manuscript.pdf",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "deprem-tahmini-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Deprem tahmini",
+  "arama": [
+   "deprem",
+   "deprem tahmini",
+   "fay",
+   "sismoloji",
+   "öngörü",
+   "büyük deprem"
+  ],
+  "bilinmeyen": "Bir depremin ne zaman, nerede ve ne büyüklükte olacağını önceden kestirmeyi bilmiyoruz.",
+  "neden": "Bilim insanları yalnızca belirli bir bölgede, belirli bir süre içinde büyük deprem olasılığını hesaplayabiliyor. Bu bir olasılık, kesin bir tarih değil.",
+  "bildigimiz": "USGS'ye göre ne USGS ne de başka bir bilim insanı bugüne kadar büyük bir depremi önceden tahmin etti. Bir tahminin tarih ve saati, yeri ve büyüklüğü birlikte vermesi gerekir.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "USGS: Can you predict earthquakes?",
+    "url": "https://www.usgs.gov/faqs/can-you-predict-earthquakes",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "okyanus-tabani-haritasi-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Okyanus tabanının haritası",
+  "arama": [
+   "okyanus",
+   "deniz tabanı",
+   "harita",
+   "derinlik",
+   "batimetri",
+   "seabed"
+  ],
+  "bilinmeyen": "Okyanus tabanının yüzde 28,7'si haritalandı; kalanının ayrıntılı haritası yok.",
+  "neden": "Veriler dünya çapında 220 kurumun paylaşımıyla toplanıyor ve ilerleme her yıl yeniden ölçülüyor. Nisan 2026 güncellemesinde bir yılda yaklaşık beş milyon kilometrekare eklendi.",
+  "bildigimiz": "Seabed 2030 projesi 2017'de kuruldu. Nisan 2026 itibarıyla dünya okyanus tabanının yüzde 28,7'si haritalanmış durumda.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "IHO: Global seabed mapping reaches new milestone as five million square kilometres added in a year (28 Nisan 2026)",
+    "url": "https://iho.int/en/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "top-simsek-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Top şimşek",
+  "arama": [
+   "top şimşek",
+   "küre şimşek",
+   "ateş topu",
+   "fırtına",
+   "plazma",
+   "şimşek"
+  ],
+  "bilinmeyen": "Top şimşeğin ne olduğunu ve nasıl oluştuğunu bilmiyoruz.",
+  "neden": "Bilim insanlarının nasıl ve neden oluştuğu konusunda uzlaşması yok. Fotoğraf ve video kaydı çok az; laboratuvar denemeleri de tam başarılı olmadı.",
+  "bildigimiz": "2012'de Çin'de bir fırtınayı inceleyen araştırmacılar bir top şimşeği kamera ve spektrometreyle kaydetti. Spektrometre silikon, demir ve kalsiyum buldu; bunlar bölgenin toprağında da var.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "National Geographic: Ball lightning: weird, mysterious, perplexing, and deadly (5 Mart 2019)",
+    "url": "https://www.nationalgeographic.com/environment/article/ball-lightning",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Britannica: Does Ball Lightning Exist?",
+    "url": "https://www.britannica.com/story/does-ball-lightning-exist",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "hayatin-koken-01",
+  "alan": "Dünya ve iklim",
+  "konu": "Hayatın kökeni",
+  "arama": [
+   "hayatın kökeni",
+   "yaşamın başlangıcı",
+   "ilk canlı",
+   "abiyogenez",
+   "kimya",
+   "ilk hücre"
+  ],
+  "bilinmeyen": "Cansız kimyadan ilk canlının nasıl ortaya çıktığını bilmiyoruz.",
+  "neden": "NASA bunu büyük bir gizem olarak tarif ediyor ve kesin olarak hiç bilemeyebileceğimizi söylüyor. Önerilen fikirler birden çok.",
+  "bildigimiz": "NASA'ya göre Dünya'da yaşamın yaklaşık 4 milyar yıl öncesine kadar uzanabileceğine dair kanıt var. Kuyruklu yıldız çarpması, şok sentezi ve hidrotermal bacalar öne çıkan fikirler arasında.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "NASA: How did life first emerge on Earth?",
+    "url": "https://science.nasa.gov/astrobiology/learning-resources/alp/how-did-life-first-emerge-on-earth/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "NASA Science: Beginnings: Life on Our World and Others (13 Haziran 2023)",
+    "url": "https://science.nasa.gov/universe/search-for-life/beginnings-life-on-our-world-and-others/",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "fermi-paradoksu-01",
+  "alan": "Evren",
+  "konu": "Fermi paradoksu",
+  "arama": [
+   "fermi",
+   "uzaylı",
+   "dünya dışı yaşam",
+   "herkes nerede",
+   "seti",
+   "akıllı yaşam"
+  ],
+  "bilinmeyen": "Evrende başka akıllı yaşam varsa neden hiçbir iz görmediğimizi bilmiyoruz.",
+  "neden": "Önerilen çözümlerin hiçbiri genel kabul görmüş değil. Tek bir çözüm olmayabileceği de düşünülüyor.",
+  "bildigimiz": "Paradoks, yaşama elverişli olabilecek milyarlarca gezegene rağmen hiçbir iz bulunamaması arasındaki çelişki. Soruyu fizikçi Enrico Fermi 1950'de sordu.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Space.com: The Fermi Paradox: Where are all the aliens?",
+    "url": "https://www.space.com/25325-fermi-paradox.html",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "SETI Institute: If extraterrestrials are out there, why haven't we found them?",
+    "url": "https://www.seti.org/if-extraterrestrials-are-out-there-why-havent-we-found-them",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "kara-delik-bilgi-01",
+  "alan": "Evren",
+  "konu": "Kara delikte bilgi kaybı",
+  "arama": [
+   "kara delik",
+   "bilgi paradoksu",
+   "hawking ışıması",
+   "buharlaşma",
+   "kuantum",
+   "bilgi kaybı"
+  ],
+  "bilinmeyen": "Kara delik buharlaşırken içine düşen bilginin nasıl dışarı çıktığını kesin olarak bilmiyoruz.",
+  "neden": "Hawking ışımasının ısıl yapısını, kuantum mekaniğinin bilgiyi koruması ile bağdaştırmak zor. 'Ada formülü' ışımanın entropisini hesaplıyor ama bilginin nasıl çıktığını göstermiyor.",
+  "bildigimiz": "Hawking ışıması kara deliklerin yavaş yavaş buharlaşmasına yol açan ışıma. Yeni hesaplar paradoksu hafifletti, ama Cornell'den fizikçi Thomas Hartman sorunu çözülmüş saymıyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "arXiv: What can we learn about islands and state paradox from quantum information theory?",
+    "url": "https://arxiv.org/pdf/2107.09228",
+    "tur": "birincil"
+   },
+   {
+    "ad": "arXiv: Finite entangling regions and information paradox in charged black holes",
+    "url": "https://arxiv.org/pdf/2409.01409",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: Does the universe keep secrets? Inside the black hole information paradox",
+    "url": "https://www.scientificamerican.com/article/does-information-ever-really-disappear-physics-has-an-answer/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "hizli-radyo-patlamalari-01",
+  "alan": "Evren",
+  "konu": "Hızlı radyo patlamaları",
+  "arama": [
+   "hızlı radyo patlaması",
+   "frb",
+   "manyetar",
+   "nötron yıldızı",
+   "radyo sinyali",
+   "uzaydan sinyal"
+  ],
+  "bilinmeyen": "Hızlı radyo patlamalarına neyin yol açtığını tam bilmiyoruz.",
+  "neden": "Patlamaların çoğu milisaniyeler sürüyor. Bazıları manyetarlardan geliyor, ama hepsinin aynı kaynaktan geldiği düşünülmüyor ve patlamanın nasıl üretildiği tartışılıyor.",
+  "bildigimiz": "2020'de galaksimizdeki bir manyetardan gelen patlama, en az bazı patlamaların manyetarlardan geldiğine dair şüpheyi ortadan kaldırdı. İlk patlama 2007'de arşiv verisinde fark edildi.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: Mysterious Fast Radio Bursts Are Finally Coming into Focus",
+    "url": "https://www.scientificamerican.com/article/mysterious-fast-radio-bursts-are-finally-coming-into-focus/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Space.com: What are fast radio bursts? (31 Ağustos 2023)",
+    "url": "https://www.space.com/fast-radio-bursts",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Nautilus: A Distant Planet Emitted a Burst of Radio Waves. Why? (11 Ekim 2026)",
+    "url": "https://nautil.us/a-distant-planet-emitted-a-burst-of-radio-waves-why-1285695",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "evrenin-sekli-01",
+  "alan": "Evren",
+  "konu": "Evrenin şekli",
+  "arama": [
+   "evrenin şekli",
+   "sonsuz evren",
+   "düz evren",
+   "evrenin boyutu",
+   "kozmoloji",
+   "eğrilik"
+  ],
+  "bilinmeyen": "Evrenin sonsuz mu yoksa sonlu mu olduğunu bilmiyoruz.",
+  "neden": "Gözlenebilen evren, çok daha büyük bir evrenin küçük bir parçası olabilir. Uzay düz olsa bile kendi üzerine dolanıyor olabilir.",
+  "bildigimiz": "Evren olağanüstü düz görünüyor; WMAP eğriliği düz değerin yüzde 0,4 yakınına kadar sınırladı. Uzayın kendi üzerine dolandığına dair ikna edici bir kanıt şimdiye dek bulunmadı.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "ScienceDaily (Universe Today): Is the universe infinite? The answer gets weird fast (27 Eylül 2026)",
+    "url": "https://sciencedaily.com/releases/2026/09/260927225041.htm",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "NASA Science: WMAP Overview",
+    "url": "https://science.nasa.gov/mission/wmap/wmap-overview/",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "dokuzuncu-gezegen-01",
+  "alan": "Evren",
+  "konu": "Dokuzuncu Gezegen",
+  "arama": [
+   "dokuzuncu gezegen",
+   "planet nine",
+   "gezegen x",
+   "neptün ötesi",
+   "kuiper kuşağı",
+   "gizli gezegen"
+  ],
+  "bilinmeyen": "Neptün'ün ötesinde büyük bir 'Dokuzuncu Gezegen' olup olmadığını bilmiyoruz.",
+  "neden": "Varlığı yalnızca bazı Kuiper Kuşağı cisimlerinin yörünge kümelenmesinden çıkarılıyor; doğrudan görülmedi. Bazı araştırmacılar bu yörüngeleri rastgele dağılımla açıklıyor.",
+  "bildigimiz": "2016'da Caltech'ten iki gökbilimci bu gezegeni dolaylı kanıtlara dayanarak öngördü. Haziran 2026'da bulunan dördüncü sednoidin kararlı yörüngesi, varsa gezegenin çok daha uzakta olması gerektiğini düşündürüyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "NASA Science: Hypothetical Planet X",
+    "url": "https://science.nasa.gov/solar-system/planet-x",
+    "tur": "birincil"
+   },
+   {
+    "ad": "ScienceDaily (The Conversation): Planet nine mystery deepens as new discovery challenges hidden planet theory (8 Haziran 2026)",
+    "url": "https://sciencedaily.com/releases/2026/06/260608040009.htm",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "yz-halusinasyon-01",
+  "alan": "Yapay zekâ",
+  "konu": "Yapay zekâ halüsinasyonu",
+  "arama": [
+   "halüsinasyon",
+   "uydurma",
+   "yapay zekâ",
+   "dil modeli",
+   "yanlış bilgi",
+   "chatbot"
+  ],
+  "bilinmeyen": "Dil modellerinin yanlış bilgiyi emin bir dille söylemesinin kalıcı çaresini henüz bilmiyoruz.",
+  "neden": "OpenAI araştırmacıları, eğitim ve ölçüm yöntemlerinin bilmediğini söylemek yerine tahmin yürütmeyi ödüllendirdiğini savunuyor. Bu açıklama sorunun tamamen giderileceğini göstermiyor.",
+  "bildigimiz": "Modeller emin bir tonla yanlış cümle kurabiliyor. OpenAI'a göre zor sorularda ve gerçek kullanımda doğruluk yüzde 100'e ulaşamıyor, çünkü bazı soruların cevabı belirlenemez.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "OpenAI: Why language models hallucinate (5 Eylül 2025)",
+    "url": "https://openai.com/index/why-language-models-hallucinate/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "arXiv (2025): Why Language Models Hallucinate (Kalai, Nachum, Vempala, Zhang)",
+    "url": "https://arxiv.org/pdf/2509.04664",
+    "tur": "birincil"
+   },
+   {
+    "ad": "TechCrunch: Are bad incentives to blame for AI hallucinations? (7 Eylül 2025)",
+    "url": "https://techcrunch.com/2025/09/07/are-bad-incentives-to-blame-for-ai-hallucinations",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "yz-anliyor-mu-01",
+  "alan": "Yapay zekâ",
+  "konu": "Yapay zekâ gerçekten anlıyor mu",
+  "arama": [
+   "yapay zekâ",
+   "anlama",
+   "dil modeli",
+   "chatgpt",
+   "zekâ",
+   "anlıyor mu"
+  ],
+  "bilinmeyen": "Büyük dil modellerinin dili gerçekten anlayıp anlamadığını bilmiyoruz; araştırmacılar bunu hararetle tartışıyor.",
+  "neden": "Tartışma, modellerin dili ve dilin anlattığı durumları önemli bir anlamda 'anlıyor' sayılıp sayılamayacağı üzerine. Anlamanın farklı biçimleri olabileceği de öne sürülüyor.",
+  "bildigimiz": "Melanie Mitchell ve David Krakauer, PNAS'ta yayımlanan derlemelerinde iki tarafın argümanlarını bir araya getirdi. Yazarlar, farklı anlama biçimlerini inceleyecek yeni bir zekâ bilimi öneriyor.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "arXiv / PNAS: The Debate Over Understanding in AI's Large Language Models (Mitchell ve Krakauer)",
+    "url": "https://arxiv.org/abs/2210.13966",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "yz-ortaya-cikan-yetenekler-01",
+  "alan": "Yapay zekâ",
+  "konu": "Büyük modellerde ortaya çıkan yetenekler",
+  "arama": [
+   "ortaya çıkan yetenek",
+   "emergent",
+   "büyük model",
+   "ölçek",
+   "yapay zekâ",
+   "ani sıçrama"
+  ],
+  "bilinmeyen": "Büyük modellerdeki ani yetenek sıçramalarının gerçek mi, ölçüm yönteminin sonucu mu olduğunu bilmiyoruz.",
+  "neden": "Önceki çalışmalar bazı yeteneklerin küçük modelde yok, büyükte birden var olduğunu öne sürmüştü. Sonra bir çalışma, ölçüt değişince bu sıçramaların kaybolabildiğini gösterdi.",
+  "bildigimiz": "Doğrusal ya da sürekli ölçütlerle bakıldığında performans düzgün ve öngörülebilir değişiyor. Yazarlar, ani sıçramaların ölçeklemenin temel bir özelliği olmayabileceğini söylüyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "arXiv (2023): Are Emergent Abilities of Large Language Models a Mirage?",
+    "url": "https://arxiv.org/abs/2304.15004v2",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Stanford HAI: AI's Ostensible Emergent Abilities Are a Mirage (8 Mayıs 2023)",
+    "url": "https://hai.stanford.edu/news/ais-ostensible-emergent-abilities-are-mirage",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "yz-bilinc-testi-01",
+  "alan": "Yapay zekâ",
+  "konu": "Yapay zekâ bilinçli olabilir mi",
+  "arama": [
+   "yapay zekâ",
+   "bilinç",
+   "bilinçli yapay zekâ",
+   "hissetme",
+   "bilinç testi",
+   "makine"
+  ],
+  "bilinmeyen": "Bir yapay zekâ sisteminin bilinçli olup olmadığını nasıl anlayacağımızı bilmiyoruz.",
+  "neden": "Bilinç üzerine birbirine rakip birden çok kuram var. Bir araştırma grubu, bu kuramlardan 'gösterge özellikleri' türetip sistemleri bunlara göre değerlendirmeyi önerdi.",
+  "bildigimiz": "2023'teki bu çalışma, mevcut hiçbir yapay zekâ sisteminin bilinçli olmadığı sonucuna vardı. Ayrıca bu göstergeleri karşılayacak sistemlerin yapımının önünde belirgin bir teknik engel görmedi.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "arXiv (2023): Consciousness in Artificial Intelligence: Insights from the Science of Consciousness",
+    "url": "https://arxiv.org/abs/2308.08708?context=cs",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "yz-gerekce-zinciri-01",
+  "alan": "Yapay zekâ",
+  "konu": "Yapay zekânın gerekçesi gerçek mi",
+  "arama": [
+   "düşünce zinciri",
+   "gerekçe",
+   "akıl yürütme modeli",
+   "yapay zekâ",
+   "güvenilirlik",
+   "chain of thought"
+  ],
+  "bilinmeyen": "Bir modelin yazdığı adım adım gerekçenin, cevabı gerçekten neyin belirlediğini yansıttığından emin olamıyoruz.",
+  "neden": "Anthropic araştırmacıları modellere ipucu verip, düşünce zincirinde bundan söz edip etmediklerine baktı. Söz etme oranı genelde düşük kaldı.",
+  "bildigimiz": "Anthropic'in 2025 çalışmasında Claude 3.7 Sonnet ipucunu ortalama yüzde 25, DeepSeek R1 yüzde 39 oranında gerekçesinde belirtti. Mart 2026'daki bağımsız bir çalışmada 12 açık modelde oran yüzde 39,7 ile 89,9 arasında çıktı.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Anthropic: Reasoning models don't always say what they think (3 Nisan 2025)",
+    "url": "https://www.anthropic.com/research/reasoning-models-dont-say-think",
+    "tur": "birincil"
+   },
+   {
+    "ad": "TechRepublic: Which Two AI Models Are 'Unfaithful' at Least 25% of the Time About Their 'Reasoning'? Here's Anthropic's Answer (8 Nisan 2025)",
+    "url": "https://www.techrepublic.com/article/news-anthropic-ai-reasoning-models-claude-deepseek/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "arXiv (Mart 2026): Lie to Me: How Faithful Is Chain-of-Thought Reasoning in Open-Weight Reasoning Models?",
+    "url": "https://arxiv.org/abs/2603.22582",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "p-np-01",
+  "alan": "Matematik",
+  "konu": "P ve NP",
+  "arama": [
+   "p np",
+   "p versus np",
+   "algoritma",
+   "milenyum problemi",
+   "bilgisayar bilimi",
+   "hızlı çözüm"
+  ],
+  "bilinmeyen": "Çözümü hızla doğrulanabilen her sorunun hızla çözülüp çözülemeyeceğini, yani P ile NP'nin eşit olup olmadığını bilmiyoruz.",
+  "neden": "Eşit olduklarını da farklı olduklarını da kimse kanıtlayamadı. Kasım 2026'daki yapay zekâ destekli VP-VNP sonuçları bu soruyu doğrudan çözmüyor.",
+  "bildigimiz": "Clay Matematik Enstitüsü bu soruyu çözülmemiş olarak listeliyor. Yedi Milenyum Ödülü probleminden biri.",
+  "guven": "yüksek",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Clay Mathematics Institute: P vs NP",
+    "url": "https://www.claymath.org/millennium/p-vs-np/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Quanta Magazine: Transformation (haftalık matematik ve yapay zekâ bülteni, 24 Kasım 2026 girişi)",
+    "url": "https://www.quantamagazine.org/update/169054/",
+    "tur": "ikincil"
+   }
+  ]
+ },
+ {
+  "id": "pi-arti-e-01",
+  "alan": "Matematik",
+  "konu": "π + e toplamı",
+  "arama": [
+   "pi",
+   "e sayısı",
+   "irrasyonel",
+   "aşkın sayı",
+   "pi artı e",
+   "rasyonel"
+  ],
+  "bilinmeyen": "π + e toplamının rasyonel mi irrasyonel mi olduğunu bilmiyoruz.",
+  "neden": "π ve e ayrı ayrı aşkın sayılar, ama bu bilgi toplamları için sonuç vermiyor. Yalnızca toplam ile çarpımdan en az birinin aşkın olduğu çıkıyor.",
+  "bildigimiz": "π ile e'nin her birinin aşkın sayı olduğu kanıtlandı. Toplamlarının rasyonel mi irrasyonel mi olduğu bilinmiyor; Haziran 2026 tarihli bir makale de soruyu açık sayıyor.",
+  "guven": "orta",
+  "son_kontrol": "2026-11-26",
+  "kaynaklar": [
+   {
+    "ad": "Plus Magazine: Mathematical mysteries: Transcendental meditation (Eylül 2002)",
+    "url": "https://plus.maths.org/comment/8948",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "OEIS Wiki: Pi+e",
+    "url": "https://oeis.org/wiki/Pi%2Be",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "arXiv (Haziran 2026): Tail Criteria, No-Go Audits, and Apéry-Type Certificate Obstructions for the Irrationality of e+π",
+    "url": "https://arxiv.org/pdf/2606.17303",
+    "tur": "birincil"
+   }
+  ]
+ },
+ {
+  "id": "kasinti-01",
+  "alan": "Beden",
+  "konu": "Kaşıntı",
+  "arama": [
+   "kaşıntı",
+   "kaşınma",
+   "kaşınmak",
+   "kaşıntı nedeni",
+   "pruritus",
+   "kaşıntı ağrı farkı"
+  ],
+  "bilinmeyen": "Sinir sisteminin kaşıntıyı ağrıdan nasıl ayırdığını tam olarak bilmiyoruz.",
+  "neden": "Kaşıntıya yanıt veren sinir hücreleri çoğu zaman ağrı yapan uyaranlara da yanıt veriyor. Kaşıntı ve ağrının ayrı yollar kullanıp kullanmadığı tartışması sürüyor.",
+  "bildigimiz": "Kaşıntıya duyarlı üç sinir hücresi alt grubu ve histamin alıcıları gibi bazı alıcılar tanımlandı. Ama yalnızca kaşıntıya yanıt veren sinir hücresi neredeyse hiç bulunmadı.",
+  "kaynaklar": [
+   {
+    "ad": "The Challenge of Basic Itch Research (Acta Dermato-Venereologica, 2020)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7295076",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "gidiklanma-01",
+  "alan": "Beden",
+  "konu": "Gıdıklanma",
+  "arama": [
+   "gıdıklanma",
+   "gıdık",
+   "gıdıklanmak",
+   "kendini gıdıklamak",
+   "gıdıklanma nedeni",
+   "kıkırdama",
+   "gıdıklamak"
+  ],
+  "bilinmeyen": "İnsanın neden gıdıklandığını ve gıdıklanmanın bir işe yarayıp yaramadığını bilmiyoruz.",
+  "neden": "Gıdıklanmanın işlevi büyük ölçüde çözülmemiş durumda. Bazı insanların çok, bazılarının hiç gıdıklanmamasının nedeni de açıklanmış değil.",
+  "bildigimiz": "Şempanze, goril ve orangutan gibi primatlar ile sıçanlar benzer dokunuşlara tepki veriyor. Beynin kendi dokunuşumuzu önceden kestirmesi, kendimizi gıdıklayamamamızın kısmi açıklaması sayılıyor.",
+  "kaynaklar": [
+   {
+    "ad": "The extraordinary enigma of ordinary tickle behavior: Why gargalesis still puzzles neuroscience (Science Advances, 2025)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12101506/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: The Surprising Science of Tickling",
+    "url": "https://www.scientificamerican.com/article/scientists-built-a-tickle-robot-to-solve-one-of-biologys-strangest-mysteries/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "gozyasi-01",
+  "alan": "Beden",
+  "konu": "Duygusal gözyaşı",
+  "arama": [
+   "ağlamak",
+   "ağlama",
+   "gözyaşı",
+   "duygusal gözyaşı",
+   "neden ağlarız",
+   "ağlayınca rahatlama"
+  ],
+  "bilinmeyen": "İnsanların duygusal nedenlerle neden gözyaşı döktüğünü ve bunun ne işe yaradığını tam bilmiyoruz.",
+  "neden": "Duygusal gözyaşı yalnızca insanda görülüyor, karşılaştırılacak başka bir tür yok. Önerilen açıklamalar tek bir yanıtta birleşmiyor.",
+  "bildigimiz": "Gözyaşı en çok bir yardım ve yakınlık işareti olarak ele alınıyor. Ağlayınca rahatlama ise büyük olasılıkla bu işaretin yan etkisi sayılıyor, kanıtlanmış bir işlev değil.",
+  "kaynaklar": [
+   {
+    "ad": "Why Only Humans Shed Emotional Tears: Evolutionary and Cultural Perspectives (Human Nature, 2018)",
+    "url": "https://core.ac.uk/download/420838658.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Discover: Humans Are the Only Animals That Cry — And We Don't Know Why",
+    "url": "https://www.discovermagazine.com/humans-are-the-only-animals-that-cry-and-we-dont-know-why-42774",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "muzikle-urperme-01",
+  "alan": "Beden",
+  "konu": "Müzik dinlerken ürperme",
+  "arama": [
+   "tüyleri diken diken",
+   "ürperme",
+   "müzikten ürpermek",
+   "frisson",
+   "tüyler ürpermesi",
+   "kaz derisi",
+   "müzik ve ürperti"
+  ],
+  "bilinmeyen": "Bazı insanların müzik dinlerken neden ürperdiğini, bazılarının ise hiç ürpermediğini tam bilmiyoruz.",
+  "neden": "Beyindeki bağlantıların duyusal deneyimi hazza nasıl çevirdiği net değil. Aynı devrelerin neden yalnızca bazı insanlarda yoğun haz ürettiği de bilinmiyor.",
+  "bildigimiz": "İnsanların yaklaşık yarısı ile üçte ikisi müzikten ürperiyor. 2016'da 10'ar kişilik iki grupla yapılan bir çalışma, ürperenlerde işitme ve duygu bölgelerini bağlayan sinir lifi demetinin daha büyük olduğunu buldu.",
+  "kaynaklar": [
+   {
+    "ad": "Brain connectivity reflects human aesthetic responses to music (Social Cognitive and Affective Neuroscience, 2016)",
+    "url": "https://web.media.mit.edu/~tod/media/pdfs/Class3-1_Sachs_Ellis_Schlaug_Loui-2016.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Smithsonian: What Happens in the Brain When Music Causes Chills?",
+    "url": "https://www.smithsonianmag.com/smart-news/researchers-look-what-happens-brain-when-music-causes-chills-180959481/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "kulak-cinlamasi-01",
+  "alan": "Beden",
+  "konu": "Kulak çınlaması",
+  "arama": [
+   "kulak çınlaması",
+   "çınlama",
+   "tinnitus",
+   "kulakta ses",
+   "kulak uğultusu",
+   "kulakta vızıltı"
+  ],
+  "bilinmeyen": "Dışarıda ses yokken duyulan çınlamanın beyinde tam olarak nasıl oluştuğunu bilmiyoruz.",
+  "neden": "Çınlamayı açıklayan birden çok model var ama hiçbiri tüm özelliklerini birlikte açıklayamıyor. Kişiden kişiye değişen yapısı da işi zorlaştırıyor.",
+  "bildigimiz": "Çınlaması olan insanların yaklaşık yüzde 10 ile 20'sinde çınlama yaşam kalitesini ciddi biçimde etkiliyor. Yaklaşık yüzde 20'sinde dört yıl içinde tamamen geçiyor.",
+  "kaynaklar": [
+   {
+    "ad": "Tinnitus: Clinical Insights in Its Pathophysiology-A Perspective (JARO, 2024)",
+    "url": "https://link.springer.com/article/10.1007/s10162-024-00939-0",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "kas-krampi-01",
+  "alan": "Beden",
+  "konu": "Egzersiz sırasındaki kas krampı",
+  "arama": [
+   "kas krampı",
+   "kramp",
+   "bacak krampı",
+   "spor krampı",
+   "kramp girmesi",
+   "kasılma"
+  ],
+  "bilinmeyen": "Egzersiz sırasında ya da sonrasında kasların neden kramp girdiğini kesin olarak bilmiyoruz.",
+  "neden": "Bazı vakalar su ve tuz dengesindeki bozulmalarla, bazıları yorgun kasın omurilik refleksindeki anormal etkinlikle ilişkili görünüyor. Farklı kramp türlerinin farklı mekanizmalarla başladığı düşünülüyor.",
+  "bildigimiz": "Kramp, iskelet kasının geçici, ağrılı ve istemsiz kasılması. Laboratuvarda krampı tetikleyen uyarı sıklığı susuzlukla değişmedi, ama bu deneylerin gerçek spor krampını ne kadar yansıttığı şüpheli.",
+  "kaynaklar": [
+   {
+    "ad": "Muscle Cramping During Exercise: Causes, Solutions, and Questions Remaining (Sports Medicine, 2019)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31696455/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "parmak-burusmasi-01",
+  "alan": "Beden",
+  "konu": "Islak parmakların buruşması",
+  "arama": [
+   "parmak buruşması",
+   "ıslak parmak",
+   "parmakların buruşması",
+   "suda buruşma",
+   "kuru üzüm parmak",
+   "el kırışması"
+  ],
+  "bilinmeyen": "Suda beklediğimizde parmakların neden buruştuğunu, yani bunun bir işe yarayıp yaramadığını bilmiyoruz.",
+  "neden": "Buruşmanın ıslak nesneleri kavramayı kolaylaştırdığını gösteren bir çalışma var, ama 2014'te yapılan başka bir çalışmada kavramada fark çıkmadı. Konu hâlâ tartışmalı.",
+  "bildigimiz": "Buruşma, deri altındaki kan damarlarının büzülmesiyle oluşuyor. Sinirleri hasarlı parmaklar buruşmuyor; yani deri suyu emip şişerek buruşmuyor.",
+  "kaynaklar": [
+   {
+    "ad": "Smithsonian: Ask Smithsonian: Why Do We Get Prune Fingers?",
+    "url": "https://www.smithsonianmag.com/smithsonian-institution/ask-smithsonian-why-do-we-get-prune-fingers-180956024/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Nature: Science gets a grip on wrinkly fingers (2013)",
+    "url": "https://www.nature.com/articles/nature.2013.12175",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "migren-01",
+  "alan": "Beden",
+  "konu": "Migren",
+  "arama": [
+   "migren",
+   "migren nedeni",
+   "baş ağrısı",
+   "migren atağı",
+   "aura",
+   "yarım baş ağrısı"
+  ],
+  "bilinmeyen": "Migren atağını neyin başlattığını, atağın beyinde mi yoksa beyin dışındaki sinirlerde mi başladığını bilmiyoruz.",
+  "neden": "Atakların merkezî mi çevresel mi başladığı tartışması çözülmüş değil. İncelemenin yazarları ikisinin birlikte rol oynamış olabileceğini söylüyor ama soruyu kapatmıyor.",
+  "bildigimiz": "Auralı migren, migrenli kişilerin yalnızca üçte birinde görülüyor. Auranın ardındaki beyin dalgası, en yaygın tür olan aurasız migreni açıklamıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Migraine attacks are of peripheral origin: the debate goes on (The Journal of Headache and Pain, 2023)",
+    "url": "https://link.springer.com/10.1186/s10194-022-01538-1",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "fotik-hapsirma-01",
+  "alan": "Beden",
+  "konu": "Işığa bakınca hapşırma",
+  "arama": [
+   "ışığa bakınca hapşırma",
+   "güneşe bakınca hapşırma",
+   "fotik hapşırma",
+   "hapşırık",
+   "güneş hapşırık",
+   "achoo"
+  ],
+  "bilinmeyen": "Bazı insanların parlak ışığa bakınca neden hapşırdığını kesin olarak bilmiyoruz.",
+  "neden": "En yaygın açıklama, görme siniri ile yüzdeki duyu sinirinin sinyallerinin karışması. Ama bu kanıtlanmış değil ve çalışmaların çoğu tek tek ailelerle yapılan küçük incelemeler.",
+  "bildigimiz": "Özellik kalıtsal; ebeveynlerden biri hapşırıyorsa çocukların yaklaşık yarısında da görülmesi bekleniyor. Nüfusun yaklaşık yüzde 10 ile 35'inde olduğu tahmin ediliyor.",
+  "kaynaklar": [
+   {
+    "ad": "PBS NewsHour: Why looking at the sun can make you sneeze (2017)",
+    "url": "https://www.pbs.org/newshour/science/does-the-sun-make-you-sneeze",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Scientific American: Looking at the Sun Can Trigger a Sneeze",
+    "url": "https://scientificamerican.com/article/looking-at-the-sun-can-trigger-a-sneeze/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "parmak-citlatma-01",
+  "alan": "Beden",
+  "konu": "Parmak çıtlatma",
+  "arama": [
+   "parmak çıtlatma",
+   "parmak çıtlatmak",
+   "çıtlama",
+   "eklem sesi",
+   "parmak çıtırtısı",
+   "eklem çıtlaması"
+  ],
+  "bilinmeyen": "Parmaklar çıtlatılınca çıkan sesin tam olarak neyden kaynaklandığını bilmiyoruz.",
+  "neden": "Ses, eklem sıvısında kabarcığın oluşmasından ya da çökmesinden geliyor olabilir; çalışmalar farklı sonuç verdi. 2015'te kabarcıkların çıtlamadan sonra 20 dakikaya kadar eklemde kaldığı görüldü.",
+  "bildigimiz": "Kabarcık oluşumunun mekanizmanın parçası olduğu konusunda literatürde uzlaşma var. 2018'de bir matematiksel model, sesin kabarcığın kısmen çökmesinden geldiğini öne sürdü.",
+  "kaynaklar": [
+   {
+    "ad": "Let's get a hand on this: Review of the clinical anatomy of \"knuckle cracking\" (Clinical Anatomy, 2018)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30080300/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Science News: Why cracking your knuckles can be so noisy (2018)",
+    "url": "https://www.sciencenews.org/article/why-cracking-your-knuckles-can-be-so-noisy?tgt=more",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "yuz-kizarmasi-01",
+  "alan": "Beden",
+  "konu": "Yüz kızarması",
+  "arama": [
+   "kızarma",
+   "yüz kızarması",
+   "utanınca kızarmak",
+   "kızarmak",
+   "utanma",
+   "yüzün kızarması"
+  ],
+  "bilinmeyen": "İnsanların utanınca neden yüzünün kızardığını, bunun evrimde ne işe yaradığını bilmiyoruz.",
+  "neden": "Kızarmanın evrimsel kökeni için ikna edici bir açıklama yok. Önerilenler arasında özür işareti, istenmeyen dikkat ve gizli bir şeyin açığa çıkma korkusu var.",
+  "bildigimiz": "Yüz damarlarındaki sempatik uyarı kan akışını artırıyor, ama tam mekanizma anlaşılmış değil. Kızarma çoğunlukla yalnızca insana özgü sayılıyor.",
+  "kaynaklar": [
+   {
+    "ad": "The study of the blush: Darwin and after (W. R. Crozier ve P. J. de Jong, The Psychological Significance of the Blush, Cambridge University Press)",
+    "url": "https://assets.cambridge.org/97811070/13933/excerpt/9781107013933_excerpt.pdf",
+    "tur": "birincil"
+   },
+   {
+    "ad": "The puzzle of blushing (The Psychologist, British Psychological Society, 2010)",
+    "url": "https://www.bps.org.uk/psychologist/puzzle-blushing",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "yaslanma-01",
+  "alan": "Beden",
+  "konu": "Yaşlanma",
+  "arama": [
+   "yaşlanma",
+   "yaşlanmak",
+   "neden yaşlanırız",
+   "ömür",
+   "yaşlılık",
+   "yaşlanmanın nedeni",
+   "uzun yaşam"
+  ],
+  "bilinmeyen": "İnsanların ve öbür canlıların neden yaşlandığını, yani yaşlanmanın temel nedenini bilmiyoruz.",
+  "neden": "2020'de yaşlanma biyolojisi üzerine bir toplantının katılımcılarına yapılan ankette, alanın en temel sorularında belirgin görüş ayrılığı çıktı. 71 kişiden 37'si ankete yanıt verdi.",
+  "bildigimiz": "Evrimsel kuram, oksidatif hasar kuramı ve genom bakımı kuramı gibi birçok açıklama var. Hiçbiri tek başına yanıt sayılmıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Lack of consensus on an aging biology paradigm? A global survey reveals an agreement to disagree, and the need for an interdisciplinary framework (Mechanisms of Ageing and Development, 2020)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32693105/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Tufts Now: The Biology of Growing Older (2023)",
+    "url": "https://now.tufts.edu/2023/10/05/demystifying-biology-growing-older",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "uyurgezerlik-01",
+  "alan": "Beden",
+  "konu": "Uyurgezerlik",
+  "arama": [
+   "uyurgezerlik",
+   "uyurgezer",
+   "uykuda yürüme",
+   "uykuda gezme",
+   "somnambulizm",
+   "uyku bozukluğu"
+  ],
+  "bilinmeyen": "Uyurgezerliğin beyinde tam olarak neden ve nasıl ortaya çıktığını bilmiyoruz.",
+  "neden": "Uyurgezerlik derin uykudan ani ve sınırlı uyanmalar sırasında oluşuyor, ama bunun asıl nedeni bilinmiyor. Kaynaklar konudaki bilgimizin hâlâ erken aşamada olduğunu yazıyor.",
+  "bildigimiz": "Yaşam boyu görülme oranı bir derlemeye göre yaklaşık yüzde 6,9. Tek yumurta ikizlerinin çift yumurta ikizlerinden daha sık uyurgezer olması, kalıtsal bir payı düşündürüyor.",
+  "kaynaklar": [
+   {
+    "ad": "StatPearls: Somnambulism (NCBI Bookshelf, 2023)",
+    "url": "https://www.ncbi.nlm.nih.gov/books/NBK559001/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Discover: Why Sleepwalking Still Mystifies Scientists (2019)",
+    "url": "https://discovermagazine.com/mind/why-sleepwalking-still-mystifies-scientists",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "hipnik-sarsinti-01",
+  "alan": "Beden",
+  "konu": "Uykuya dalarken irkilme",
+  "arama": [
+   "uykuya dalarken irkilme",
+   "uykuda irkilme",
+   "hipnik sarsıntı",
+   "düşme hissi",
+   "uykuda sıçrama",
+   "uyku başlangıcı"
+  ],
+  "bilinmeyen": "Uykuya dalarken ani irkilmeye ve düşme hissine neyin yol açtığını bilmiyoruz.",
+  "neden": "2018 tarihli bir derleme, hipnik sarsıntıların kökeninin ve fizyolojisinin hâlâ esrarengiz olduğunu yazıyor. Önerilen açıklamalar, örneğin ağaçtan düşme tepkisi, kanıtlanmış değil.",
+  "bildigimiz": "İnsanların yaklaşık yüzde 70'i hayatında en az bir kez yaşıyor. Uzmanlar bunu normal sayıyor; nöbet ya da uyku bozukluğu belirtisi değil.",
+  "kaynaklar": [
+   {
+    "ad": "Sleep-Related Movement Disorders: Hypnic Jerks (Current Sleep Medicine Reports, 2018)",
+    "url": "https://link.springer.com/article/10.1007/s40675-018-0104-9",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Popular Science: What causes you to jolt awake right before falling asleep? (2024)",
+    "url": "https://www.popsci.com/science/why-do-legs-jerk-when-falling-asleep",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "buzun-kayganligi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Buzun kaygan olması",
+  "arama": [
+   "buz",
+   "buz kaygan",
+   "kayganlık",
+   "buzda kayma",
+   "buz pateni",
+   "buz üstünde yürümek"
+  ],
+  "bilinmeyen": "Buzun neden bu kadar kaygan olduğuna dair üzerinde uzlaşılmış tek bir açıklama yok.",
+  "neden": "Basınç, sürtünme ısısı ve yüzeydeki ince sıvı katman olmak üzere üç eski açıklama var. 2025'te bir Alman ekip, kaymanın buzun kristal düzenini bozduğunu öne süren dördüncü bir açıklama sundu.",
+  "bildigimiz": "Basınçla erime tek başına yetmiyor: kayakçının erimeyi anlamlı ölçüde düşürmesi için binlerce kilogram gelmesi gerekirdi. Kasım 2026'daki bir simülasyon çalışması kayganlığın sürtünme ısısına bağlı olduğunu öne sürüyor; tartışma sürüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Quanta Magazine: Why Is Ice Slippery? A New Hypothesis Slides Into the Chat (Aralık 2025)",
+    "url": "https://www.quantamagazine.org/why-is-ice-slippery-a-new-hypothesis-slides-into-the-chat-20251208/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Why Ice Is So Slippery (Physical Review Letters, 2026)",
+    "url": "https://journals.aps.org/prl/abstract/10.1103/9wv5-ypdm",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta",
+  "eklendi": "2026-11-26"
+ },
+ {
+  "id": "surtunme-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Sürtünmenin kökeni",
+  "arama": [
+   "sürtünme",
+   "sürtünme kuvveti",
+   "kayma",
+   "yapışma",
+   "sürtünme katsayısı",
+   "triboloji"
+  ],
+  "bilinmeyen": "Sürtünmenin atom düzeyinde nasıl ortaya çıktığını bütünüyle açıklayamıyoruz.",
+  "neden": "Okulda öğretilen sürtünme yasaları ölçümlere dayanan yaklaşık kurallar; temel bir doğa yasasından türetilmiş değil. Sürtünme katsayısı denklemleri dengeliyor ama altta yatan fiziği anlatmıyor.",
+  "bildigimiz": "Yüzeye göre farklı enerji kaybı mekanizmaları devreye giriyor. Gelişmiş ülkelerde tüketilen enerjinin yüzde 10'undan fazlasının sürtünmeyi yenmeye gittiği tahmin ediliyor.",
+  "kaynaklar": [
+   {
+    "ad": "EPFL: Uncovering the origins of friction (2010)",
+    "url": "https://actu.epfl.ch/news/uncovering-the-origins-of-friction/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "ASME: Beyond the Sticking Point (2018)",
+    "url": "https://asme.org/topics-resources/content/beyond-the-sticking-point",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "NOVA Next: Friction Fighters (2015)",
+    "url": "https://www.pbs.org/wgbh/nova/article/friction",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "misir-nisastasi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Mısır nişastası ve su karışımı",
+  "arama": [
+   "mısır nişastası",
+   "nişasta ve su",
+   "oobleck",
+   "katılaşan sıvı",
+   "newton olmayan akışkan",
+   "nişasta üzerinde yürümek"
+  ],
+  "bilinmeyen": "Mısır nişastası ve su karışımının sıkıştırılınca neden aniden katılaştığını tam bir modelle anlatamıyoruz.",
+  "neden": "Katılaşmanın parçacıklar arası sürtünmeden mi yoksa aradaki sıvının sıkışmasından mı geldiği uzun süre tartışıldı. Georgetown'daki fizikçiler 2022'de, katılaşmanın nerede olacağını öngören yeterli bir modelin hâlâ bulunmadığını yazdı.",
+  "bildigimiz": "2015'te Cornell fizikçileri, model parçacıklarla yaptıkları deneyde sürtünmenin baskın neden olduğunu gösterdi. Karışım ani kuvvetle katılaşıyor, kuvvet kalkınca eski hâline dönüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Cornell Chronicle: The secret of Oobleck revealed at last (2015)",
+    "url": "https://news.cornell.edu/node/285054",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Georgetown: What's Goo Got to Do with It? Georgetown Physicists Study Fundamental Structure of Flowing Cornstarch-Water Mixture (2022)",
+    "url": "https://college.georgetown.edu/news-story/oobleck-urbach-blair/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "sonbahar-yapragi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Kırmızı sonbahar yaprakları",
+  "arama": [
+   "sonbahar yaprakları",
+   "yaprak rengi",
+   "kırmızı yaprak",
+   "yaprak dökümü",
+   "sonbahar renkleri",
+   "antosiyanin"
+  ],
+  "bilinmeyen": "Ağaçların sonbaharda yapraklarını neden kırmızıya boyadığını, bunun işe yarayıp yaramadığını kesin bilmiyoruz.",
+  "neden": "Kırmızı pigment yaprak dökülmeden yalnızca birkaç gün önce beliriyor ve ağacın bunun için neden kaynak harcadığı konusunda uzlaşılmış bir açıklama yok. Öneriler arasında güneşten korunma, böceklerden korunma ve mantar savunması var.",
+  "bildigimiz": "Kırmızı yapraklar dökülürken daha az azot taşıyor; bu da pigmentin azotun geri kazanılmasına yardım ediyor olabileceğini düşündürüyor. Azot bağlayan bakterilerle yaşayan ağaçlar genelde kırmızıya dönmüyor.",
+  "kaynaklar": [
+   {
+    "ad": "NPR: Why do only some leaves turn red in the fall? Scientists can't agree on an answer (Kasım 2025)",
+    "url": "https://www.npr.org/2025/11/05/nx-s1-5599152/why-do-leaves-turn-red-fall-foliage-autumn",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "The phenomenon of red and yellow autumn leaves: Hypotheses, agreements and disagreements (Journal of Evolutionary Biology, 2022)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9804425/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Harvard Forest: The Biological Significance of Leaf Color Change",
+    "url": "https://harvardforest.fas.harvard.edu/education-opportunities/classic-outreach-resources/autumn-foliage-color/leaf-science/leaf-bio-significance/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "koku-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Kokunun kimyasal yapıyla ilişkisi",
+  "arama": [
+   "koku",
+   "koku alma",
+   "koku nasıl oluşur",
+   "koku molekülü",
+   "kokunun yapısı",
+   "koku algısı",
+   "koku alıcısı"
+  ],
+  "bilinmeyen": "Bir molekülün kimyasal yapısının neden o kokuyu verdiğini çoğu durumda açıklayamıyoruz.",
+  "neden": "İnsan burnunda yaklaşık 350 tür koku alıcısı var ve bunlar çok sayıda molekülü bağlayabiliyor. Bilinen kurallar yalnızca sülfür bileşikleri ve bazı aminler gibi sınırlı gruplar için geçerli.",
+  "bildigimiz": "2023'te Science'ta yayımlanan yapay zekâ tabanlı bir koku haritası, molekül yapısından kokuyu tahmin edebiliyor. Ama tek moleküllerle çalışıyor, gerçek kokuların çoğu karışım ve neden öyle tahmin ettiği açıklanamıyor.",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: AI Predicts What Chemicals Will Smell like to a Human",
+    "url": "https://www.scientificamerican.com/article/ai-predicts-what-chemicals-will-smell-like-to-a-human/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Monell Chemical Senses Center: A step closer to digitizing the sense of smell (EurekAlert, Ağustos 2023)",
+    "url": "https://www.eurekalert.org/news-releases/999716",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "misofoni-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Belirli seslerden aşırı rahatsız olmak",
+  "arama": [
+   "misofoni",
+   "çiğneme sesi",
+   "ses nefreti",
+   "kalem sesi",
+   "ses hassasiyeti",
+   "belirli seslerden rahatsız olmak",
+   "yemek sesi"
+  ],
+  "bilinmeyen": "Bazı insanların çiğneme ya da kalem tıklaması gibi belirli seslerden neden aşırı rahatsız olduğunu bilmiyoruz.",
+  "neden": "Çalışmalar bu durumun altındaki mekanizmalar konusunda kesin sonuç vermiyor. Genetiğin ve öğrenmenin payı için de yeterli kanıt yok.",
+  "bildigimiz": "Misofoni, belirli seslere karşı güçlü olumsuz duygusal ve bedensel tepkiyle tanımlanıyor. Bu alandaki araştırma bütünü küçük ve yeni.",
+  "kaynaklar": [
+   {
+    "ad": "Investigating Misophonia: A Review of the Empirical Literature, Clinical Implications, and a Research Agenda (Frontiers in Neuroscience, 2018)",
+    "url": "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2018.00036/full",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "zaman-algisi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Beynin zamanı ölçmesi",
+  "arama": [
+   "zaman algısı",
+   "zaman",
+   "zamanın hızlı geçmesi",
+   "beynin saati",
+   "zaman hissi",
+   "süre algısı",
+   "iç saat"
+  ],
+  "bilinmeyen": "Beynin zamanın geçişini nasıl ölçtüğünü bilmiyoruz.",
+  "neden": "Beyinde tek bir ana saat bulunmuyor gibi görünüyor; milisaniyeleri ve daha uzun süreleri farklı zamanlayıcılar izliyor. Bu zamanlayıcıların nerede ve nasıl çalıştığı hâlâ tartışılıyor.",
+  "bildigimiz": "Hipokampus ve entorinal korteksteki bazı hücreler, bir aralık boyunca farklı anlarda ateşleniyor. Bazı araştırmacılar bu 'zaman hücrelerinin' saat olacak kadar kesin olduğundan şüphe ediyor.",
+  "kaynaklar": [
+   {
+    "ad": "Quanta Magazine: New Clues to How the Brain Maps Time (Ocak 2016)",
+    "url": "https://www.quantamagazine.org/20160126-how-the-brain-maps-time/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Science News: How the brain perceives time (2015)",
+    "url": "https://www.sciencenews.org/article/how-brain-perceives-time?tgt=nr",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "arac-tutmasi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Araç tutması",
+  "arama": [
+   "araç tutması",
+   "yol tutması",
+   "mide bulantısı",
+   "deniz tutması",
+   "hareket hastalığı",
+   "araba tutması"
+  ],
+  "bilinmeyen": "Araç tutmasının neden var olduğunu, evrimde bir işe yarayıp yaramadığını bilmiyoruz.",
+  "neden": "Mekanizma için en çok kabul gören açıklama duyu çatışması, ama bu kuram tüm özellikleri açıklamıyor. Evrimsel bir amaç öneren kuramların da sınırları var.",
+  "bildigimiz": "Duyarlılık kişiden kişiye çok değişiyor; normal nüfusta yaklaşık 10.000'e 1 oranında fark var. İç kulak dengesi hiç çalışmayanlar araç tutmasından tamamen bağışık.",
+  "kaynaklar": [
+   {
+    "ad": "Motion sickness: more than nausea and vomiting (Experimental Brain Research, 2014)",
+    "url": "https://link.springer.com/article/10.1007/s00221-014-4008-8",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "aksamdan-kalmalik-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Akşamdan kalmalık",
+  "arama": [
+   "akşamdan kalmalık",
+   "akşamdan kalma",
+   "alkol sonrası baş ağrısı",
+   "ertesi gün",
+   "alkol",
+   "mahmurluk",
+   "hangover"
+  ],
+  "bilinmeyen": "Yoğun alkolden sonraki sabah yaşanan akşamdan kalmalığın tam olarak neden oluştuğunu bilmiyoruz.",
+  "neden": "Alkolün doğrudan etkileri, yoksunluk, alkol metabolitleri ve içkideki diğer bileşikler gibi birçok kuram var. Bunların hangisinin ne kadar payı olduğu belli değil.",
+  "bildigimiz": "Akşamdan kalmalığın nedenini inceleyen çalışma sayısı az. 2020 tarihli bir derlemeye göre şiddeti kandaki alkol düzeyiyle ilişkili, asetaldehitle ise anlamlı bir ilişki görülmedi.",
+  "kaynaklar": [
+   {
+    "ad": "Alcohol hangover: a critical review of explanatory factors (Human Psychopharmacology, 2009)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/19347842/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "The Role of Alcohol Metabolism in the Pathology of Alcohol Hangover (Journal of Clinical Medicine, 2020)",
+    "url": "https://www.mdpi.com/2077-0383/9/11/3421",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "afantazi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Zihinde görüntü canlandıramamak (afantazi)",
+  "arama": [
+   "afantazi",
+   "zihinde canlandırma",
+   "hayal edememek",
+   "gözün önüne getirememek",
+   "zihinsel imge",
+   "hayal gücü",
+   "zihin gözü"
+  ],
+  "bilinmeyen": "Bazı insanların zihninde neden hiç görüntü canlandıramadığını, yani afantazinin nedenini bilmiyoruz.",
+  "neden": "Beyin düzeyindeki açıklamalar çözülmüş değil. Bir çalışmada görsel işleme alanı ile ön beyin bölgeleri arasındaki bağlantının azaldığı görüldü, ama bu tek açıklama değil.",
+  "bildigimiz": "İnsanların yaklaşık yüzde 4'ünde zihinsel imge zayıf ya da hiç yok. Kardeşinde afantazi olanlarda ihtimal yaklaşık on kat artıyor; yani genetik bir pay var.",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: Many people don't see mental images. The reason offers clues to consciousness (Şubat 2026)",
+    "url": "https://www.scientificamerican.com/article/many-people-dont-see-mental-images-the-reason-offers-clues-to-consciousness/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "mizah-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Gülme ve mizah",
+  "arama": [
+   "gülme",
+   "mizah",
+   "komik",
+   "neden gülüyoruz",
+   "espri",
+   "kahkaha",
+   "gülmek"
+  ],
+  "bilinmeyen": "İnsanların neden güldüğünü ve bir şeyin neden komik geldiğini tek bir kuramla açıklayamıyoruz.",
+  "neden": "Üstünlük, boşalma, uyumsuzluk ve zararsız ihlal gibi kuramların her biri mizahın bir bölümünü açıklıyor ama hiçbiri tamamını değil. Bazı araştırmacılar tek bir birleşik mizah kuramının mümkün olduğundan bile şüpheli.",
+  "bildigimiz": "Evrimsel görüşlerden biri gülmenin grup bağını güçlendirdiğini söylüyor. İnsanlar başkalarıyla birlikteyken, yalnız olduklarından yaklaşık 30 kat daha çok gülüyor.",
+  "kaynaklar": [
+   {
+    "ad": "Scientific American: What's So Funny? The Science of Why We Laugh",
+    "url": "https://www.scientificamerican.com/article/whats-so-funny-the-science-of-why-we-laugh/",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "The evolution and functions of laughter and humor: a synthetic approach (The Quarterly Review of Biology, 2005)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/16519138/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "kulak-kurdu-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Kafada takılan şarkılar",
+  "arama": [
+   "kulak kurdu",
+   "kafada takılan şarkı",
+   "aklımdan çıkmayan şarkı",
+   "earworm",
+   "istemsiz müzik imgesi",
+   "şarkı takılması",
+   "şarkı",
+   "kafamda şarkı",
+   "dilime takıldı"
+  ],
+  "bilinmeyen": "Bazı şarkıların neden aklımıza takılıp tekrar tekrar çaldığını tam olarak açıklayamıyoruz.",
+  "neden": "2023'te Music & Science'ta yayımlanan bir makale, bu olguyu açıklayan kuramların az olduğunu belirtiyor. Çalışmaların çoğu belirtileri inceliyor, altta yatan nedeni inceleyen çok az.",
+  "bildigimiz": "Öne çıkan açıklama, şarkıyı yakın zamanda ve tekrar tekrar dinlemiş olmak. Bir şarkının hangi özellikleri yüzünden takıldığına dair araştırma ise henüz çok yeni.",
+  "kaynaklar": [
+   {
+    "ad": "Why do Songs get \"Stuck in our Heads\"? Towards a Theory for Explaining Earworms (Music & Science, 2023)",
+    "url": "https://doaj.org/article/9d2f3807a25342ecb0fb2420ceb551cc",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Involuntary musical imagery as a component of ordinary music cognition: A review of empirical evidence (Psychonomic Bulletin & Review, 2020)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7704448",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "sikilma-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Sıkılma",
+  "arama": [
+   "sıkılma",
+   "sıkıntı",
+   "canı sıkılmak",
+   "can sıkıntısı",
+   "bıkkınlık",
+   "neden sıkılırız",
+   "sıkıldım",
+   "sıkıcı",
+   "canım sıkılıyor"
+  ],
+  "bilinmeyen": "Sıkılmanın tam olarak ne olduğunu ve ne işe yaradığını bilmiyoruz.",
+  "neden": "Sıkılmanın tanımı, işlevi ve ilişkili olduğu etkenler hâlâ iyi anlaşılmış değil. Farklı sıkılma türlerinin birbirinden farklı, hatta zıt etkenlerle bağlantılı olabileceğine dair ön kanıtlar var.",
+  "bildigimiz": "Tanımlar çalışmadan çalışmaya değişiyor; biri, olumsuz duygu ile hedefe yönelik eylem eksikliğinin bir arada olması. Ön kanıtlar, arayış içindeki ve kayıtsız sıkılma gibi farklı türlere işaret ediyor.",
+  "kaynaklar": [
+   {
+    "ad": "The knowns and unknowns of boredom: a review of the literature (Experimental Brain Research, 2018)",
+    "url": "https://link.springer.com/article/10.1007/s00221-017-4922-7",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "huzunlu-muzik-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Hüzünlü müzikten hoşlanmak",
+  "arama": [
+   "hüzünlü müzik",
+   "üzücü şarkı",
+   "neden hüzünlü müzik dinleriz",
+   "müzik ve duygu",
+   "melankoli",
+   "hüzünlü şarkılar"
+  ],
+  "bilinmeyen": "İnsanların neden hüzünlü müzikten hoşlandığını, üzücü bir duygudan nasıl haz aldığımızı tam bilmiyoruz.",
+  "neden": "2018'deki bir derleme, tek bir açıklama düzeyinin yeterli olmadığını söylüyor ve biyolojik düzeydeki kanıtı zayıf ile hiç yok arasında buluyor. Psikolojik düzeyde kanıt orta, kültürel düzeyde ipucu niteliğinde.",
+  "bildigimiz": "Derleme biyolojik, psiko-sosyal ve kültürel olmak üzere üç düzeyde açıklama öneriyor. 2024'te 50 kişilik bir çalışma hüznün kendisinin hazza katkı yapabileceğini öne sürdü; bu tek bir çalışma.",
+  "kaynaklar": [
+   {
+    "ad": "An integrative review of the enjoyment of sadness associated with music (Physics of Life Reviews, 2018)",
+    "url": "https://jyx.jyu.fi/jyx/Record/jyx_123456789_59210",
+    "tur": "birincil"
+   },
+   {
+    "ad": "UNSW Sydney: Some of our favourite songs make us sad – and that could be why we like them (PLOS ONE, Nisan 2024)",
+    "url": "https://www.unsw.edu.au/newsroom/news/2024/04/some-of-our-favourite-songs-make-us-sad-and-that-could-be-why-we-like-them",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "mutlak-kulak-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Mutlak kulak",
+  "arama": [
+   "mutlak kulak",
+   "perfect pitch",
+   "nota tanıma",
+   "mükemmel kulak",
+   "müzik kulağı",
+   "ses yüksekliği"
+  ],
+  "bilinmeyen": "Mutlak kulağın neden yalnızca bazı insanlarda geliştiğini tam olarak bilmiyoruz.",
+  "neden": "Genetik yatkınlığın payına ilişkin kanıt sınırlı. Erken müzik eğitiminin neredeyse şart olduğu düşünülüyor ama herkes için yeterli olmuyor.",
+  "bildigimiz": "612 müzisyenle yapılan bir ankette resmî eğitime dört yaşına kadar başlayanların yüzde 40'ı mutlak kulağı bildirdi; dokuz yaşından sonra başlayanlarda oran yüzde 4'tü. Mutlak kulağı olanların yüzde 48'inin birinci derece akrabasında da vardı; olmayanlarda yüzde 14.",
+  "kaynaklar": [
+   {
+    "ad": "UCSF: Genetically set for perfect pitch you might be, but without early training don't expect to discern C (American Journal of Human Genetics çalışması)",
+    "url": "https://www.ucsf.edu/news/2011/01/98114/genetically-set-perfect-pitch-you-might-be-without-early-training-dont-expect",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Perfect pitch reconsidered (Clinical Medicine, 2014)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25301913/",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "kekemelik-01",
+  "alan": "Beden",
+  "konu": "Kekemelik",
+  "arama": [
+   "kekemelik",
+   "kekeleme",
+   "kekeme",
+   "takılarak konuşma",
+   "kelime takılması",
+   "konuşma bozukluğu",
+   "çocuk kekeleme"
+  ],
+  "bilinmeyen": "Kekemeliğin çocuklukta neden başladığını tam olarak bilmiyoruz.",
+  "neden": "Genetik yatkınlık gösterildi, ama bulunan genlerin konuşmayı nasıl etkilediği açıklanmış değil. Genetik sinyaller kadınlarda ve erkeklerde farklı çıktı ve bunun nedeni henüz netleşmedi.",
+  "bildigimiz": "Kekemelik genellikle 2 ile 5 yaş arasında başlıyor. Okul öncesi çocukların yüzde 8'e kadarı kekelemeye başlıyor, yaklaşık beşte biri ömür boyu sürdürüyor. 2025'te bir milyondan fazla kişiyle yapılan genetik çalışma, kekemeliğin genlerden etkilendiğini ve 57 genom bölgesiyle ilişkili olduğunu gösterdi.",
+  "kaynaklar": [
+   {
+    "ad": "PLOS Biology (2024): Knowns and unknowns about the neurobiology of stuttering",
+    "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002492",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Nature Genetics (2025): Large-scale genome-wide analyses of stuttering (özet sayfası, Vanderbilt)",
+    "url": "https://www.vumc.org/stuttering/publication/large-scale-genome-wide-analyses-stuttering",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Vanderbilt University Medical Center haberi (Temmuz 2025)",
+    "url": "https://news.vumc.org/?p=376482",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "sivrisinek-isirigi-01",
+  "alan": "Gündelik şeyler",
+  "konu": "Sivrisineklerin bazı insanları daha çok ısırması",
+  "arama": [
+   "sivrisinek ısırığı",
+   "sivrisinek",
+   "sivrisinek neden beni ısırıyor",
+   "sivrisinek kimi sever",
+   "sivrisinek mıknatısı",
+   "tatlı kan",
+   "cilt kokusu"
+  ],
+  "bilinmeyen": "Sivrisineklerin bazı insanları neden diğerlerinden çok ısırdığını tam olarak bilmiyoruz.",
+  "neden": "2022'de Cell'de yayımlanan çalışma, ciltteki yağ asitleriyle çekicilik arasında güçlü bir ilişki buldu, ama bunun neden-sonuç ilişkisi olduğu kanıtlanmadı. Bazı insanların neden daha çok yağ asidi ürettiği de açıklanmış değil.",
+  "bildigimiz": "En çok ısırılan kişilerin cildinde karboksilik asit düzeyi daha yüksek çıktı ve bu fark yıllar boyunca sabit kaldı. 2026'da 119 gönüllü ve üç sivrisinek türüyle yapılan bir çalışmada her tür farklı insanları tercih etti, üçü için de çekici olan kimse çıkmadı.",
+  "kaynaklar": [
+   {
+    "ad": "Rockefeller University: Why some people are mosquito magnets (Cell, 2022)",
+    "url": "https://www.rockefeller.edu/news/33019-why-mosquitoes-bite-some-people-more/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Scientific American: Some People Really Are Mosquito Magnets, and They're Stuck That Way",
+    "url": "https://www.scientificamerican.com/article/some-people-really-are-mosquito-magnets-and-theyre-stuck-that-way",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Florida International University (Ağustos 2026): iScience çalışması, 119 gönüllü",
+    "url": "https://news.fiu.edu/2026/every-mosquito-has-a-type-and-you-may-not-be-it",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Science News (Temmuz 2026): Your skin chemistry may affect which mosquitoes most want to bite you",
+    "url": "https://www.sciencenews.org/article/skin-chemistry-which-mosquitoes-bite",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ },
+ {
+  "id": "kopek-kuyruk-01",
+  "alan": "Hayvanlar",
+  "konu": "Köpeklerin kuyruk sallaması",
+  "arama": [
+   "köpek kuyruk sallama",
+   "köpek kuyruğunu neden sallar",
+   "kuyruk sallamak",
+   "köpek davranışı",
+   "köpek",
+   "kurt",
+   "evcilleşme"
+  ],
+  "bilinmeyen": "Köpeklerde kuyruk sallamanın nasıl evrimleştiğini bilmiyoruz.",
+  "neden": "İki açıklama var: kuyruk sallama evcilleşmede seçilen uysallığın yan ürünü olabilir ya da insanlar ritmik sallayan köpekleri doğrudan seçmiş olabilir. Bunları ayırmak için özel deneyler gerekiyor.",
+  "bildigimiz": "Köpekler kuyruklarını başlıca iletişim için kullanıyor. Elle büyütülen kurt yavrularıyla yapılan bir çalışmada yavrular neredeyse hiç kuyruk sallamadı.",
+  "kaynaklar": [
+   {
+    "ad": "Biology Letters (Ocak 2024): Why do dogs wag their tails?",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10792393",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Science News (Ocak 2024): Some mysteries remain about why dogs wag their tails",
+    "url": "https://www.sciencenews.org/article/why-dogs-wag-tails-communication-evolution",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Smithsonian Magazine: Why Do Dogs Wag Their Tails? Scientists Examine the Endearing Behavior",
+    "url": "https://www.smithsonianmag.com/smart-news/why-do-dogs-wag-their-tails-180983608/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "safak-korosu-01",
+  "alan": "Hayvanlar",
+  "konu": "Kuşların şafak korosu",
+  "arama": [
+   "şafak korosu",
+   "kuşlar sabah neden öter",
+   "kuş sesi",
+   "sabah kuş cıvıltısı",
+   "kuşlar neden şafakta öter",
+   "kuş ötmesi",
+   "kuş şarkısı"
+  ],
+  "bilinmeyen": "Kuşların neden en çok şafakta öttüğünü kesin olarak bilmiyoruz.",
+  "neden": "Ses iletimi ve ışık gibi çevre açıklamalarına 2025'te Hindistan'da yapılan bir çalışmada destek çıkmadı. Bölge savunması ve beslenme alışkanlığı daha güçlü ipuçları verdi, ama bunlar kesinleşmedi.",
+  "bildigimiz": "Bu çalışmada 69 kuş türünün büyük çoğunluğu akşama göre şafakta belirgin biçimde daha çok ötüyordu. Bölgesini sıkı savunan türler de, hem böcek hem meyve yiyen türler de şafakta daha çok ötüyordu.",
+  "kaynaklar": [
+   {
+    "ad": "Cornell Chronicle (Haziran 2025): Study reveals why the early bird sings early (Phil Trans R Soc B)",
+    "url": "https://www.news.cornell.edu/stories/2025/06/study-reveals-why-early-bird-sings-early",
+    "tur": "birincil"
+   },
+   {
+    "ad": "NPR (Haziran 2025): A new study knocks down a popular hypothesis about why birds sing at dawn",
+    "url": "https://www.npr.org/2025/06/20/nx-s1-5436078/why-birds-sing-dawn-chorus-research-study",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "bioRxiv ön baskısı, hakem denetiminden geçmemiş (Şubat 2026): zebra ispinozlarında şafak korosu üzerine deney",
+    "url": "https://www.biorxiv.org/content/10.1101/2025.09.29.679172v4",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "orta"
+ },
+ {
+  "id": "kirmizi-ayni-mi-01",
+  "alan": "Beyin ve uyku",
+  "konu": "Başkası kırmızıyı benim gördüğüm gibi mi görüyor",
+  "arama": [
+   "kırmızı",
+   "renk algısı",
+   "aynı rengi mi görüyoruz",
+   "benim kırmızım senin kırmızın",
+   "başkası ne görüyor",
+   "renk körlüğü",
+   "gözdeki koniler"
+  ],
+  "bilinmeyen": "Başka birinin kırmızıyı benimle aynı şekilde deneyimleyip deneyimlemediğini bilmiyoruz.",
+  "neden": "Deneyim kişiye özel ve doğrudan ölçülemiyor; herkes \"kırmızı\" diyor ama bu sözcüğün ardındaki deneyim karşılaştırılamıyor. 2025'te bir çalışma renk deneyimlerinin ilişki yapısını grup düzeyinde karşılaştırdı, ama yazarlar bu uyumu aynı deneyimin kanıtı değil, gerekli koşullarından biri sayıyor.",
+  "bildigimiz": "Normal renk görüşlü insanların koni hücreleri bile birbirinden biraz farklı. 2025'teki iScience çalışmasında normal renk görüşlü gruplar renk adları kullanılmadan eşleştirilebildi, renk körü grupla eşleşme şans düzeyinde kaldı. Aynı yıl 15 kişiyle yapılan bir fMRI çalışmasında, başkalarının beyin verisiyle eğitilen bir model yeni bir kişinin kırmızı, yeşil ve sarıdan hangisine baktığını tahmin edebildi.",
+  "kaynaklar": [
+   {
+    "ad": "iScience (2025): Is my \"red\" your \"red\"? Unsupervised alignment of qualia structures",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11926686",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Tokyo Üniversitesi (Nisan 2025): Is my red your red? A computational approach",
+    "url": "https://www.u-tokyo.ac.jp/focus/en/press/z0508_00402.html",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Technology Networks (Eylül 2025): Do we all see red the same way? (Tübingen, JNeurosci)",
+    "url": "https://www.technologynetworks.com/neuroscience/news/do-we-all-see-red-the-same-way-404487",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Radboud Üniversitesi (Temmuz 2025): Is your red my red",
+    "url": "https://www.ru.nl/en/services/recharge/overview/is-your-red-my-red",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "Scientific American / Knowable: Color is in the eye and brain of the beholder (Jenny Bosten)",
+    "url": "https://www.scientificamerican.com/article/color-is-in-the-eye-and-brain-of-the-beholder/",
+    "tur": "ikincil"
+   }
+  ],
+  "son_kontrol": "2026-11-26",
+  "guven": "yüksek"
+ }
+]</script>
+<script>
+(function(){
+"use strict";
+var H=[];try{H=JSON.parse(document.getElementById('havuz').textContent);}catch(e){H=[];}
+var $=function(id){return document.getElementById(id);};
+function cozuk(k){return k.durum==='cozuldu';}
+var B=H.filter(function(k){return !cozuk(k);});
+document.getElementById('sayi').textContent=B.length+' bilinmeyen';
+function gunStr(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function eklendi(k){return /^\d{4}-\d{2}-\d{2}$/.test(k.eklendi||'')?k.eklendi:'';}
+function yeni(k){var e=eklendi(k);if(!e||cozuk(k))return false;var p=e.split('-'),n=new Date();return (new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(+p[0],+p[1]-1,+p[2]))/864e5<6.5;}
+var SAKIN=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var AZ=(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=2;
+if(AZ)document.documentElement.className='az';
+var NS='http://www.w3.org/2000/svg';
+/* alanlar: renk ve işaret */
+var ALAN={
+'Evren':['#a9b4ff','M10.6 8a2.6 2.6 0 1 1-5.2 0a2.6 2.6 0 1 1 5.2 0M1.6 10.6C0.2 7.9 3.6 5 8.6 4.3s8 1.5 5.8 4.3'],
+'Beden':['#ff9a85','M1 8.5H4.6L6.3 4L9.2 12.5L10.9 8.5H15'],
+'Beyin ve uyku':['#d9a6ff','M11 2.3A6.1 6.1 0 1 0 13.7 10.6A4.7 4.7 0 0 1 11 2.3Z'],
+'Hayvanlar':['#ffad5c','M1.5 8C4.5 3.8 8.5 3.8 11 8C8.5 12.2 4.5 12.2 1.5 8ZM11 8L14.6 5V11Z'],
+'Dünya ve iklim':['#66e3ad','M9.2 1.5L3.8 9H8L6.8 14.5L12.2 7H8Z'],
+'Matematik':['#f6f8f0','M8 8C6 4.8 1.8 5 1.8 8S6 11.2 8 8C10 4.8 14.2 5 14.2 8S10 11.2 8 8Z'],
+'Gündelik şeyler':['#74d6ff','M2.5 4.5H11V9A4.25 4.25 0 0 1 2.5 9ZM11 6H12.6A1.7 1.7 0 0 1 12.6 9.4H11M4 1.5V2.6M6.8 1.5V2.6M9.5 1.5V2.6'],
+'Yapay zekâ':['#ff86c8','M4.4 12.4a1.7 1.7 0 1 1-3.4 0a1.7 1.7 0 1 1 3.4 0M15 12.4a1.7 1.7 0 1 1-3.4 0a1.7 1.7 0 1 1 3.4 0M9.7 3.6a1.7 1.7 0 1 1-3.4 0a1.7 1.7 0 1 1 3.4 0M3.6 10.9L7.1 5.1M8.9 5.1L12.4 10.9M4.4 12.4H11.6']
+};
+function renk(a){return (ALAN[a]||['#ffe066'])[0];}
+function isaret(a){var s=document.createElementNS(NS,'svg');s.setAttribute('viewBox','0 0 16 16');s.setAttribute('aria-hidden','true');var p=document.createElementNS(NS,'path');p.setAttribute('class','isr');p.setAttribute('d',(ALAN[a]||['',''])[1]);s.appendChild(p);return s;}
+function norm(s){return (s||'').toLocaleLowerCase('tr').replace(/[^a-zçğıöşü0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
+function ascii(s){return s.replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u');}
+function uz(a,b){if(a===b)return 0;var m=a.length,n=b.length;if(!m)return n;if(!n)return m;var p=[],c,i,j;for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){c=[i];for(j=1;j<=n;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));}p=c;}return p[n];}
+function puan(q,k){var qa=ascii(q),best=0;var t=[k.konu].concat(k.arama||[]);for(var i=0;i<t.length;i++){var w=ascii(norm(t[i]));if(!w)continue;if(w===qa)return 100;var qs=qa.split(' ');for(var x=0;x<qs.length;x++){var s=qs[x];if(s.length<3)continue;if(w===s)best=Math.max(best,95);else if(w.indexOf(s)===0||(w.length>=3&&s.indexOf(w)===0))best=Math.max(best,80);else{var d=uz(s,w);if(d<=1&&s.length>=4)best=Math.max(best,70);else if(d<=2&&s.length>=6)best=Math.max(best,55);}}}return best;}
+function bul(q){q=norm(q);if(!q)return [];return H.map(function(k){return {k:k,p:puan(q,k)};}).filter(function(o){return o.p>0;}).sort(function(a,b){return b.p-a.p;});}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+var simdiki=null,DL=null,bakilan={},zaman=0;
+try{if(window.claude&&typeof window.claude.use==='function'){window.claude.use('downloads').then(function(d){DL=d||null;}).catch(function(){});}}catch(e){}
+function yukari(){document.body.classList.add('sonuclu');if((window.pageYOffset||0)>80){try{window.scrollTo({top:0,behavior:SAKIN?'auto':'smooth'});}catch(e){window.scrollTo(0,0);}}}
+function goster(k){
+simdiki=k;if(!cozuk(k))bakilan[k.id]=1;isaretle();yukari();
+var s=$('sonuc');s.innerHTML='';var C=cozuk(k);
+var kart=el('article','bulgu'+(C?' cozuk':''));if(!C)kart.style.setProperty('--renk',renk(k.alan));
+var yol=el('div','yol');yol.appendChild(el('div','isin'));
+var bas=el('div','bas');
+var et=el('p','etiket');et.style.color='';var ic=isaret(k.alan);ic.style.color=renk(k.alan);et.appendChild(ic);var ab=el('b',null,k.alan);ab.style.color=renk(k.alan);et.appendChild(ab);et.appendChild(el('span',null,k.konu));
+if(C)et.appendChild(el('em','cozuldu','Çözüldü'));else if(yeni(k))et.appendChild(el('em','yeni','Yeni'));
+bas.appendChild(et);
+var c=el('p','cumle');var w=k.bilinmeyen.split(' ');
+w.forEach(function(x,i){var sp=el('i',null,x+(i<w.length-1?' ':''));c.appendChild(sp);});
+bas.appendChild(c);yol.appendChild(bas);
+var gv=el('div','govde');
+function bilinenBlok(baslik){var b3=el('div','bilinen');var dv=document.createElementNS(NS,'svg');dv.setAttribute('viewBox','0 0 600 12');dv.setAttribute('preserveAspectRatio','none');dv.setAttribute('aria-hidden','true');var dp=document.createElementNS(NS,'path');dp.setAttribute('d',dalga(600,12,4,1.3,300,6)+'L600,12L0,12Z');dv.appendChild(dp);b3.appendChild(dv);
+b3.appendChild(el('h3',null,baslik));b3.appendChild(el('p',null,k.bildigimiz));var b3k=el('div','blok');b3k.style.paddingTop='0';b3k.appendChild(b3);return b3k;}
+function kaynakBlok(){var b4=el('div','blok kay');b4.appendChild(el('h3',null,'Kaynaklar'));var ul=el('ul');(k.kaynaklar||[]).forEach(function(r){var li=el('li');var a=el('a',null,r.ad);if(/^https:\/\//.test(r.url)){a.href=r.url;a.rel='noopener';a.target='_blank';}li.appendChild(a);ul.appendChild(li);});b4.appendChild(ul);b4.appendChild(el('div','tarih','Son kontrol: '+tarih(k.son_kontrol)));return b4;}
+if(C){gv.appendChild(bilinenBlok('Nasıl çözüldü'));gv.appendChild(kaynakBlok());}
+else{
+var b1=el('div','blok soru');b1.appendChild(el('h3',null,'Sence neden bilinmiyor?'));
+var ta=el('textarea');ta.setAttribute('aria-label','Tahminin');ta.placeholder='Önce sen tahmin et. Yazdığın yalnız bu cihazda kalır.';b1.appendChild(ta);
+var ac=el('button','dgm ac','Cevabı aç');b1.appendChild(ac);
+gv.appendChild(b1);
+var gz=el('div','gizli');
+var b2=el('div','blok');var h2=el('h3',null,'Neden bilinmiyor');h2.tabIndex=-1;b2.appendChild(h2);b2.appendChild(el('p',null,k.neden));gz.appendChild(b2);
+gz.appendChild(bilinenBlok('Şu an bildiğimiz'));gz.appendChild(kaynakBlok());
+gv.appendChild(gz);
+ac.onclick=function(){gz.className='acik';ac.parentNode.removeChild(ac);
+try{h2.focus({preventScroll:true});}catch(e){h2.focus();}
+var hedef=b1.getBoundingClientRect().top+(window.pageYOffset||0)-16;
+if(hedef>(window.pageYOffset||0)){try{window.scrollTo({top:hedef,behavior:SAKIN?'auto':'smooth'});}catch(e){window.scrollTo(0,hedef);}}};
+}
+yol.appendChild(gv);kart.appendChild(yol);
+var alt=el('div','govde');
+var d=el('div','dugmeler');
+var pay=el('button','dgm ana','Arkadaşına gönder');pay.onclick=function(){paylas(k);};d.appendChild(pay);
+var ind=el('button','dgm','Kartı indir');ind.onclick=function(){indir(k);};d.appendChild(ind);
+var bas2=el('button','dgm','Başka bir bilinmeyen');bas2.onclick=function(){rast();};d.appendChild(bas2);
+var ykb=el('button','dgm','Yeni konu yaz');ykb.onclick=function(){$('ev').click();};d.appendChild(ykb);
+alt.appendChild(d);
+var sm=el('div','sosyal');sm.appendChild(el('span',null,'Paylaş:'));
+[['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(metin(k)+' '+adres(k));}],
+ ['X',function(){return 'https://x.com/intent/post?text='+encodeURIComponent(metin(k))+'&url='+encodeURIComponent(adres(k));}],
+ ['Telegram',function(){return 'https://t.me/share/url?url='+encodeURIComponent(adres(k))+'&text='+encodeURIComponent(metin(k));}],
+ ['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(adres(k));}],
+ ['LinkedIn',function(){return 'https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(adres(k));}]
+].forEach(function(p){var a=el('a',null,p[0]);a.href=p[1]();a.target='_blank';a.rel='noopener';sm.appendChild(a);});
+['Instagram','TikTok'].forEach(function(n){var bb=el('button',null,n);bb.onclick=function(){uygulama(k,n,bb);};sm.appendChild(bb);});
+var kop=el('button',null,'Bağlantıyı kopyala');kop.onclick=function(){kopyala(adres(k),kop);};sm.appendChild(kop);
+sm.appendChild(el('span','ipucu','Instagram ve TikTok telefonda paylaşım menüsünden açılır; bilgisayarda kart iner, uygulamadan yüklersin.'));
+alt.appendChild(sm);
+kart.appendChild(alt);
+s.appendChild(kart);
+var sp=c.querySelectorAll('i'),i=0;var hiz=SAKIN?0:75;clearTimeout(zaman);
+if(SAKIN){for(;i<sp.length;i++)sp[i].className='g';}
+else zaman=setTimeout(function n(){if(i<sp.length){sp[i++].className='g';zaman=setTimeout(n,hiz);}},380);
+}
+function tarih(t){var a=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];var p=(t||'').split('-');return p.length===3?(+p[2])+' '+a[+p[1]-1]+' '+p[0]:t;}
+function yok(q,yakin){simdiki=null;isaretle();yukari();clearTimeout(zaman);var s=$('sonuc');s.innerHTML='';var d=el('div','bulgu bos');
+var bas=el('div','bas');bas.appendChild(el('div','isin'));
+bas.appendChild(el('p','cumle','“'+q+'” için henüz bakmadık.'));d.appendChild(bas);
+var gv=el('div','govde');
+gv.appendChild(el('p','mu','Uydurmak yerine söylüyoruz: bu konuyu doğrulanmış kaynaklarla incelemedik.'));
+if(!yakin.length)yakin=B.slice().sort(function(){return Math.random()-.5;}).slice(0,4).map(function(k){return {k:k};});
+if(yakin.length){gv.appendChild(el('p','mu','Bunlara bakabilirsin:'));var o=el('div','yakin');yakin.slice(0,4).forEach(function(x){var b=el('button',null,x.k.konu);b.onclick=function(){$('q').value=x.k.konu;goster(x.k);};o.appendChild(b);});gv.appendChild(o);}
+gv.appendChild(el('p','mu','İncelememizi istersen YouTube’da @egitimtek kanalına yorum olarak yaz. En çok istenenler sıraya girer.'));
+var sor=el('a','dgm','Bu konuyu bize sor');sor.href='https://x.com/intent/post?text='+encodeURIComponent('@cincinosos Bilinmeyenin Kutusu\'na şu konuyu ekler misiniz: '+q);sor.target='_blank';sor.rel='noopener';gv.appendChild(sor);
+d.appendChild(gv);s.appendChild(d);}
+function rast(){if(!B.length)return;var k;do{k=B[Math.floor(Math.random()*B.length)];}while(B.length>1&&k===simdiki);$('q').value=k.konu;goster(k);}
+$('f').addEventListener('submit',function(e){e.preventDefault();var q=$('q').value;if(!norm(q)){rast();return;}var r=bul(q);if(r.length&&r[0].p>=70)goster(r[0].k);else yok(q.trim(),r);});
+$('ev').addEventListener('click',function(e){e.preventDefault();simdiki=null;clearTimeout(zaman);$('sonuc').innerHTML='';$('q').value='';document.body.classList.remove('sonuclu');isaretle();try{window.scrollTo({top:0,behavior:SAKIN?'auto':'smooth'});}catch(x){window.scrollTo(0,0);}try{$('q').focus({preventScroll:true});}catch(x){$('q').focus();}});
+var on=$('oneri');var kisa=B.filter(function(k){return k.konu.length<=16;});var ornek=(kisa.length>=3?kisa:B).slice().sort(function(){return Math.random()-.5;}).slice(0,3);
+on.appendChild(document.createTextNode('Dene: '));ornek.forEach(function(k){var b=el('button',null,k.konu);b.onclick=function(){$('q').value=k.konu;goster(k);};on.appendChild(b);});
+var sz=el('button',null,'Rastgele');sz.onclick=rast;on.appendChild(sz);
+var ADRES='https://herkeseegitim.com/bilinmeyen/';
+function adres(k){return ADRES+'?k='+encodeURIComponent(k.konu);}
+function metin(k){return cozuk(k)?'Bir bilinmeyen çözüldü: '+k.konu+'.':'İnsanlığın hâlâ bilmediği bir şey: '+k.bilinmeyen+' Sence neden?';}
+function kopyala(t,b){var ok=function(){var e=b.textContent;b.textContent='Kopyalandı';setTimeout(function(){b.textContent=e;},1500);};
+try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){eski(t);ok();});return;}}catch(e){}eski(t);ok();}
+function eski(t){var x=document.createElement('textarea');x.value=t;x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();try{document.execCommand('copy');}catch(e){}x.remove();}
+function paylas(k){kartBlob(k,function(b){var veri={title:'Bilinmeyenin Kutusu',text:metin(k),url:adres(k)};
+try{if(b&&navigator.canShare){var f=new File([b],'bilinmeyen-'+k.id+'.png',{type:'image/png'});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:veri.title,text:veri.text+' '+veri.url}).catch(function(){});return;}}
+if(navigator.share){navigator.share(veri).catch(function(){});return;}}catch(e){}
+window.open('https://wa.me/?text='+encodeURIComponent(veri.text+' '+veri.url),'_blank','noopener');});}
+function uygulama(k,n,bb){kartBlob(k,function(b){try{if(b&&navigator.canShare){var f=new File([b],'bilinmeyen-'+k.id+'.png',{type:'image/png'});if(navigator.canShare({files:[f]})){navigator.share({files:[f],text:metin(k)+' '+adres(k)}).catch(function(){});return;}}}catch(e){}
+indir(k);var e=bb.textContent;bb.textContent='Kart indi, '+n+"'a yükle";setTimeout(function(){bb.textContent=e;},2500);});}
+function satirlar(ctx,t,mw){var w=t.split(' '),l=[],c='';w.forEach(function(x){var d=c?c+' '+x:x;if(ctx.measureText(d).width>mw&&c){l.push(c);c=x;}else c=d;});if(c)l.push(c);return l;}
+function indir(k){kartBlob(k,null);}
+function yildiz(t){var h=2166136261;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return function(){h^=h<<13;h^=h>>>17;h^=h<<5;return ((h>>>0)%10000)/10000;};}
+
+/* kıyı çizgisi: dönemi P olan dalga */
+function dy(x,taban,gen,faz,P){var t=x/P*6.2832;return taban+gen*(Math.sin(2*t+faz)*.55+Math.sin(5*t+faz*2.1)*.3+Math.sin(9*t+1)*.15);}
+function dalga(W,h,gen,faz,P,taban){var d='',x,adim=W>1000?20:10;for(x=0;x<=W;x+=adim){d+=(x?'L':'M')+x+','+dy(x,taban,gen,faz,P).toFixed(1);}return d;}
+/* eş yükselti eğrileri */
+function tepe(cx,cy,n,adim,r){var d='';for(var i=1;i<=n;i++){var f1=r()*6.28,f2=r()*6.28,R=i*adim;for(var a=0;a<=72;a++){var th=a/72*6.2832;var q=R*(1+.2*Math.sin(3*th+f1)+.09*Math.sin(5*th+f2)+.16*Math.sin(2*th+f1*.5));d+=(a?'L':'M')+(cx+q*Math.cos(th)*1.35).toFixed(1)+','+(cy+q*Math.sin(th)).toFixed(1);}d+='Z';}return d;}
+function kagit(){var p=document.createElementNS(NS,'path');var r=yildiz('kara');p.setAttribute('d',tepe(210,120,7,30,r)+tepe(1330,70,8,30,r)+tepe(800,470,7,34,r)+tepe(1560,470,5,30,r)+tepe(40,500,5,32,r));p.setAttribute('vector-effect','non-scaling-stroke');$('es').appendChild(p);
+$('kenar').firstChild.setAttribute('d',dalga(2400,74,11,0,1200,15)+'L2400,0L0,0Z');
+$('k1').firstChild.setAttribute('d',dalga(3600,74,8,.6,1200,15));
+$('k2').firstChild.setAttribute('d',dalga(3600,74,7,1.9,1200,15));
+$('k3').firstChild.setAttribute('d',dalga(3600,74,6,3.1,1200,15));}
+kagit();
+
+/* takımada: her alan bir ada, her bilinmeyen kıyısında bir ışık */
+var alanlar=[];B.forEach(function(k){if(alanlar.indexOf(k.alan)<0)alanlar.push(k.alan);});
+var dugme={};
+function yumusak(P){var n=P.length,d='';for(var i=0;i<n;i++){var p0=P[(i-1+n)%n],p1=P[i],p2=P[(i+1)%n],p3=P[(i+2)%n];if(!i)d='M'+p1[0].toFixed(1)+','+p1[1].toFixed(1);d+='C'+(p1[0]+(p2[0]-p0[0])/5).toFixed(1)+','+(p1[1]+(p2[1]-p0[1])/5).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/5).toFixed(1)+','+(p2[1]-(p3[1]-p1[1])/5).toFixed(1)+' '+p2[0].toFixed(1)+','+p2[1].toFixed(1);}return d+'Z';}
+function halka(n){var r0=n<=6?48:54,dr=36,ara=37,kap=[],top=0,K=0,i;
+while(top<n){var c=Math.floor(6.2832*(r0+K*dr)/ara);kap.push(c);top+=c;K++;}
+var say=[],kalan=n;for(i=0;i<K;i++){var v=Math.min(i===K-1?kalan:Math.round(n*kap[i]/top),kap[i],kalan);say.push(v);kalan-=v;}
+for(i=K-1;i>=0&&kalan>0;i--){var e=Math.min(kap[i]-say[i],kalan);say[i]+=e;kalan-=e;}
+return {r0:r0,dr:dr,say:say,R:r0+(K-1)*dr};}
+var dokun=false;
+if(window.PointerEvent)addEventListener('pointerdown',function(e){dokun=e.pointerType==='touch'||e.pointerType==='pen';if(!e.target.closest||!e.target.closest('.isik,.coz'))secimSil();},true);
+else{addEventListener('touchstart',function(){dokun=true;},true);}
+function ikiAdim(b,k){b.onclick=function(e){if(dokun&&e.detail!==0&&!b.classList.contains('secili')){secimSil();b.classList.add('secili');return;}secimSil();$('q').value=k.konu;goster(k);};}
+function secimSil(){var o=document.querySelectorAll('.secili');for(var i=0;i<o.length;i++)o[i].classList.remove('secili');}
+function diz(ilk){var h=$('harita');h.innerHTML='';dugme={};var W=h.clientWidth;if(!W)return;
+var genis=W>=1180,orta=W>=680,bos=orta?28:14,kenar=8,zig=genis?34:orta?20:12,N=B.length;
+var A=alanlar.map(function(a){var ks=B.filter(function(k){return k.alan===a;}),hl=halka(ks.length);return {a:a,ks:ks,hl:hl,D:2*hl.R+40};});
+/* satırlara diz */
+var sat=[],s0=[],en=0;A.forEach(function(o){if(s0.length&&en+bos+o.D>W-2*kenar){sat.push(s0);s0=[];en=0;}en+=(s0.length?bos:0)+o.D;s0.push(o);});if(s0.length)sat.push(s0);
+var y=38;sat.forEach(function(S){var top=0,mx=0;S.forEach(function(o){top+=o.D;mx=Math.max(mx,o.D);});
+var ara=Math.min((W-2*kenar-top)/S.length,genis?110:70),x=(W-top-ara*S.length)/2+ara/2,z=S.length>1?zig:0,sh=mx+2*z;
+S.forEach(function(o,i){o.cx=x+o.D/2;o.cy=y+sh/2+(i%2?z:-z);x+=o.D+ara;});y+=sh+6;});
+h.style.height=(y+10)+'px';
+var sv=document.createElementNS(NS,'svg');sv.setAttribute('class','ada');sv.setAttribute('aria-hidden','true');h.appendChild(sv);
+var sira=0,adim=Math.min(.045,1.6/Math.max(N,1));
+A.forEach(function(o){var a=o.a,r=yildiz(a+'ada'),cx=o.cx,cy=o.cy,hl=o.hl,tek=hl.say.length===1,P=[],dis=[];
+hl.say.forEach(function(c,j){var taban=r()*6.28,rj=hl.r0+j*hl.dr;for(var i=0;i<c;i++){var ac=taban+i*6.2832/c+(r()-.5)*(c<=6?.45:.05),rr=tek?rj*(.9+r()*.1):rj+(r()-.5)*3;var pt=[cx+Math.cos(ac)*rr,cy+Math.sin(ac)*rr*(tek?.92:1)];P.push(pt);if(j===hl.say.length-1)dis.push(pt);}});
+var yol;if(dis.length>=3){yol=document.createElementNS(NS,'path');yol.setAttribute('d',yumusak(dis));}else{yol=document.createElementNS(NS,'circle');yol.setAttribute('cx',cx);yol.setAttribute('cy',cy);yol.setAttribute('r',hl.R);}
+yol.setAttribute('fill',renk(a));yol.setAttribute('fill-opacity','.055');yol.setAttribute('stroke',renk(a));yol.setAttribute('stroke-opacity','.4');yol.setAttribute('stroke-width','1.2');sv.appendChild(yol);
+var ad=el('div','adi');ad.style.left=cx+'px';ad.style.top=cy+'px';ad.style.color=renk(a);ad.appendChild(isaret(a));ad.appendChild(document.createTextNode(a));h.appendChild(ad);
+o.ks.forEach(function(k,i){var b=el('button','isik'+(P[i][0]<110?' sol':P[i][0]>W-110?' sag':'')+(N>60&&sira%3?' dur':''));b.type='button';b.style.left=P[i][0].toFixed(1)+'px';b.style.top=P[i][1].toFixed(1)+'px';b.style.setProperty('--renk',renk(a));b.setAttribute('aria-label',a+': '+k.konu);
+var u=el('u');u.style.animationDelay=(ilk?(.35+sira*adim):0).toFixed(2)+'s, '+(1.5+r()*5).toFixed(1)+'s';u.style.animationDuration=(ilk?'.7s, ':'.01s, ')+(4+r()*3).toFixed(1)+'s';
+b.appendChild(u);b.appendChild(el('span',null,k.konu));if(yeni(k)){b.appendChild(el('em','yeni','Yeni'));b.setAttribute('aria-label',a+': '+k.konu+' (yeni)');}
+ikiAdim(b,k);
+h.appendChild(b);dugme[k.id]=b;sira++;});
+});isaretle();}
+function isaretle(){var n=0;for(var id in dugme){var b=dugme[id];b.classList.toggle('bakildi',!!bakilan[id]);b.classList.toggle('simdi',!!simdiki&&simdiki.id===id);}
+for(var x in bakilan)n++;$('hbas').textContent=n?B.length+' bilinmeyenden '+n+' tanesine baktın.':B.length+' bilinmeyen. Bir ışığa dokun.';}
+/* günün satırı ve karadaki çözülenler */
+(function(){var son=null;B.forEach(function(k){var e=eklendi(k);if(e&&(!son||e>=eklendi(son)))son=k;});
+if(son){var g=$('gunluk');g.appendChild(document.createElement('br'));g.appendChild(document.createTextNode((eklendi(son)===gunStr(new Date())?'Bugün eklenen: ':'Son eklenen: ')));var b=el('button',null,son.konu);b.type='button';b.onclick=function(){$('q').value=son.konu;goster(son);};g.appendChild(b);}
+var cz=$('cozulen'),sig=Math.max(1,Math.floor((innerWidth/2-130)/36));H.filter(cozuk).slice(-sig).forEach(function(k){var b=el('button','coz');b.type='button';b.setAttribute('aria-label','Çözüldü: '+k.konu);var u=el('u');var sv=document.createElementNS(NS,'svg');sv.setAttribute('viewBox','0 0 18 18');sv.setAttribute('aria-hidden','true');var p=document.createElementNS(NS,'path');p.setAttribute('d','M5 9.4L8 12.2L13.2 6.2');p.setAttribute('fill','none');p.setAttribute('stroke','#f2f5df');p.setAttribute('stroke-width','1.8');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');sv.appendChild(p);u.appendChild(sv);b.appendChild(u);b.appendChild(el('span',null,'Çözüldü: '+k.konu));ikiAdim(b,k);cz.appendChild(b);});})();
+
+diz(true);var gen=innerWidth,bek=0;addEventListener('resize',function(){if(innerWidth===gen)return;gen=innerWidth;clearTimeout(bek);bek=setTimeout(function(){diz(false);},150);});
+
+/* paylaşım kartı 1080×1350 */
+function kartBlob(k,CB){var W=1080,Hh=1350,cv=document.createElement('canvas');cv.width=W;cv.height=Hh;var x=cv.getContext('2d');
+var R=renk(k.alan),r=yildiz(k.id),KY=268,SOL=132,CZ=cozuk(k);
+var SERIF='"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Noto Serif","DejaVu Serif",serif';
+var F='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+var g=x.createLinearGradient(0,KY,0,Hh);g.addColorStop(0,'#0f424a');g.addColorStop(.3,'#082229');g.addColorStop(1,'#04131a');x.fillStyle=g;x.fillRect(0,0,W,Hh);
+/* derinlikte öbür bilinmeyenler */
+var rk=[];for(var a in ALAN)rk.push(ALAN[a][0]);
+for(var i=0;i<26;i++){var px=r()*W,py=960+r()*200,c=rk[Math.floor(r()*rk.length)],s=2+r()*3.5;x.globalAlpha=.1+r()*.3;x.fillStyle=c;x.shadowColor=c;x.shadowBlur=18;x.beginPath();x.arc(px,py,s,0,7);x.fill();}
+x.globalAlpha=1;x.shadowBlur=0;
+/* kutudan denize düşen ışık */
+var gl=x.createRadialGradient(SOL,KY,0,SOL,KY,620);gl.addColorStop(0,'rgba(255,224,102,.26)');gl.addColorStop(1,'rgba(255,224,102,0)');x.fillStyle=gl;x.fillRect(0,KY,W,700);
+/* kara */
+var f0=r()*6;x.fillStyle='#f2f5df';x.beginPath();x.moveTo(0,0);x.lineTo(W,0);for(var xx=W;xx>=0;xx-=12)x.lineTo(xx,dy(xx,KY,13,f0,900));x.closePath();x.fill();
+x.save();x.clip();x.strokeStyle='#d2d9b3';x.lineWidth=2;
+try{x.stroke(new Path2D(tepe(820+r()*160,60+r()*60,8,34,r)+tepe(120+r()*120,330,6,36,r)));}catch(e){}
+x.restore();
+/* köpük */
+[[20,.4],[44,.2],[74,.09]].forEach(function(o,j){x.strokeStyle='rgba(242,245,223,'+o[1]+')';x.lineWidth=2.4;x.beginPath();for(var xx=0;xx<=W;xx+=12){var y=dy(xx+j*70,KY+o[0],12-j*2,f0+j*1.1,900);if(xx)x.lineTo(xx,y);else x.moveTo(xx,y);}x.stroke();});
+/* işaret ve ad */
+x.fillStyle='#fff';x.strokeStyle='#0b2126';x.lineWidth=5;yuvar(x,90,84,56,56,12);x.fill();x.stroke();
+x.save();yuvar(x,90,84,56,56,12);x.clip();x.fillStyle='#0b2126';x.beginPath();x.moveTo(90,114);x.bezierCurveTo(104,102,118,126,132,112);x.bezierCurveTo(138,106,142,108,146,112);x.lineTo(146,140);x.lineTo(90,140);x.closePath();x.fill();x.fillStyle='#ffe066';x.beginPath();x.arc(118,128,4.5,0,7);x.fill();x.restore();
+x.fillStyle='#0b2126';x.textBaseline='alphabetic';x.font='650 40px '+F;x.fillText('Bilinmeyenin Kutusu',168,126);
+/* cümle */
+var fs=92,mw=W-SOL-84;x.font='400 '+fs+'px '+SERIF;var L=satirlar(x,k.bilinmeyen,mw);while(L.length>6&&fs>54){fs-=4;x.font='400 '+fs+'px '+SERIF;L=satirlar(x,k.bilinmeyen,mw);}
+var lh=fs*1.16,y0=468,ySon=y0+fs+(L.length-1)*lh;
+/* ışın */
+var ig=x.createLinearGradient(0,KY-40,0,ySon+40);ig.addColorStop(0,'#ffe066');ig.addColorStop(.3,R);ig.addColorStop(.82,R);ig.addColorStop(1,'rgba(0,0,0,0)');
+x.save();x.shadowColor=R;x.shadowBlur=26;x.fillStyle=ig;x.fillRect(86,KY-36,7,ySon+40-KY+36);x.restore();
+x.fillStyle='#ffe066';x.beginPath();x.arc(89.5,KY-36,13,0,7);x.fill();x.strokeStyle='#0b2126';x.lineWidth=5;x.stroke();
+/* alan */
+x.save();x.translate(SOL,y0-104);x.scale(2.5,2.5);x.strokeStyle=R;x.lineWidth=1.5;x.lineCap='round';x.lineJoin='round';try{x.stroke(new Path2D((ALAN[k.alan]||['',''])[1]));}catch(e){}x.restore();
+x.fillStyle=R;x.font='650 34px '+F;x.fillText(k.alan,SOL+56,y0-72);var aw=x.measureText(k.alan).width;
+x.fillStyle='#93aeab';x.font='400 34px '+F;var kn=k.konu,kmw=W-84-(SOL+56+aw+22);if(x.measureText(kn).width>kmw){while(kn.length>4&&x.measureText(kn+'…').width>kmw)kn=kn.slice(0,-1);kn=kn.trim()+'…';}x.fillText(kn,SOL+56+aw+22,y0-72);
+x.fillStyle='#fbfdf6';x.font='400 '+fs+'px '+SERIF;var y=y0+fs*.8;L.forEach(function(s){x.fillText(s,SOL,y);y+=lh;});
+x.fillStyle='#ffe066';x.font='italic 400 56px '+SERIF;x.fillText(CZ?'Çözüldü.':'Sence neden?',SOL,y+34);
+/* alt */
+x.fillStyle='#93aeab';x.font='400 29px '+F;x.fillText((CZ?'Bir zamanlar bilinmiyordu.':'İnsanlığın hâlâ bilmediği bir şey.')+' Kaynaklı, son kontrol '+tarih(k.son_kontrol)+'.',90,Hh-112);
+x.fillStyle='#eaf2ec';x.font='650 33px '+F;x.fillText('herkeseegitim.com',90,Hh-62);var hw2=x.measureText('herkeseegitim.com').width;
+x.fillStyle='#93aeab';x.font='400 33px '+F;x.fillText('@egitimtek',90+hw2+26,Hh-62);
+cv.toBlob(function(b){if(CB){CB(b);return;}if(!b)return;var ad='bilinmeyen-'+k.id+'.png';if(DL){DL.save({filename:ad,data:b}).catch(function(){});return;}var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='bilinmeyen-'+k.id+'.png';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},800);},'image/png');}
+function yuvar(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+
+var p=new URLSearchParams(location.search).get('k');if(p){var r0=bul(p);if(r0.length){$('q').value=r0[0].k.konu;goster(r0[0].k);}}
+$('q').focus();
+})();
+</script>
+</body>
+</html>
