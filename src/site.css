@@ -28,6 +28,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ust nav{display:flex;gap:26px;font-size:17px}
 .ust nav a{text-decoration:none;opacity:.88;padding:10px 0}
 .ust nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+.ust .logo{flex-shrink:0}.ust nav a{white-space:nowrap}
+@media (min-width:901px) and (max-width:1240px){.ust .w{gap:20px}.ust nav{gap:15px;font-size:15.5px}}
+@media (min-width:901px) and (max-width:1060px){.ust nav{gap:12px;font-size:14.5px}}
+@media (min-width:901px) and (max-width:990px){.ust .w{gap:14px}.ust nav{gap:10px;font-size:13.5px}}
 .ust.koyu{position:static;color:var(--mur)}
 
 /* sahne */
@@ -227,7 +231,7 @@ footer .kucuk{margin-top:36px;color:#BFAF95;font-size:15px}
  .gunkat{position:absolute;inset:0;-webkit-mask-image:radial-gradient(circle 200px at var(--x,60%) var(--y,80%),#000 0%,#000 40%,rgba(0,0,0,.4) 75%,transparent 100%);mask-image:radial-gradient(circle 200px at var(--x,60%) var(--y,80%),#000 0%,#000 40%,rgba(0,0,0,.4) 75%,transparent 100%)}
  .cuma-not .soru-b{font-size:26px}
  .duvar{padding-left:0;grid-template-columns:repeat(3,1fr);inset:-40px -60px auto;opacity:.75}
- .sahne .yazi{padding-top:150px}
+ .sahne .yazi{padding-top:172px}
  .cuma-not{position:relative;right:auto;top:auto;transform:rotate(1.5deg);margin:0 18px 48px;width:auto;max-width:360px}
  .cuma-grup{position:relative;right:auto;top:auto;transform:none;width:auto;margin:0 18px 28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:560px}
  .cuma-grup .cuma-not{display:block;margin:0;max-width:none;padding:8px 8px 10px;transform:rotate(1.5deg)}
@@ -1222,3 +1226,5 @@ a.as-uzun:hover .as-ub{text-decoration:underline}
 .ust nav a.dil{position:relative;border:0;padding:11px 10px;line-height:22px;margin-left:0}.ust nav a.dil::before{content:"";position:absolute;inset:10px 2px;border:1.5px solid currentColor;border-radius:7px;pointer-events:none}
 /* g112b: 320-340 genişlikte menü iki satırda kalsın, başlığın üstüne binmesin; bağlantılar 44 px */
 @media (max-width:340px){.ust nav{gap:0 10px;font-size:14px}.ust nav a{padding:12px 0}}
+/* g117: menü mobilde üç satır (Bilinmeyenin Kutusu) */
+@media (max-width:560px){.sahne .yazi{padding-top:216px}}
