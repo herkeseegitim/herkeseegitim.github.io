@@ -131,9 +131,9 @@ for d in ["fonts","img","urun","atasozleri","hakkinda","canta"]: os.makedirs(os.
 for f in ["bg.woff2","bg-ext.woff2"]: shutil.copy(os.path.join(KOK,"fonts",f), os.path.join(OUT,"fonts",f))
 os.makedirs(os.path.join(OUT,"assets"), exist_ok=True); shutil.copy(os.path.join(KOK,"src","count.js"), os.path.join(OUT,"assets","count.js"))  # GoatCounter v2.7.0, yalnız site sayfalarında
 # ---- özel gün kartları (Öğretmenim, 22 Kas): kökteki klasör bayt bayt kopyalanır; CSP hash'li tek dosya, sayaçsız, dokunulmaz
-KARTLAR = ["ogretmenim"]
+KARTLAR = ["ogretmenim", "bilinmeyen"]  # bilinmeyen: Bilinmeyenin Kutusu (26 Kas), index.html + og.png
 for _kt in KARTLAR:
-    os.makedirs(os.path.join(OUT,_kt), exist_ok=True); shutil.copy(os.path.join(KOK,_kt,"index.html"), os.path.join(OUT,_kt,"index.html"))
+    os.makedirs(os.path.join(OUT,_kt), exist_ok=True); [shutil.copy(os.path.join(KOK,_kt,_f), os.path.join(OUT,_kt,_f)) for _f in sorted(os.listdir(os.path.join(KOK,_kt))) if _f in ("index.html","og.png")]
 css = open(os.path.join(KOK,"src","site.css"),encoding="utf-8").read()
 js = open(os.path.join(KOK,"src","site.js"),encoding="utf-8").read()
 open(os.path.join(OUT,"site.css"),"w",encoding="utf-8").write(css)
@@ -196,7 +196,7 @@ def bas(baslik, aciklama, yol, ek_head="", sema=None, og=None, dil="tr", alt=Non
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{E(og_baslik or baslik)}"><meta name="twitter:description" content="{E(og_aciklama or aciklama)}"><meta name="twitter:image" content="{SITE}{og}"><link rel="icon" href="/img/logo.png">
 <script>document.documentElement.className+=" js"</script><link rel="stylesheet" href="/site.css?v={SURUM}"><link rel="alternate" type="application/rss+xml" title="{"Herkese Eğitim updates" if dil=="en" else "Herkese Eğitim yenilikler"}" href="/yenilikler.xml">{ek_head}{s}</head><body><a class="atla" href="#ana">{"Skip to content" if dil=="en" else "İçeriğe geç"}</a>"""
 
-NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
+NAV = '<nav aria-label="Ana menü"><a href="/atolyeler/">Atölyeler</a><a href="/araclar/">Araçlar</a><a href="/videolar/">Videolar</a><a href="/atasozleri/">Atasözleri</a><a href="/icinde-ne-var/">İçinde Ne Var?</a><a href="/bilinmeyen/">Bilinmeyenin Kutusu</a><a href="/canta/">Çanta</a><a href="/hakkinda/">Hakkında</a><a class="dil" href="/en/" hreflang="en" lang="en">EN</a></nav>'
 def ust_koyu():
     return f'<header class="ust koyu"><div class="w"><a class="logo" href="/"><img src="{LOGO}" alt="Herkese Eğitim ana sayfa" width="200" height="46"></a>{NAV}</div></header>'
 ALT = f"""<footer class="cikis"><div class="w">
@@ -737,7 +737,7 @@ open(os.path.join(OUT,"404.html"),"w",encoding="utf-8").write(bas("Teneffüs | H
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Düz metin özet: {SITE}/llms.txt\n")
 yollar = ["/","/hakkinda/","/atasozleri/"]+[urun_sayfa(u) for u in urunler]+[soz_sayfa(a) for a in atasozleri]+EK_YOLLAR+[f"/{_kt}/" for _kt in KARTLAR]
 _lm = {urun_sayfa(u): u.get("lansman") for u in urunler}
-_lm.update({"/ogretmenim/": "2026-11-22"})
+_lm.update({"/ogretmenim/": "2026-11-22", "/bilinmeyen/": "2026-11-26"})
 _lm.update({soz_sayfa(a): a.get("tarih") for a in atasozleri})
 _lm.update({video_sayfa(v): v.get("tarih") for v in videolar if not video_sayfa(v).startswith("/atasozleri/")})
 _lm = {k: v[:10] for k, v in _lm.items() if v and re.fullmatch(r"\d{4}-\d\d-\d\d.*", v) and v[:10] <= BUGUN.isoformat()}
