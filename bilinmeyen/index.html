@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fvtO5yNk4pMFqCQQYPHW8pH9KLKNIFHC+nCR4s2q23g='; style-src 'sha256-hVaF7g0tL+fLouKCMb6LXGzD9dVVU69dIZf4U5hVQDY='; img-src data: blob:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0qroZdiMnGhCMp29upEQPDOxhNh0klgzOBM+rtUXatQ='; style-src 'sha256-hVaF7g0tL+fLouKCMb6LXGzD9dVVU69dIZf4U5hVQDY='; img-src data: blob:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
 <link rel="canonical" href="https://herkeseegitim.com/bilinmeyen/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://herkeseegitim.com/bilinmeyen/">
@@ -3325,6 +3325,53 @@ Metinler <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" rel="n
   ],
   "son_kontrol": "2026-11-26",
   "guven": "yüksek"
+ },
+ {
+  "id": "parasetamol-01",
+  "alan": "Beden",
+  "konu": "Parasetamolün ağrıyı nasıl dindirdiği",
+  "arama": [
+   "parasetamol",
+   "ağrı kesici",
+   "ateş düşürücü",
+   "baş ağrısı",
+   "asetaminofen",
+   "ağrı nasıl geçer",
+   "parasetamol nasıl çalışır"
+  ],
+  "bilinmeyen": "Yüz yılı aşkın süredir kullanılan parasetamolün ağrıyı tam olarak nasıl dindirdiğini bilmiyoruz.",
+  "neden": "Çalışmalar siklooksijenaz enzimleri, endokannabinoid sistem, serotonin yolları ve sinir hücrelerindeki TRP kanalları gibi birbirinden ayrı olasılıklar öne sürdü, ama bu olasılıkların hepsi açıkça doğrulanmış değil. Öne çıkan bulguların çoğu fare ve sıçan deneylerinden geliyor; insanda hangi yolun asıl iş gördüğü henüz gösterilemedi.",
+  "bildigimiz": "Parasetamol vücutta parçalanıyor; parçalanma ürünlerinden AM404'ün beyinde oluştuğu ve ağrı sinyallerinde rol alan TRPV1 alıcısını uyardığı deneylerde gösterildi. 2025'te farelerde yapılan bir çalışma, ağrı kesici etkiyi vücudun kendi ürettiği 2-AG adlı kannabinoid maddenin azalmasına bağladı. 2026'da diz protezi ameliyatı olan 40 hastada yapılan bir çalışma da endokannabinoid düzeylerinin ilaçla ve ağrıyla birlikte değiştiğini buldu.",
+  "kaynaklar": [
+   {
+    "ad": "Journal of Pain Research: An Updated Review on the Metabolite (AM404)-Mediated Central Mechanism of Action of Paracetamol (Mart 2023)",
+    "url": "https://www.dovepress.com/an-updated-review-on-the-metabolite-am404-mediated-central-mechanism-o-peer-reviewed-fulltext-article-JPR",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Cell Reports Medicine: Acetaminophen inhibits diacylglycerol lipase synthesis of 2-arachidonoyl glycerol: Implications for nociception (Mayıs 2025)",
+    "url": "https://doi.org/10.1016/j.xcrm.2025.102139",
+    "tur": "birincil"
+   },
+   {
+    "ad": "News-Medical: Study reveals how acetaminophen may actually relieve pain (Mayıs 2025)",
+    "url": "https://www.news-medical.net/news/20250516/Study-reveals-how-acetaminophen-may-actually-relieve-pain.aspx",
+    "tur": "ikincil"
+   },
+   {
+    "ad": "PubMed (Clinical and Experimental Pharmacology and Physiology): Paracetamol - An old drug with new mechanisms of action (çevrimiçi Eylül 2020)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32767405/",
+    "tur": "birincil"
+   },
+   {
+    "ad": "Colorado Üniversitesi Anschutz Tıp Kampüsü: How Does Acetaminophen Work? Study Links Pain Relief to the Endocannabinoid System (Mayıs 2026)",
+    "url": "https://news.cuanschutz.edu/news-stories/how-does-acetaminophen-work-study-links-pain-relief-to-the-endocannabinoid-system",
+    "tur": "birincil"
+   }
+  ],
+  "son_kontrol": "2026-11-27",
+  "guven": "orta",
+  "eklendi": "2026-11-27"
  }
 ]</script>
 <script>
@@ -3425,7 +3472,7 @@ function yok(q,yakin){simdiki=null;isaretle();yukari();clearTimeout(zaman);var s
 var bas=el('div','bas');bas.appendChild(el('div','isin'));
 bas.appendChild(el('p','cumle','“'+q+'” için henüz bakmadık.'));d.appendChild(bas);
 var gv=el('div','govde');
-gv.appendChild(el('p','mu','Uydurmak yerine söylüyoruz: bu konuyu doğrulanmış kaynaklarla incelemedik.'));
+gv.appendChild(el('p','mu','Uydurmak yerine söylüyoruz: Bu konuyu doğrulanmış kaynaklarla incelemedik.'));
 if(!yakin.length)yakin=B.slice().sort(function(){return Math.random()-.5;}).slice(0,4).map(function(k){return {k:k};});
 if(yakin.length){gv.appendChild(el('p','mu','Bunlara bakabilirsin:'));var o=el('div','yakin');yakin.slice(0,4).forEach(function(x){var b=el('button',null,x.k.konu);b.onclick=function(){$('q').value=x.k.konu;goster(x.k);};o.appendChild(b);});gv.appendChild(o);}
 gv.appendChild(el('p','mu','İncelememizi istersen YouTube’da @egitimtek kanalına yorum olarak yaz. En çok istenenler sıraya girer.'));
